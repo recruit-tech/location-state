@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    name: Run test
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install and cache nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+      - name: Install packages
+        run: pnpm install
+      - name: Show coverage
+        run: pnpm test -- --coverage
