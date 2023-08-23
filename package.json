@@ -1,0 +1,16 @@
+{
+  "name": "location-state",
+  "version": "0.0.1",
+  "description": "A lightweight state management library that saves and restores state based on history.",
+  "main": "index.js",
+  "engines": {
+    "pnpm": "8.6.11",
+    "npm": "please_use_pnpm_instead"
+  },
+  "packageManager": "pnpm@8.6.11",
+  "keywords": [],
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
