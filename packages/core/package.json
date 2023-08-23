@@ -1,0 +1,6 @@
+{
+  "name": "@location-state/core",
+  "scripts": {
+    "build": "tsup src/index.ts"
+  }
+}
