@@ -1,6 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
       "@/*": [
         "./src/*"
@@ -14,5 +19,6 @@
   ],
   "exclude": [
     "node_modules",
+    ".next"
   ]
 }

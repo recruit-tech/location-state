@@ -1,4 +1,6 @@
-import { Syncer } from "@/syncers/types";
+/// <reference types="navigation-api-types" />
+
+import { Syncer } from "../../core/src/syncers/types";
 import { NextRouter } from "next/router";
 
 export class NextPagesSyncer implements Syncer {

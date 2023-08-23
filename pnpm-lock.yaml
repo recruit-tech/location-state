@@ -8,24 +8,6 @@ importers:
 
   .:
     devDependencies:
-      npm-run-all:
-        specifier: 4.1.5
-        version: 4.1.5
-      tsup:
-        specifier: 7.2.0
-        version: 7.2.0
-
-  packages/core:
-    devDependencies:
-      '@testing-library/jest-dom':
-        specifier: 5.17.0
-        version: 5.17.0
-      '@testing-library/react':
-        specifier: 14.0.0
-        version: 14.0.0(react-dom@18.2.0)(react@18.2.0)
-      '@testing-library/user-event':
-        specifier: 14.4.3
-        version: 14.4.3(@testing-library/dom@9.3.1)
       '@types/jest':
         specifier: 29.5.3
         version: 29.5.3
@@ -38,24 +20,59 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.7
         version: 18.2.7
+      jest:
+        specifier: 29.6.1
+        version: 29.6.1(@types/node@20.4.5)
+      navigation-api-types:
+        specifier: 0.3.1
+        version: 0.3.1
+      npm-run-all:
+        specifier: 4.1.5
+        version: 4.1.5
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      tsup:
+        specifier: 7.2.0
+        version: 7.2.0(typescript@5.1.6)
+      typescript:
+        specifier: 5.1.6
+        version: 5.1.6
+
+  packages/core:
+    dependencies:
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+    devDependencies:
+      '@testing-library/jest-dom':
+        specifier: 5.17.0
+        version: 5.17.0
+      '@testing-library/react':
+        specifier: 14.0.0
+        version: 14.0.0(react-dom@18.2.0)(react@18.2.0)
+      '@testing-library/user-event':
+        specifier: 14.4.3
+        version: 14.4.3(@testing-library/dom@9.3.1)
       '@types/testing-library__jest-dom':
         specifier: 5.14.9
         version: 5.14.9
       '@types/uuid':
         specifier: 9.0.2
         version: 9.0.2
-      jest:
-        specifier: 29.6.1
-        version: 29.6.1(@types/node@20.4.5)
-      next:
-        specifier: 13.4.19
-        version: 13.4.19(@babel/core@7.22.10)(react-dom@18.2.0)(react@18.2.0)
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
       uuid:
         specifier: 9.0.0
         version: 9.0.0
+
+  packages/next:
+    dependencies:
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+    devDependencies:
+      next:
+        specifier: 13.4.19
+        version: 13.4.19(@babel/core@7.22.10)(react-dom@18.2.0)(react@18.2.0)
 
 packages:
 
@@ -2734,7 +2751,6 @@ packages:
 
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
-    dev: true
 
   /js-yaml@3.14.1:
     resolution: {integrity: sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==}
@@ -2818,7 +2834,6 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
-    dev: true
 
   /lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
@@ -2909,6 +2924,10 @@ packages:
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
+    dev: true
+
+  /navigation-api-types@0.3.1:
+    resolution: {integrity: sha512-BLS2CtasPQrkzlju7obzdulzTSjpwVQGJroCwSihKIInxKQ4JZZvFW/nSP01u7IflTe1pdA7CSHyicQLWhauaQ==}
     dev: true
 
   /next@13.4.19(@babel/core@7.22.10)(react-dom@18.2.0)(react@18.2.0):
@@ -3244,7 +3263,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: true
 
   /read-pkg@3.0.0:
     resolution: {integrity: sha512-BLq/cCO9two+lBgiTYNqD6GdtK8s4NpaWrl6/rCO9w0TUS8oJl7cmToOZfRYllKTISY6nt1U7jQ53brmKqY6BA==}
@@ -3693,7 +3711,7 @@ packages:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
     dev: true
 
-  /tsup@7.2.0:
+  /tsup@7.2.0(typescript@5.1.6):
     resolution: {integrity: sha512-vDHlczXbgUvY3rWvqFEbSqmC1L7woozbzngMqTtL2PGBODTtWlRwGDDawhvWzr5c1QjKe4OAKqJGfE1xeXUvtQ==}
     engines: {node: '>=16.14'}
     hasBin: true
@@ -3723,6 +3741,7 @@ packages:
       source-map: 0.8.0-beta.0
       sucrase: 3.34.0
       tree-kill: 1.2.2
+      typescript: 5.1.6
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -3774,6 +3793,12 @@ packages:
       call-bind: 1.0.2
       for-each: 0.3.3
       is-typed-array: 1.1.12
+    dev: true
+
+  /typescript@5.1.6:
+    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
+    engines: {node: '>=14.17'}
+    hasBin: true
     dev: true
 
   /unbox-primitive@1.0.2:

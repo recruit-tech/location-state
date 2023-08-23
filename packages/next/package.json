@@ -1,0 +1,13 @@
+{
+  "name": "@location-state/next",
+  "scripts": {
+    "build": "tsup src/index.ts"
+  },
+  "devDependencies": {
+    "next": "13.4.19"
+  },
+  "peerDependencies": {
+    "next": "^13.0.0",
+    "react": "^18.2.0"
+  }
+}
