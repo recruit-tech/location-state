@@ -1,4 +1,4 @@
-import { Syncer } from "@/syncers/types";
+import { Syncer } from "@/types"
 import { Listener, Store } from "../types";
 
 export class URLStore implements Store {
