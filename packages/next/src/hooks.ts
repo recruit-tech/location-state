@@ -1,4 +1,4 @@
-import { NextPagesSyncer } from "@/next-pages-syncer";
+import { NextPagesSyncer } from "./next-pages-syncer";
 import { Router, useRouter } from "next/router";
 import React from "react";
 

@@ -1,5 +1,5 @@
-import { LocationStateContext } from "@/context";
-import { StoreName } from "@/types";
+import { LocationStateContext } from "./context";
+import { StoreName } from "./types";
 import { useCallback, useContext, useSyncExternalStore } from "react";
 
 export const useLocationState = <T>({
