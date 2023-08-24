@@ -13,9 +13,10 @@
     "@testing-library/user-event": "14.4.3",
     "@types/testing-library__jest-dom": "5.14.9",
     "@types/uuid": "9.0.2",
+    "client-only": "0.0.1",
     "jest-environment-jsdom": "29.6.3",
-    "uuid": "9.0.0",
-    "test-utils": "workspace:*"
+    "test-utils": "workspace:*",
+    "uuid": "9.0.0"
   },
   "peerDependencies": {
     "react": "^18.2.0"

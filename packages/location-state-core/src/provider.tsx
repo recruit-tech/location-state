@@ -1,7 +1,7 @@
 import { LocationStateContext } from "./context";
-import { StorageStore } from "./stores/storage/storage-store";
+import { StorageStore } from "./stores/storage-store";
 import { Store } from "./stores/types";
-import { URLStore } from "./stores/url/url-store";
+import { URLStore } from "./stores/url-store";
 import { NavigationSyncer } from "./syncers/navigation-syncer";
 
 import { Syncer } from "./types"

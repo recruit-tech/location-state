@@ -63,6 +63,9 @@ importers:
       '@types/uuid':
         specifier: 9.0.2
         version: 9.0.2
+      client-only:
+        specifier: 0.0.1
+        version: 0.0.1
       jest-environment-jsdom:
         specifier: 29.6.3
         version: 29.6.3

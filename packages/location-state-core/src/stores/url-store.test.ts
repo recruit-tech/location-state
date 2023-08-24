@@ -1,4 +1,4 @@
-import { Syncer } from "../../types"
+import { Syncer } from "../types"
 import { URLStore } from "./url-store";
 
 function prepareLocation({
