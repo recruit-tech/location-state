@@ -12,7 +12,8 @@
     "@types/testing-library__jest-dom": "5.14.9",
     "@types/uuid": "9.0.2",
     "jest-environment-jsdom": "29.6.3",
-    "uuid": "9.0.0"
+    "uuid": "9.0.0",
+    "test-utils": "workspace:*"
   },
   "peerDependencies": {
     "react": "^18.2.0"

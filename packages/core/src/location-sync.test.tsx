@@ -1,7 +1,7 @@
 import { useLocationState } from "./hooks";
 import { LocationStateProvider } from "./provider";
-import { createNavigationMock } from "./test-utils/navigation.mock";
-import { renderWithUser } from "./test-utils/render";
+import { createNavigationMock } from "test-utils";
+import { renderWithUser } from "test-utils";
 import { screen, waitFor } from "@testing-library/react";
 
 function LocationSyncCounter() {

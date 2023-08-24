@@ -1,0 +1,17 @@
+{
+  "name": "test-utils",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsup src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@testing-library/react": "14.0.0",
+    "@testing-library/user-event": "14.4.3",
+    "uuid": "9.0.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "9.0.2"
+  }
+}
