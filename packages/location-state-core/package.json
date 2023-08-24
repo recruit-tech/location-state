@@ -1,5 +1,7 @@
 {
   "name": "@location-state/core",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "scripts": {
     "build": "tsup src/index.ts",
     "typecheck": "tsc --noEmit",

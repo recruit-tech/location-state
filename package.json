@@ -11,11 +11,12 @@
   "keywords": [],
   "license": "MIT",
   "scripts": {
-    "core": "pnpm -F \"core\"",
-    "next": "pnpm -F \"next\"",
+    "core": "pnpm -F \"location-state-core\"",
+    "next": "pnpm -F \"location-state-next\"",
     "build": "turbo build",
     "test": "turbo test",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "check": "turbo typecheck build test"
   },
   "devDependencies": {
     "@types/jest": "29.5.3",

@@ -1,8 +1,13 @@
 {
   "name": "@location-state/next",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "scripts": {
     "build": "tsup src/index.ts",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@location-state/core": "workspace:*"
   },
   "devDependencies": {
     "next": "13.4.19"
