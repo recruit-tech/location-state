@@ -11,6 +11,24 @@
   "keywords": [],
   "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "core": "pnpm -F \"location-state-core\"",
+    "next": "pnpm -F \"location-state-next\"",
+    "build": "turbo build",
+    "test": "turbo test",
+    "typecheck": "turbo typecheck",
+    "check": "turbo typecheck build test"
+  },
+  "devDependencies": {
+    "@types/jest": "29.5.3",
+    "@types/node": "20.4.5",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "jest": "29.6.1",
+    "navigation-api-types": "0.3.1",
+    "react": "18.2.0",
+    "ts-jest": "29.1.1",
+    "tsup": "7.2.0",
+    "turbo": "1.10.13",
+    "typescript": "5.1.6"
   }
 }
