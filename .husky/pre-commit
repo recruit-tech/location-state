@@ -2,3 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 pnpm exec turbo typecheck test
+pnpm exec pretty-quick --staged
