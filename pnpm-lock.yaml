@@ -50,6 +50,8 @@ importers:
         specifier: 5.1.6
         version: 5.1.6
 
+  packages/configs: {}
+
   packages/location-state-core:
     dependencies:
       react:
@@ -74,6 +76,9 @@ importers:
       client-only:
         specifier: 0.0.1
         version: 0.0.1
+      configs:
+        specifier: workspace:*
+        version: link:../configs
       jest-environment-jsdom:
         specifier: 29.6.3
         version: 29.6.3
@@ -93,6 +98,9 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0
     devDependencies:
+      configs:
+        specifier: workspace:*
+        version: link:../configs
       next:
         specifier: 13.4.19
         version: 13.4.19(@babel/core@7.22.10)(react-dom@18.2.0)(react@18.2.0)
@@ -112,6 +120,9 @@ importers:
       "@types/uuid":
         specifier: 9.0.2
         version: 9.0.2
+      configs:
+        specifier: workspace:*
+        version: link:../configs
 
 packages:
   /@adobe/css-tools@4.3.1:

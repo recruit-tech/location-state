@@ -16,6 +16,7 @@
     "client-only": "0.0.1",
     "jest-environment-jsdom": "29.6.3",
     "test-utils": "workspace:*",
+    "configs": "workspace:*",
     "uuid": "9.0.0"
   },
   "peerDependencies": {

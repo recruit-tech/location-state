@@ -10,7 +10,8 @@
     "@location-state/core": "workspace:*"
   },
   "devDependencies": {
-    "next": "13.4.19"
+    "next": "13.4.19",
+    "configs": "workspace:*"
   },
   "peerDependencies": {
     "next": "^13.0.0",
