@@ -41,10 +41,12 @@ function installUnsafeNavigation(): Navigation {
   };
 
   const proxyHandler: ProxyHandler<History> = {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     get(target, propName, receiver) {
       // if (typeof propName !== "string") return;
       switch (propName) {
         case "state": {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { ___UNSAFE_NAVIGATION_KEY___, state } = target.state;
           return state;
         }
@@ -61,6 +63,7 @@ function installUnsafeNavigation(): Navigation {
       }
       return value;
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     set(target, propertyName, newValue, receiver) {
       if (propertyName !== "scrollRestoration") return false;
       return Reflect.set(target, propertyName, newValue);
@@ -102,6 +105,7 @@ function installUnsafeNavigation(): Navigation {
     type: string,
     listener: EventListener,
     options?: boolean | AddEventListenerOptions | undefined,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ) => void = (type, listener, options) => {
     if (!listener) return;
     const listeners = listenersMap.get(type);

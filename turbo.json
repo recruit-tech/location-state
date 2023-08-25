@@ -7,7 +7,8 @@
     "test": {
       "outputs": ["coverage/**"]
     },
-    "typecheck": {}
+    "typecheck": {},
+    "lint": {}
   },
   "globalDependencies": ["tsconfig.json"]
 }
