@@ -5,15 +5,8 @@
       {
         "name": "next"
       }
-    ],
+    ]
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "./jest-setup.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    ".next"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", "./jest-setup.ts"],
+  "exclude": ["node_modules", ".next"]
 }

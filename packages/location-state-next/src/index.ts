@@ -1,2 +1,2 @@
-export * from './hooks'
-export * from './next-pages-syncer'
+export * from "./hooks";
+export * from "./next-pages-syncer";

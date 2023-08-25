@@ -4,7 +4,7 @@ import { Store } from "./stores/types";
 import { URLStore } from "./stores/url-store";
 import { NavigationSyncer } from "./syncers/navigation-syncer";
 
-import { Syncer } from "./types"
+import { Syncer } from "./types";
 import { ReactNode, useEffect, useState } from "react";
 
 export function LocationStateProvider({

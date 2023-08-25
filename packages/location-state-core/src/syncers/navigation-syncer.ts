@@ -1,4 +1,4 @@
-import { Syncer } from "../types"
+import { Syncer } from "../types";
 
 export class NavigationSyncer implements Syncer {
   constructor(private readonly navigation?: Navigation) {}

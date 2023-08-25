@@ -1,4 +1,4 @@
-import { Syncer } from "../types"
+import { Syncer } from "../types";
 import { Listener, Store } from "./types";
 
 export class URLStore implements Store {
@@ -7,10 +7,7 @@ export class URLStore implements Store {
   private stateJSON: string = "{}";
   private readonly listeners: Map<string, Set<Listener>> = new Map();
 
-  constructor(
-    private readonly key: string,
-    private readonly syncer: Syncer,
-  ) {}
+  constructor(private readonly key: string, private readonly syncer: Syncer) {}
 
   subscribe(name: string, listener: Listener) {
     const listeners = this.listeners.get(name);
