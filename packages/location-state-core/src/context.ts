@@ -1,4 +1,4 @@
-import { Store } from "./stores/types";
+import { Store } from "./stores";
 import { createContext } from "react";
 
 export const LocationStateContext = createContext<{

@@ -1,8 +1,6 @@
 import { LocationStateContext } from "./context";
-import { StorageStore } from "./stores/storage-store";
-import { Store } from "./stores/types";
-import { URLStore } from "./stores/url-store";
-import { NavigationSyncer } from "./syncers/navigation-syncer";
+import { StorageStore, Store, URLStore } from "./stores";
+import { NavigationSyncer } from "./syncers";
 
 import { Syncer } from "./types";
 import { ReactNode, useEffect, useState } from "react";
