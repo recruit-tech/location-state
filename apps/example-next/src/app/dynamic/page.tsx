@@ -1,22 +1,17 @@
 import { Counter } from "@/components/Counter";
 import { List } from "@/components/List";
+import { headers } from "next/headers";
 import Link from "next/link";
 
 export default function Page() {
+  const headersList = headers();
+  const referer = headersList.get("referer");
+
   return (
     <main>
-      <h1>Top page</h1>
-      <ul>
-        <li>
-          <Link href="/static">/static</Link>
-        </li>
-        <li>
-          <Link href="/dynamic">/dynamic</Link>
-        </li>
-        <li>
-          <Link href="/pages">/pages</Link>
-        </li>
-      </ul>
+      <h1>Dynamic page</h1>
+      <Link href="/">/(top)</Link>
+      <p>referer: {referer}</p>
       <Counter storeName="session" />
       <Counter storeName="url" />
       <List storeName="session" />

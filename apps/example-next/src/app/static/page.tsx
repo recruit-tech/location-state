@@ -5,18 +5,8 @@ import Link from "next/link";
 export default function Page() {
   return (
     <main>
-      <h1>Top page</h1>
-      <ul>
-        <li>
-          <Link href="/static">/static</Link>
-        </li>
-        <li>
-          <Link href="/dynamic">/dynamic</Link>
-        </li>
-        <li>
-          <Link href="/pages">/pages</Link>
-        </li>
-      </ul>
+      <h1>Static page</h1>
+      <Link href="/">/(top)</Link>
       <Counter storeName="session" />
       <Counter storeName="url" />
       <List storeName="session" />
