@@ -22,5 +22,5 @@ jobs:
           run_install: false
       - name: Install packages
         run: pnpm install
-      - name: Show coverage
+      - name: Check project
         run: pnpm check

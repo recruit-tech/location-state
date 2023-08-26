@@ -11,8 +11,6 @@
   "keywords": [],
   "license": "MIT",
   "scripts": {
-    "core": "pnpm -F \"location-state-core\"",
-    "next": "pnpm -F \"location-state-next\"",
     "build": "turbo build",
     "test": "turbo test",
     "typecheck": "turbo typecheck",
