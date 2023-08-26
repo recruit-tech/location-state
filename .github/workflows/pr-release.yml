@@ -1,0 +1,39 @@
+name: PR Release
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  pr-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install and cache nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+      - name: Install packages
+        run: pnpm i --ignore-scripts
+      - name: Project build
+        run: pnpm build --filter='./packages/*'
+      - name: Setup npm auth
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" >> ~/.npmrc
+          npm whoami
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish packages
+        uses: kotarella1110/pr-voyager@v0
+        with:
+          publish: pnpm publish -r --ignore-scripts --access public --filter "@location-state/*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

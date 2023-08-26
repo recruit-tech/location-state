@@ -11,10 +11,11 @@
   "keywords": [],
   "license": "MIT",
   "scripts": {
+    "dts": "turbo dts",
     "build": "turbo build",
-    "test": "turbo test",
     "typecheck": "turbo typecheck",
     "lint": "turbo lint",
+    "test": "turbo test",
     "check": "turbo dts typecheck lint build test",
     "prepare": "husky install"
   },
