@@ -1,6 +1,6 @@
 {
   "name": "location-state",
-  "version": "0.0.1",
+  "version": "0.0.0-alpha",
   "description": "A lightweight state management library that saves and restores state based on history.",
   "main": "index.js",
   "engines": {
