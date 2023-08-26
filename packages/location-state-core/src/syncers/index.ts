@@ -1,1 +1,1 @@
-export * from './navigation-syncer'
+export * from "./navigation-syncer";

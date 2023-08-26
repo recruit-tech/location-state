@@ -5,7 +5,8 @@
   "types": "./src/index.ts",
   "scripts": {
     "build": "tsup src/index.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
     "@testing-library/react": "14.0.0",
@@ -13,6 +14,8 @@
     "uuid": "9.0.0"
   },
   "devDependencies": {
-    "@types/uuid": "9.0.2"
+    "@types/uuid": "9.0.2",
+    "configs": "workspace:*",
+    "eslint-config-custom": "workspace:*"
   }
 }

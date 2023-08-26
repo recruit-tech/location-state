@@ -1,19 +1,12 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "configs/tsconfig.json",
   "compilerOptions": {
     "plugins": [
       {
         "name": "next"
       }
-    ],
+    ]
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "./jest-setup.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    ".next"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", "./jest-setup.ts"],
+  "exclude": ["node_modules", ".next"]
 }

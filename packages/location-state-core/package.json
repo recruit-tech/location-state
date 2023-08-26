@@ -5,7 +5,8 @@
   "scripts": {
     "build": "tsup src/index.ts",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.17.0",
@@ -14,8 +15,10 @@
     "@types/testing-library__jest-dom": "5.14.9",
     "@types/uuid": "9.0.2",
     "client-only": "0.0.1",
+    "configs": "workspace:*",
     "jest-environment-jsdom": "29.6.3",
     "test-utils": "workspace:*",
+    "eslint-config-custom": "workspace:*",
     "uuid": "9.0.0"
   },
   "peerDependencies": {

@@ -23,4 +23,4 @@ jobs:
       - name: Install packages
         run: pnpm install
       - name: Show coverage
-        run: pnpm test -- --coverage
+        run: pnpm check
