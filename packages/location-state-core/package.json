@@ -1,6 +1,10 @@
 {
   "name": "@location-state/core",
   "version": "0.0.0-alpha",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/recruit-tech/location-state",
   "files": [
     "dist",
     "types",

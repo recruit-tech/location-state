@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    name: publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+      - name: Install packages
+        run: pnpm i --ignore-scripts
+      - name: Release check&build
+        run: pnpm check
+      - name: Setup npm auth
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" >> ~/.npmrc
+          npm whoami
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Registry release
+        run: pnpm publish -r --ignore-scripts --access public --filter "@location-state/*"
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
