@@ -7,8 +7,12 @@
     "test": {
       "outputs": ["coverage/**"]
     },
-    "typecheck": {},
-    "lint": {}
+    "typecheck": {
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "dependsOn": ["build"]
+    }
   },
   "globalDependencies": ["tsconfig.json"]
 }
