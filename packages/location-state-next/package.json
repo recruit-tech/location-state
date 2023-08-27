@@ -1,16 +1,20 @@
 {
   "name": "@location-state/next",
   "version": "0.0.0-alpha",
+  "files": [
+    "dist",
+    "src",
+    "package.json"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.js",
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs",
+      "types": "./src/index.ts"
     }
   },
-  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts --dts",
+    "build": "tsup src/index.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx"
   },

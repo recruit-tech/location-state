@@ -1,21 +1,25 @@
 {
   "name": "@location-state/core",
   "version": "0.0.0-alpha",
+  "files": [
+    "dist",
+    "src",
+    "package.json"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.js",
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs",
+      "types": "./src/index.ts"
     },
     "./unsafe-navigation": {
       "require": "./dist/unsafe-navigation.js",
-      "import": "./dist/unsafe-navigation.js",
-      "types": "./dist/unsafe-navigation.d.ts"
+      "import": "./dist/unsafe-navigation.mjs",
+      "types": "./src/unsafe-navigation.ts"
     }
   },
-  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts src/unsafe-navigation.ts --dts",
+    "build": "tsup src/index.ts src/unsafe-navigation.ts",
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "lint": "eslint . --ext .ts,.tsx"

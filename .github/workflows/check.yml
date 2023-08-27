@@ -21,6 +21,6 @@ jobs:
           version: 8
           run_install: false
       - name: Install packages
-        run: pnpm install
+        run: pnpm i --ignore-scripts
       - name: Check project
         run: pnpm check
