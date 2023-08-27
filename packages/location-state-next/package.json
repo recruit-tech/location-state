@@ -1,9 +1,15 @@
 {
   "name": "@location-state/next",
   "version": "0.0.0-alpha",
-  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
-    "build": "tsup src/index.ts",
+    "build": "tsup src/index.ts --dts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx"
   },
