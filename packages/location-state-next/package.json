@@ -8,6 +8,7 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts --dts",
     "typecheck": "tsc --noEmit",
@@ -19,7 +20,8 @@
   "devDependencies": {
     "next": "13.4.19",
     "configs": "workspace:*",
-    "eslint-config-custom": "workspace:*"
+    "eslint-config-custom": "workspace:*",
+    "@location-state/core": "workspace:*"
   },
   "peerDependencies": {
     "next": "^13.0.0",

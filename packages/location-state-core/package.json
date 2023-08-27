@@ -13,6 +13,7 @@
       "types": "./dist/unsafe-navigation.d.ts"
     }
   },
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts src/unsafe-navigation.ts --dts",
     "typecheck": "tsc --noEmit",
