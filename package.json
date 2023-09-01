@@ -15,7 +15,7 @@
     "test": "turbo test",
     "typecheck": "turbo typecheck",
     "lint": "turbo lint",
-    "check": "turbo typecheck lint build test",
+    "check": "turbo dts typecheck lint build test",
     "prepare": "husky install"
   },
   "devDependencies": {

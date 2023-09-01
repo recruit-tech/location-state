@@ -3,6 +3,7 @@
   "version": "0.0.0-alpha",
   "files": [
     "dist",
+    "types",
     "src",
     "package.json"
   ],
@@ -10,17 +11,18 @@
     ".": {
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
-      "types": "./src/index.ts"
+      "types": "./types/index.d.ts"
     },
     "./unsafe-navigation": {
       "require": "./dist/unsafe-navigation.js",
       "import": "./dist/unsafe-navigation.mjs",
-      "types": "./src/unsafe-navigation.ts"
+      "types": "./types/unsafe-navigation.d.ts"
     }
   },
   "scripts": {
     "build": "tsup src/index.ts src/unsafe-navigation.ts",
-    "typecheck": "tsc --noEmit",
+    "dts": "tsc -p tsconfig.dts.json",
+    "typecheck": "tsc",
     "test": "jest",
     "lint": "eslint . --ext .ts,.tsx"
   },

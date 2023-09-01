@@ -3,6 +3,7 @@
   "version": "0.0.0-alpha",
   "files": [
     "dist",
+    "types",
     "src",
     "package.json"
   ],
@@ -10,12 +11,13 @@
     ".": {
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
-      "types": "./src/index.ts"
+      "types": "./types/index.d.ts"
     }
   },
   "scripts": {
     "build": "tsup src/index.ts",
-    "typecheck": "tsc --noEmit",
+    "dts": "tsc -p tsconfig.dts.json",
+    "typecheck": "tsc",
     "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {

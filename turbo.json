@@ -1,17 +1,23 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
+    "dts": {
+      "dependsOn": ["^dts"],
+      "outputs": ["types/**"]
+    },
     "build": {
+      "dependsOn": ["dts", "^build"],
       "outputs": ["dist/**", ".next/**"]
     },
-    "test": {
-      "outputs": ["coverage/**"]
-    },
     "typecheck": {
-      "dependsOn": ["build"]
+      "dependsOn": ["dts"]
     },
     "lint": {
-      "dependsOn": ["build"]
+      "dependsOn": ["dts"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": ["coverage/**"]
     }
   },
   "globalDependencies": ["**/tsconfig.json"]
