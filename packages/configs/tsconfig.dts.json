@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "noEmit": null, // This is required to emit the declaration files
+    "declaration": true,
+    "jsx": "react-jsx"
+  }
+}

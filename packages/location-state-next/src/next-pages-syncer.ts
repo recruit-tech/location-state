@@ -1,7 +1,7 @@
 /// <reference types="navigation-api-types" />
 
-import { NextRouter } from "next/router";
-import { Syncer } from "@location-state/core";
+import type { NextRouter } from "next/router";
+import type { Syncer } from "@location-state/core";
 
 export class NextPagesSyncer implements Syncer {
   private readonly listeners = new Set<(key: string) => void>();
