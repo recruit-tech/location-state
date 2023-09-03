@@ -1,4 +1,4 @@
-name: Test
+name: Check
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ jobs:
   Test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    name: Run test
+    name: Run check project
     steps:
       - uses: actions/checkout@v3
       - name: Install and cache nodejs
