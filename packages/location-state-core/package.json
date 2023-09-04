@@ -1,10 +1,11 @@
 {
   "name": "@location-state/core",
   "version": "0.0.0-alpha",
+  "license": "MIT",
+  "description": "`@location-state/core` provides the features to save and restore state based on a specified `syncer`.",
   "files": [
     "dist",
     "types",
-    "src",
     "package.json"
   ],
   "exports": {
