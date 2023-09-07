@@ -12,24 +12,19 @@ const useStore = (storeName: StoreName | string) => {
   return store;
 };
 
-export const useLocationState = <T>({
-  name,
-  defaultValue,
-  storeName,
-}: {
+export type LocationStateDefinition<T> = {
   name: string;
   defaultValue: T;
   storeName: StoreName | string;
-}): [T, (value: T) => void] => {
-  const storeState = useLocationStateValue({
-    name,
-    defaultValue,
-    storeName,
-  });
-  const setStoreState = useLocationSetState({
-    name,
-    storeName,
-  });
+};
+
+type SetStateArg<T> = T | ((prev: T) => T);
+
+export const useLocationState = <T>(
+  definition: LocationStateDefinition<T>,
+): [T, (setterOrValue: SetStateArg<T>) => void] => {
+  const storeState = useLocationStateValue(definition);
+  const setStoreState = useLocationSetState<T>(definition);
   return [storeState, setStoreState];
 };
 
@@ -37,11 +32,7 @@ export const useLocationStateValue = <T>({
   name,
   defaultValue,
   storeName,
-}: {
-  name: string;
-  defaultValue: T;
-  storeName: StoreName | string;
-}): T => {
+}: LocationStateDefinition<T>): T => {
   const store = useStore(storeName);
   const subscribe = useCallback(
     (onStoreChange: () => void) => store.subscribe(name, onStoreChange),
@@ -58,16 +49,19 @@ export const useLocationStateValue = <T>({
 
 export const useLocationSetState = <T>({
   name,
+  defaultValue,
   storeName,
-}: {
-  name: string;
-  storeName: StoreName | string;
-}): ((value: T) => void) => {
+}: LocationStateDefinition<T>): ((setterOrValue: SetStateArg<T>) => void) => {
   const store = useStore(storeName);
   const setStoreState = useCallback(
-    // todo: accept functions like useState
-    (value: T) => {
-      store.set(name, value);
+    (setterOrValue: SetStateArg<T>) => {
+      if (typeof setterOrValue === "function") {
+        const setter = setterOrValue as (prev: T) => T;
+        const prev = (store.get(name) as T) ?? defaultValue;
+        store.set(name, setter(prev));
+        return;
+      }
+      store.set(name, setterOrValue);
     },
     [name, store],
   );
