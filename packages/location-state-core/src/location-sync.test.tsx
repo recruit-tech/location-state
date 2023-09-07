@@ -8,6 +8,7 @@ import { LocationStateProvider } from "./provider";
 import { createNavigationMock } from "test-utils";
 import { renderWithUser } from "test-utils";
 import { screen, waitFor } from "@testing-library/react";
+import { locationKeyPrefix } from "./stores";
 
 const mockNavigation = createNavigationMock("/");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -47,7 +48,6 @@ describe("`useLocationState` used.", () => {
 
   test("`count` can be updated.", async () => {
     // Arrange
-    mockNavigation.navigate("/count-update");
     const { user } = renderWithUser(<LocationSyncCounterPage />);
     // Act
     await user.click(await screen.findByRole("button", { name: "increment" }));
@@ -57,7 +57,6 @@ describe("`useLocationState` used.", () => {
 
   test("`count` can be updated with callback.", async () => {
     // Arrange
-    mockNavigation.navigate("/count-update");
     const { user } = renderWithUser(<LocationSyncCounterPage />);
     // Act
     await user.click(
@@ -69,7 +68,6 @@ describe("`useLocationState` used.", () => {
 
   test("`count` is reset at navigation.", async () => {
     // Arrange
-    mockNavigation.navigate("/count-reset");
     const { user } = renderWithUser(<LocationSyncCounterPage />);
     await user.click(await screen.findByRole("button", { name: "increment" }));
     // Act
@@ -77,6 +75,18 @@ describe("`useLocationState` used.", () => {
     // Assert
     await waitFor(() =>
       expect(screen.getByRole("heading")).toHaveTextContent("count: 0"),
+    );
+  });
+
+  test("If there is a value in sessionStorage, it will be restored as initial value", async () => {
+    // Arrange
+    const key = mockNavigation.currentEntry?.key as string;
+    sessionStorage.setItem(`${locationKeyPrefix}${key}`, `{"count":2}`);
+    // Act
+    renderWithUser(<LocationSyncCounterPage />);
+    // Assert
+    await waitFor(() =>
+      expect(screen.getByRole("heading")).toHaveTextContent("count: 2"),
     );
   });
 });
@@ -108,7 +118,6 @@ describe("`useLocationStateValue`/`useLocationSetState` used.", () => {
 
   test("`count` can be updated.", async () => {
     // Arrange
-    mockNavigation.navigate("/count-update");
     const { user } = renderWithUser(<LocationSyncCounterPage />);
     // Act
     await user.click(await screen.findByRole("button", { name: "increment" }));
@@ -118,7 +127,6 @@ describe("`useLocationStateValue`/`useLocationSetState` used.", () => {
 
   test("`count` is reset at navigation.", async () => {
     // Arrange
-    mockNavigation.navigate("/count-reset");
     const { user } = renderWithUser(<LocationSyncCounterPage />);
     await user.click(await screen.findByRole("button", { name: "increment" }));
     // Act

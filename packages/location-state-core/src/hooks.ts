@@ -12,10 +12,13 @@ const useStore = (storeName: StoreName | string) => {
   return store;
 };
 
+export type Refine<T> = (value: unknown) => T | undefined;
+
 export type LocationStateDefinition<T> = {
   name: string;
   defaultValue: T;
   storeName: StoreName | string;
+  refine?: Refine<T>;
 };
 
 type SetStateArg<T> = T | ((prev: T) => T);
@@ -32,16 +35,22 @@ export const useLocationStateValue = <T>({
   name,
   defaultValue,
   storeName,
+  refine,
 }: LocationStateDefinition<T>): T => {
   const store = useStore(storeName);
   const subscribe = useCallback(
     (onStoreChange: () => void) => store.subscribe(name, onStoreChange),
     [name, store],
   );
+  const getSnapshot = () => {
+    const storeValue = store.get(name) as T | undefined;
+    const refinedValue = refine ? refine(storeValue) : storeValue;
+    return refinedValue ?? defaultValue;
+  };
   // `defaultValue` is assumed to always be the same value (for Objects, it must be memoized).
   const storeState = useSyncExternalStore(
     subscribe,
-    () => (store.get(name) as T) ?? defaultValue,
+    getSnapshot,
     () => defaultValue,
   );
   return storeState;
@@ -51,13 +60,16 @@ export const useLocationSetState = <T>({
   name,
   defaultValue,
   storeName,
+  refine,
 }: LocationStateDefinition<T>): ((setterOrValue: SetStateArg<T>) => void) => {
   const store = useStore(storeName);
   const setStoreState = useCallback(
     (setterOrValue: SetStateArg<T>) => {
       if (typeof setterOrValue === "function") {
         const setter = setterOrValue as (prev: T) => T;
-        const prev = (store.get(name) as T) ?? defaultValue;
+        const storeValue = store.get(name) as T | undefined;
+        const refinedValue = refine ? refine(storeValue) : storeValue;
+        const prev = refinedValue ?? defaultValue;
         store.set(name, setter(prev));
         return;
       }
