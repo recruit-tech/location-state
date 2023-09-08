@@ -1,12 +1,12 @@
 import { LocationStateContext } from "./context";
 import { StoreName } from "./types";
-import { useCallback, useContext, useSyncExternalStore } from "react";
+import { useCallback, useContext, useState, useSyncExternalStore } from "react";
 
 const useStore = (storeName: StoreName | string) => {
   const { stores } = useContext(LocationStateContext);
   const store = stores[storeName];
   if (!store) {
-    throw new Error("`LocationStateProvider` is required.");
+    throw new Error(`Store not found: ${storeName}`);
   }
 
   return store;
@@ -21,11 +21,13 @@ export type LocationStateDefinition<T> = {
   refine?: Refine<T>;
 };
 
-type SetStateArg<T> = T | ((prev: T) => T);
+type Updater<T> = (prev: T) => T;
+type UpdaterOrValue<T> = T | Updater<T>;
+type SetState<T> = (updaterOrValue: UpdaterOrValue<T>) => void;
 
 export const useLocationState = <T>(
   definition: LocationStateDefinition<T>,
-): [T, (setterOrValue: SetStateArg<T>) => void] => {
+): [T, SetState<T>] => {
   const storeState = useLocationStateValue(definition);
   const setStoreState = useLocationSetState<T>(definition);
   return [storeState, setStoreState];
@@ -56,36 +58,24 @@ export const useLocationStateValue = <T>({
   return storeState;
 };
 
-export const useLocationSetState = <T>({
-  name,
-  defaultValue,
-  storeName,
-  refine,
-}: LocationStateDefinition<T>): ((setterOrValue: SetStateArg<T>) => void) => {
+export const useLocationSetState = <T>(
+  props: LocationStateDefinition<T>,
+): SetState<T> => {
+  const { name, defaultValue, storeName, refine } = useState(props)[0];
   const store = useStore(storeName);
   const setStoreState = useCallback(
-    (setterOrValue: SetStateArg<T>) => {
-      if (typeof setterOrValue === "function") {
-        const setter = setterOrValue as (prev: T) => T;
-        const storeValue = store.get(name) as T | undefined;
-        const refinedValue = refine ? refine(storeValue) : storeValue;
-        const prev = refinedValue ?? defaultValue;
-        store.set(name, setter(prev));
+    (updaterOrValue: UpdaterOrValue<T>) => {
+      if (typeof updaterOrValue !== "function") {
+        store.set(name, updaterOrValue);
         return;
       }
-      store.set(name, setterOrValue);
+      const updater = updaterOrValue as Updater<T>;
+      const storeValue = store.get(name) as T | undefined;
+      const refinedValue = refine ? refine(storeValue) : storeValue;
+      const prev = refinedValue ?? defaultValue;
+      store.set(name, updater(prev));
     },
-    [name, store],
+    [name, store, defaultValue, refine],
   );
   return setStoreState;
-};
-
-export const useLocationStateSnapshot = <T>({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  storeName,
-}: {
-  name: string;
-  storeName: StoreName | string;
-}): T => {
-  throw new Error("Not implemented yet");
 };

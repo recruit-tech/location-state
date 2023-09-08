@@ -1,22 +1,21 @@
 "use client";
 
-import { useLocationState, StoreName } from "@location-state/core";
-import { z } from "zod";
+import { useLocationState, StoreName, Refine } from "@location-state/core";
+import { z, ZodType } from "zod";
 
-const schema = z.number();
+const zodRefine =
+  <T extends unknown>(schema: ZodType<T>): Refine<T> =>
+  (value) => {
+    const result = schema.safeParse(value);
+    return result.success ? result.data : undefined;
+  };
 
 export function Counter({ storeName }: { storeName: StoreName }) {
   const [counter, setCounter] = useLocationState({
     name: "counter",
     defaultValue: 0,
     storeName,
-    refine: (value) => {
-      const result = schema.safeParse(value);
-      if (result.success) {
-        return result.data;
-      }
-      return undefined;
-    },
+    refine: zodRefine(z.number()),
   });
   console.debug("rendered Counter", { storeName, counter });
 

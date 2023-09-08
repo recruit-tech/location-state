@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import {
   LocationStateDefinition,
   useLocationSetState,
@@ -20,7 +21,7 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
-describe("`useLocationState` used.", () => {
+describe("using `useLocationState`.", () => {
   function LocationSyncCounter() {
     const [count, setCount] = useLocationState({
       name: "count",
@@ -91,7 +92,7 @@ describe("`useLocationState` used.", () => {
   });
 });
 
-describe("`useLocationStateValue`/`useLocationSetState` used.", () => {
+describe("using `useLocationStateValue`/`useLocationSetState`.", () => {
   function LocationSyncCounter() {
     const counter: LocationStateDefinition<number> = {
       name: "counter",
@@ -135,5 +136,44 @@ describe("`useLocationStateValue`/`useLocationSetState` used.", () => {
     await waitFor(() =>
       expect(screen.getByRole("heading")).toHaveTextContent("count: 0"),
     );
+  });
+});
+
+describe("using `useLocationSetState`.", () => {
+  function LocationSyncCounter() {
+    const counter: LocationStateDefinition<number> = {
+      name: "counter",
+      defaultValue: 0,
+      storeName: "session",
+    };
+    const rendered = useRef(1);
+    const setCount = useLocationSetState(counter);
+    useEffect(() => {
+      rendered.current++;
+    }, []);
+
+    return (
+      <div>
+        <h1>rendered: {rendered.current}</h1>
+        <button onClick={() => setCount((prev) => prev + 1)}>increment</button>
+      </div>
+    );
+  }
+
+  function LocationSyncCounterPage() {
+    return (
+      <LocationStateProvider>
+        <LocationSyncCounter />
+      </LocationStateProvider>
+    );
+  }
+
+  test("setCount does not re-render.", async () => {
+    // Arrange
+    const { user } = renderWithUser(<LocationSyncCounterPage />);
+    // Act
+    await user.click(await screen.findByRole("button", { name: "increment" }));
+    // Assert
+    expect(screen.getByRole("heading")).toHaveTextContent("rendered: 1");
   });
 });
