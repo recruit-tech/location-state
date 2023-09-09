@@ -1,38 +1,80 @@
 import { LocationStateContext } from "./context";
 import { StoreName } from "./types";
-import { useCallback, useContext, useSyncExternalStore } from "react";
+import { useCallback, useContext, useState, useSyncExternalStore } from "react";
 
-export const useLocationState = <T>({
-  name,
-  defaultValue,
-  storeName,
-}: {
+export type Refine<T> = (value: unknown) => T | undefined;
+
+export type LocationStateDefinition<T> = {
   name: string;
   defaultValue: T;
   storeName: StoreName | string;
-}): [T, (value: T) => void] => {
+  refine?: Refine<T>;
+};
+
+type Updater<T> = (prev: T) => T;
+type UpdaterOrValue<T> = T | Updater<T>;
+type SetState<T> = (updaterOrValue: UpdaterOrValue<T>) => void;
+
+const useStore = (storeName: StoreName | string) => {
   const { stores } = useContext(LocationStateContext);
   const store = stores[storeName];
   if (!store) {
-    // todo: fix message
-    throw new Error("Provider is required");
+    throw new Error(`Store not found: ${storeName}`);
   }
+
+  return store;
+};
+
+export const useLocationState = <T>(
+  definition: LocationStateDefinition<T>,
+): [T, SetState<T>] => {
+  const storeState = useLocationStateValue(definition);
+  const setStoreState = useLocationSetState(definition);
+  return [storeState, setStoreState];
+};
+
+export const useLocationStateValue = <T>(
+  definition: LocationStateDefinition<T>,
+): T => {
+  const { name, defaultValue, storeName, refine } = useState(definition)[0];
+  const store = useStore(storeName);
   const subscribe = useCallback(
     (onStoreChange: () => void) => store.subscribe(name, onStoreChange),
     [name, store],
   );
+  const getSnapshot = () => {
+    const storeValue = store.get(name) as T | undefined;
+    const refinedValue = refine ? refine(storeValue) : storeValue;
+    return refinedValue ?? defaultValue;
+  };
   // `defaultValue` is assumed to always be the same value (for Objects, it must be memoized).
   const storeState = useSyncExternalStore(
     subscribe,
-    () => (store.get(name) as T) ?? defaultValue,
+    getSnapshot,
     () => defaultValue,
   );
+  return storeState;
+};
+
+export const useLocationSetState = <T>(
+  definition: LocationStateDefinition<T>,
+): SetState<T> => {
+  const { name, defaultValue, storeName, refine } = useState(definition)[0];
+  const store = useStore(storeName);
   const setStoreState = useCallback(
-    // todo: accept functions like useState
-    (value: T) => {
-      store.set(name, value);
+    (updaterOrValue: UpdaterOrValue<T>) => {
+      if (typeof updaterOrValue !== "function") {
+        store.set(name, updaterOrValue);
+        return;
+      }
+      const updater = updaterOrValue as Updater<T>;
+      const storeValue = store.get(name) as T | undefined;
+      const refinedValue = refine ? refine(storeValue) : storeValue;
+      const prev = refinedValue ?? defaultValue;
+      store.set(name, updater(prev));
     },
-    [name, store],
+    // These values are immutable.
+    [name, store, defaultValue, refine],
   );
-  return [storeState, setStoreState];
+  return setStoreState;
 };
