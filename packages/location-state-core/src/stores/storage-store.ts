@@ -1,13 +1,21 @@
-import { Listener, Store } from "./types";
+import { Listener, Store, Serializer } from "./types";
 
 export const locationKeyPrefix = "__location_state_";
+
+const defaultTransit: Serializer = {
+  deserialize: JSON.parse,
+  serialize: JSON.stringify,
+};
 
 export class StorageStore implements Store {
   private state: Record<string, unknown> = {};
   private readonly listeners: Map<string, Set<Listener>> = new Map();
   private currentKey: string | null = null;
+  private readonly serializer: Serializer;
 
-  constructor(private readonly storage?: Storage) {}
+  constructor(private readonly storage?: Storage, serializer?: Serializer) {
+    this.serializer = serializer ?? defaultTransit;
+  }
 
   subscribe(name: string, listener: Listener) {
     const listeners = this.listeners.get(name);
@@ -55,8 +63,7 @@ export class StorageStore implements Store {
     this.currentKey = locationKey;
     const value = this.storage?.getItem(this.createStorageKey()) ?? null;
     if (value !== null) {
-      // todo: impl JSON or Transit
-      this.state = JSON.parse(value);
+      this.state = this.serializer.deserialize(value);
     } else {
       this.state = {};
     }
@@ -71,7 +78,10 @@ export class StorageStore implements Store {
       this.storage?.removeItem(this.createStorageKey());
       return;
     }
-    this.storage?.setItem(this.createStorageKey(), JSON.stringify(this.state));
+    this.storage?.setItem(
+      this.createStorageKey(),
+      this.serializer.serialize(this.state),
+    );
   }
 
   private createStorageKey() {

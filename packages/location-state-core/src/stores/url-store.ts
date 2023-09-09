@@ -1,13 +1,25 @@
 import { Syncer } from "../types";
-import { Listener, Store } from "./types";
+import { Listener, Store, Serializer } from "./types";
+
+const defaultTransit: Serializer = {
+  deserialize: JSON.parse,
+  serialize: JSON.stringify,
+};
 
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
   // `state`'s JSON string for comparison
   private stateJSON: string = "{}";
   private readonly listeners: Map<string, Set<Listener>> = new Map();
+  private readonly serializer: Serializer;
 
-  constructor(private readonly key: string, private readonly syncer: Syncer) {}
+  constructor(
+    private readonly key: string,
+    private readonly syncer: Syncer,
+    serializer?: Serializer,
+  ) {
+    this.serializer = serializer ?? defaultTransit;
+  }
 
   subscribe(name: string, listener: Listener) {
     const listeners = this.listeners.get(name);
@@ -47,7 +59,7 @@ export class URLStore implements Store {
     } else {
       this.state[name] = value;
     }
-    this.stateJSON = JSON.stringify(this.state);
+    this.stateJSON = this.serializer.serialize(this.state);
     // save to url
     const url = new URL(location.href);
     url.searchParams.set(this.key, this.stateJSON);
@@ -62,7 +74,7 @@ export class URLStore implements Store {
     if (this.stateJSON === stateJSON) return;
     this.stateJSON = stateJSON!;
     try {
-      this.state = JSON.parse(this.stateJSON || "{}");
+      this.state = this.serializer.deserialize(this.stateJSON || "{}");
     } catch (e) {
       this.state = {};
       // remove invalid state from url.

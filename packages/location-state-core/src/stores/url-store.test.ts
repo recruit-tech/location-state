@@ -56,6 +56,28 @@ test("On `set` called, store's values are updated and reflected in the URL", () 
   );
 });
 
+test("On `set` called with serializer, store's values are updated and reflected in the URL", () => {
+  // Arrange
+  prepareLocation({
+    pathname: "/",
+    search: "?hoge=fuga",
+  });
+  const store = new URLStore("store-key", syncerMock, {
+    serialize: () => "dummy-result",
+    deserialize: () => ({
+      foo: "not-used-value",
+    }),
+  });
+  // Act
+  store.set("foo", "updated");
+  // Assert
+  expect(store.get("foo")).toBe("updated");
+  expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
+  expect(syncerMock.updateURL).toHaveBeenCalledWith(
+    "http://localhost/?hoge=fuga&store-key=dummy-result",
+  );
+});
+
 test("listener is called when updating slice.", () => {
   // Arrange
   const store = new URLStore("store-key", syncerMock);
@@ -126,6 +148,24 @@ test("On `load` called, the state is loaded from url.", () => {
   store.load();
   // Assert
   expect(store.get("foo")).toBe("updated");
+});
+
+test("On `load` called with serializer, the value is obtained through serialize.", () => {
+  // Arrange
+  prepareLocation({
+    pathname: "/",
+    search: "?store-key=%7B%22foo%22%3A%22updated%22%7D",
+  });
+  const store = new URLStore("store-key", syncerMock, {
+    serialize: () => "not-used-value",
+    deserialize: () => ({
+      foo: "dummy-result",
+    }),
+  });
+  // Act
+  store.load();
+  // Assert
+  expect(store.get("foo")).toBe("dummy-result");
 });
 
 test("On `load` called, all listener notified.", async () => {
