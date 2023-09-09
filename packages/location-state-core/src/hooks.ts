@@ -2,16 +2,6 @@ import { LocationStateContext } from "./context";
 import { StoreName } from "./types";
 import { useCallback, useContext, useState, useSyncExternalStore } from "react";
 
-const useStore = (storeName: StoreName | string) => {
-  const { stores } = useContext(LocationStateContext);
-  const store = stores[storeName];
-  if (!store) {
-    throw new Error(`Store not found: ${storeName}`);
-  }
-
-  return store;
-};
-
 export type Refine<T> = (value: unknown) => T | undefined;
 
 export type LocationStateDefinition<T> = {
@@ -25,20 +15,28 @@ type Updater<T> = (prev: T) => T;
 type UpdaterOrValue<T> = T | Updater<T>;
 type SetState<T> = (updaterOrValue: UpdaterOrValue<T>) => void;
 
+const useStore = (storeName: StoreName | string) => {
+  const { stores } = useContext(LocationStateContext);
+  const store = stores[storeName];
+  if (!store) {
+    throw new Error(`Store not found: ${storeName}`);
+  }
+
+  return store;
+};
+
 export const useLocationState = <T>(
   definition: LocationStateDefinition<T>,
 ): [T, SetState<T>] => {
   const storeState = useLocationStateValue(definition);
-  const setStoreState = useLocationSetState<T>(definition);
+  const setStoreState = useLocationSetState(definition);
   return [storeState, setStoreState];
 };
 
-export const useLocationStateValue = <T>({
-  name,
-  defaultValue,
-  storeName,
-  refine,
-}: LocationStateDefinition<T>): T => {
+export const useLocationStateValue = <T>(
+  definition: LocationStateDefinition<T>,
+): T => {
+  const { name, defaultValue, storeName, refine } = useState(definition)[0];
   const store = useStore(storeName);
   const subscribe = useCallback(
     (onStoreChange: () => void) => store.subscribe(name, onStoreChange),
@@ -59,9 +57,9 @@ export const useLocationStateValue = <T>({
 };
 
 export const useLocationSetState = <T>(
-  props: LocationStateDefinition<T>,
+  definition: LocationStateDefinition<T>,
 ): SetState<T> => {
-  const { name, defaultValue, storeName, refine } = useState(props)[0];
+  const { name, defaultValue, storeName, refine } = useState(definition)[0];
   const store = useStore(storeName);
   const setStoreState = useCallback(
     (updaterOrValue: UpdaterOrValue<T>) => {
@@ -75,6 +73,7 @@ export const useLocationSetState = <T>(
       const prev = refinedValue ?? defaultValue;
       store.set(name, updater(prev));
     },
+    // These values are immutable.
     [name, store, defaultValue, refine],
   );
   return setStoreState;

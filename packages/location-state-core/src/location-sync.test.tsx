@@ -33,7 +33,7 @@ describe("using `useLocationState`.", () => {
         <h1>count: {count}</h1>
         <button onClick={() => setCount(count + 1)}>increment</button>
         <button onClick={() => setCount((prev) => prev + 1)}>
-          increment with callback
+          increment with updater
         </button>
       </div>
     );
@@ -56,12 +56,12 @@ describe("using `useLocationState`.", () => {
     expect(screen.getByRole("heading")).toHaveTextContent("count: 1");
   });
 
-  test("`count` can be updated with callback.", async () => {
+  test("`count` can be updated with updater.", async () => {
     // Arrange
     const { user } = renderWithUser(<LocationSyncCounterPage />);
     // Act
     await user.click(
-      await screen.findByRole("button", { name: "increment with callback" }),
+      await screen.findByRole("button", { name: "increment with updater" }),
     );
     // Assert
     expect(screen.getByRole("heading")).toHaveTextContent("count: 1");
@@ -122,6 +122,8 @@ describe("using `useLocationStateValue`.", () => {
       expect(screen.getByRole("heading")).toHaveTextContent("count: 2"),
     );
   });
+
+  test.todo(`When store's value is changed, component is re-rendered.`);
 });
 
 describe("using `useLocationSetState`.", () => {
@@ -160,5 +162,6 @@ describe("using `useLocationSetState`.", () => {
     await user.click(await screen.findByRole("button", { name: "increment" }));
     // Assert
     expect(screen.getByRole("heading")).toHaveTextContent("rendered: 1");
+    // todo: assert store's value updated.
   });
 });
