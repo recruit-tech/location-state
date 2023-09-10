@@ -1,10 +1,6 @@
 import { Syncer } from "../types";
+import { jsonSerializer } from "./serializer";
 import { Listener, Store, Serializer } from "./types";
-
-const defaultTransit: Serializer = {
-  deserialize: JSON.parse,
-  serialize: JSON.stringify,
-};
 
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
@@ -18,7 +14,7 @@ export class URLStore implements Store {
     private readonly syncer: Syncer,
     serializer?: Serializer,
   ) {
-    this.serializer = serializer ?? defaultTransit;
+    this.serializer = serializer ?? jsonSerializer;
   }
 
   subscribe(name: string, listener: Listener) {
