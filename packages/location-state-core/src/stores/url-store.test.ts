@@ -39,7 +39,7 @@ test("If params is empty, the initial value is undefined.", () => {
   expect(slice).toBeUndefined();
 });
 
-test("On `set` called, store's values are updated and reflected in the URL", () => {
+test("On `set` called, store's values are updated and reflected in the URL.", () => {
   // Arrange
   prepareLocation({
     pathname: "/",
@@ -56,7 +56,7 @@ test("On `set` called, store's values are updated and reflected in the URL", () 
   );
 });
 
-test("On `set` called with serializer, store's values are updated and reflected in the URL", () => {
+test("On `set` called with serializer, store's values are updated and reflected in the URL.", () => {
   // Arrange
   prepareLocation({
     pathname: "/",
@@ -76,6 +76,30 @@ test("On `set` called with serializer, store's values are updated and reflected 
   expect(syncerMock.updateURL).toHaveBeenCalledWith(
     "http://localhost/?hoge=fuga&store-key=dummy-result",
   );
+});
+
+test("On `set` called with invalid serializer, store's values are initial value and not reflected in the URL.", () => {
+  // Arrange
+  const consoleSpy = jest.spyOn(console, "error").mockImplementation();
+  prepareLocation({
+    pathname: "/",
+    search: "?hoge=fuga",
+  });
+  const store = new URLStore("store-key", syncerMock, {
+    serialize: () => {
+      throw new Error("serialize error");
+    },
+    deserialize: () => ({
+      foo: "not-used-value",
+    }),
+  });
+  // Act
+  store.set("foo", "updated");
+  // Assert
+  expect(store.get("foo")).toBe("updated");
+  expect(syncerMock.updateURL).not.toHaveBeenCalled();
+  // Restore console
+  consoleSpy.mockRestore();
 });
 
 test("listener is called when updating slice.", () => {
@@ -168,6 +192,29 @@ test("On `load` called with serializer, the value is obtained through serialize.
   expect(store.get("foo")).toBe("dummy-result");
 });
 
+test("On `load` called with invalid serializer, the value is initial value.", () => {
+  // Arrange
+  const consoleSpy = jest.spyOn(console, "error").mockImplementation();
+  prepareLocation({
+    pathname: "/",
+    search: "?store-key=%7B%22foo%22%3A%22updated%22%7D",
+  });
+  const store = new URLStore("store-key", syncerMock, {
+    serialize: JSON.stringify,
+    deserialize: () => {
+      throw new Error("deserialize error");
+    },
+  });
+  // Act
+  store.load();
+  // Assert
+  expect(store.get("foo")).toBeUndefined();
+  expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
+  expect(syncerMock.updateURL).toHaveBeenCalledWith("http://localhost/");
+  // Restore console
+  consoleSpy.mockRestore();
+});
+
 test("On `load` called, all listener notified.", async () => {
   // Arrange
   const store = new URLStore("store-key", syncerMock);
@@ -186,6 +233,7 @@ test("On `load` called, all listener notified.", async () => {
 
 test("On `load` called, delete parameter if invalid JSON string.", () => {
   // Arrange
+  const consoleSpy = jest.spyOn(console, "error").mockImplementation();
   prepareLocation({
     pathname: "/",
     search: "?store-key=invalid-json-string",
@@ -197,4 +245,6 @@ test("On `load` called, delete parameter if invalid JSON string.", () => {
   expect(store.get("foo")).toBeUndefined();
   expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
   expect(syncerMock.updateURL).toHaveBeenCalledWith("http://localhost/");
+  // Restore console
+  consoleSpy.mockRestore();
 });

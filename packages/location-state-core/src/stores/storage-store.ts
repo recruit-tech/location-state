@@ -59,7 +59,12 @@ export class StorageStore implements Store {
     this.currentKey = locationKey;
     const value = this.storage?.getItem(this.createStorageKey()) ?? null;
     if (value !== null) {
-      this.state = this.serializer.deserialize(value);
+      try {
+        this.state = this.serializer.deserialize(value);
+      } catch (e) {
+        console.error(e);
+        this.state = {};
+      }
     } else {
       this.state = {};
     }
@@ -74,10 +79,14 @@ export class StorageStore implements Store {
       this.storage?.removeItem(this.createStorageKey());
       return;
     }
-    this.storage?.setItem(
-      this.createStorageKey(),
-      this.serializer.serialize(this.state),
-    );
+    let value: string;
+    try {
+      value = this.serializer.serialize(this.state);
+    } catch (e) {
+      console.error(e);
+      return;
+    }
+    this.storage?.setItem(this.createStorageKey(), value);
   }
 
   private createStorageKey() {

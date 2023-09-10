@@ -55,7 +55,14 @@ export class URLStore implements Store {
     } else {
       this.state[name] = value;
     }
-    this.stateJSON = this.serializer.serialize(this.state);
+    try {
+      this.stateJSON = this.serializer.serialize(this.state);
+    } catch (e) {
+      console.error(e);
+      this.notify(name);
+      // Not reflected in URL.
+      return;
+    }
     // save to url
     const url = new URL(location.href);
     url.searchParams.set(this.key, this.stateJSON);
@@ -72,6 +79,7 @@ export class URLStore implements Store {
     try {
       this.state = this.serializer.deserialize(this.stateJSON || "{}");
     } catch (e) {
+      console.error(e);
       this.state = {};
       // remove invalid state from url.
       const url = new URL(location.href);
