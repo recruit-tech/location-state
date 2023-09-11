@@ -71,6 +71,7 @@ export class URLStore implements Store {
     const stateJSON = params.get(this.key);
     if (this.stateJSON === stateJSON) return;
     this.stateJSON = stateJSON!;
+
     try {
       this.state = this.stateSerializer.deserialize(this.stateJSON || "{}");
     } catch (e) {
@@ -81,6 +82,7 @@ export class URLStore implements Store {
       url.searchParams.delete(this.key);
       this.syncer.updateURL(url.toString());
     }
+
     queueMicrotask(() => this.notifyAll());
   }
 
