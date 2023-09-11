@@ -1,4 +1,5 @@
-import { Listener, Store } from "./types";
+import { jsonSerializer } from "./serializer";
+import { Listener, StateSerializer, Store } from "./types";
 
 export const locationKeyPrefix = "__location_state_";
 
@@ -7,7 +8,10 @@ export class StorageStore implements Store {
   private readonly listeners: Map<string, Set<Listener>> = new Map();
   private currentKey: string | null = null;
 
-  constructor(private readonly storage?: Storage) {}
+  constructor(
+    private readonly storage?: Storage, // Storage is undefined in SSR.
+    private readonly stateSerializer: StateSerializer = jsonSerializer,
+  ) {}
 
   subscribe(name: string, listener: Listener) {
     const listeners = this.listeners.get(name);
@@ -54,10 +58,11 @@ export class StorageStore implements Store {
     if (this.currentKey === locationKey) return;
     this.currentKey = locationKey;
     const value = this.storage?.getItem(this.createStorageKey()) ?? null;
-    if (value !== null) {
-      // todo: impl JSON or Transit
-      this.state = JSON.parse(value);
-    } else {
+    try {
+      this.state =
+        value !== null ? this.stateSerializer.deserialize(value) : {};
+    } catch (e) {
+      console.error(e);
       this.state = {};
     }
     queueMicrotask(() => this.notifyAll());
@@ -71,7 +76,14 @@ export class StorageStore implements Store {
       this.storage?.removeItem(this.createStorageKey());
       return;
     }
-    this.storage?.setItem(this.createStorageKey(), JSON.stringify(this.state));
+    let value: string;
+    try {
+      value = this.stateSerializer.serialize(this.state);
+    } catch (e) {
+      console.error(e);
+      return;
+    }
+    this.storage?.setItem(this.createStorageKey(), value);
   }
 
   private createStorageKey() {

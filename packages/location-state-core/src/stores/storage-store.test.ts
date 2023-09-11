@@ -109,6 +109,45 @@ test("On `load` called, if the value of the corresponding key is in Storage, the
   );
 });
 
+test("On `load` called with serializer, if the value of the corresponding key is in Storage, then slice is evaluated by deserialize.", () => {
+  // Arrange
+  const navigationKey = "current_location";
+  storageMock.getItem.mockReturnValueOnce(
+    JSON.stringify({ foo: "storage value" }),
+  );
+  const store = new StorageStore(storage, {
+    serialize: () => "not-used-value",
+    deserialize: () => ({
+      foo: "dummy-result",
+    }),
+  });
+  // Act
+  store.load(navigationKey);
+  // Assert
+  expect(store.get("foo")).toBe("dummy-result");
+});
+
+test("On `load` called with invalid serializer, the value of slice remains at its initial value.", () => {
+  // Arrange
+  const consoleSpy = jest.spyOn(console, "error").mockImplementation();
+  const navigationKey = "current_location";
+  storageMock.getItem.mockReturnValueOnce(
+    JSON.stringify({ foo: "storage value" }),
+  );
+  const store = new StorageStore(storage, {
+    serialize: JSON.stringify,
+    deserialize: () => {
+      throw new Error("deserialize error");
+    },
+  });
+  // Act
+  store.load(navigationKey);
+  // Assert
+  expect(store.get("foo")).toBeUndefined();
+  // Restore console
+  consoleSpy.mockRestore();
+});
+
 test("On `load` called, all listener notified.", async () => {
   // Arrange
   const navigationKey = "current_location";
@@ -126,7 +165,28 @@ test("On `load` called, all listener notified.", async () => {
   expect(listener2).toBeCalledTimes(1);
 });
 
-test("On `save` called, the state is saved in Storage with the previous Location key.", () => {
+test("On `save` called, the state is saved in Storage with evaluated by deserialize.", () => {
+  // Arrange
+  const currentLocationKey = "current_location";
+  const store = new StorageStore(storage, {
+    serialize: () => "dummy-result",
+    deserialize: () => ({
+      foo: "not-used-value",
+    }),
+  });
+  store.load(currentLocationKey);
+  store.set("foo", "updated");
+  // Act
+  store.save();
+  // Assert
+  expect(storageMock.setItem).toHaveBeenCalledTimes(1);
+  expect(storageMock.setItem).toHaveBeenCalledWith(
+    `${locationKeyPrefix}${currentLocationKey}`,
+    "dummy-result",
+  );
+});
+
+test("On `save` called with serializer, the state is saved in Storage with the previous Location key.", () => {
   // Arrange
   const currentLocationKey = "current_location";
   const store = new StorageStore(storage);
@@ -140,6 +200,27 @@ test("On `save` called, the state is saved in Storage with the previous Location
     `${locationKeyPrefix}${currentLocationKey}`,
     JSON.stringify({ foo: "updated" }),
   );
+});
+
+test("On `save` called with invalid serializer, the state is not saved in Storage.", () => {
+  // Arrange
+  const consoleSpy = jest.spyOn(console, "error").mockImplementation();
+  const currentLocationKey = "current_location";
+  const store = new StorageStore(storage, {
+    serialize: () => {
+      throw new Error("serialize error");
+    },
+    deserialize: JSON.parse,
+  });
+  store.load(currentLocationKey);
+  store.set("foo", "updated");
+  // Act
+  store.save();
+  // Assert
+  expect(store.get("foo")).toBe("updated");
+  expect(storageMock.setItem).not.toBeCalled();
+  // Restore console
+  consoleSpy.mockRestore();
 });
 
 test("Calling `save` with empty will remove the Storage with Location key.", () => {

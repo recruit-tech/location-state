@@ -1,5 +1,6 @@
 import { Syncer } from "../types";
-import { Listener, Store } from "./types";
+import { jsonSerializer } from "./serializer";
+import { Listener, Store, StateSerializer } from "./types";
 
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
@@ -7,7 +8,11 @@ export class URLStore implements Store {
   private stateJSON: string = "{}";
   private readonly listeners: Map<string, Set<Listener>> = new Map();
 
-  constructor(private readonly key: string, private readonly syncer: Syncer) {}
+  constructor(
+    private readonly key: string,
+    private readonly syncer: Syncer,
+    private readonly stateSerializer: StateSerializer = jsonSerializer,
+  ) {}
 
   subscribe(name: string, listener: Listener) {
     const listeners = this.listeners.get(name);
@@ -47,11 +52,16 @@ export class URLStore implements Store {
     } else {
       this.state[name] = value;
     }
-    this.stateJSON = JSON.stringify(this.state);
-    // save to url
-    const url = new URL(location.href);
-    url.searchParams.set(this.key, this.stateJSON);
-    this.syncer.updateURL(url.toString());
+
+    try {
+      this.stateJSON = this.stateSerializer.serialize(this.state);
+      // save to url
+      const url = new URL(location.href);
+      url.searchParams.set(this.key, this.stateJSON);
+      this.syncer.updateURL(url.toString());
+    } catch (e) {
+      console.error(e);
+    }
 
     this.notify(name);
   }
@@ -61,16 +71,18 @@ export class URLStore implements Store {
     const stateJSON = params.get(this.key);
     if (this.stateJSON === stateJSON) return;
     this.stateJSON = stateJSON!;
+
     try {
-      this.state = JSON.parse(this.stateJSON || "{}");
+      this.state = this.stateSerializer.deserialize(this.stateJSON || "{}");
     } catch (e) {
+      console.error(e);
       this.state = {};
       // remove invalid state from url.
       const url = new URL(location.href);
       url.searchParams.delete(this.key);
       this.syncer.updateURL(url.toString());
-      return;
     }
+
     queueMicrotask(() => this.notifyAll());
   }
 
