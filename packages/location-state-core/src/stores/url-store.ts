@@ -1,6 +1,6 @@
 import { Syncer } from "../types";
 import { jsonSerializer } from "./serializer";
-import { Listener, Store, Serializer } from "./types";
+import { Listener, Store, StateSerializer } from "./types";
 
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
@@ -11,7 +11,7 @@ export class URLStore implements Store {
   constructor(
     private readonly key: string,
     private readonly syncer: Syncer,
-    private readonly serializer: Serializer = jsonSerializer,
+    private readonly stateSerializer: StateSerializer = jsonSerializer,
   ) {}
 
   subscribe(name: string, listener: Listener) {
@@ -54,7 +54,7 @@ export class URLStore implements Store {
     }
 
     try {
-      this.stateJSON = this.serializer.stateSerialize(this.state);
+      this.stateJSON = this.stateSerializer.serialize(this.state);
       // save to url
       const url = new URL(location.href);
       url.searchParams.set(this.key, this.stateJSON);
@@ -72,7 +72,7 @@ export class URLStore implements Store {
     if (this.stateJSON === stateJSON) return;
     this.stateJSON = stateJSON!;
     try {
-      this.state = this.serializer.stateDeserialize(this.stateJSON || "{}");
+      this.state = this.stateSerializer.deserialize(this.stateJSON || "{}");
     } catch (e) {
       console.error(e);
       this.state = {};

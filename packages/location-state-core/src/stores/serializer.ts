@@ -1,6 +1,6 @@
-import { Serializer } from "./types";
+import { StateSerializer } from "./types";
 
-export const jsonSerializer: Serializer = {
-  stateDeserialize: JSON.parse,
-  stateSerialize: JSON.stringify,
+export const jsonSerializer: StateSerializer = {
+  deserialize: JSON.parse,
+  serialize: JSON.stringify,
 };

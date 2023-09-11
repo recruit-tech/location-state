@@ -1,5 +1,5 @@
 import { jsonSerializer } from "./serializer";
-import { Listener, Serializer, Store } from "./types";
+import { Listener, StateSerializer, Store } from "./types";
 
 export const locationKeyPrefix = "__location_state_";
 
@@ -10,7 +10,7 @@ export class StorageStore implements Store {
 
   constructor(
     private readonly storage?: Storage, // Storage is undefined in SSR.
-    private readonly serializer: Serializer = jsonSerializer,
+    private readonly stateSerializer: StateSerializer = jsonSerializer,
   ) {}
 
   subscribe(name: string, listener: Listener) {
@@ -60,7 +60,7 @@ export class StorageStore implements Store {
     const value = this.storage?.getItem(this.createStorageKey()) ?? null;
     try {
       this.state =
-        value !== null ? this.serializer.stateDeserialize(value) : {};
+        value !== null ? this.stateSerializer.deserialize(value) : {};
     } catch (e) {
       console.error(e);
       this.state = {};
@@ -78,7 +78,7 @@ export class StorageStore implements Store {
     }
     let value: string;
     try {
-      value = this.serializer.stateSerialize(this.state);
+      value = this.stateSerializer.serialize(this.state);
     } catch (e) {
       console.error(e);
       return;

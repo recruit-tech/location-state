@@ -63,8 +63,8 @@ test("On `set` called with serializer, store's values are updated and reflected 
     search: "?hoge=fuga",
   });
   const store = new URLStore("store-key", syncerMock, {
-    stateSerialize: () => "dummy-result",
-    stateDeserialize: () => ({
+    serialize: () => "dummy-result",
+    deserialize: () => ({
       foo: "not-used-value",
     }),
   });
@@ -86,10 +86,10 @@ test("On `set` called with invalid serializer, store's values are initial value 
     search: "?hoge=fuga",
   });
   const store = new URLStore("store-key", syncerMock, {
-    stateSerialize: () => {
+    serialize: () => {
       throw new Error("serialize error");
     },
-    stateDeserialize: () => ({
+    deserialize: () => ({
       foo: "not-used-value",
     }),
   });
@@ -181,8 +181,8 @@ test("On `load` called with serializer, the value is obtained through serialize.
     search: "?store-key=%7B%22foo%22%3A%22updated%22%7D",
   });
   const store = new URLStore("store-key", syncerMock, {
-    stateSerialize: () => "not-used-value",
-    stateDeserialize: () => ({
+    serialize: () => "not-used-value",
+    deserialize: () => ({
       foo: "dummy-result",
     }),
   });
@@ -200,8 +200,8 @@ test("On `load` called with invalid serializer, the value is initial value.", ()
     search: "?store-key=%7B%22foo%22%3A%22updated%22%7D",
   });
   const store = new URLStore("store-key", syncerMock, {
-    stateSerialize: JSON.stringify,
-    stateDeserialize: () => {
+    serialize: JSON.stringify,
+    deserialize: () => {
       throw new Error("deserialize error");
     },
   });
