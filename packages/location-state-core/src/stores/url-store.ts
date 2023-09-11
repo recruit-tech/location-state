@@ -52,18 +52,18 @@ export class URLStore implements Store {
     } else {
       this.state[name] = value;
     }
-    this.notify(name);
+
     try {
       this.stateJSON = this.serializer.stateSerialize(this.state);
+      // save to url
+      const url = new URL(location.href);
+      url.searchParams.set(this.key, this.stateJSON);
+      this.syncer.updateURL(url.toString());
     } catch (e) {
       console.error(e);
-      // Not reflected in URL.
-      return;
     }
-    // save to url
-    const url = new URL(location.href);
-    url.searchParams.set(this.key, this.stateJSON);
-    this.syncer.updateURL(url.toString());
+
+    this.notify(name);
   }
 
   load() {
