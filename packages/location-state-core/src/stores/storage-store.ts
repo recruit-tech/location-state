@@ -9,7 +9,7 @@ export class StorageStore implements Store {
   private currentKey: string | null = null;
 
   constructor(
-    private readonly storage: Storage = globalThis.sessionStorage,
+    private readonly storage?: Storage, // Storage is undefined in SSR.
     private readonly serializer: Serializer = jsonSerializer,
   ) {}
 
