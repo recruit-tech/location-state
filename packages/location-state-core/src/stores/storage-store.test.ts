@@ -116,8 +116,8 @@ test("On `load` called with serializer, if the value of the corresponding key is
     JSON.stringify({ foo: "storage value" }),
   );
   const store = new StorageStore(storage, {
-    serialize: () => "not-used-value",
-    deserialize: () => ({
+    stateSerialize: () => "not-used-value",
+    stateDeserialize: () => ({
       foo: "dummy-result",
     }),
   });
@@ -135,8 +135,8 @@ test("On `load` called with invalid serializer, the value of slice remains at it
     JSON.stringify({ foo: "storage value" }),
   );
   const store = new StorageStore(storage, {
-    serialize: JSON.stringify,
-    deserialize: () => {
+    stateSerialize: JSON.stringify,
+    stateDeserialize: () => {
       throw new Error("deserialize error");
     },
   });
@@ -169,8 +169,8 @@ test("On `save` called, the state is saved in Storage with evaluated by deserial
   // Arrange
   const currentLocationKey = "current_location";
   const store = new StorageStore(storage, {
-    serialize: () => "dummy-result",
-    deserialize: () => ({
+    stateSerialize: () => "dummy-result",
+    stateDeserialize: () => ({
       foo: "not-used-value",
     }),
   });
@@ -207,10 +207,10 @@ test("On `save` called with invalid serializer, the state is not saved in Storag
   const consoleSpy = jest.spyOn(console, "error").mockImplementation();
   const currentLocationKey = "current_location";
   const store = new StorageStore(storage, {
-    serialize: () => {
+    stateSerialize: () => {
       throw new Error("serialize error");
     },
-    deserialize: JSON.parse,
+    stateDeserialize: JSON.parse,
   });
   store.load(currentLocationKey);
   store.set("foo", "updated");

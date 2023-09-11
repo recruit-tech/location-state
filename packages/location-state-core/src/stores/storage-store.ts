@@ -7,11 +7,11 @@ export class StorageStore implements Store {
   private state: Record<string, unknown> = {};
   private readonly listeners: Map<string, Set<Listener>> = new Map();
   private currentKey: string | null = null;
-  private readonly serializer: Serializer;
 
-  constructor(private readonly storage?: Storage, serializer?: Serializer) {
-    this.serializer = serializer ?? jsonSerializer;
-  }
+  constructor(
+    private readonly storage: Storage = globalThis.sessionStorage,
+    private readonly serializer: Serializer = jsonSerializer,
+  ) {}
 
   subscribe(name: string, listener: Listener) {
     const listeners = this.listeners.get(name);
@@ -58,14 +58,11 @@ export class StorageStore implements Store {
     if (this.currentKey === locationKey) return;
     this.currentKey = locationKey;
     const value = this.storage?.getItem(this.createStorageKey()) ?? null;
-    if (value !== null) {
-      try {
-        this.state = this.serializer.deserialize(value);
-      } catch (e) {
-        console.error(e);
-        this.state = {};
-      }
-    } else {
+    try {
+      this.state =
+        value !== null ? this.serializer.stateDeserialize(value) : {};
+    } catch (e) {
+      console.error(e);
       this.state = {};
     }
     queueMicrotask(() => this.notifyAll());
@@ -81,7 +78,7 @@ export class StorageStore implements Store {
     }
     let value: string;
     try {
-      value = this.serializer.serialize(this.state);
+      value = this.serializer.stateSerialize(this.state);
     } catch (e) {
       console.error(e);
       return;

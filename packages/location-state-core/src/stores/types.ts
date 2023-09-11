@@ -1,11 +1,11 @@
 export type Listener = () => void;
 
-type Deserialize = (value: string) => Record<string, unknown>;
-type Serialize = (value: Record<string, unknown>) => string;
+type StateSerializer = (value: Record<string, unknown>) => string;
+type StateDeserialize = (value: string) => Record<string, unknown>;
 
 export type Serializer = {
-  deserialize: Deserialize;
-  serialize: Serialize;
+  stateSerialize: StateSerializer;
+  stateDeserialize: StateDeserialize;
 };
 
 export type Store = {

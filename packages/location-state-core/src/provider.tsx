@@ -17,7 +17,7 @@ export function LocationStateProvider({
   );
   const [contextValue] = useState(() => ({
     stores: {
-      session: new StorageStore(globalThis.sessionStorage),
+      session: new StorageStore(),
       url: new URLStore("location-state", syncer),
     },
   }));
