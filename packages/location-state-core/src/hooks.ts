@@ -1,12 +1,12 @@
 import { LocationStateContext } from "./context";
-import { DefaultStoreName } from "./types";
+import { DefaultStoreNames } from "./types";
 import { useCallback, useContext, useState, useSyncExternalStore } from "react";
 
 export type Refine<T> = (value: unknown) => T | undefined;
 
 export type LocationStateDefinition<
   T,
-  StoreName extends string = DefaultStoreName,
+  StoreName extends string = DefaultStoreNames,
 > = {
   name: string;
   defaultValue: T;
@@ -19,7 +19,7 @@ type Updater<T> = (prev: T) => T;
 type UpdaterOrValue<T> = T | Updater<T>;
 type SetState<T> = (updaterOrValue: UpdaterOrValue<T>) => void;
 
-const useStore = (storeName: DefaultStoreName | string) => {
+const useStore = (storeName: DefaultStoreNames | string) => {
   const { stores } = useContext(LocationStateContext);
   const store = stores[storeName];
   if (!store) {

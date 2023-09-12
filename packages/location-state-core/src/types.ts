@@ -1,6 +1,6 @@
 /// <reference types="navigation-api-types" />
 
-export type DefaultStoreName = "session" | "url";
+export type DefaultStoreNames = "session" | "url";
 
 export type Syncer = {
   key(): string | undefined;
