@@ -29,7 +29,10 @@ const useStore = (storeName: DefaultStoreNames | string) => {
   return store;
 };
 
-export const useLocationState = <T, StoreName extends string>(
+export const useLocationState = <
+  T,
+  StoreName extends string = DefaultStoreNames,
+>(
   definition: LocationStateDefinition<T, StoreName>,
 ): [T, SetState<T>] => {
   const storeState = useLocationStateValue(definition);
@@ -37,7 +40,10 @@ export const useLocationState = <T, StoreName extends string>(
   return [storeState, setStoreState];
 };
 
-export const useLocationStateValue = <T, StoreName extends string>(
+export const useLocationStateValue = <
+  T,
+  StoreName extends string = DefaultStoreNames,
+>(
   definition: LocationStateDefinition<T, StoreName>,
 ): T => {
   const { name, defaultValue, storeName, refine } = useState(definition)[0];
@@ -60,7 +66,10 @@ export const useLocationStateValue = <T, StoreName extends string>(
   return storeState;
 };
 
-export const useLocationSetState = <T, StoreName extends string>(
+export const useLocationSetState = <
+  T,
+  StoreName extends string = DefaultStoreNames,
+>(
   definition: LocationStateDefinition<T, StoreName>,
 ): SetState<T> => {
   const { name, defaultValue, storeName, refine } = useState(definition)[0];
