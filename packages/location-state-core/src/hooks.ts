@@ -19,7 +19,7 @@ type Updater<T> = (prev: T) => T;
 type UpdaterOrValue<T> = T | Updater<T>;
 type SetState<T> = (updaterOrValue: UpdaterOrValue<T>) => void;
 
-const useStore = (storeName: DefaultStoreNames | string) => {
+const useStore = (storeName: string) => {
   const { stores } = useContext(LocationStateContext);
   const store = stores[storeName];
   if (!store) {
