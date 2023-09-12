@@ -19,6 +19,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@changesets/cli": "2.26.2",
     "@types/jest": "29.5.3",
     "@types/node": "20.4.5",
     "@types/react": "18.2.21",
