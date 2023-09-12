@@ -1,13 +1,17 @@
 import { LocationStateContext } from "./context";
-import { StoreName } from "./types";
+import { DefaultStoreName } from "./types";
 import { useCallback, useContext, useState, useSyncExternalStore } from "react";
 
 export type Refine<T> = (value: unknown) => T | undefined;
 
-export type LocationStateDefinition<T> = {
+export type LocationStateDefinition<
+  T,
+  StoreName extends string = DefaultStoreName,
+> = {
   name: string;
   defaultValue: T;
-  storeName: StoreName | string;
+  // Avoid inference to rigorously check type arguments
+  storeName: StoreName extends infer S ? S : never;
   refine?: Refine<T>;
 };
 
@@ -15,7 +19,7 @@ type Updater<T> = (prev: T) => T;
 type UpdaterOrValue<T> = T | Updater<T>;
 type SetState<T> = (updaterOrValue: UpdaterOrValue<T>) => void;
 
-const useStore = (storeName: StoreName | string) => {
+const useStore = (storeName: DefaultStoreName | string) => {
   const { stores } = useContext(LocationStateContext);
   const store = stores[storeName];
   if (!store) {
@@ -25,16 +29,16 @@ const useStore = (storeName: StoreName | string) => {
   return store;
 };
 
-export const useLocationState = <T>(
-  definition: LocationStateDefinition<T>,
+export const useLocationState = <T, StoreName extends string>(
+  definition: LocationStateDefinition<T, StoreName>,
 ): [T, SetState<T>] => {
   const storeState = useLocationStateValue(definition);
   const setStoreState = useLocationSetState(definition);
   return [storeState, setStoreState];
 };
 
-export const useLocationStateValue = <T>(
-  definition: LocationStateDefinition<T>,
+export const useLocationStateValue = <T, StoreName extends string>(
+  definition: LocationStateDefinition<T, StoreName>,
 ): T => {
   const { name, defaultValue, storeName, refine } = useState(definition)[0];
   const store = useStore(storeName);
@@ -56,8 +60,8 @@ export const useLocationStateValue = <T>(
   return storeState;
 };
 
-export const useLocationSetState = <T>(
-  definition: LocationStateDefinition<T>,
+export const useLocationSetState = <T, StoreName extends string>(
+  definition: LocationStateDefinition<T, StoreName>,
 ): SetState<T> => {
   const { name, defaultValue, storeName, refine } = useState(definition)[0];
   const store = useStore(storeName);

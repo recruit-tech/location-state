@@ -1,6 +1,10 @@
 "use client";
 
-import { useLocationState, StoreName, Refine } from "@location-state/core";
+import {
+  useLocationState,
+  DefaultStoreName,
+  Refine,
+} from "@location-state/core";
 import { z, ZodType } from "zod";
 
 const zodRefine =
@@ -10,7 +14,7 @@ const zodRefine =
     return result.success ? result.data : undefined;
   };
 
-export function Counter({ storeName }: { storeName: StoreName }) {
+export function Counter({ storeName }: { storeName: DefaultStoreName }) {
   const [counter, setCounter] = useLocationState({
     name: "counter",
     defaultValue: 0,
