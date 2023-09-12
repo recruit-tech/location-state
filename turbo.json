@@ -16,7 +16,6 @@
       "dependsOn": ["dts"]
     },
     "test": {
-      "dependsOn": ["build"],
       "outputs": ["coverage/**"]
     }
   },
