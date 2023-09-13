@@ -1,8 +1,8 @@
 "use client";
 
-import { useLocationState, DefaultStoreNames } from "@location-state/core";
+import { useLocationState, DefaultStoreName } from "@location-state/core";
 
-export function List({ storeName }: { storeName: DefaultStoreNames }) {
+export function List({ storeName }: { storeName: DefaultStoreName }) {
   const [displayList, setDisplayList] = useLocationState({
     name: "display-list",
     defaultValue: false,

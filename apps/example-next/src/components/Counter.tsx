@@ -2,7 +2,7 @@
 
 import {
   useLocationState,
-  DefaultStoreNames,
+  DefaultStoreName,
   Refine,
 } from "@location-state/core";
 import { z, ZodType } from "zod";
@@ -14,7 +14,7 @@ const zodRefine =
     return result.success ? result.data : undefined;
   };
 
-export function Counter({ storeName }: { storeName: DefaultStoreNames }) {
+export function Counter({ storeName }: { storeName: DefaultStoreName }) {
   const [counter, setCounter] = useLocationState({
     name: "counter",
     defaultValue: 0,
