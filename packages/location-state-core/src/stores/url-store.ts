@@ -7,7 +7,7 @@ type URLEncoder = {
   encode: (state?: Record<string, unknown>) => string;
 };
 
-function searchParamEncoder(
+export function searchParamEncoder(
   key: string,
   stateSerializer: StateSerializer,
 ): URLEncoder {
@@ -29,18 +29,18 @@ function searchParamEncoder(
   };
 }
 
+export const defaultSearchParamEncoder = searchParamEncoder(
+  "location-state",
+  jsonSerializer,
+);
+
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
   private readonly listeners: Map<string, Set<Listener>> = new Map();
 
   constructor(
-    private readonly key: string,
     private readonly syncer: Syncer,
-    private readonly stateSerializer: StateSerializer = jsonSerializer,
-    private readonly urlEncoder: URLEncoder = searchParamEncoder(
-      key,
-      stateSerializer,
-    ),
+    private readonly urlEncoder: URLEncoder = defaultSearchParamEncoder,
   ) {}
 
   subscribe(name: string, listener: Listener) {
