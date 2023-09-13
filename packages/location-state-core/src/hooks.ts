@@ -29,18 +29,15 @@ const useStore = (storeName: string) => {
   return store;
 };
 
-export const useLocationState = <
-  T,
-  StoreName extends string = DefaultStoreNames,
->(
+const _useLocationState = <T, StoreName extends string = DefaultStoreNames>(
   definition: LocationStateDefinition<T, StoreName>,
 ): [T, SetState<T>] => {
-  const storeState = useLocationStateValue(definition);
-  const setStoreState = useLocationSetState(definition);
+  const storeState = _useLocationStateValue(definition);
+  const setStoreState = _useLocationSetState(definition);
   return [storeState, setStoreState];
 };
 
-export const useLocationStateValue = <
+const _useLocationStateValue = <
   T,
   StoreName extends string = DefaultStoreNames,
 >(
@@ -66,10 +63,7 @@ export const useLocationStateValue = <
   return storeState;
 };
 
-export const useLocationSetState = <
-  T,
-  StoreName extends string = DefaultStoreNames,
->(
+const _useLocationSetState = <T, StoreName extends string = DefaultStoreNames>(
   definition: LocationStateDefinition<T, StoreName>,
 ): SetState<T> => {
   const { name, defaultValue, storeName, refine } = useState(definition)[0];
@@ -91,3 +85,23 @@ export const useLocationSetState = <
   );
   return setStoreState;
 };
+
+export const getHooksWith = <StoreNames extends string>() =>
+  ({
+    useLocationState: _useLocationState,
+    useLocationStateValue: _useLocationStateValue,
+    useLocationSetState: _useLocationSetState,
+  } as {
+    useLocationState: <T>(
+      definition: LocationStateDefinition<T, StoreNames>,
+    ) => [T, SetState<T>];
+    useLocationStateValue: <T>(
+      definition: LocationStateDefinition<T, StoreNames>,
+    ) => T;
+    useLocationSetState: <T>(
+      definition: LocationStateDefinition<T, StoreNames>,
+    ) => SetState<T>;
+  });
+
+export const { useLocationState, useLocationStateValue, useLocationSetState } =
+  getHooksWith<DefaultStoreNames>();
