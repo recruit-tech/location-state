@@ -2,6 +2,29 @@ import { Syncer } from "../types";
 import { jsonSerializer } from "./serializer";
 import { Listener, Store, StateSerializer } from "./types";
 
+type URLHandlers = {
+  get: (props: { href: string; key: string }) => string | null;
+  update: (props: { href: string; key: string; stateJSON: string }) => string;
+  reset: (props: { href: string; key: string }) => string;
+};
+
+const urlParamsHandlers: URLHandlers = {
+  get: ({ href, key }) => {
+    const params = new URL(href);
+    return params.searchParams.get(key);
+  },
+  update: ({ href, key, stateJSON }) => {
+    const url = new URL(href);
+    url.searchParams.set(key, stateJSON);
+    return url.toString();
+  },
+  reset: ({ href, key }) => {
+    const url = new URL(href);
+    url.searchParams.delete(key);
+    return url.toString();
+  },
+};
+
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
   // `state`'s JSON string for comparison
@@ -12,6 +35,7 @@ export class URLStore implements Store {
     private readonly key: string,
     private readonly syncer: Syncer,
     private readonly stateSerializer: StateSerializer = jsonSerializer,
+    private readonly urlHandlers: URLHandlers = urlParamsHandlers,
   ) {}
 
   subscribe(name: string, listener: Listener) {
@@ -56,9 +80,12 @@ export class URLStore implements Store {
     try {
       this.stateJSON = this.stateSerializer.serialize(this.state);
       // save to url
-      const url = new URL(location.href);
-      url.searchParams.set(this.key, this.stateJSON);
-      this.syncer.updateURL(url.toString());
+      const url = this.urlHandlers.update({
+        href: location.href,
+        key: this.key,
+        stateJSON: this.stateJSON,
+      });
+      this.syncer.updateURL(url);
     } catch (e) {
       console.error(e);
     }
@@ -67,8 +94,10 @@ export class URLStore implements Store {
   }
 
   load() {
-    const params = new URLSearchParams(location.search);
-    const stateJSON = params.get(this.key);
+    const stateJSON = this.urlHandlers.get({
+      href: location.href,
+      key: this.key,
+    });
     if (this.stateJSON === stateJSON) return;
     this.stateJSON = stateJSON!;
 
@@ -78,9 +107,11 @@ export class URLStore implements Store {
       console.error(e);
       this.state = {};
       // remove invalid state from url.
-      const url = new URL(location.href);
-      url.searchParams.delete(this.key);
-      this.syncer.updateURL(url.toString());
+      const url = this.urlHandlers.reset({
+        href: location.href,
+        key: this.key,
+      });
+      this.syncer.updateURL(url);
     }
 
     queueMicrotask(() => this.notifyAll());

@@ -3,16 +3,18 @@ import { URLStore } from "./url-store";
 
 function prepareLocation({
   pathname,
-  search,
+  search = "",
+  hash = "",
 }: {
   pathname: string;
-  search: string;
+  search?: `?${string}` | "";
+  hash?: `#${string}` | "";
 }) {
   Object.defineProperty(window, "location", {
     value: {
       pathname,
       search,
-      href: `http://localhost${pathname}${search}`,
+      href: `http://localhost${pathname}${search}${hash}`,
     },
     writable: true,
   });
@@ -100,6 +102,31 @@ test("On `set` called with invalid serializer, store's values are initial value 
   expect(syncerMock.updateURL).not.toHaveBeenCalled();
   // Restore console
   consoleSpy.mockRestore();
+});
+
+test("On `set` called with urlHandlers, store's values are updated and reflected in the URL.", () => {
+  // Arrange
+  prepareLocation({
+    pathname: "/",
+    search: "?hoge=fuga",
+  });
+  const updateMock = jest.fn(
+    ({ key, href, stateJSON }) => `${href}#${key}=${stateJSON}`,
+  );
+  const store = new URLStore("store-key", syncerMock, undefined, {
+    get: () => "unused",
+    update: updateMock,
+    reset: () => "unused",
+  });
+  // Act
+  store.set("foo", "updated");
+  // Assert
+  expect(store.get("foo")).toBe("updated");
+  expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
+  expect(syncerMock.updateURL).toHaveBeenCalledWith(
+    'http://localhost/?hoge=fuga#store-key={"foo":"updated"}',
+  );
+  expect(updateMock).toHaveBeenCalledTimes(1);
 });
 
 test("listener is called when updating slice.", () => {
@@ -247,4 +274,46 @@ test("On `load` called, delete parameter if invalid JSON string.", () => {
   expect(syncerMock.updateURL).toHaveBeenCalledWith("http://localhost/");
   // Restore console
   consoleSpy.mockRestore();
+});
+
+test("On `load` called with urlHandlers, delete parameter if invalid JSON string.", () => {
+  // Arrange
+  const consoleSpy = jest.spyOn(console, "error").mockImplementation();
+  prepareLocation({
+    pathname: "/",
+    hash: "#store-key=invalid-json-string",
+  });
+  const resetMock = jest.fn(() => `http://localhost/updated`);
+  const store = new URLStore("store-key", syncerMock, undefined, {
+    get: () => "unused",
+    update: () => "unused",
+    reset: resetMock,
+  });
+  // Act
+  store.load();
+  // Assert
+  expect(store.get("foo")).toBeUndefined();
+  expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
+  expect(syncerMock.updateURL).toHaveBeenCalledWith("http://localhost/updated");
+  expect(resetMock).toHaveBeenCalledTimes(1);
+  // Restore console
+  consoleSpy.mockRestore();
+});
+
+test("On `load` called with urlHandlers, initial value depends on getter.", () => {
+  // Arrange
+  prepareLocation({
+    pathname: "/",
+  });
+  const getMock = jest.fn(() => '{"foo":"initial-value"}');
+  const store = new URLStore("store-key", syncerMock, undefined, {
+    get: getMock,
+    update: () => "unused",
+    reset: () => "unused",
+  });
+  // Act
+  store.load();
+  // Assert
+  expect(store.get("foo")).toBe("initial-value");
+  expect(getMock).toHaveBeenCalledTimes(1);
 });
