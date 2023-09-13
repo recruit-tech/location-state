@@ -2,40 +2,45 @@ import { Syncer } from "../types";
 import { jsonSerializer } from "./serializer";
 import { Listener, Store, StateSerializer } from "./types";
 
-type URLHandlers = {
-  get: (props: { href: string; key: string }) => string | null;
-  update: (props: { href: string; key: string; stateJSON: string }) => string;
-  reset: (props: { href: string; key: string }) => string;
+type URLEncoder = {
+  decode: () => Record<string, unknown>;
+  encode: (state?: Record<string, unknown>) => string;
 };
 
-const urlParamsHandlers: URLHandlers = {
-  get: ({ href, key }) => {
-    const params = new URL(href);
-    return params.searchParams.get(key);
-  },
-  update: ({ href, key, stateJSON }) => {
-    const url = new URL(href);
-    url.searchParams.set(key, stateJSON);
-    return url.toString();
-  },
-  reset: ({ href, key }) => {
-    const url = new URL(href);
-    url.searchParams.delete(key);
-    return url.toString();
-  },
-};
+function searchParamEncoder(
+  key: string,
+  stateSerializer: StateSerializer,
+): URLEncoder {
+  return {
+    decode: () => {
+      const params = new URL(location.href);
+      const value = params.searchParams.get(key);
+      return value ? stateSerializer.deserialize(value) : {};
+    },
+    encode: (state) => {
+      const url = new URL(location.href);
+      if (state) {
+        url.searchParams.set(key, stateSerializer.serialize(state));
+      } else {
+        url.searchParams.delete(key);
+      }
+      return url.toString();
+    },
+  };
+}
 
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
-  // `state`'s JSON string for comparison
-  private stateJSON: string = "{}";
   private readonly listeners: Map<string, Set<Listener>> = new Map();
 
   constructor(
     private readonly key: string,
     private readonly syncer: Syncer,
     private readonly stateSerializer: StateSerializer = jsonSerializer,
-    private readonly urlHandlers: URLHandlers = urlParamsHandlers,
+    private readonly urlEncoder: URLEncoder = searchParamEncoder(
+      key,
+      stateSerializer,
+    ),
   ) {}
 
   subscribe(name: string, listener: Listener) {
@@ -78,13 +83,8 @@ export class URLStore implements Store {
     }
 
     try {
-      this.stateJSON = this.stateSerializer.serialize(this.state);
       // save to url
-      const url = this.urlHandlers.update({
-        href: location.href,
-        key: this.key,
-        stateJSON: this.stateJSON,
-      });
+      const url = this.urlEncoder.encode(this.state);
       this.syncer.updateURL(url);
     } catch (e) {
       console.error(e);
@@ -94,23 +94,13 @@ export class URLStore implements Store {
   }
 
   load() {
-    const stateJSON = this.urlHandlers.get({
-      href: location.href,
-      key: this.key,
-    });
-    if (this.stateJSON === stateJSON) return;
-    this.stateJSON = stateJSON!;
-
     try {
-      this.state = this.stateSerializer.deserialize(this.stateJSON || "{}");
+      this.state = this.urlEncoder.decode();
     } catch (e) {
       console.error(e);
       this.state = {};
       // remove invalid state from url.
-      const url = this.urlHandlers.reset({
-        href: location.href,
-        key: this.key,
-      });
+      const url = this.urlEncoder.encode();
       this.syncer.updateURL(url);
     }
 
