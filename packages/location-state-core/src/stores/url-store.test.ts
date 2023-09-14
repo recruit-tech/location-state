@@ -1,4 +1,5 @@
 import { Syncer } from "../types";
+import { jsonSerializer } from "./serializer";
 import { searchParamEncoder, URLStore } from "./url-store";
 
 describe("URLStore", () => {
@@ -312,6 +313,42 @@ describe("URLStore", () => {
         expect(store.get("foo")).toBe("initial-value");
         expect(decodeMock).toHaveBeenCalledTimes(1);
       });
+    });
+  });
+});
+
+describe("searchParamEncoder", () => {
+  describe("default serializer", () => {
+    const encoder = searchParamEncoder("location-state", jsonSerializer);
+
+    test("When encoding with state, the state is reflected in the URL.", () => {
+      // Arrange
+      const url = "http://localhost/";
+      const state = { foo: "bar" };
+      // Act
+      const encoded = encoder.encode(url, state);
+      // Assert
+      expect(encoded).toBe(`${url}?location-state=%7B%22foo%22%3A%22bar%22%7D`);
+    });
+
+    test("When encoding with undefined, the parameter is deleted.", () => {
+      // Arrange
+      const url =
+        "http://localhost/?location-state=%7B%22foo%22%3A%22bar%22%7D";
+      // Act
+      const encoded = encoder.encode(url, undefined);
+      // Assert
+      expect(encoded).toBe("http://localhost/");
+    });
+
+    test("When decoding, the state is obtained.", () => {
+      // Arrange
+      const url =
+        "http://localhost/?location-state=%7B%22foo%22%3A%22bar%22%7D";
+      // Act
+      const decoded = encoder.decode(url);
+      // Assert
+      expect(decoded).toEqual({ foo: "bar" });
     });
   });
 });
