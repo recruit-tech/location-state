@@ -117,8 +117,7 @@ test("On `set` called with urlHandlers, store's values are updated and reflected
     search: "?hoge=fuga",
   });
   const encodeMock = jest.fn(
-    (state) =>
-      `${window.location.href}#mock-location-state=${JSON.stringify(state)}`,
+    (url, state) => `${url}#mock-location-state=${JSON.stringify(state)}`,
   );
   const store = new URLStore(syncerMock, {
     decode: () => ({}), // unused
