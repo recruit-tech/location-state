@@ -107,7 +107,7 @@ export class URLStore implements Store {
       // remove invalid state from url.
       const url = this.urlEncoder.encode(currentURL);
       this.syncer.updateURL(url);
-      this.syncedURL = currentURL;
+      this.syncedURL = url;
     }
 
     queueMicrotask(() => this.notifyAll());
