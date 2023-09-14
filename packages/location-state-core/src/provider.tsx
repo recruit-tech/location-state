@@ -10,13 +10,14 @@ export function LocationStateProvider({
   ...props
 }: {
   syncer?: Syncer;
+  stores?: Record<string, Store>;
   children: ReactNode;
 }) {
   const [syncer] = useState(
     () => props.syncer ?? new NavigationSyncer(window.navigation),
   );
   const [contextValue] = useState(() => ({
-    stores: {
+    stores: props.stores ?? {
       session: new StorageStore(globalThis.sessionStorage),
       url: new URLStore(syncer),
     },
