@@ -4,7 +4,7 @@ import { Listener, Store, StateSerializer } from "./types";
 
 type URLEncoder = {
   encode: (url: string, state?: Record<string, unknown>) => string;
-  decode: () => Record<string, unknown>;
+  decode: (url: string) => Record<string, unknown>;
 };
 
 export function searchParamEncoder(
@@ -21,8 +21,8 @@ export function searchParamEncoder(
       }
       return newUrl.toString();
     },
-    decode: () => {
-      const { searchParams } = new URL(location.href);
+    decode: (url: string) => {
+      const { searchParams } = new URL(url);
       const value = searchParams.get(paramName);
       return value ? stateSerializer.deserialize(value) : {};
     },
@@ -36,6 +36,7 @@ export const defaultSearchParamEncoder = searchParamEncoder(
 
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
+  private prevUrl: string | undefined;
   private readonly listeners: Map<string, Set<Listener>> = new Map();
 
   constructor(
@@ -85,6 +86,7 @@ export class URLStore implements Store {
     try {
       // save to url
       const url = this.urlEncoder.encode(location.href, this.state);
+      this.prevUrl = url;
       this.syncer.updateURL(url);
     } catch (e) {
       console.error(e);
@@ -94,13 +96,16 @@ export class URLStore implements Store {
   }
 
   load() {
+    const currentURL = location.href;
+    if (currentURL === this.prevUrl) return;
+
     try {
-      this.state = this.urlEncoder.decode();
+      this.state = this.urlEncoder.decode(currentURL);
     } catch (e) {
       console.error(e);
       this.state = {};
       // remove invalid state from url.
-      const url = this.urlEncoder.encode(location.href);
+      const url = this.urlEncoder.encode(currentURL);
       this.syncer.updateURL(url);
     }
 
