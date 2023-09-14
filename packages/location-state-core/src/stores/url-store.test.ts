@@ -2,7 +2,7 @@ import { Syncer } from "../types";
 import { jsonSerializer } from "./serializer";
 import { searchParamEncoder, URLStore } from "./url-store";
 
-describe("URLStore", () => {
+describe("`URLStore`", () => {
   function prepareLocation({
     pathname,
     search = "",
@@ -169,156 +169,53 @@ describe("URLStore", () => {
   });
 
   describe("Custom urlEncoder", () => {
-    describe("with searchParamEncoder", () => {
-      test("When called `set` with serializer, store's values are updated and reflected in the URL.", () => {
-        // Arrange
-        prepareLocation({
-          pathname: "/",
-          search: "?hoge=fuga",
-        });
-        const store = new URLStore(
-          syncerMock,
-          searchParamEncoder("location-state", {
-            serialize: () => "dummy-result",
-            deserialize: () => ({
-              foo: "not-used-value",
-            }),
-          }),
-        );
-        // Act
-        store.set("foo", "updated");
-        // Assert
-        expect(store.get("foo")).toBe("updated");
-        expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
-        expect(syncerMock.updateURL).toHaveBeenCalledWith(
-          "http://localhost/?hoge=fuga&location-state=dummy-result",
-        );
+    test("When called `set` with urlEncoder, store's values are updated and reflected in the URL.", () => {
+      // Arrange
+      prepareLocation({
+        pathname: "/",
+        search: "?hoge=fuga",
       });
-
-      test("When called `set` with invalid serializer, store's values are initial value and not reflected in the URL.", () => {
-        // Arrange
-        const consoleSpy = jest.spyOn(console, "error").mockImplementation();
-        prepareLocation({
-          pathname: "/",
-          search: "?hoge=fuga",
-        });
-        const store = new URLStore(
-          syncerMock,
-          searchParamEncoder("location-state", {
-            serialize: () => {
-              throw new Error("serialize error");
-            },
-            deserialize: () => ({
-              foo: "not-used-value",
-            }),
-          }),
-        );
-        // Act
-        store.set("foo", "updated");
-        // Assert
-        expect(store.get("foo")).toBe("updated");
-        expect(syncerMock.updateURL).not.toHaveBeenCalled();
-        // Restore console
-        consoleSpy.mockRestore();
+      const encodeMock = jest.fn(
+        (url, state) => `${url}#mock-location-state=${JSON.stringify(state)}`,
+      );
+      const store = new URLStore(syncerMock, {
+        encode: encodeMock,
+        decode: () => ({}), // unused
       });
-
-      test("When called `load` with serializer, the value is obtained through serialize.", () => {
-        // Arrange
-        prepareLocation({
-          pathname: "/",
-          search: "?location-state=%7B%22foo%22%3A%22updated%22%7D",
-        });
-        const store = new URLStore(
-          syncerMock,
-          searchParamEncoder("location-state", {
-            serialize: () => "not-used-value",
-            deserialize: () => ({
-              foo: "dummy-result",
-            }),
-          }),
-        );
-        // Act
-        store.load();
-        // Assert
-        expect(store.get("foo")).toBe("dummy-result");
-      });
-
-      test("When called `load` with invalid serializer, the value is initial value.", () => {
-        // Arrange
-        const consoleSpy = jest.spyOn(console, "error").mockImplementation();
-        prepareLocation({
-          pathname: "/",
-          search: "?location-state=%7B%22foo%22%3A%22updated%22%7D",
-        });
-        const store = new URLStore(
-          syncerMock,
-          searchParamEncoder("location-state", {
-            serialize: JSON.stringify,
-            deserialize: () => {
-              throw new Error("deserialize error");
-            },
-          }),
-        );
-        // Act
-        store.load();
-        // Assert
-        expect(store.get("foo")).toBeUndefined();
-        expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
-        expect(syncerMock.updateURL).toHaveBeenCalledWith("http://localhost/");
-        // Restore console
-        consoleSpy.mockRestore();
-      });
+      // Act
+      store.set("foo", "updated");
+      // Assert
+      expect(store.get("foo")).toBe("updated");
+      expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
+      expect(syncerMock.updateURL).toHaveBeenCalledWith(
+        'http://localhost/?hoge=fuga#mock-location-state={"foo":"updated"}',
+      );
+      expect(encodeMock).toHaveBeenCalledTimes(1);
     });
 
-    describe("with custom encoder", () => {
-      test("When called `set` with urlHandlers, store's values are updated and reflected in the URL.", () => {
-        // Arrange
-        prepareLocation({
-          pathname: "/",
-          search: "?hoge=fuga",
-        });
-        const encodeMock = jest.fn(
-          (url, state) => `${url}#mock-location-state=${JSON.stringify(state)}`,
-        );
-        const store = new URLStore(syncerMock, {
-          decode: () => ({}), // unused
-          encode: encodeMock,
-        });
-        // Act
-        store.set("foo", "updated");
-        // Assert
-        expect(store.get("foo")).toBe("updated");
-        expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
-        expect(syncerMock.updateURL).toHaveBeenCalledWith(
-          'http://localhost/?hoge=fuga#mock-location-state={"foo":"updated"}',
-        );
-        expect(encodeMock).toHaveBeenCalledTimes(1);
+    test("When called `load` with urlEncoder, initial value depends on getter.", () => {
+      // Arrange
+      prepareLocation({
+        pathname: "/",
       });
-
-      test("When called `load` with urlHandlers, initial value depends on getter.", () => {
-        // Arrange
-        prepareLocation({
-          pathname: "/",
-        });
-        const decodeMock = jest.fn(() => ({
-          foo: "initial-value",
-        }));
-        const store = new URLStore(syncerMock, {
-          decode: decodeMock,
-          encode: () => "unused",
-        });
-        // Act
-        store.load();
-        // Assert
-        expect(store.get("foo")).toBe("initial-value");
-        expect(decodeMock).toHaveBeenCalledTimes(1);
+      const decodeMock = jest.fn(() => ({
+        foo: "initial-value",
+      }));
+      const store = new URLStore(syncerMock, {
+        encode: () => "unused",
+        decode: decodeMock,
       });
+      // Act
+      store.load();
+      // Assert
+      expect(store.get("foo")).toBe("initial-value");
+      expect(decodeMock).toHaveBeenCalledTimes(1);
     });
   });
 });
 
-describe("searchParamEncoder", () => {
-  describe("default serializer", () => {
+describe("`searchParamEncoder`", () => {
+  describe("Default serializer", () => {
     const encoder = searchParamEncoder("location-state", jsonSerializer);
 
     test("When encoding with state, the state is reflected in the URL.", () => {
@@ -349,6 +246,43 @@ describe("searchParamEncoder", () => {
       const decoded = encoder.decode(url);
       // Assert
       expect(decoded).toEqual({ foo: "bar" });
+    });
+  });
+
+  describe("Custom serializer", () => {
+    test("When encoding, the state is reflected in the returned URL.", () => {
+      // Arrange
+      const url = "http://localhost/";
+      const state = { foo: "bar" };
+      const serializeMock = jest.fn(() => "dummy-result");
+      const encoder = searchParamEncoder("location-state", {
+        serialize: serializeMock,
+        deserialize: () => ({}), // unused
+      });
+      // Act
+      const encoded = encoder.encode(url, state);
+      // Assert
+      expect(encoded).toBe(`${url}?location-state=dummy-result`);
+      expect(serializeMock).toHaveBeenCalledTimes(1);
+      expect(serializeMock).toHaveBeenCalledWith(state);
+    });
+
+    test("When decoding, the state is obtained based on deserialize.", () => {
+      // Arrange
+      const stateString = "dummy-result";
+      const deserializeMock = jest.fn(() => ({ foo: "bar" }));
+      const encoder = searchParamEncoder("location-state", {
+        serialize: () => "unused",
+        deserialize: deserializeMock,
+      });
+      // Act
+      const decoded = encoder.decode(
+        `http://localhost/?location-state=${stateString}`,
+      );
+      // Assert
+      expect(decoded).toEqual({ foo: "bar" });
+      expect(deserializeMock).toHaveBeenCalledTimes(1);
+      expect(deserializeMock).toHaveBeenCalledWith(stateString);
     });
   });
 });
