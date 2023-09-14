@@ -36,7 +36,7 @@ export const defaultSearchParamEncoder = searchParamEncoder(
 
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
-  private prevUrl: string | undefined;
+  private syncedURL: string | undefined;
   private readonly listeners: Map<string, Set<Listener>> = new Map();
 
   constructor(
@@ -85,9 +85,8 @@ export class URLStore implements Store {
 
     try {
       // save to url
-      const url = this.urlEncoder.encode(location.href, this.state);
-      this.prevUrl = url;
-      this.syncer.updateURL(url);
+      this.syncedURL = this.urlEncoder.encode(location.href, this.state);
+      this.syncer.updateURL(this.syncedURL);
     } catch (e) {
       console.error(e);
     }
@@ -97,16 +96,18 @@ export class URLStore implements Store {
 
   load() {
     const currentURL = location.href;
-    if (currentURL === this.prevUrl) return;
+    if (currentURL === this.syncedURL) return;
 
     try {
       this.state = this.urlEncoder.decode(currentURL);
+      this.syncedURL = currentURL;
     } catch (e) {
       console.error(e);
       this.state = {};
       // remove invalid state from url.
       const url = this.urlEncoder.encode(currentURL);
       this.syncer.updateURL(url);
+      this.syncedURL = currentURL;
     }
 
     queueMicrotask(() => this.notifyAll());
