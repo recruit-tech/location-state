@@ -4,10 +4,10 @@ import { NavigationSyncer } from "./syncers";
 import { Syncer } from "./types";
 import { ReactNode, useEffect, useState } from "react";
 
-type Stores = Record<string, Store>;
-type CreateStores = (syncer: Syncer) => Stores;
+export type Stores = Record<string, Store>;
+export type CreateStores = (syncer: Syncer) => Stores;
 
-const createDefaultStores: CreateStores = (syncer) => ({
+export const createDefaultStores: CreateStores = (syncer) => ({
   session: new StorageStore(globalThis.sessionStorage),
   url: new URLStore(syncer),
 });
