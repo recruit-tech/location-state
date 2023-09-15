@@ -2,16 +2,46 @@ import { Syncer } from "../types";
 import { jsonSerializer } from "./serializer";
 import { Listener, Store, StateSerializer } from "./types";
 
+type URLEncoder = {
+  encode: (url: string, state?: Record<string, unknown>) => string;
+  decode: (url: string) => Record<string, unknown>;
+};
+
+export function searchParamEncoder(
+  paramName: string,
+  stateSerializer: StateSerializer,
+): URLEncoder {
+  return {
+    encode: (url, state) => {
+      const newUrl = new URL(url);
+      if (state) {
+        newUrl.searchParams.set(paramName, stateSerializer.serialize(state));
+      } else {
+        newUrl.searchParams.delete(paramName);
+      }
+      return newUrl.toString();
+    },
+    decode: (url: string) => {
+      const { searchParams } = new URL(url);
+      const value = searchParams.get(paramName);
+      return value ? stateSerializer.deserialize(value) : {};
+    },
+  };
+}
+
+export const defaultSearchParamEncoder = searchParamEncoder(
+  "location-state",
+  jsonSerializer,
+);
+
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
-  // `state`'s JSON string for comparison
-  private stateJSON: string = "{}";
+  private syncedURL: string | undefined;
   private readonly listeners: Map<string, Set<Listener>> = new Map();
 
   constructor(
-    private readonly key: string,
     private readonly syncer: Syncer,
-    private readonly stateSerializer: StateSerializer = jsonSerializer,
+    private readonly urlEncoder: URLEncoder = defaultSearchParamEncoder,
   ) {}
 
   subscribe(name: string, listener: Listener) {
@@ -54,11 +84,9 @@ export class URLStore implements Store {
     }
 
     try {
-      this.stateJSON = this.stateSerializer.serialize(this.state);
       // save to url
-      const url = new URL(location.href);
-      url.searchParams.set(this.key, this.stateJSON);
-      this.syncer.updateURL(url.toString());
+      this.syncedURL = this.urlEncoder.encode(location.href, this.state);
+      this.syncer.updateURL(this.syncedURL);
     } catch (e) {
       console.error(e);
     }
@@ -67,20 +95,19 @@ export class URLStore implements Store {
   }
 
   load() {
-    const params = new URLSearchParams(location.search);
-    const stateJSON = params.get(this.key);
-    if (this.stateJSON === stateJSON) return;
-    this.stateJSON = stateJSON!;
+    const currentURL = location.href;
+    if (currentURL === this.syncedURL) return;
 
     try {
-      this.state = this.stateSerializer.deserialize(this.stateJSON || "{}");
+      this.state = this.urlEncoder.decode(currentURL);
+      this.syncedURL = currentURL;
     } catch (e) {
       console.error(e);
       this.state = {};
       // remove invalid state from url.
-      const url = new URL(location.href);
-      url.searchParams.delete(this.key);
-      this.syncer.updateURL(url.toString());
+      const url = this.urlEncoder.encode(currentURL);
+      this.syncer.updateURL(url);
+      this.syncedURL = url;
     }
 
     queueMicrotask(() => this.notifyAll());
