@@ -23,20 +23,19 @@ export function LocationStateProvider({
   const [syncer] = useState(
     () => props.syncer ?? new NavigationSyncer(window.navigation),
   );
-  const [stores] = useState(() => {
-    if (props.stores) {
-      return typeof props.stores === "function"
-        ? props.stores(syncer)
-        : props.stores;
-    }
-    return createDefaultStores(syncer);
+  // Generated on first render to prevent provider from re-rendering
+  const [contextValue] = useState(() => {
+    const stores = props.stores ?? createDefaultStores;
+    return {
+      stores: typeof stores === "function" ? stores(syncer) : stores,
+    };
   });
 
   useEffect(() => {
     const abortController = new AbortController();
     const { signal } = abortController;
     const applyAllStore = (callback: (store: Store) => void) => {
-      Object.values(stores).forEach(callback);
+      Object.values(contextValue.stores).forEach(callback);
     };
 
     const key = syncer.key()!;
@@ -60,10 +59,10 @@ export function LocationStateProvider({
     );
 
     return () => abortController.abort();
-  }, [syncer, stores]);
+  }, [syncer, contextValue.stores]);
 
   return (
-    <LocationStateContext.Provider value={{ stores }}>
+    <LocationStateContext.Provider value={contextValue}>
       {children}
     </LocationStateContext.Provider>
   );
