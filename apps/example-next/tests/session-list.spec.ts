@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { describe } from "node:test";
 
-describe('"session counter" is restored on browser back.', () => {
+describe('"session list" is restored on browser back.', () => {
   describe("In app router", () => {
     [
       ["http://127.0.0.1:3000/static"],
@@ -11,27 +11,21 @@ describe('"session counter" is restored on browser back.', () => {
         // Navigate to the target page.
         await page.goto(url);
         const sessionRegion = page.getByRole("region", {
-          name: "session store counter",
+          name: "session store list",
         });
-        // Default counter is 0.
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 0",
-        );
+        // Default list is empty.
+        await expect(sessionRegion.getByRole("list")).toHaveCount(0);
         // Click the `session increment` button.
-        await sessionRegion.getByRole("button", { name: "increment" }).click();
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 1",
-        );
+        await sessionRegion
+          .getByRole("checkbox", { name: "Display List" })
+          .click();
+        await expect(sessionRegion.getByRole("list")).toHaveCount(1);
         // Navigate to the top page.
         await page.getByRole("link", { name: "top" }).click();
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 0",
-        );
+        await expect(sessionRegion.getByRole("list")).toHaveCount(0);
         // Navigate back to the target page.
         await page.goBack();
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 1",
-        );
+        await expect(sessionRegion.getByRole("list")).toHaveCount(1);
       });
     });
   });
@@ -46,33 +40,25 @@ describe('"session counter" is restored on browser back.', () => {
         // Navigate to the target page.
         await page.goto(url);
         const sessionRegion = page.getByRole("region", {
-          name: "session store counter",
+          name: "session store list",
         });
-        // Default counter is 0.
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 0",
-        );
         // Click the `session increment` button.
-        await sessionRegion.getByRole("button", { name: "increment" }).click();
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 1",
-        );
+        await sessionRegion
+          .getByRole("checkbox", { name: "Display List" })
+          .click();
+        await expect(sessionRegion.getByRole("list")).toHaveCount(1);
         // Navigate to the top page.
         await page.getByRole("link", { name: /^\/pages$/ }).click();
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 0",
-        );
+        await expect(sessionRegion.getByRole("list")).toHaveCount(0);
         // Navigate back to the target page.
         await page.goBack();
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 1",
-        );
+        await expect(sessionRegion.getByRole("list")).toHaveCount(1);
       });
     });
   });
 });
 
-describe('"session counter" is restored on reload.', () => {
+describe('"session list" is restored on reload.', () => {
   describe("In app router", () => {
     [
       ["http://127.0.0.1:3000/static"],
@@ -82,22 +68,18 @@ describe('"session counter" is restored on reload.', () => {
         // Navigate to the target page.
         await page.goto(url);
         const sessionRegion = page.getByRole("region", {
-          name: "session store counter",
+          name: "session store list",
         });
-        // Default counter is 0.
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 0",
-        );
+        // Default list is empty.
+        await expect(sessionRegion.getByRole("list")).toHaveCount(0);
         // Click the `session increment` button.
-        await sessionRegion.getByRole("button", { name: "increment" }).click();
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 1",
-        );
-        // reload the page.
+        await sessionRegion
+          .getByRole("checkbox", { name: "Display List" })
+          .click();
+        await expect(sessionRegion.getByRole("list")).toHaveCount(1);
+        // Navigate back to the target page.
         await page.reload();
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 1",
-        );
+        await expect(sessionRegion.getByRole("list")).toHaveCount(1);
       });
     });
   });
@@ -112,22 +94,16 @@ describe('"session counter" is restored on reload.', () => {
         // Navigate to the target page.
         await page.goto(url);
         const sessionRegion = page.getByRole("region", {
-          name: "session store counter",
+          name: "session store list",
         });
-        // Default counter is 0.
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 0",
-        );
         // Click the `session increment` button.
-        await sessionRegion.getByRole("button", { name: "increment" }).click();
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 1",
-        );
-        // reload the page.
+        await sessionRegion
+          .getByRole("checkbox", { name: "Display List" })
+          .click();
+        await expect(sessionRegion.getByRole("list")).toHaveCount(1);
+        // Navigate back to the target page.
         await page.reload();
-        await expect(sessionRegion.getByRole("paragraph")).toHaveText(
-          "counter: 1",
-        );
+        await expect(sessionRegion.getByRole("list")).toHaveCount(1);
       });
     });
   });

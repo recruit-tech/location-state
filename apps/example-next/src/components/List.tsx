@@ -9,24 +9,31 @@ export function List({ storeName }: { storeName: DefaultStoreName }) {
     defaultValue: false,
     storeName,
   });
-  const list = Array(displayList ? 100 : 0).fill(0);
+  const list = Array(100).fill(0);
   console.debug("rendered List", { storeName, displayList });
 
   const sectionId = useId();
+  const accordionId = useId();
 
   return (
     <section aria-labelledby={sectionId}>
       <h2 id={sectionId}>{storeName} store list</h2>
       <label>
         <input
-          aria-label={`${storeName} display list`}
           type="checkbox"
           checked={displayList}
           onChange={(event) => setDisplayList(event.currentTarget.checked)}
+          aria-expanded={displayList}
+          aria-controls={accordionId}
         />
         Display List
       </label>
-      <ul>
+      <ul
+        id={accordionId}
+        style={{
+          display: displayList ? "block" : "none",
+        }}
+      >
         {list.map((_, index) => (
           <li key={index}>{index}</li>
         ))}
