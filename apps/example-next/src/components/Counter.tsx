@@ -32,12 +32,7 @@ export function Counter({ storeName }: { storeName: DefaultStoreName }) {
       <p>
         counter: <b>{counter}</b>
       </p>
-      <button
-        onClick={() => setCounter(counter + 1)}
-        aria-label={`${storeName} increment`}
-      >
-        increment
-      </button>
+      <button onClick={() => setCounter(counter + 1)}>increment</button>
     </section>
   );
 }
