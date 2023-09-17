@@ -1,6 +1,9 @@
 import { test, expect } from "@playwright/test";
 import { describe } from "node:test";
 
+// Safari/Firefox: different from actual movement
+test.skip(({ browserName }) => browserName !== "chromium", "Chromium only!");
+
 describe('"session counter" is restored on browser back.', () => {
   describe("In app router", () => {
     [
