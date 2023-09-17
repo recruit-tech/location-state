@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocationState, DefaultStoreName } from "@location-state/core";
+import { useId } from "react";
 
 export function List({ storeName }: { storeName: DefaultStoreName }) {
   const [displayList, setDisplayList] = useLocationState({
@@ -11,13 +12,14 @@ export function List({ storeName }: { storeName: DefaultStoreName }) {
   const list = Array(displayList ? 100 : 0).fill(0);
   console.debug("rendered List", { storeName, displayList });
 
+  const sectionId = useId();
+
   return (
-    <div>
-      <p>
-        storeName: <b>{storeName}</b> List
-      </p>
+    <section aria-labelledby={sectionId}>
+      <h2 id={sectionId}>{storeName} store list</h2>
       <label>
         <input
+          aria-label={`${storeName} display list`}
           type="checkbox"
           checked={displayList}
           onChange={(event) => setDisplayList(event.currentTarget.checked)}
@@ -29,6 +31,6 @@ export function List({ storeName }: { storeName: DefaultStoreName }) {
           <li key={index}>{index}</li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }
