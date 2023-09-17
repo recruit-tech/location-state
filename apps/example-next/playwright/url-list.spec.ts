@@ -43,6 +43,8 @@ describe('"url list" is restored on browser back.', () => {
         const urlRegion = page.getByRole("region", {
           name: "url store list",
         });
+        // Default list is empty.
+        await expect(urlRegion.getByRole("list")).toHaveCount(0);
         // Click the `url increment` button.
         await urlRegion.getByRole("checkbox", { name: "Display List" }).click();
         await expect(urlRegion.getByRole("list")).toHaveCount(1);
@@ -99,6 +101,8 @@ describe('"url list" is restored on reload.', () => {
         const urlRegion = page.getByRole("region", {
           name: "url store list",
         });
+        // Default list is empty.
+        await expect(urlRegion.getByRole("list")).toHaveCount(0);
         // Click the `url increment` button.
         await urlRegion.getByRole("checkbox", { name: "Display List" }).click();
         await expect(urlRegion.getByRole("list")).toHaveCount(1);

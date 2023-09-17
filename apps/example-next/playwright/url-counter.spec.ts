@@ -10,10 +10,12 @@ describe('"url counter" is restored on browser back.', () => {
       test(`browser back on "page: ${url}`, async ({ page }) => {
         // Navigate to the target page.
         await page.goto(url);
-        // Click the `url increment` button.
         const urlRegion = page.getByRole("region", {
           name: "url store counter",
         });
+        // Default counter is 0.
+        await expect(urlRegion.getByRole("paragraph")).toHaveText("counter: 0");
+        // Click the `url increment` button.
         await urlRegion.getByRole("button", { name: "increment" }).click();
         await expect(urlRegion.getByRole("paragraph")).toHaveText("counter: 1");
         // Navigate to the top page.
@@ -38,10 +40,12 @@ describe('"url counter" is restored on browser back.', () => {
       test(`browser back on page: ${url}`, async ({ page }) => {
         // Navigate to the target page.
         await page.goto(url);
-        // Click the `url increment` button.
         const urlRegion = page.getByRole("region", {
           name: "url store counter",
         });
+        // Default counter is 0.
+        await expect(urlRegion.getByRole("paragraph")).toHaveText("counter: 0");
+        // Click the `url increment` button.
         await urlRegion.getByRole("button", { name: "increment" }).click();
         await expect(urlRegion.getByRole("paragraph")).toHaveText("counter: 1");
         // Navigate to the top page.
@@ -67,10 +71,12 @@ describe('"url counter" is restored on reload.', () => {
       test(`reload on "page: ${url}`, async ({ page }) => {
         // Navigate to the target page.
         await page.goto(url);
-        // Click the `url increment` button.
         const urlRegion = page.getByRole("region", {
           name: "url store counter",
         });
+        // Default counter is 0.
+        await expect(urlRegion.getByRole("paragraph")).toHaveText("counter: 0");
+        // Click the `url increment` button.
         await urlRegion.getByRole("button", { name: "increment" }).click();
         await expect(urlRegion.getByRole("paragraph")).toHaveText("counter: 1");
         // reload the page.
@@ -92,10 +98,12 @@ describe('"url counter" is restored on reload.', () => {
       test(`reload on page: ${url}`, async ({ page }) => {
         // Navigate to the target page.
         await page.goto(url);
-        // Click the `url increment` button.
         const urlRegion = page.getByRole("region", {
           name: "url store counter",
         });
+        // Default counter is 0.
+        await expect(urlRegion.getByRole("paragraph")).toHaveText("counter: 0");
+        // Click the `url increment` button.
         await urlRegion.getByRole("button", { name: "increment" }).click();
         await expect(urlRegion.getByRole("paragraph")).toHaveText("counter: 1");
         // reload the page.

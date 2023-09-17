@@ -45,6 +45,8 @@ describe('"session list" is restored on browser back.', () => {
         const sessionRegion = page.getByRole("region", {
           name: "session store list",
         });
+        // Default list is empty.
+        await expect(sessionRegion.getByRole("list")).toHaveCount(0);
         // Click the `session increment` button.
         await sessionRegion
           .getByRole("checkbox", { name: "Display List" })
@@ -99,6 +101,8 @@ describe('"session list" is restored on reload.', () => {
         const sessionRegion = page.getByRole("region", {
           name: "session store list",
         });
+        // Default list is empty.
+        await expect(sessionRegion.getByRole("list")).toHaveCount(0);
         // Click the `session increment` button.
         await sessionRegion
           .getByRole("checkbox", { name: "Display List" })
