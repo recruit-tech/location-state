@@ -1,31 +1,23 @@
 # location-state
 
+[![npm version](https://badge.fury.io/js/@location-state%2Fcore.svg)](https://badge.fury.io/js/@location-state%2Fcore)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A lightweight state management library that saves and restores state based on history.
 
 ## Features
 
-- 履歴に基づいて状態を復元します。
-  - 状態の保存先
-    - 保存先に Session Storage/URL を指定できます。
-    - 保存先をカスタム実装することができます。
-  - 履歴変更のトリガー
-    - Navigation API を利用した遷移イベントでの保存をサポートしています。
-    - Next.js Pages Router の変更イベントを利用した遷移イベントでの保存をサポートしています。
-    - 履歴変更のトリガーをカスタム実装することができます。
-- 状態復元時に validation を実行できます。
+- 履歴位置に連動する状態管理を行うことができます。
+- デフォルトでは、保存先に Session Storage/URL を指定できます。
 
 ## Packages
 
-- [@location-state/core](./packages/location-state-core/README.md): Core library
-- [@location-state/next](./packages/location-state-next/README.md): Next.js integration
+- [@location-state/core](./packages/location-state-core/README.md): Framework agnostic, but for Next.js App Router.
+- [@location-state/next](./packages/location-state-next/README.md): For Next.js Pages Router.
 
-## Quickstart on [Next.js](https://nextjs.org/docs)
+## Quickstart for Next.js [App Router](https://nextjs.org/docs/app)
 
-ここでは、App Router と Pages Router で Next.js を使用する方法をそれぞれ簡単に説明します。
-
-### Quickstart for [App Router](https://nextjs.org/docs/app)
-
-#### Installation
+### Installation
 
 ```sh
 npm install @location-state/core
@@ -35,7 +27,7 @@ yarn add @location-state/core
 pnpm add @location-state/core
 ```
 
-#### Configuration
+### Configuration
 
 ```tsx
 // src/app/Providers.tsx
@@ -67,7 +59,7 @@ export default function RootLayout({
 }
 ```
 
-#### Usage
+### Working with state
 
 ```tsx
 "use client";
@@ -92,9 +84,9 @@ export function Counter() {
 }
 ```
 
-### Quickstart for [Page Router](https://nextjs.org/docs/pages)
+## Quickstart for [Page Router](https://nextjs.org/docs/pages)
 
-#### Installation
+### Installation
 
 ```sh
 npm install @location-state/core @location-state/next
@@ -104,7 +96,7 @@ yarn add @location-state/core @location-state/next
 pnpm add @location-state/core @location-state/next
 ```
 
-#### Configuration
+### Configuration
 
 ```tsx
 // src/pages/_app.tsx
@@ -122,7 +114,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 }
 ```
 
-#### Usage
+### Working with state
 
 ```tsx
 import { useLocationState } from "@location-state/core";
