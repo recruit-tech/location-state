@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "integration-test": "npx playwright test",
-    "integration-test:ui": "npx playwright test --ui"
+    "integration-test": "playwright test",
+    "integration-test:ui": "playwright test --ui"
   },
   "dependencies": {
     "@location-state/core": "workspace:*",
