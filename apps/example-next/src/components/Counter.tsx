@@ -5,6 +5,7 @@ import {
   DefaultStoreName,
   Refine,
 } from "@location-state/core";
+import { useId } from "react";
 import { z, ZodType } from "zod";
 
 const zodRefine =
@@ -23,12 +24,15 @@ export function Counter({ storeName }: { storeName: DefaultStoreName }) {
   });
   console.debug("rendered Counter", { storeName, counter });
 
+  const sectionId = useId();
+
   return (
-    <div>
+    <section aria-labelledby={sectionId}>
+      <h2 id={sectionId}>{storeName} store counter</h2>
       <p>
-        storeName: <b>{storeName}</b>, counter: <b>{counter}</b>
+        counter: <b>{counter}</b>
       </p>
       <button onClick={() => setCounter(counter + 1)}>increment</button>
-    </div>
+    </section>
   );
 }

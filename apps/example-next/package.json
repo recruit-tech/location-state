@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "integration-test": "playwright test",
+    "integration-test:ui": "playwright test --ui"
   },
   "dependencies": {
     "@location-state/core": "workspace:*",

@@ -15,6 +15,7 @@
     "lint": {
       "dependsOn": ["dts"]
     },
+    "integration-test": {},
     "test": {
       "outputs": ["coverage/**"]
     }

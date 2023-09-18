@@ -1,0 +1,30 @@
+name: Playwright Tests
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  Playwright:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    name: Run playwright tests
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install and cache nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+      - name: Install packages
+        run: pnpm i --ignore-scripts
+      - name: Install playwright browsers
+        run: pnpm dlx playwright install --with-deps
+      - name: Build project
+        run: pnpm build
+      - name: Run integration-test
+        run: pnpm integration-test
