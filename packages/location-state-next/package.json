@@ -8,7 +8,6 @@
   "files": [
     "dist",
     "types",
-    "src",
     "package.json"
   ],
   "exports": {
