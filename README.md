@@ -136,7 +136,3 @@ export function Counter() {
   );
 }
 ```
-
-## API
-
-View the API reference [here](./docs/API.md).
