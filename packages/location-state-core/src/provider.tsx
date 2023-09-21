@@ -24,7 +24,7 @@ export function LocationStateProvider({
     () =>
       props.syncer ??
       new NavigationSyncer(
-        typeof window !== "undefined" ? window?.navigation : undefined,
+        typeof window !== "undefined" ? window.navigation : undefined,
       ),
   );
   // Generated on first render to prevent provider from re-rendering
