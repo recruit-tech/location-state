@@ -21,7 +21,11 @@ export function LocationStateProvider({
   children: ReactNode;
 }) {
   const [syncer] = useState(
-    () => props.syncer ?? new NavigationSyncer(window.navigation),
+    () =>
+      props.syncer ??
+      new NavigationSyncer(
+        typeof window !== "undefined" ? window.navigation : undefined,
+      ),
   );
   // Generated on first render to prevent provider from re-rendering
   const [contextValue] = useState(() => {
