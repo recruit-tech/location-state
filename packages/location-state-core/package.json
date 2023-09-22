@@ -1,6 +1,6 @@
 {
   "name": "@location-state/core",
-  "version": "0.0.0-alpha",
+  "version": "0.0.0",
   "publishConfig": {
     "access": "public"
   },
