@@ -28,10 +28,10 @@
     "@location-state/core": "workspace:*"
   },
   "devDependencies": {
-    "next": "13.4.19",
+    "@location-state/core": "workspace:*",
     "configs": "workspace:*",
     "eslint-config-custom": "workspace:*",
-    "@location-state/core": "workspace:*"
+    "next": "13.5.2"
   },
   "peerDependencies": {
     "next": "^13.0.0",
