@@ -1,6 +1,6 @@
 ---
-"@location-state/core": patch
-"@location-state/next": patch
+"@location-state/core": major
+"@location-state/next": major
 ---
 
-Initial construction of the package.
+Initial release.

@@ -2,7 +2,7 @@
   "name": "location-state",
   "private": true,
   "version": "0.0.0-alpha",
-  "description": "A lightweight state management library that saves and restores state based on history.",
+  "description": "State management library for React that synchronizes with history entries supporting Next.js App Router.",
   "engines": {
     "pnpm": "8.x",
     "npm": "please_use_pnpm_instead"

@@ -5,6 +5,7 @@
     "access": "public"
   },
   "repository": "https://github.com/recruit-tech/location-state",
+  "description": "State management library for React that synchronizes with history entries supporting Next.js App Router.",
   "files": [
     "dist",
     "types",
