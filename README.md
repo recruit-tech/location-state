@@ -7,8 +7,8 @@ State management library for React that synchronizes with history entries suppor
 
 ## Features
 
-- 履歴位置に連動する状態管理を行うことができます。
-- デフォルトでは、保存先に Session Storage/URL を指定できます。
+- You can manage the state linked to the history location.
+- By default, Session Storage/URL can be specified as the destination.
 
 ## Packages
 
