@@ -7,11 +7,17 @@ export const unsafeNavigation =
     ? window.navigation
     : installUnsafeNavigation();
 
+function randomUUID() {
+  return typeof crypto.randomUUID === "function"
+    ? crypto.randomUUID()
+    : Math.random().toString(36).slice(2);
+}
+
 function installUnsafeNavigation(): Navigation {
   const originalHistory = window.history;
   if (!originalHistory.state) {
     originalHistory.replaceState(
-      { ___UNSAFE_NAVIGATION_KEY___: crypto.randomUUID() },
+      { ___UNSAFE_NAVIGATION_KEY___: randomUUID() },
       "",
       location.href,
     );
@@ -19,7 +25,7 @@ function installUnsafeNavigation(): Navigation {
 
   const pushState: History["pushState"] = (state, unused, url) => {
     originalHistory.pushState(
-      { ___UNSAFE_NAVIGATION_KEY___: crypto.randomUUID(), ...state },
+      { ___UNSAFE_NAVIGATION_KEY___: randomUUID(), ...state },
       unused,
       url,
     );
@@ -133,7 +139,7 @@ function installUnsafeNavigation(): Navigation {
     get: () => {
       const { ___UNSAFE_NAVIGATION_KEY___ } = originalHistory.state ?? {};
       return {
-        key: ___UNSAFE_NAVIGATION_KEY___ ?? crypto.randomUUID(),
+        key: ___UNSAFE_NAVIGATION_KEY___ ?? randomUUID(),
       };
     },
   });
