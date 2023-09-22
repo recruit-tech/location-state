@@ -3,4 +3,4 @@
 "@location-state/next": major
 ---
 
-Initial construction of the package.
+Initial release.

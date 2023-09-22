@@ -3,12 +3,12 @@
 [![npm version](https://badge.fury.io/js/@location-state%2Fcore.svg)](https://badge.fury.io/js/@location-state%2Fcore)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-State management library for React that synchronizes with history entries supporting Next.js Pages Router.
+State management library for React that synchronizes with history location supporting Next.js Pages Router.
 
 ## Features
 
-- You can manage the state linked to the history location.
-- By default, Session Storage/URL can be specified as the destination.
+- Manage the state to synchronize with the history location.
+- By default, supports Session Storage and URL as persistent destinations.
 
 ## Packages
 
