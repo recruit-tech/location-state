@@ -17,8 +17,7 @@
     "typecheck": "turbo typecheck",
     "lint": "turbo lint",
     "check": "turbo dts typecheck lint build test",
-    "prepare": "husky install",
-    "release": "pnpm publish -r --ignore-scripts --access public --filter \"@location-state/*\""
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@playwright/test": "1.38.0",
