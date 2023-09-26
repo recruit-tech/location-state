@@ -1,6 +1,6 @@
 {
   "name": "@location-state/next",
-  "version": "0.0.2-alpha",
+  "version": "0.0.2",
   "publishConfig": {
     "access": "public"
   },
