@@ -46,11 +46,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Publish@next
-        # If there is no `.changeset`, nothing is done because it has already been published.
-        run: |
-          pnpm changeset version --snapshot next
-          pnpm changeset publish --no-git-tag --snapshot --tag next
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
