@@ -1,6 +1,6 @@
 # `@location-state/next`
 
-[![npm version](https://badge.fury.io/js/@location-state%2Fcore.svg)](https://badge.fury.io/js/@location-state%2Fcore)
+[![npm version](https://badge.fury.io/js/@location-state%2Fnext.svg)](https://badge.fury.io/js/@location-state%2Fnext)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 State management library for React that synchronizes with history location supporting Next.js Pages Router.
