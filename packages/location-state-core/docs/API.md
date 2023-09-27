@@ -21,7 +21,7 @@
 
 ### hooks options
 
-hooks の共通オプションは以下のように定義されています。
+hooks の共通オプションは`LocationStateDefinition`として、以下のように定義されています。
 
 ```ts
 export type Refine<T> = (value: unknown) => T | undefined;
@@ -107,28 +107,32 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-- `syncer`: `location-state`が履歴と同期する方法を指定します。[`Syncer`](../src/types.ts)を実装している必要があります。
-- `stores`: `location-state`の state 保存先のレコードです。`storeName`で key を指定し、レコードの値は[`Store`](../src/stores/types.ts)を実装している必要があります。
+- `syncer?`: `location-state`が履歴と同期する方法を指定します。[`Syncer`](../src/types.ts)を実装している必要があります。
+- `stores?`: `location-state`の state 保存先のレコードです。`storeName`で key を指定し、レコードの値は[`Store`](../src/stores/types.ts)を実装している必要があります。
 
 ### `createDefaultStores`
 
 `location-state`がデフォルトで利用する`stores`を作成します。`session`と`url`の 2 つが作成されます。
 
 ```ts
-const stores = createDefaultStores(syncer);
+const defaultStores = createDefaultStores(syncer);
 ```
 
 ## Syncer
+
+`Syncer`は履歴と同期するためのインターフェースです。`Syncer`を実装することで、履歴と同期する方法をカスタマイズすることができます。
 
 ### `NavigationSyncer`
 
 `NavigationSyncer`は[Navigation Api](https://github.com/WICG/navigation-api)を利用して履歴と同期する`Syncer`です。`NavigationSyncer`のコンストラクタには`window.navigation`相当の API を渡す必要があります。
 
 ```tsx
-const syncer = new NavigationSyncer(window?.navigation);
+const navigationSyncer = new NavigationSyncer(window?.navigation);
 ```
 
 ## Store
+
+`Store`は`location-state`の state 保存先のインターフェースです。`Store`を実装することで、state 保存先をカスタマイズすることができます。
 
 ### Store options
 
