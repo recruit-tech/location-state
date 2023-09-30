@@ -39,7 +39,7 @@
     "@types/uuid": "9.0.4",
     "client-only": "0.0.1",
     "configs": "workspace:*",
-    "jest-environment-jsdom": "29.6.3",
+    "jest-environment-jsdom": "29.7.0",
     "test-utils": "workspace:*",
     "eslint-config-custom": "workspace:*",
     "uuid": "9.0.1"
