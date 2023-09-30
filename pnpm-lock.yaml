@@ -140,8 +140,8 @@ importers:
         specifier: 5.14.9
         version: 5.14.9
       '@types/uuid':
-        specifier: 9.0.2
-        version: 9.0.2
+        specifier: 9.0.4
+        version: 9.0.4
       client-only:
         specifier: 0.0.1
         version: 0.0.1
@@ -158,8 +158,8 @@ importers:
         specifier: workspace:*
         version: link:../test-utils
       uuid:
-        specifier: 9.0.0
-        version: 9.0.0
+        specifier: 9.0.1
+        version: 9.0.1
 
   packages/location-state-next:
     dependencies:
@@ -189,12 +189,12 @@ importers:
         specifier: 14.4.3
         version: 14.4.3(@testing-library/dom@9.3.1)
       uuid:
-        specifier: 9.0.0
-        version: 9.0.0
+        specifier: 9.0.1
+        version: 9.0.1
     devDependencies:
       '@types/uuid':
-        specifier: 9.0.2
-        version: 9.0.2
+        specifier: 9.0.4
+        version: 9.0.4
       configs:
         specifier: workspace:*
         version: link:../configs
@@ -1590,8 +1590,8 @@ packages:
     resolution: {integrity: sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==}
     dev: true
 
-  /@types/uuid@9.0.2:
-    resolution: {integrity: sha512-kNnC1GFBLuhImSnV7w4njQkUiJi0ZXUycu1rUaouPqiKlXkh77JKgdRnTAp1x5eBwcIwbtI+3otwzuIDEuDoxQ==}
+  /@types/uuid@9.0.4:
+    resolution: {integrity: sha512-zAuJWQflfx6dYJM62vna+Sn5aeSWhh3OB+wfUEACNcqUSc0AGc5JKl+ycL1vrH7frGTXhJchYjE1Hak8L819dA==}
     dev: true
 
   /@types/yargs-parser@21.0.0:
@@ -6227,8 +6227,8 @@ packages:
       requires-port: 1.0.0
     dev: true
 
-  /uuid@9.0.0:
-    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+  /uuid@9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
 
   /v8-to-istanbul@9.1.0:

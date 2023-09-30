@@ -12,10 +12,10 @@
   "dependencies": {
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",
-    "uuid": "9.0.0"
+    "uuid": "9.0.1"
   },
   "devDependencies": {
-    "@types/uuid": "9.0.2",
+    "@types/uuid": "9.0.4",
     "configs": "workspace:*",
     "eslint-config-custom": "workspace:*"
   }
