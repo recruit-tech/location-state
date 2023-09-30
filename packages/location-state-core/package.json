@@ -36,13 +36,13 @@
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",
     "@types/testing-library__jest-dom": "5.14.9",
-    "@types/uuid": "9.0.2",
+    "@types/uuid": "9.0.4",
     "client-only": "0.0.1",
     "configs": "workspace:*",
     "jest-environment-jsdom": "29.6.3",
     "test-utils": "workspace:*",
     "eslint-config-custom": "workspace:*",
-    "uuid": "9.0.0"
+    "uuid": "9.0.1"
   },
   "peerDependencies": {
     "react": "^18.2.0"
