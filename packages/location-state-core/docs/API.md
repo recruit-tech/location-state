@@ -50,7 +50,7 @@ declare const useLocationState: <T>(
 ) => [T, SetState<T>];
 ```
 
-- `locationStateDefinition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
+- `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
 
 #### Example
 
@@ -68,7 +68,7 @@ declare const useLocationStateValue: <T>(
 ) => T;
 ```
 
-- `locationStateDefinition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
+- `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
 
 #### Example
 
@@ -86,7 +86,7 @@ declare const useLocationSetState: <T>(
 ) => SetState<T>;
 ```
 
-- `locationStateDefinition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
+- `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
 
 #### Example
 
