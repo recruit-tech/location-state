@@ -13,7 +13,7 @@
   "scripts": {
     "build": "turbo build",
     "test": "turbo test",
-    "integration-test": "CI=1 && pnpm --filter \"example-*\" --workspace-concurrency=1 run integration-test ",
+    "integration-test": "pnpm --filter \"example-*\" --workspace-concurrency=1 run integration-test ",
     "typecheck": "turbo typecheck",
     "lint": "turbo lint",
     "check": "turbo dts typecheck lint build test",
