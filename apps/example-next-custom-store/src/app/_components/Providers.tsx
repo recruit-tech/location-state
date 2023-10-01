@@ -1,11 +1,15 @@
 "use client";
 
-import { LocationStateProvider, NavigationSyncer } from "@location-state/core";
-import { unsafeNavigation } from "@location-state/core/unsafe-navigation";
+import { InMemoryStore } from "@/lib/in-memory-store";
+import { LocationStateProvider } from "@location-state/core";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <LocationStateProvider syncer={new NavigationSyncer(unsafeNavigation)}>
+    <LocationStateProvider
+      stores={() => ({
+        "in-memory": new InMemoryStore(),
+      })}
+    >
       {children}
     </LocationStateProvider>
   );

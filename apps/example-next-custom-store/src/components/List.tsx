@@ -1,23 +1,23 @@
 "use client";
 
-import { useLocationState, DefaultStoreName } from "@location-state/core";
+import { useLocationStateInMemory } from "@/lib/location-hooks";
 import { useId } from "react";
 
-export function List({ storeName }: { storeName: DefaultStoreName }) {
-  const [displayList, setDisplayList] = useLocationState({
+export function List() {
+  const [displayList, setDisplayList] = useLocationStateInMemory({
     name: "display-list",
     defaultValue: false,
-    storeName,
+    storeName: "in-memory",
   });
   const list = Array(100).fill(0);
-  console.debug("rendered List", { storeName, displayList });
+  console.debug("rendered List", { displayList });
 
   const sectionId = useId();
   const accordionId = useId();
 
   return (
     <section aria-labelledby={sectionId}>
-      <h2 id={sectionId}>{storeName} store list</h2>
+      <h2 id={sectionId}>in memory store list</h2>
       <label>
         <input
           type="checkbox"
