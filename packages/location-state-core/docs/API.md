@@ -5,17 +5,16 @@
   - [`useLocationState`](#uselocationstate)
   - [`useLocationStateValue`](#uselocationstatevalue)
   - [`useLocationStateSetter`](#uselocationstatesetter)
-  - [`getHooksWith`](#gethookswith)
 - [Provider](#provider)
-  - [`LocationStateProvider`](#locationstateprovider)
+  - [`<LocationStateProvider>`](#Locationstateprovider)
   - [`createDefaultStores`](#createdefaultstores)
 - [Syncer](#syncer)
   - [`NavigationSyncer`](#navigationsyncer)
 - [Store](#store)
-  - [Store options](#store-options)
   - [`StorageStore`](#storagestore)
   - [`URLStore`](#urlstore)
   - [custom `Store`](#custom-store)
+  - [`getHooksWith`](#gethookswith)
 
 ## State hooks
 
@@ -97,7 +96,7 @@ const setCount = useLocationStateSetter(locationStateDefinition);
 
 ## Provider
 
-### `LocationStateProvider`
+### `<LocationStateProvider>`
 
 `LocationStateProvider`は`location-state`が提供するデフォルトの Provider です。`useLocationState`などの hooks を利用するためには必ず Provider でラップする必要があります。
 
