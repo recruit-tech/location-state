@@ -13,9 +13,6 @@ export default function Page() {
         <li>
           <Link href="/dynamic">/dynamic</Link>
         </li>
-        <li>
-          <Link href="/pages">/pages</Link>
-        </li>
       </ul>
       <Counter storeName="session" />
       <Counter storeName="url" />
