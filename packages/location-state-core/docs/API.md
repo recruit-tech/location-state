@@ -1,7 +1,7 @@
 # API
 
-- [hooks](#hooks)
-  - [hooks options](#hooks-options)
+- [State hooks](#State-hooks)
+  - [type `LocationStateDefinition`](#type-LocationStateDefinition)
   - [`useLocationState`](#uselocationstate)
   - [`useLocationStateValue`](#uselocationstatevalue)
   - [`useLocationStateSetter`](#uselocationstatesetter)
@@ -17,15 +17,15 @@
   - [`URLStore`](#urlstore)
   - [custom `Store`](#custom-store)
 
-## hooks
+## State hooks
 
-### hooks options
+### type `LocationStateDefinition`
 
 hooks の共通オプションは`LocationStateDefinition`として、以下のように定義されています。
 
 ```ts
-export type Refine<T> = (value: unknown) => T | undefined;
-export type LocationStateDefinition<
+type Refine<T> = (value: unknown) => T | undefined;
+type LocationStateDefinition<
   T,
   StoreName extends string = "session" | "url",
 > = {
@@ -46,12 +46,7 @@ export type LocationStateDefinition<
 オプションを指定して`useLocationState`を呼び出すことで、`useState`同様 state と setter を返します。
 
 ```ts
-const [state, setState] = useLocationState({
-  name,
-  defaultValue,
-  storeName,
-  refine,
-});
+const [state, setState] = useLocationState(locationStateDefinition);
 ```
 
 ### `useLocationStateValue`
@@ -59,13 +54,7 @@ const [state, setState] = useLocationState({
 基本的な使い化方は`useLocationState`と同じですが、state のみを返す点が異なります。外側に`LocationStateDefinition`を定義して利用することが可能です。
 
 ```ts
-const counter: LocationStateDefinition<number> = {
-  name: "count",
-  defaultValue: 0,
-  storeName: "session",
-};
-
-const count = useLocationStateValue(counter);
+const count = useLocationStateValue(locationStateDefinition);
 ```
 
 ### `useLocationStateSetter`
@@ -73,22 +62,7 @@ const count = useLocationStateValue(counter);
 基本的な使い化方は`useLocationState`と同じですが、setter のみを返す点が異なります。外側に`LocationStateDefinition`を定義して利用することが可能です。
 
 ```ts
-const counter: LocationStateDefinition<number> = {
-  name: "count",
-  defaultValue: 0,
-  storeName: "session",
-};
-
-const setCount = useLocationStateSetter(counter);
-```
-
-### `getHooksWith`
-
-`useLocationState`の`storeName`を型引数で指定し、カスタムフックを作成することができます。任意の Store を実装したい場合に便利です。
-
-```ts
-export const { useLocationState, useLocationStateValue, useLocationSetState } =
-  getHooksWith<"local" | "indexeddb">();
+const setCount = useLocationStateSetter(locationStateDefinition);
 ```
 
 ## Provider
@@ -149,3 +123,12 @@ TBW
 ### custom `Store`
 
 TBW
+
+### `getHooksWith`
+
+`useLocationState`の`storeName`を型引数で指定し、カスタムフックを作成することができます。任意の Store を実装したい場合に便利です。
+
+```ts
+export const { useLocationState, useLocationStateValue, useLocationSetState } =
+  getHooksWith<"local" | "indexeddb">();
+```
