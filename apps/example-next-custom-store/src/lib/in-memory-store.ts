@@ -47,9 +47,16 @@ export class InMemoryStore implements Store {
 
   load(locationKey: string) {
     this.currentKey = locationKey;
+    this.notifyAll();
   }
 
   save() {
     // Since it is in memory, nothing is done when saving.
+  }
+
+  private notifyAll() {
+    this.listeners.forEach((listeners) =>
+      listeners.forEach((listener) => listener()),
+    );
   }
 }
