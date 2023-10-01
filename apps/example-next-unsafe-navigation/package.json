@@ -1,0 +1,27 @@
+{
+  "name": "example-next-unsafe-navigation",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "integration-test": "playwright test",
+    "integration-test:ui": "playwright test --ui"
+  },
+  "dependencies": {
+    "@location-state/core": "workspace:*",
+    "@location-state/next": "workspace:*",
+    "@types/node": "20.5.6",
+    "@types/react": "18.2.23",
+    "@types/react-dom": "18.2.8",
+    "eslint": "8.48.0",
+    "eslint-config-next": "13.5.3",
+    "next": "13.5.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "5.2.2",
+    "zod": "3.22.2"
+  }
+}
