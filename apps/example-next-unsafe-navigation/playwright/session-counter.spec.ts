@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { describe } from "node:test";
 
-// Safari/Firefox: not implement Navigation API
+// Safari/Firefox: different from actual behavior
 test.skip(({ browserName }) => browserName !== "chromium", "Chromium only!");
 
 describe('"session counter" is restored on browser back.', () => {
