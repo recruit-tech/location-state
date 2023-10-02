@@ -23,7 +23,6 @@
 hooks の共通オプションは`LocationStateDefinition`として、以下のように定義されています。
 
 ```ts
-type Refine<T> = (value: unknown) => T | undefined;
 type LocationStateDefinition<
   T,
   StoreName extends string = "session" | "url",
@@ -39,6 +38,34 @@ type LocationStateDefinition<
 - `defaultValue`: state のデフォルト値
 - `storeName`: state の保存先。`session`と`url`の 2 つが利用可能（カスタマイズ可能）
 - `refine?`: state 復元時に検証・変換する関数。`undefined`を返すとデフォルト値となる
+
+### type `Refine`
+
+値を復元する時に検証・変換を行う関数です。`undefined`を返すとデフォルト値となります。
+
+```ts
+type Refine<T> = (value: unknown) => T | undefined;
+```
+
+- `value`: 復元を試みる値
+
+#### Example
+
+```ts
+const zodRefine =
+  <T extends unknown>(schema: ZodType<T>): Refine<T> =>
+  (value) => {
+    const result = schema.safeParse(value);
+    return result.success ? result.data : undefined;
+  };
+
+const [counter, setCounter] = useLocationState({
+  name: "counter",
+  defaultValue: 0,
+  storeName,
+  refine: zodRefine(z.number()),
+});
+```
 
 ### `useLocationState`
 
