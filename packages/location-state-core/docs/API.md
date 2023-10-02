@@ -77,7 +77,13 @@ declare const useLocationState: <T>(
 ) => [T, SetState<T>];
 ```
 
+#### Parameters
+
 - `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
+
+#### Returns
+
+state と state の更新関数を返します。
 
 #### Example
 
@@ -95,7 +101,13 @@ declare const useLocationStateValue: <T>(
 ) => T;
 ```
 
+#### Parameters
+
 - `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
+
+#### Returns
+
+state を返します。
 
 #### Example
 
@@ -113,7 +125,13 @@ declare const useLocationSetState: <T>(
 ) => SetState<T>;
 ```
 
+#### Parameters
+
 - `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
+
+#### Returns
+
+state の更新関数を返します。
 
 #### Example
 
@@ -138,6 +156,8 @@ declare function LocationStateProvider({
 }): JSX.Element;
 ```
 
+#### Props
+
 - `syncer?`: `location-state`が履歴と同期する方法を指定します。[`Syncer`](#syncer)を実装している必要があります。
 - `stores?`: `location-state`の state 保存先のレコードです。`storeName`で key を指定し、レコードの値は[`Store`](../src/stores/types.ts)を実装している必要があります。
 
@@ -161,7 +181,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
 export declare const createDefaultStores: (syncer: Syncer) => Stores;
 ```
 
+#### Parameters
+
 - `syncer?`: `location-state`が履歴と同期する方法を指定します。[`Syncer`](#syncer)を実装している必要があります。
+
+#### Returns
+
+`session`と`url`をプロパティに持った Object(`Stores`)を返します。
 
 #### Example
 
@@ -190,6 +216,8 @@ export declare class NavigationSyncer implements Syncer {
   constructor(navigation?: Navigation | undefined);
 }
 ```
+
+#### Parameters
 
 - `navigation?`: `window.navigation`、もしくは[Navigation API](https://github.com/WICG/navigation-api)の polyfill を渡してください。
 
