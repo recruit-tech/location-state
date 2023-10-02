@@ -18,6 +18,8 @@
 
 ## State hooks
 
+State hooks は [`<LocationStateProvider>`](#Locationstateprovider) の子孫コンポーネントでのみ利用可能です。
+
 ### type `LocationStateDefinition`
 
 hooks の共通オプションは`LocationStateDefinition`として、以下のように定義されています。
@@ -143,7 +145,7 @@ const setCount = useLocationStateSetter(locationStateDefinition);
 
 ### `<LocationStateProvider>`
 
-`LocationStateProvider`は`location-state`が提供するデフォルトの Provider です。`useLocationState`などの hooks を利用するためには必ず Provider でラップする必要があります。
+`LocationStateProvider`は`location-state`が提供するデフォルトの Provider です。
 
 ```ts
 declare function LocationStateProvider({
