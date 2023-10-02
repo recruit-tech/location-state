@@ -37,7 +37,7 @@ type LocationStateDefinition<
 - `name`: state を一意に判別する名前
 - `defaultValue`: state のデフォルト値
 - `storeName`: state の保存先。`session`と`url`の 2 つが利用可能（カスタマイズ可能）
-- `refine?`: state 復元時に検証・変換する関数。`undefined`を返すとデフォルト値となる
+- `refine?`: state 復元時に検証・変換する関数。[Refine](#type-refine)を参照
 
 ### type `Refine`
 
