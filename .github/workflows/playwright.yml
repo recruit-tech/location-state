@@ -10,7 +10,7 @@ jobs:
     timeout-minutes: 30
     name: Run playwright tests
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install and cache nodejs
         uses: actions/setup-node@v3
         with:
