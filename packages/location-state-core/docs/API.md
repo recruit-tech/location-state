@@ -156,28 +156,30 @@ type Syncer = {
 
 ### `NavigationSyncer`
 
-`NavigationSyncer`は[Navigation Api](https://github.com/WICG/navigation-api)を利用して履歴と同期する`Syncer`です。`NavigationSyncer`のコンストラクタには`window.navigation`相当の API を渡す必要があります。
+`NavigationSyncer`は[Navigation API](https://github.com/WICG/navigation-api)を利用して履歴と同期する`Syncer`です。`NavigationSyncer`のコンストラクタには`window.navigation`相当の API を渡す必要があります。
 
 ```ts
 export declare class NavigationSyncer implements Syncer {
-  private readonly navigation?;
   constructor(navigation?: Navigation | undefined);
-  key(): string | undefined;
-  sync({
-    listener,
-    signal,
-  }: {
-    listener: (key: string) => void;
-    signal: AbortSignal;
-  }): void;
-  updateURL(url: string): void;
 }
 ```
+
+- `navigation?`: `window.navigation`、もしくは[Navigation API](https://github.com/WICG/navigation-api)の polyfill を渡してください。
 
 #### Example
 
 ```tsx
 const navigationSyncer = new NavigationSyncer(window?.navigation);
+```
+
+#### `unsafeNavigation`
+
+Navigation API をサポートしていないブラウザのために、`unsafeNavigation`という API を提供しています。これは Navigation API の挙動を部分的にサポートした polyfill 的なものですが、実装範囲は必要最小限でライブラリとして**積極的なテスト・サポートをしているわけではありません**。
+
+```tsx
+import { unsafeNavigation } from "@location-state/core/unsafe-navigation";
+
+const navigationSyncer = new NavigationSyncer(unsafeNavigation);
 ```
 
 ## Store
@@ -199,10 +201,6 @@ type Store = {
 TBW
 
 ### `URLStore`
-
-TBW
-
-### custom `Store`
 
 TBW
 
