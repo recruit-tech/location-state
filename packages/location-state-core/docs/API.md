@@ -242,7 +242,9 @@ export declare class NavigationSyncer implements Syncer {
 #### Example
 
 ```tsx
-const navigationSyncer = new NavigationSyncer(window?.navigation);
+const navigationSyncer = new NavigationSyncer(
+  typeof window !== "undefined" ? window.navigation : undefined,
+);
 ```
 
 #### `unsafeNavigation`
