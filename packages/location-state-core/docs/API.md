@@ -193,7 +193,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 ### `createDefaultStores`
 
-`location-state`がデフォルトで利用する`stores`を作成します。`session`と`url`の 2 つが作成されます。
+`<LocationStateProvider>`がデフォルトで利用する[`Stores`](#type-stores)を作成します。`session`と`url`の 2 つの[`Store`](#store)を持ち、`session`は SessionStorage、`url`は URL のクエリパラメータに state を永続化します。
 
 ```ts
 export declare const createDefaultStores: (syncer: Syncer) => Stores;
@@ -205,7 +205,7 @@ export declare const createDefaultStores: (syncer: Syncer) => Stores;
 
 #### Returns
 
-`session`と`url`をプロパティに持った Object(`Stores`)を返します。
+`session`と`url`をプロパティに持った [`Stores`](#type-stores)を返します。
 
 #### Example
 
