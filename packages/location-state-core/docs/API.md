@@ -289,7 +289,7 @@ TBW
 
 ### `getHooksWith`
 
-`useLocationState`の`storeName`を型引数で指定し、カスタムフックを作成することができます。任意の Store を実装したい場合に便利です。
+`useLocationState`の`storeName`を型引数で指定し、型引数のストア名に束縛された State hooks を返します。任意の Store を実装したい場合に便利です。
 
 ```ts
 export const { useLocationState, useLocationStateValue, useLocationSetState } =
