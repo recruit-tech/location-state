@@ -32,7 +32,7 @@
     "@location-state/core": "workspace:*",
     "configs": "workspace:*",
     "eslint-config-custom": "workspace:*",
-    "next": "13.5.3"
+    "next": "13.5.4"
   },
   "peerDependencies": {
     "next": "^13.0.0",
