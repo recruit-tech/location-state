@@ -85,7 +85,15 @@ const [counter, setCounter] = useLocationState({
   name: "counter",
   defaultValue: 0,
   storeName,
-  refine: zodRefine(z.number()),
+  refine: zodRefine(
+    z.union([
+      z.number(),
+      z
+        .string()
+        .regex(/\d+/)
+        .transform((v) => Number(v)),
+    ]),
+  ),
 });
 ```
 
