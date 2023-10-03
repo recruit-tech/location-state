@@ -65,7 +65,7 @@ type Refine<T> = (value: unknown) => T | undefined;
 
 #### Parameters
 
-- `value`: 復元を試みる値
+- `value`: 永続先から取得された値
 
 #### Returns
 
