@@ -57,7 +57,7 @@ const [count, setCount] = useLocationValue(counter);
 
 ### type `Refine`
 
-値を復元する時に検証・変換を行う関数です。`undefined`を返すとデフォルト値となります。
+値を復元する時に検証・変換を行う関数です。
 
 ```ts
 type Refine<T> = (value: unknown) => T | undefined;
@@ -66,6 +66,10 @@ type Refine<T> = (value: unknown) => T | undefined;
 #### Parameters
 
 - `value`: 復元を試みる値
+
+#### Returns
+
+復元する値か`undefined`を返します。`undefined`を返すとデフォルト値となります。
 
 #### Example
 
