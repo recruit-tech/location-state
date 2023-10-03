@@ -11,6 +11,7 @@
 - [Syncer](#syncer)
   - [`NavigationSyncer`](#navigationsyncer)
 - [Store](#store)
+  - [type `Stores`](#type-stores)
   - [`StorageStore`](#storagestore)
   - [`URLStore`](#urlstore)
   - [custom `Store`](#custom-store)
@@ -175,8 +176,8 @@ declare function LocationStateProvider({
 
 #### Props
 
-- `syncer?`: `location-state`が履歴と同期する方法を指定します。[`Syncer`](#syncer)を実装している必要があります。
-- `stores?`: `location-state`の state 保存先のレコードです。`storeName`で key を指定し、レコードの値は[`Store`](../src/stores/types.ts)を実装している必要があります。
+- `syncer?`: 履歴と同期する[`Syncer`](#syncer)です。
+- `stores?`: state 永続先として指定できる[`Stores`](#type-stores)です。
 
 #### Example
 
@@ -266,6 +267,14 @@ type Store = {
   load(key: string): void;
   save(): void;
 };
+```
+
+### type `Stores`
+
+`Stores`は`Store`の key-value object です。
+
+```ts
+export type Stores = Record<string, Store>;
 ```
 
 ### `StorageStore`
