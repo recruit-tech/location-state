@@ -69,7 +69,7 @@ type Refine<T> = (value: unknown) => T | undefined;
 
 #### Returns
 
-復元する値か`undefined`を返します。`undefined`を返すとデフォルト値となります。
+復元する値か`undefined`を返します。`undefined`を返すとデフォルト値となります。復元値のバリデーションに失敗しても、例外は throw せず`undefined`を返すなどしてください。
 
 #### Example
 
@@ -86,6 +86,7 @@ const [counter, setCounter] = useLocationState({
   defaultValue: 0,
   storeName,
   refine: zodRefine(
+    // Migration of state that were previously type `string`, but are now type `number`.
     z.union([
       z.number(),
       z
