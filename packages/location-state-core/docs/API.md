@@ -177,7 +177,7 @@ const setCount = useLocationSetState(locationStateDefinition);
 
 ### `<LocationStateProvider>`
 
-`LocationStateProvider`は`location-state`が提供するデフォルトの Provider です。
+`location-state`の Context を提供します。
 
 ```ts
 declare function LocationStateProvider({
