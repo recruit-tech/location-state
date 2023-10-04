@@ -100,7 +100,7 @@ const [counter, setCounter] = useLocationState({
 
 ### `useLocationState`
 
-オプションを指定して`useLocationState`を呼び出すことで、`useState`同様 state と setter を返します。
+指定の`Store`から現在の履歴位置に関連付けられた状態のアクセスを可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
 
 ```ts
 declare const useLocationState: <T>(
@@ -124,7 +124,7 @@ const [state, setState] = useLocationState(locationStateDefinition);
 
 ### `useLocationStateValue`
 
-基本的な使い化方は`useLocationState`と同じですが、state のみを返す点が異なります。外側に`LocationStateDefinition`を定義して利用することが可能です。
+指定の`Store`から現在の履歴位置に関連付けられた状態の参照を可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
 
 ```ts
 declare const useLocationStateValue: <T>(
@@ -148,7 +148,7 @@ const count = useLocationStateValue(locationStateDefinition);
 
 ### `useLocationStateSetter`
 
-基本的な使い化方は`useLocationState`と同じですが、setter のみを返す点が異なります。外側に`LocationStateDefinition`を定義して利用することが可能です。
+指定の`Store`から現在の履歴位置に関連付けられた状態の更新を可能にします。
 
 ```ts
 declare const useLocationSetState: <T>(
