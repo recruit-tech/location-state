@@ -24,6 +24,9 @@ State hooks は [`<LocationStateProvider>`](#Locationstateprovider) の子孫コ
 
 hooks の共通オプションは`LocationStateDefinition`として、以下のように定義されています。
 
+> **Warning**
+> State hooks はこのオプションをレンダリング時に 1 度だけ評価します。**動的な値を渡さないよう注意してください**。
+
 ```ts
 type LocationStateDefinition<
   T,
