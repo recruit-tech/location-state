@@ -2,19 +2,19 @@
 
 - [State hooks](#State-hooks)
   - [type `LocationStateDefinition`](#type-LocationStateDefinition)
-  - [`useLocationState`](#useLocationState)
-  - [`useLocationStateValue`](#uselocationstatevalue)
-  - [`useLocationSetState`](#useLocationSetState)
+  - [function `useLocationState`](#function-useLocationState)
+  - [function `useLocationStateValue`](#function-uselocationstatevalue)
+  - [function `useLocationSetState`](#function-useLocationSetState)
 - [Provider](#provider)
-  - [`<LocationStateProvider>`](#Locationstateprovider)
-  - [`createDefaultStores`](#createDefaultStores)
+  - [component `<LocationStateProvider>`](#component-Locationstateprovider)
+  - [function `createDefaultStores`](#function-createDefaultStores)
 - [Syncer](#syncer)
-  - [`NavigationSyncer`](#NavigationSyncer)
+  - [class `NavigationSyncer`](#class-NavigationSyncer)
 - [Store](#store)
   - [type `Stores`](#type-stores)
-  - [`StorageStore`](#StorageStore)
-  - [`URLStore`](#URLStore)
-  - [`getHooksWith`](#gethookswith)
+  - [class `StorageStore`](#class-StorageStore)
+  - [class `URLStore`](#class-URLStore)
+  - [function`getHooksWith`](#function-gethookswith)
 
 ## State hooks
 
@@ -100,7 +100,7 @@ const [counter, setCounter] = useLocationState({
 });
 ```
 
-### `useLocationState`
+### function `useLocationState`
 
 指定の`Store`から現在の履歴位置に関連付けられた状態のアクセスを可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
 
@@ -128,7 +128,7 @@ const [state, setState] = useLocationState({
 });
 ```
 
-### `useLocationStateValue`
+### function `useLocationStateValue`
 
 指定の`Store`から現在の履歴位置に関連付けられた状態の参照を可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
 
@@ -152,7 +152,7 @@ state を返します。
 const count = useLocationStateValue(locationStateDefinition);
 ```
 
-### `useLocationSetState`
+### function `useLocationSetState`
 
 指定の`Store`から現在の履歴位置に関連付けられた状態の更新を可能にします。
 
@@ -178,7 +178,7 @@ const setCount = useLocationSetState(locationStateDefinition);
 
 ## Provider
 
-### `<LocationStateProvider>`
+### component `<LocationStateProvider>`
 
 `location-state`の Context を提供します。
 
@@ -210,7 +210,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-### `createDefaultStores`
+### function `createDefaultStores`
 
 `<LocationStateProvider>`がデフォルトで利用する[`Stores`](#type-stores)を作成します。
 
@@ -249,7 +249,7 @@ type Syncer = {
 };
 ```
 
-### `NavigationSyncer`
+### class `NavigationSyncer`
 
 `NavigationSyncer`は[Navigation API](https://github.com/WICG/navigation-api)を利用して履歴と同期する`Syncer`です。`NavigationSyncer`のコンストラクタには`window.navigation`相当の Object を渡す必要があります。
 
@@ -303,15 +303,15 @@ type Store = {
 export type Stores = Record<string, Store>;
 ```
 
-### `StorageStore`
+### class `StorageStore`
 
 TBW
 
-### `URLStore`
+### class `URLStore`
 
 TBW
 
-### `getHooksWith`
+### function `getHooksWith`
 
 `useLocationState`の`storeName`を型引数で指定し、型引数のストア名に束縛された State hooks を返します。任意の Store を実装したい場合に便利です。
 
