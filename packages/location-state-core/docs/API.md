@@ -2,19 +2,18 @@
 
 - [State hooks](#State-hooks)
   - [type `LocationStateDefinition`](#type-LocationStateDefinition)
-  - [`useLocationState`](#uselocationstate)
+  - [`useLocationState`](#useLocationState)
   - [`useLocationStateValue`](#uselocationstatevalue)
-  - [`useLocationStateSetter`](#uselocationstatesetter)
+  - [`useLocationSetState`](#useLocationSetState)
 - [Provider](#provider)
   - [`<LocationStateProvider>`](#Locationstateprovider)
-  - [`createDefaultStores`](#createdefaultstores)
+  - [`createDefaultStores`](#createDefaultStores)
 - [Syncer](#syncer)
-  - [`NavigationSyncer`](#navigationsyncer)
+  - [`NavigationSyncer`](#NavigationSyncer)
 - [Store](#store)
   - [type `Stores`](#type-stores)
-  - [`StorageStore`](#storagestore)
-  - [`URLStore`](#urlstore)
-  - [custom `Store`](#custom-store)
+  - [`StorageStore`](#StorageStore)
+  - [`URLStore`](#URLStore)
   - [`getHooksWith`](#gethookswith)
 
 ## State hooks
@@ -150,7 +149,7 @@ state を返します。
 const count = useLocationStateValue(locationStateDefinition);
 ```
 
-### `useLocationStateSetter`
+### `useLocationSetState`
 
 指定の`Store`から現在の履歴位置に関連付けられた状態の更新を可能にします。
 
@@ -171,7 +170,7 @@ state の更新関数を返します。
 #### Example
 
 ```ts
-const setCount = useLocationStateSetter(locationStateDefinition);
+const setCount = useLocationSetState(locationStateDefinition);
 ```
 
 ## Provider
