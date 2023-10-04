@@ -114,12 +114,16 @@ declare const useLocationState: <T>(
 
 #### Returns
 
-state と state の更新関数を返します。
+1 つ目は state、2 つ目の要素は state 更新関数の配列を返します。
 
 #### Example
 
 ```ts
-const [state, setState] = useLocationState(locationStateDefinition);
+const [state, setState] = useLocationState({
+  name: "state-name",
+  defaultValue,
+  storeName: "session",
+});
 ```
 
 ### `useLocationStateValue`
