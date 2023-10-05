@@ -27,4 +27,6 @@ jobs:
       - name: Install packages
         run: pnpm i --ignore-scripts
       - name: Check project
-        run: pnpm check
+        run: |
+          pnpm check
+          pnpm exec prettier --check .

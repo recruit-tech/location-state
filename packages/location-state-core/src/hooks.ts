@@ -87,7 +87,7 @@ export const getHooksWith = <StoreName extends string>() =>
     useLocationState: _useLocationState,
     useLocationStateValue: _useLocationStateValue,
     useLocationSetState: _useLocationSetState,
-  } as {
+  }) as {
     useLocationState: <T>(
       definition: LocationStateDefinition<T, StoreName>,
     ) => [T, SetState<T>];
@@ -97,7 +97,7 @@ export const getHooksWith = <StoreName extends string>() =>
     useLocationSetState: <T>(
       definition: LocationStateDefinition<T, StoreName>,
     ) => SetState<T>;
-  });
+  };
 
 export const { useLocationState, useLocationStateValue, useLocationSetState } =
   getHooksWith<DefaultStoreName>();
