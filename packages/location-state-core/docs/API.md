@@ -59,19 +59,19 @@ const [count, setCount] = useLocationValue(counter);
 
 ### type `Refine`
 
-`Store`から取り出された state を検証・変換する関数の型です。
+`Store`から取り出された state を検証・変換する関数の型です。復元値のバリデーションに失敗しても、例外は throw せず`undefined`を返すなどしてください。
 
 ```ts
-type Refine<T> = (value: unknown) => T | undefined;
+type Refine<T> = (state: unknown) => T | undefined;
 ```
 
 #### Parameters
 
-- `value`: 永続先から取得された値
+- `state`: 永続先から取得された値
 
 #### Returns
 
-復元する値か`undefined`を返します。`undefined`を返すとデフォルト値となります。復元値のバリデーションに失敗しても、例外は throw せず`undefined`を返すなどしてください。
+検証した state の値か変換した値、または`undefined`を返します。`undefined`を返すと State hooks は`LocationStateDefinition`の`defaultValue`で指定された値を state として返します。
 
 #### Example
 
