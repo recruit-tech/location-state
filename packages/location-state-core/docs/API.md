@@ -22,8 +22,6 @@ State hooks は [`<LocationStateProvider>`](#Locationstateprovider) の子孫コ
 
 ### type `LocationStateDefinition`
 
-State hooks の共通オプションは`LocationStateDefinition`として、以下のように定義されています。
-
 ```ts
 type LocationStateDefinition<
   T,
@@ -35,6 +33,8 @@ type LocationStateDefinition<
   refine?: Refine<T>;
 };
 ```
+
+State hooks の共通オプションは`LocationStateDefinition`として上記のように定義されています。
 
 > **Warning**
 > State hooks はこのオプションを最初のレンダリング時に 1 度だけ評価します。**再レンダリング時に異なる値を渡しても反映されません**。
@@ -59,11 +59,11 @@ const [count, setCount] = useLocationValue(counter);
 
 ### type `Refine`
 
-`Store`から取り出された state を検証・変換する関数の型です。復元値のバリデーションに失敗しても、例外は throw せず`undefined`を返すなどしてください。
-
 ```ts
 type Refine<T> = (state: unknown) => T | undefined;
 ```
+
+`Store`から取り出された state を検証・変換する関数の型です。復元値のバリデーションに失敗しても、例外は throw せず`undefined`を返すなどしてください。
 
 #### Parameters
 
@@ -102,13 +102,13 @@ const [counter, setCounter] = useLocationState({
 
 ### function `useLocationState`
 
-指定の`Store`から現在の履歴位置に関連付けられた状態のアクセスを可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
-
 ```ts
 declare const useLocationState: <T>(
   definition: LocationStateDefinition<T, DefaultStoreName>,
 ) => [T, SetState<T>];
 ```
+
+指定の`Store`から現在の履歴位置に関連付けられた状態のアクセスを可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
 
 #### Parameters
 
@@ -130,13 +130,13 @@ const [count, setCount] = useLocationState({
 
 ### function `useLocationStateValue`
 
-指定の`Store`から現在の履歴位置に関連付けられた状態の参照を可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
-
 ```ts
 declare const useLocationStateValue: <T>(
   definition: LocationStateDefinition<T, DefaultStoreName>,
 ) => T;
 ```
+
+指定の`Store`から現在の履歴位置に関連付けられた状態の参照を可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
 
 #### Parameters
 
@@ -158,13 +158,13 @@ const count = useLocationStateValue({
 
 ### function `useLocationSetState`
 
-指定の`Store`から現在の履歴位置に関連付けられた状態の更新を可能にします。
-
 ```ts
 declare const useLocationSetState: <T>(
   definition: LocationStateDefinition<T, DefaultStoreName>,
 ) => SetState<T>;
 ```
+
+指定の`Store`から現在の履歴位置に関連付けられた状態の更新を可能にします。
 
 #### Parameters
 
@@ -188,8 +188,6 @@ const setCount = useLocationSetState({
 
 ### component `<LocationStateProvider>`
 
-`location-state`の Context を提供します。
-
 ```ts
 declare function LocationStateProvider({
   children,
@@ -200,6 +198,8 @@ declare function LocationStateProvider({
   children: ReactNode;
 }): JSX.Element;
 ```
+
+`location-state`の Context を提供します。
 
 #### Props
 
@@ -220,11 +220,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 ### function `createDefaultStores`
 
-`<LocationStateProvider>`がデフォルトで利用する[`Stores`](#type-stores)を作成します。
-
 ```ts
 export declare const createDefaultStores: (syncer: Syncer) => Stores;
 ```
+
+`<LocationStateProvider>`がデフォルトで利用する[`Stores`](#type-stores)を作成します。
 
 #### Parameters
 
@@ -259,13 +259,13 @@ type Syncer = {
 
 ### class `NavigationSyncer`
 
-`NavigationSyncer`は[Navigation API](https://github.com/WICG/navigation-api)を利用して履歴と同期する`Syncer`です。`NavigationSyncer`のコンストラクタには`window.navigation`相当の Object を渡す必要があります。
-
 ```ts
 export declare class NavigationSyncer implements Syncer {
   constructor(navigation?: Navigation | undefined);
 }
 ```
+
+`NavigationSyncer`は[Navigation API](https://github.com/WICG/navigation-api)を利用して履歴と同期する`Syncer`です。`NavigationSyncer`のコンストラクタには`window.navigation`相当の Object を渡す必要があります。
 
 #### Parameters
 
@@ -291,8 +291,6 @@ const navigationSyncer = new NavigationSyncer(unsafeNavigation);
 
 ## Store
 
-`Store`は`location-state`の state 保存先のインターフェースです。`Store`を実装することで、state 保存先をカスタマイズすることができます。
-
 ```ts
 type Store = {
   subscribe(name: string, listener: Listener): () => void;
@@ -303,13 +301,15 @@ type Store = {
 };
 ```
 
-### type `Stores`
+`Store`は`location-state`の state 保存先のインターフェースです。`Store`を実装することで、state 保存先をカスタマイズすることができます。
 
-`Stores`は`Store`の key-value object です。
+### type `Stores`
 
 ```ts
 export type Stores = Record<string, Store>;
 ```
+
+`Stores`は`Store`の key-value object です。
 
 ### class `StorageStore`
 
@@ -321,9 +321,9 @@ TBW
 
 ### function `getHooksWith`
 
-`useLocationState`の`storeName`を型引数で指定し、型引数のストア名に束縛された State hooks を返します。任意の Store を実装したい場合に便利です。
-
 ```ts
 export const { useLocationState, useLocationStateValue, useLocationSetState } =
   getHooksWith<"local" | "indexeddb">();
 ```
+
+`useLocationState`の`storeName`を型引数で指定し、型引数のストア名に束縛された State hooks を返します。任意の Store を実装したい場合に便利です。
