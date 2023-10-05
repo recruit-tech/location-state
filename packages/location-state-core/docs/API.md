@@ -121,9 +121,9 @@ declare const useLocationState: <T>(
 #### Example
 
 ```ts
-const [state, setState] = useLocationState({
-  name: "state-name",
-  defaultValue,
+const [count, setCount] = useLocationState({
+  name: "count",
+  defaultValue: 0,
   storeName: "session",
 });
 ```
@@ -149,7 +149,11 @@ state を返します。
 #### Example
 
 ```ts
-const count = useLocationStateValue(locationStateDefinition);
+const count = useLocationStateValue({
+  name: "count",
+  defaultValue: 0,
+  storeName: "session",
+});
 ```
 
 ### function `useLocationSetState`
@@ -173,7 +177,11 @@ state の更新関数を返します。
 #### Example
 
 ```ts
-const setCount = useLocationSetState(locationStateDefinition);
+const setCount = useLocationSetState({
+  name: "count",
+  defaultValue: 0,
+  storeName: "session",
+});
 ```
 
 ## Provider
