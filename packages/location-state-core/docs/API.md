@@ -41,10 +41,10 @@ type LocationStateDefinition<
 
 #### Parameters
 
-- `name`: state を一意に判別する名前
-- `defaultValue`: state のデフォルト値
-- `storeName`: state の保存先。`session`と`url`の 2 つが利用可能（カスタマイズ可能）
-- `refine?`: state 復元時に検証・変換する関数。[Refine](#type-refine)を参照
+- `name`: 現在の履歴位置で state を一意に判別する名前
+- `defaultValue`: 現在の履歴位置における state のデフォルト値
+- `storeName`: 現在の履歴位置における state の保存先。デフォルトでは`session`と`url`の 2 つが利用可能（[カスタマイズ可能](#function-gethookswith)）
+- `refine?`: `Store`から取り出された state を検証・変換する関数。[Refine](#type-refine)を参照
 
 #### Example
 
@@ -59,7 +59,7 @@ const [count, setCount] = useLocationValue(counter);
 
 ### type `Refine`
 
-値を復元する時に検証・変換を行う関数です。
+`Store`から取り出された state を検証・変換する関数の型です。
 
 ```ts
 type Refine<T> = (value: unknown) => T | undefined;
