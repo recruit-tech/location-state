@@ -41,9 +41,9 @@ State hooks の共通オプションは`LocationStateDefinition`として上記�
 
 #### Parameters
 
-- `name`: 現在の履歴位置で state を一意に判別する名前
-- `defaultValue`: 現在の履歴位置における state のデフォルト値
-- `storeName`: 現在の履歴位置における state の保存先。デフォルトでは`session`と`url`の 2 つが利用可能（[カスタマイズ可能](#function-gethookswith)）
+- `name`: `storeName`で指定された`Store`内における現在の履歴位置で state を一意に識別する名前
+- `defaultValue`: `Store`に state がない場合に State hooks が返すデフォルト値
+- `storeName`: state の保存先となる`Store`の名前。デフォルトでは`"session"`と`"url"`の 2 つが利用可能（[カスタマイズ可能](#function-gethookswith)）
 - `refine?`: `Store`から取り出された state を検証・変換する関数。[Refine](#type-refine)を参照
 
 #### Example
