@@ -42,7 +42,7 @@ State hooks の共通オプションは`LocationStateDefinition`として上記�
 #### Type Parameters
 
 - `T`: state の型
-- `StoreName`: state の保存先となる`Store`の key 名型
+- `StoreName`: `Store`の名前として指定できる型
 
 #### Parameters
 
@@ -68,7 +68,7 @@ const [count, setCount] = useLocationValue(counter);
 type Refine<T> = (state: unknown) => T | undefined;
 ```
 
-`Store`から取り出された state を検証・変換する関数の型です。復元値のバリデーションに失敗しても、例外は throw しないでください。
+`Store`から取り出された state を検証・変換する関数の型です。バリデーションに失敗しても、例外は throw しないでください。
 
 #### Type Parameters
 
