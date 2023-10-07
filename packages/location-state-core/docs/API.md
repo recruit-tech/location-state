@@ -119,6 +119,10 @@ declare const useLocationState: <T>(
 
 指定の`Store`から現在の履歴位置に関連付けられた状態のアクセスを可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
 
+#### Type Parameters
+
+- `T`: state の型
+
 #### Parameters
 
 - `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
@@ -147,6 +151,10 @@ declare const useLocationStateValue: <T>(
 
 指定の`Store`から現在の履歴位置に関連付けられた状態の参照を可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
 
+#### Type Parameters
+
+- `T`: state の型
+
 #### Parameters
 
 - `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
@@ -174,6 +182,10 @@ declare const useLocationSetState: <T>(
 ```
 
 指定の`Store`から現在の履歴位置に関連付けられた状態の更新を可能にします。
+
+#### Type Parameters
+
+- `T`: state の型
 
 #### Parameters
 
