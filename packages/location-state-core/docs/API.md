@@ -63,7 +63,7 @@ const [count, setCount] = useLocationValue(counter);
 type Refine<T> = (state: unknown) => T | undefined;
 ```
 
-`Store`から取り出された state を検証・変換する関数の型です。復元値のバリデーションに失敗しても、例外は throw せず`undefined`を返すなどしてください。
+`Store`から取り出された state を検証・変換する関数の型です。復元値のバリデーションに失敗しても、例外は throw しないでください。
 
 #### Parameters
 
