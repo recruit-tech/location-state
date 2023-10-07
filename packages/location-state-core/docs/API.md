@@ -70,6 +70,10 @@ type Refine<T> = (state: unknown) => T | undefined;
 
 `Store`から取り出された state を検証・変換する関数の型です。復元値のバリデーションに失敗しても、例外は throw しないでください。
 
+#### Type Parameters
+
+- `T`: state の型
+
 #### Parameters
 
 - `state`: 永続先から取得された値
