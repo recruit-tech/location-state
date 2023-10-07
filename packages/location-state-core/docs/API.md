@@ -39,11 +39,16 @@ State hooks の共通オプションは`LocationStateDefinition`として上記�
 > **Warning**
 > State hooks はこのオプションを最初のレンダリング時に 1 度だけ評価します。**再レンダリング時に異なる値を渡しても反映されません**。
 
+#### Type Parameters
+
+- `T`: state の型
+- `StoreName`: state の保存先となる`Store`の key 名型
+
 #### Parameters
 
 - `name`: `storeName`で指定された`Store`内における現在の履歴位置で state を一意に識別する名前
 - `defaultValue`: `Store`に state がない場合に State hooks が返すデフォルト値
-- `storeName`: state の保存先となる`Store`の名前。デフォルトでは`"session"`と`"url"`の 2 つが利用可能（[カスタマイズ可能](#function-gethookswith)）
+- `storeName`: state の保存先となる`Store`の名前。デフォルトでは`"session"`と`"url"`の 2 つが利用可能（型引数`StoreName`で変更可能）
 - `refine?`: `Store`から取り出された state を検証・変換する関数。[Refine](#type-refine)を参照
 
 #### Example
