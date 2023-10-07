@@ -247,8 +247,6 @@ const defaultStores = createDefaultStores(syncer);
 
 ## Syncer
 
-`Syncer`は履歴と同期するためのインターフェースです。`Syncer`を実装することで、履歴と同期する方法をカスタマイズすることができます。
-
 ```ts
 type Syncer = {
   key(): string | undefined;
@@ -256,6 +254,8 @@ type Syncer = {
   updateURL(url: string): void;
 };
 ```
+
+`Syncer`は履歴と同期するためのインターフェースです。`Syncer`を実装することで、履歴と同期する方法をカスタマイズすることができます。
 
 ### class `NavigationSyncer`
 
