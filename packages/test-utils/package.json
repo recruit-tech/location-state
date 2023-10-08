@@ -15,7 +15,7 @@
     "uuid": "9.0.1"
   },
   "devDependencies": {
-    "@types/uuid": "9.0.4",
+    "@types/uuid": "9.0.5",
     "configs": "workspace:*",
     "eslint-config-custom": "workspace:*"
   }
