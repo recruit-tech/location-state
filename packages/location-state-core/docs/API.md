@@ -6,7 +6,7 @@
 
 ## State hooks
 
-State hooks は [`<LocationStateProvider>`](#Locationstateprovider) の子孫コンポーネントでのみ利用可能です。
+State hooks can only be used in [`<LocationStateProvider>`](#LocationStateProvider) below components.
 
 ### type `LocationStateDefinition`
 
@@ -22,22 +22,22 @@ type LocationStateDefinition<
 };
 ```
 
-State hooks の共通オプションは`LocationStateDefinition`として上記のように定義されています。
+Common options for state hooks are defined `LocationStateDefinition`.
 
 > **Warning**
-> State hooks はこのオプションを最初のレンダリング時に 1 度だけ評価します。**再レンダリング時に異なる値を渡しても反映されません**。
+> State hooks evaluates this option only once at the first rendering.**Be careful to pass different values when re-rendering, as they will not be reflected.**
 
 #### Type Parameters
 
-- `T`: state の型
-- `StoreName`: `Store`の名前として指定できる型
+- `T`: Type of state.
+- `StoreName`: The type of the `Store` name that can be specified.
 
 #### Parameters
 
-- `name`: `storeName`で指定された`Store`内における現在の履歴位置で state を一意に識別する名前
-- `defaultValue`: `Store`に state がない場合に State hooks が返すデフォルト値
-- `storeName`: state の保存先となる`Store`の名前。デフォルトでは`"session"`と`"url"`の 2 つが利用可能（型引数`StoreName`で変更可能）
-- `refine?`: `Store`から取り出された state を検証・変換する関数。[Refine](#type-refine)を参照
+- `name`: A name that uniquely identifies the state at the current historical location in the `Store` specified by `storeName`.
+- `defaultValue`: Default value returned by state hooks if there is no state in `Store`.
+- `storeName`: The name of the `Store` where the state will be stored. By default, `"session"` and `"url"` are available. You can be changed with the type parameter `StoreName`.
+- `refine?`: Function to validate and convert a state obtained from `Store`. See [Refine](#type-refine).
 
 #### Example
 
@@ -56,19 +56,19 @@ const [count, setCount] = useLocationValue(counter);
 type Refine<T> = (state: unknown) => T | undefined;
 ```
 
-`Store`から取り出された state を検証・変換する関数の型です。バリデーションに失敗しても、例外は throw しないでください。
+The type of the function that validate and convert the state obtained from the `Store`. You should not throw error if validation fails.
 
 #### Type Parameters
 
-- `T`: state の型
+- `T`: Type of state.
 
 #### Parameters
 
-- `state`: 永続先から取得された値
+- `state`: The value obtained from store.
 
 #### Returns
 
-検証した state の値か変換した値、または`undefined`を返します。`undefined`を返すと State hooks は`LocationStateDefinition`の`defaultValue`で指定された値を state として返します。
+Returns the validated and converted value, or `undefined`. If `undefined` is returned, state hooks will return the value specified by `defaultValue` of `LocationStateDefinition` as state.
 
 #### Example
 
