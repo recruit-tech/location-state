@@ -6,7 +6,7 @@
 
 ## State hooks
 
-State hooks can only be used in [`<LocationStateProvider>`](#LocationStateProvider) below components.
+State hooks are only available in descendant components of [`<LocationStateProvider>`](#LocationStateProvider).
 
 ### type `LocationStateDefinition`
 
@@ -22,22 +22,22 @@ type LocationStateDefinition<
 };
 ```
 
-Common options for state hooks are defined `LocationStateDefinition`.
+Common options for state hooks `LocationStateDefinition`.
 
 > **Warning**
-> State hooks evaluates this option only once at the first rendering.**Be careful to pass different values when re-rendering, as they will not be reflected.**
+> State hooks evaluates this option only once at the first rendering.**Passing different values at re-rendering is not applied.**
 
 #### Type Parameters
 
 - `T`: Type of state.
-- `StoreName`: The type of the `Store` name that can be specified.
+- `StoreName`: The type of the `Store` name.
 
 #### Parameters
 
-- `name`: A name that uniquely identifies the state at the current historical location in the `Store` specified by `storeName`.
-- `defaultValue`: Default value returned by state hooks if there is no state in `Store`.
+- `name`: A unique name that identifies the state at the current historical location in the `Store` specified by `storeName`.
+- `defaultValue`: Default value returned by state hooks if there is no state in the `Store`.
 - `storeName`: The name of the `Store` where the state will be stored. By default, `"session"` and `"url"` are available. You can be changed with the type parameter `StoreName`.
-- `refine?`: Function to validate and convert a state obtained from `Store`. See [Refine](#type-refine).
+- `refine?`: Function to validate and/or convert a state retrieved from the `Store`. See [Refine](#type-refine).
 
 #### Example
 
@@ -56,7 +56,7 @@ const [count, setCount] = useLocationValue(counter);
 type Refine<T> = (state: unknown) => T | undefined;
 ```
 
-The type of the function that validate and convert the state obtained from the `Store`. You should not throw error if validation fails.
+The type of the function that validate and/or convert the state retrieved from the `Store`. It must not throw an error if validation fails.
 
 #### Type Parameters
 
@@ -64,11 +64,11 @@ The type of the function that validate and convert the state obtained from the `
 
 #### Parameters
 
-- `state`: The value obtained from store.
+- `state`: The value retrieved from store.
 
 #### Returns
 
-Returns the validated and converted value, or `undefined`. If `undefined` is returned, state hooks will return the value specified by `defaultValue` of `LocationStateDefinition` as state.
+Validated state value, converted from it, or undefined. If `undefined` is returned, State hooks will return the `defaultValue` of the `LocationStateDefinition` as state.
 
 #### Example
 
