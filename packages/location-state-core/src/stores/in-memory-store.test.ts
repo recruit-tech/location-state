@@ -87,12 +87,14 @@ test("When the key is restored, the slice value is also restored.", () => {
   // Arrange
   const store = new InMemoryStore();
   store.load("initial");
-  store.set("foo", "updated");
+  store.set("foo", "updated initial");
+  store.save();
   store.load("second");
+  store.set("foo", "updated second");
   // Act
   store.load("initial");
   // Assert
-  expect(store.get("foo")).toBe("updated");
+  expect(store.get("foo")).toBe("updated initial");
 });
 
 test("On `load` called, all listener notified.", async () => {
@@ -104,6 +106,8 @@ test("On `load` called, all listener notified.", async () => {
   store.subscribe("foo", listener2);
   // Act
   store.load("initial");
+  // Generate and execute microtasks with Promise to wait for listener execution.
+  await Promise.resolve();
   // Assert
   expect(listener1).toBeCalledTimes(1);
   expect(listener2).toBeCalledTimes(1);

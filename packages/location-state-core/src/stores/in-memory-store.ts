@@ -1,9 +1,12 @@
 import { Listener, Store } from "./types";
 
+type State = Record<string, unknown>;
+
 export class InMemoryStore implements Store {
   private state: Record<string, unknown> = {};
+  private storage: Map<string, State> = new Map();
   private readonly listeners: Map<string, Set<Listener>> = new Map();
-  private currentKey: string = "initial-key";
+  private currentKey: string | null = null;
 
   subscribe(name: string, listener: Listener) {
     const listeners = this.listeners.get(name);
@@ -27,36 +30,40 @@ export class InMemoryStore implements Store {
     this.listeners.get(name)?.forEach((listener) => listener());
   }
 
-  get(name: string) {
-    return this.state[this.stateKey(name)];
-  }
-
-  set(name: string, value: unknown) {
-    const key = this.stateKey(name);
-    if (typeof value === "undefined") {
-      delete this.state[key];
-    } else {
-      this.state[key] = value;
-    }
-    this.notify(name);
-  }
-
-  private stateKey(name: string) {
-    return `${this.currentKey}:${name}`;
-  }
-
-  load(locationKey: string) {
-    this.currentKey = locationKey;
-    this.notifyAll();
-  }
-
-  save() {
-    // Since it is in memory, nothing is done when saving.
-  }
-
   private notifyAll() {
     this.listeners.forEach((listeners) =>
       listeners.forEach((listener) => listener()),
     );
+  }
+
+  get(name: string) {
+    return this.state[name];
+  }
+
+  set(name: string, value: unknown) {
+    if (typeof value === "undefined") {
+      delete this.state[name];
+    } else {
+      this.state[name] = value;
+    }
+    this.notify(name);
+  }
+
+  load(locationKey: string) {
+    if (this.currentKey === locationKey) return;
+    this.currentKey = locationKey;
+    this.state = this.storage.get(locationKey) ?? {};
+    queueMicrotask(() => this.notifyAll());
+  }
+
+  save() {
+    if (!this.currentKey) {
+      return;
+    }
+    if (Object.keys(this.state).length === 0) {
+      this.storage.delete(this.currentKey);
+      return;
+    }
+    this.storage.set(this.currentKey, this.state);
   }
 }
