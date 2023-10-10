@@ -8,10 +8,7 @@ State management library for React that synchronizes with history location suppo
 ## Features
 
 - Manage the state to synchronize with the history location.
-- By default, the following saving processes are supported.
-  - Session Storage
-  - URL persistent
-  - In memory
+- By default, supports Session Storage and URL as persistent destinations.
 
 ## Packages
 
