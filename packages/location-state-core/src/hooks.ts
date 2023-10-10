@@ -2,7 +2,7 @@ import { LocationStateContext } from "./context";
 import { DefaultStoreName } from "./types";
 import { useCallback, useContext, useState, useSyncExternalStore } from "react";
 
-export type Refine<T> = (value: unknown) => T | undefined;
+export type Refine<T> = (state: unknown) => T | undefined;
 
 export type LocationStateDefinition<
   T,
