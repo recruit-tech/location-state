@@ -22,7 +22,7 @@ type LocationStateDefinition<
 };
 ```
 
-Common options for state hooks `LocationStateDefinition`.
+Common options for state hooks.
 
 > **Warning**
 > State hooks evaluates this option only once at the first rendering.**Passing different values at re-rendering is not applied.**
@@ -34,7 +34,7 @@ Common options for state hooks `LocationStateDefinition`.
 
 #### Parameters
 
-- `name`: A unique name that identifies the state at the current historical location in the `Store` specified by `storeName`.
+- `name`: A unique name that identifies the state at the current history location in the `Store` specified by `storeName`.
 - `defaultValue`: Default value returned by state hooks if there is no state in the `Store`.
 - `storeName`: The name of the `Store` where the state will be stored. By default, `"session"` and `"url"` are available. You can be changed with the type parameter `StoreName`.
 - `refine?`: Function to validate and/or convert a state retrieved from the `Store`. See [Refine](#type-refine).
@@ -68,7 +68,7 @@ The type of the function that validate and/or convert the state retrieved from t
 
 #### Returns
 
-Validated state value, converted from it, or undefined. If `undefined` is returned, State hooks will return the `defaultValue` of the `LocationStateDefinition` as state.
+Validated state value, converted from it, or undefined. If `undefined` is returned, state hooks will return the `defaultValue` of the `LocationStateDefinition` as state.
 
 #### Example
 
