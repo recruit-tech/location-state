@@ -3,6 +3,9 @@
 - [State hooks](#State-hooks)
   - [type `LocationStateDefinition`](#type-LocationStateDefinition)
   - [type `Refine`](#type-Refine)
+  - [function `useLocationState`](#function-useLocationState)
+  - [function `useLocationStateValue`](#function-useLocationStateValue)
+  - [function `useLocationSetState`](#function-useLocationSetState)
 
 ## State hooks
 
@@ -94,5 +97,101 @@ const [counter, setCounter] = useLocationState({
         .transform((v) => Number(v)),
     ]),
   ),
+});
+```
+
+### function `useLocationState`
+
+```ts
+declare const useLocationState: <T>(
+  definition: LocationStateDefinition<T, DefaultStoreName>,
+) => [T, SetState<T>];
+```
+
+指定の`Store`から現在の履歴位置に関連付けられた状態のアクセスを可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
+
+#### Type Parameters
+
+- `T`: state の型
+
+#### Parameters
+
+- `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
+
+#### Returns
+
+1 つ目は state、2 つ目の要素は state 更新関数の配列を返します。
+
+#### Example
+
+```ts
+const [count, setCount] = useLocationState({
+  name: "count",
+  defaultValue: 0,
+  storeName: "session",
+});
+```
+
+### function `useLocationStateValue`
+
+```ts
+declare const useLocationStateValue: <T>(
+  definition: LocationStateDefinition<T, DefaultStoreName>,
+) => T;
+```
+
+指定の`Store`から現在の履歴位置に関連付けられた状態の参照を可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
+
+#### Type Parameters
+
+- `T`: state の型
+
+#### Parameters
+
+- `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
+
+#### Returns
+
+state を返します。
+
+#### Example
+
+```ts
+const count = useLocationStateValue({
+  name: "count",
+  defaultValue: 0,
+  storeName: "session",
+});
+```
+
+### function `useLocationSetState`
+
+```ts
+declare const useLocationSetState: <T>(
+  definition: LocationStateDefinition<T, DefaultStoreName>,
+) => SetState<T>;
+```
+
+指定の`Store`から現在の履歴位置に関連付けられた状態の更新を可能にします。
+
+#### Type Parameters
+
+- `T`: state の型
+
+#### Parameters
+
+- `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
+
+#### Returns
+
+state の更新関数を返します。
+
+#### Example
+
+```ts
+const setCount = useLocationSetState({
+  name: "count",
+  defaultValue: 0,
+  storeName: "session",
 });
 ```
