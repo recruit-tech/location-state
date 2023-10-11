@@ -5,9 +5,10 @@ type State = Record<string, unknown>;
 
 export class InMemoryStore implements Store {
   private state: Record<string, unknown> = {};
-  private storage: Map<string, State> = new Map();
   private eventEmitter = new EventEmitter();
   private currentKey: string | null = null;
+
+  constructor(private readonly storage: Map<string, State> = new Map()) {}
 
   subscribe(name: string, listener: Listener) {
     this.eventEmitter.on(name, listener);
