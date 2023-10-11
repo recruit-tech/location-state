@@ -108,19 +108,19 @@ declare const useLocationState: <T>(
 ) => [T, SetState<T>];
 ```
 
-指定の`Store`から現在の履歴位置に関連付けられた状態のアクセスを可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
+Allows access to the state associated with the current history location from a specified `Store`. This hook subscribes to re-render the component if there is a change in the state.
 
 #### Type Parameters
 
-- `T`: state の型
+- `T`: Type of state.
 
 #### Parameters
 
-- `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
+- `definition`: See [`LocationStateDefinition`](#type-locationstatedefinition).
 
 #### Returns
 
-1 つ目は state、2 つ目の要素は state 更新関数の配列を返します。
+Returns an array that first element is a state and the second element is a state update function.
 
 #### Example
 
@@ -140,19 +140,19 @@ declare const useLocationStateValue: <T>(
 ) => T;
 ```
 
-指定の`Store`から現在の履歴位置に関連付けられた状態の参照を可能にします。このフックは指定された状態に変更があった場合に、コンポーネントを再レンダリングするようにサブスクライブします。
+Allows a reference to the state associated with the current history location from a specified `Store`. This hook subscribes to re-render the component if there is a change in the state.
 
 #### Type Parameters
 
-- `T`: state の型
+- `T`: Type of state.
 
 #### Parameters
 
-- `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
+- `definition`: See [`LocationStateDefinition`](#type-locationstatedefinition).
 
 #### Returns
 
-state を返します。
+Returns state.
 
 #### Example
 
@@ -172,7 +172,7 @@ declare const useLocationSetState: <T>(
 ) => SetState<T>;
 ```
 
-指定の`Store`から現在の履歴位置に関連付けられた状態の更新を可能にします。
+Allows updating of the state associated with the current history location from a specified `Store`.
 
 #### Type Parameters
 
@@ -180,11 +180,11 @@ declare const useLocationSetState: <T>(
 
 #### Parameters
 
-- `definition`: [`LocationStateDefinition`](#type-locationstatedefinition)を参照
+- `definition`: See [`LocationStateDefinition`](#type-locationstatedefinition).
 
 #### Returns
 
-state の更新関数を返します。
+Returns the update function of state.
 
 #### Example
 
