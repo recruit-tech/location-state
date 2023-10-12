@@ -5,14 +5,14 @@ type State = Record<string, unknown>;
 
 export class InMemoryStore implements Store {
   private state: Record<string, unknown> = {};
-  private eventEmitter = new EventEmitter();
+  private events = new EventEmitter();
   private currentKey: string | null = null;
 
   constructor(private readonly storage: Map<string, State> = new Map()) {}
 
   subscribe(name: string, listener: Listener) {
-    this.eventEmitter.on(name, listener);
-    return () => this.eventEmitter.off(name, listener);
+    this.events.on(name, listener);
+    return () => this.events.off(name, listener);
   }
 
   get(name: string) {
@@ -25,14 +25,14 @@ export class InMemoryStore implements Store {
     } else {
       this.state[name] = value;
     }
-    this.eventEmitter.emit(name);
+    this.events.emit(name);
   }
 
   load(locationKey: string) {
     if (this.currentKey === locationKey) return;
     this.currentKey = locationKey;
     this.state = this.storage.get(locationKey) ?? {};
-    queueMicrotask(() => this.eventEmitter.emitAll());
+    queueMicrotask(() => this.events.emitAll());
   }
 
   save() {

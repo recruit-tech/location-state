@@ -38,7 +38,7 @@ export const defaultSearchParamEncoder = searchParamEncoder(
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
   private syncedURL: string | undefined;
-  private eventEmitter = new EventEmitter();
+  private events = new EventEmitter();
 
   constructor(
     private readonly syncer: Syncer,
@@ -46,8 +46,8 @@ export class URLStore implements Store {
   ) {}
 
   subscribe(name: string, listener: Listener) {
-    this.eventEmitter.on(name, listener);
-    return () => this.eventEmitter.off(name, listener);
+    this.events.on(name, listener);
+    return () => this.events.off(name, listener);
   }
 
   get(name: string) {
@@ -69,7 +69,7 @@ export class URLStore implements Store {
       console.error(e);
     }
 
-    this.eventEmitter.emit(name);
+    this.events.emit(name);
   }
 
   load() {
@@ -88,7 +88,7 @@ export class URLStore implements Store {
       this.syncedURL = url;
     }
 
-    queueMicrotask(() => this.eventEmitter.emitAll());
+    queueMicrotask(() => this.events.emitAll());
   }
 
   save() {
