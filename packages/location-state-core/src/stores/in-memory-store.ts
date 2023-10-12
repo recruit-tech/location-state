@@ -32,7 +32,7 @@ export class InMemoryStore implements Store {
     if (this.currentKey === locationKey) return;
     this.currentKey = locationKey;
     this.state = this.storage.get(locationKey) ?? {};
-    queueMicrotask(() => this.events.emitAll());
+    this.events.deferEmitAll();
   }
 
   save() {

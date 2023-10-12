@@ -43,7 +43,7 @@ export class StorageStore implements Store {
       console.error(e);
       this.state = {};
     }
-    queueMicrotask(() => this.events.emitAll());
+    this.events.deferEmitAll();
   }
 
   save() {

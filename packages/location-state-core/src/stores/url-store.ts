@@ -88,7 +88,7 @@ export class URLStore implements Store {
       this.syncedURL = url;
     }
 
-    queueMicrotask(() => this.events.emitAll());
+    this.events.deferEmitAll();
   }
 
   save() {

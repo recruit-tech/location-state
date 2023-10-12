@@ -29,4 +29,8 @@ export class EventEmitter {
       listeners.forEach((listener) => listener()),
     );
   }
+
+  deferEmitAll() {
+    queueMicrotask(() => this.emitAll());
+  }
 }
