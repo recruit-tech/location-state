@@ -23,7 +23,7 @@ jobs:
       - name: Install packages
         run: pnpm i --ignore-scripts
       - name: Install playwright browsers
-        run: pnpm dlx playwright install --with-deps
+        run: pnpm exec playwright install --with-deps
       - name: Build project
         run: pnpm build
       - name: Run integration-test
