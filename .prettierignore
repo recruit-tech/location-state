@@ -6,3 +6,4 @@
 dist
 types
 pnpm-lock.yaml
+playwright-report
