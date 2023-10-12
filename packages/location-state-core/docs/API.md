@@ -103,6 +103,10 @@ const [counter, setCounter] = useLocationState({
 ### function `useLocationState`
 
 ```ts
+type Updater<T> = (prev: T) => T;
+type UpdaterOrValue<T> = T | Updater<T>;
+type SetState<T> = (updaterOrValue: UpdaterOrValue<T>) => void;
+
 declare const useLocationState: <T>(
   definition: LocationStateDefinition<T, DefaultStoreName>,
 ) => [T, SetState<T>];
@@ -167,6 +171,10 @@ const count = useLocationStateValue({
 ### function `useLocationSetState`
 
 ```ts
+type Updater<T> = (prev: T) => T;
+type UpdaterOrValue<T> = T | Updater<T>;
+type SetState<T> = (updaterOrValue: UpdaterOrValue<T>) => void;
+
 declare const useLocationSetState: <T>(
   definition: LocationStateDefinition<T, DefaultStoreName>,
 ) => SetState<T>;
