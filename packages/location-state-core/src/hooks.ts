@@ -15,7 +15,7 @@ export type LocationStateDefinition<
 };
 
 type Updater<T> = (prev: T) => T;
-type UpdaterOrValue<T> = T | Updater<T>;
+type UpdaterOrValue<T> = Updater<T> | T;
 type SetState<T> = (updaterOrValue: UpdaterOrValue<T>) => void;
 
 const useStore = (storeName: string) => {
