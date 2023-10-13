@@ -1,3 +1,4 @@
+import { EventEmitter } from "./event-emitter";
 import { jsonSerializer } from "./serializer";
 import { Listener, StateSerializer, Store } from "./types";
 
@@ -5,7 +6,7 @@ export const locationKeyPrefix = "__location_state_";
 
 export class StorageStore implements Store {
   private state: Record<string, unknown> = {};
-  private readonly listeners: Map<string, Set<Listener>> = new Map();
+  private events = new EventEmitter();
   private currentKey: string | null = null;
 
   constructor(
@@ -14,31 +15,8 @@ export class StorageStore implements Store {
   ) {}
 
   subscribe(name: string, listener: Listener) {
-    const listeners = this.listeners.get(name);
-    if (listeners) {
-      listeners.add(listener);
-    } else {
-      this.listeners.set(name, new Set([listener]));
-    }
-    return () => this.unsubscribe(name, listener);
-  }
-
-  private unsubscribe(name: string, listener: Listener) {
-    const listeners = this.listeners.get(name);
-    listeners?.delete(listener);
-    if (listeners?.size === 0) {
-      this.listeners.delete(name);
-    }
-  }
-
-  private notify(name: string) {
-    this.listeners.get(name)?.forEach((listener) => listener());
-  }
-
-  private notifyAll() {
-    this.listeners.forEach((listeners) =>
-      listeners.forEach((listener) => listener()),
-    );
+    this.events.on(name, listener);
+    return () => this.events.off(name, listener);
   }
 
   get(name: string) {
@@ -51,7 +29,7 @@ export class StorageStore implements Store {
     } else {
       this.state[name] = value;
     }
-    this.notify(name);
+    this.events.emit(name);
   }
 
   load(locationKey: string) {
@@ -65,7 +43,7 @@ export class StorageStore implements Store {
       console.error(e);
       this.state = {};
     }
-    queueMicrotask(() => this.notifyAll());
+    this.events.deferEmitAll();
   }
 
   save() {

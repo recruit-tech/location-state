@@ -1,4 +1,5 @@
 import { Syncer } from "../types";
+import { EventEmitter } from "./event-emitter";
 import { jsonSerializer } from "./serializer";
 import { Listener, Store, StateSerializer } from "./types";
 
@@ -37,7 +38,7 @@ export const defaultSearchParamEncoder = searchParamEncoder(
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
   private syncedURL: string | undefined;
-  private readonly listeners: Map<string, Set<Listener>> = new Map();
+  private events = new EventEmitter();
 
   constructor(
     private readonly syncer: Syncer,
@@ -45,31 +46,8 @@ export class URLStore implements Store {
   ) {}
 
   subscribe(name: string, listener: Listener) {
-    const listeners = this.listeners.get(name);
-    if (listeners) {
-      listeners.add(listener);
-    } else {
-      this.listeners.set(name, new Set([listener]));
-    }
-    return () => this.unsubscribe(name, listener);
-  }
-
-  private unsubscribe(name: string, listener: Listener) {
-    const listeners = this.listeners.get(name);
-    listeners?.delete(listener);
-    if (listeners?.size === 0) {
-      this.listeners.delete(name);
-    }
-  }
-
-  private notify(name: string) {
-    this.listeners.get(name)?.forEach((listener) => listener());
-  }
-
-  private notifyAll() {
-    this.listeners.forEach((listeners) =>
-      listeners.forEach((listener) => listener()),
-    );
+    this.events.on(name, listener);
+    return () => this.events.off(name, listener);
   }
 
   get(name: string) {
@@ -91,7 +69,7 @@ export class URLStore implements Store {
       console.error(e);
     }
 
-    this.notify(name);
+    this.events.emit(name);
   }
 
   load() {
@@ -110,7 +88,7 @@ export class URLStore implements Store {
       this.syncedURL = url;
     }
 
-    queueMicrotask(() => this.notifyAll());
+    this.events.deferEmitAll();
   }
 
   save() {
