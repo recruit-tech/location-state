@@ -15,8 +15,8 @@ export type LocationStateDefinition<
 };
 
 type Updater<T> = (prev: T) => T;
-type UpdaterOrValue<T> = T | Updater<T>;
-type SetState<T> = (updaterOrValue: UpdaterOrValue<T>) => void;
+type ValueOrUpdater<T> = T | Updater<T>;
+type SetState<T> = (valueOrUpdater: ValueOrUpdater<T>) => void;
 
 const useStore = (storeName: string) => {
   const { stores } = useContext(LocationStateContext);
@@ -65,7 +65,7 @@ const _useLocationSetState = <T, StoreName extends string>(
   const { name, defaultValue, storeName, refine } = useState(definition)[0];
   const store = useStore(storeName);
   const setStoreState = useCallback(
-    (updaterOrValue: UpdaterOrValue<T>) => {
+    (updaterOrValue: ValueOrUpdater<T>) => {
       if (typeof updaterOrValue !== "function") {
         store.set(name, updaterOrValue);
         return;

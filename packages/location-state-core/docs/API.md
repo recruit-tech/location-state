@@ -3,6 +3,9 @@
 - [State hooks](#State-hooks)
   - [type `LocationStateDefinition`](#type-LocationStateDefinition)
   - [type `Refine`](#type-Refine)
+  - [function `useLocationState`](#function-useLocationState)
+  - [function `useLocationStateValue`](#function-useLocationStateValue)
+  - [function `useLocationSetState`](#function-useLocationSetState)
 
 ## State hooks
 
@@ -94,5 +97,105 @@ const [counter, setCounter] = useLocationState({
         .transform((v) => Number(v)),
     ]),
   ),
+});
+```
+
+### function `useLocationState`
+
+```ts
+type SetState<T> = (valueOrUpdater: T | ((prev: T) => T)) => void;
+
+declare const useLocationState: <T>(
+  definition: LocationStateDefinition<T, DefaultStoreName>,
+) => [T, SetState<T>];
+```
+
+Allows access to the state associated with the current history location from a specified `Store`. This hook subscribes to re-render the component if there is a change in the state.
+
+#### Type Parameters
+
+- `T`: Type of state.
+
+#### Parameters
+
+- `definition`: See [`LocationStateDefinition`](#type-locationstatedefinition).
+
+#### Returns
+
+Returns an array that first element is a state and the second element is a state update function.
+
+#### Example
+
+```ts
+const [count, setCount] = useLocationState({
+  name: "count",
+  defaultValue: 0,
+  storeName: "session",
+});
+```
+
+### function `useLocationStateValue`
+
+```ts
+declare const useLocationStateValue: <T>(
+  definition: LocationStateDefinition<T, DefaultStoreName>,
+) => T;
+```
+
+Allows a reference to the state associated with the current history location from a specified `Store`. This hook subscribes to re-render the component if there is a change in the state.
+
+#### Type Parameters
+
+- `T`: Type of state.
+
+#### Parameters
+
+- `definition`: See [`LocationStateDefinition`](#type-locationstatedefinition).
+
+#### Returns
+
+Returns state.
+
+#### Example
+
+```ts
+const count = useLocationStateValue({
+  name: "count",
+  defaultValue: 0,
+  storeName: "session",
+});
+```
+
+### function `useLocationSetState`
+
+```ts
+type SetState<T> = (valueOrUpdater: T | ((prev: T) => T)) => void;
+
+declare const useLocationSetState: <T>(
+  definition: LocationStateDefinition<T, DefaultStoreName>,
+) => SetState<T>;
+```
+
+Allows updating of the state associated with the current history location from a specified `Store`.
+
+#### Type Parameters
+
+- `T`: state の型
+
+#### Parameters
+
+- `definition`: See [`LocationStateDefinition`](#type-locationstatedefinition).
+
+#### Returns
+
+Returns the update function of state.
+
+#### Example
+
+```ts
+const setCount = useLocationSetState({
+  name: "count",
+  defaultValue: 0,
+  storeName: "session",
 });
 ```
