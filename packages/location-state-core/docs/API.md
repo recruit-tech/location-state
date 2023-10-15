@@ -6,6 +6,9 @@
   - [function `useLocationState`](#function-useLocationState)
   - [function `useLocationStateValue`](#function-useLocationStateValue)
   - [function `useLocationSetState`](#function-useLocationSetState)
+- [Provider](#provider)
+  - [component `<LocationStateProvider>`](#component-LocationStateProvider)
+  - [function `createDefaultStores`](#function-createDefaultStores)
 
 ## State hooks
 
@@ -198,4 +201,65 @@ const setCount = useLocationSetState({
   defaultValue: 0,
   storeName: "session",
 });
+```
+
+## Provider
+
+### component `<LocationStateProvider>`
+
+```ts
+declare function LocationStateProvider({
+  children,
+  ...props
+}: {
+  syncer?: Syncer;
+  stores?: Stores | CreateStores;
+  children: ReactNode;
+}): JSX.Element;
+```
+
+`location-state`の Context を提供します。
+
+#### Props
+
+- `syncer?`: 履歴と同期する[`Syncer`](#syncer)です。
+- `stores?`: state 永続先として指定できる[`Stores`](#type-stores)です。
+
+#### Example
+
+```tsx
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <LocationStateProvider syncer={syncer} stores={stores}>
+      {children}
+    </LocationStateProvider>
+  );
+}
+```
+
+### function `createDefaultStores`
+
+```ts
+export declare const createDefaultStores: (syncer: Syncer) => Stores;
+```
+
+`<LocationStateProvider>`がデフォルトで利用する[`Stores`](#type-stores)を作成します。
+
+#### Parameters
+
+- `syncer?`: `location-state`が履歴と同期する方法を指定します。[`Syncer`](#syncer)を実装している必要があります。
+
+#### Returns
+
+`session`と`url`をプロパティに持った [`Stores`](#type-stores)を返します。
+
+| ストア名    | ストア         | 説明                                             |
+| ----------- | -------------- | ------------------------------------------------ |
+| `"session"` | `StorageStore` | 状態をセッションストレージに永続化するストアです |
+| `"url"`     | `URLStore`     | 状態を URL のクエリ文字列に永続化するストアです  |
+
+#### Example
+
+```ts
+const defaultStores = createDefaultStores(syncer);
 ```
