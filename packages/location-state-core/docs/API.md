@@ -218,12 +218,12 @@ declare function LocationStateProvider({
 }): JSX.Element;
 ```
 
-`location-state`の Context を提供します。
+Context of `location-state`.
 
 #### Props
 
-- `syncer?`: 履歴と同期する[`Syncer`](#syncer)です。
-- `stores?`: state 永続先として指定できる[`Stores`](#type-stores)です。
+- `syncer?`: [`Syncer`](#syncer) that synchronizes with history.
+- `stores?`: [`Stores`](#type-stores) that can be specified as the persistence destination for state.
 
 #### Example
 
@@ -243,20 +243,20 @@ export function Providers({ children }: { children: React.ReactNode }) {
 export declare const createDefaultStores: (syncer: Syncer) => Stores;
 ```
 
-`<LocationStateProvider>`がデフォルトで利用する[`Stores`](#type-stores)を作成します。
+Create [`Stores`](#type-stores) to be used by default by `<LocationStateProvider>`.
 
 #### Parameters
 
-- `syncer?`: `location-state`が履歴と同期する方法を指定します。[`Syncer`](#syncer)を実装している必要があります。
+- `syncer?`: Specifies how `location-state` synchronizes with history. [`Syncer`](#syncer) must be implemented.
 
 #### Returns
 
-`session`と`url`をプロパティに持った [`Stores`](#type-stores)を返します。
+Returns [`Stores`](#type-stores) with `session` and `url` as properties.
 
-| ストア名    | ストア         | 説明                                             |
-| ----------- | -------------- | ------------------------------------------------ |
-| `"session"` | `StorageStore` | 状態をセッションストレージに永続化するストアです |
-| `"url"`     | `URLStore`     | 状態を URL のクエリ文字列に永続化するストアです  |
+| Store Name  | Store          | detail                                             |
+| ----------- | -------------- | -------------------------------------------------- |
+| `"session"` | `StorageStore` | A store that persists state to session storage.    |
+| `"url"`     | `URLStore`     | A store that persists state in a URL query string. |
 
 #### Example
 
