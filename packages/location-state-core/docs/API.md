@@ -218,12 +218,12 @@ declare function LocationStateProvider({
 }): JSX.Element;
 ```
 
-Context of `location-state`.
+Context Provider of `location-state`.
 
 #### Props
 
-- `syncer?`: [`Syncer`](#syncer) that synchronizes with history.
-- `stores?`: [`Stores`](#type-stores) that can be specified as the persistence destination for state.
+- `syncer?`: Specifies how `location-state` synchronizes with history. It must implement [`Syncer`](#syncer). If not specified, [`NavigationSyncer`](#class-NavigationSyncer) instance is used.
+- `stores?`: [`Stores`](#type-stores) that persist state. If not specified, [`createDefaultStores()`](#function-createDefaultStores) is used.
 
 #### Example
 
@@ -243,20 +243,20 @@ export function Providers({ children }: { children: React.ReactNode }) {
 export declare const createDefaultStores: (syncer: Syncer) => Stores;
 ```
 
-Create [`Stores`](#type-stores) to be used by default by `<LocationStateProvider>`.
+Create default [`Stores`](#type-stores) to be used by `<LocationStateProvider>`.
 
 #### Parameters
 
-- `syncer?`: Specifies how `location-state` synchronizes with history. [`Syncer`](#syncer) must be implemented.
+- `syncer?`: Specifies how `location-state` synchronizes with history. It must implement [`Syncer`](#syncer). If not specified, [`NavigationSyncer`](#class-NavigationSyncer) instance is used.
 
 #### Returns
 
-Returns [`Stores`](#type-stores) with `session` and `url` as properties.
+Returns [`Stores`](#type-stores) with the following properties.
 
-| Store Name  | Store          | detail                                             |
-| ----------- | -------------- | -------------------------------------------------- |
-| `"session"` | `StorageStore` | A store that persists state to session storage.    |
-| `"url"`     | `URLStore`     | A store that persists state in a URL query string. |
+| Store Name  | Store          | detail                                  |
+| ----------- | -------------- | --------------------------------------- |
+| `"session"` | `StorageStore` | Store to persist in session storage.    |
+| `"url"`     | `URLStore`     | Store to persist in a URL query string. |
 
 #### Example
 
