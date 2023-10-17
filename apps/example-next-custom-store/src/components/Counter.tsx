@@ -1,7 +1,7 @@
 "use client";
 
-import { useLocationStateInMemory } from "@/lib/location-hooks";
 import { Refine } from "@location-state/core";
+import { useLocationState } from "@location-state/core";
 import { useId } from "react";
 import { z, ZodType } from "zod";
 
@@ -13,10 +13,10 @@ const zodRefine =
   };
 
 export function Counter() {
-  const [counter, setCounter] = useLocationStateInMemory({
+  const [counter, setCounter] = useLocationState({
     name: "counter",
     defaultValue: 0,
-    storeName: "in-memory",
+    storeName: "url",
     refine: zodRefine(z.number()),
   });
   console.debug("rendered Counter", { counter });

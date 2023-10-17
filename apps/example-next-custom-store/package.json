@@ -17,9 +17,13 @@
     "eslint": "8.48.0",
     "eslint-config-next": "13.5.3",
     "next": "13.5.3",
+    "qs": "6.11.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.2.2",
     "zod": "3.22.2"
+  },
+  "devDependencies": {
+    "@types/qs": "6.9.8"
   }
 }

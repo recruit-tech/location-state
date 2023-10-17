@@ -1,13 +1,13 @@
 "use client";
 
-import { useLocationStateInMemory } from "@/lib/location-hooks";
+import { useLocationState } from "@location-state/core";
 import { useId } from "react";
 
 export function List() {
-  const [displayList, setDisplayList] = useLocationStateInMemory({
+  const [displayList, setDisplayList] = useLocationState({
     name: "display-list",
     defaultValue: false,
-    storeName: "in-memory",
+    storeName: "url",
   });
   const list = Array(100).fill(0);
   console.debug("rendered List", { displayList });
