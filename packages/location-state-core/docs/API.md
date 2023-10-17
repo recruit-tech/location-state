@@ -9,6 +9,7 @@
 - [Provider](#provider)
   - [component `<LocationStateProvider>`](#component-LocationStateProvider)
   - [function `createDefaultStores`](#function-createDefaultStores)
+  - [function`getHooksWith`](#function-getHooksWith)
 
 ## State hooks
 
@@ -213,7 +214,7 @@ declare function LocationStateProvider({
   ...props
 }: {
   syncer?: Syncer;
-  stores?: Stores | CreateStores;
+  stores?: Stores | ((syncer: Syncer) => Stores);
   children: ReactNode;
 }): JSX.Element;
 ```
@@ -263,3 +264,12 @@ Returns [`Stores`](#type-stores) with the following properties.
 ```ts
 const defaultStores = createDefaultStores(syncer);
 ```
+
+### function `getHooksWith`
+
+```ts
+export const { useLocationState, useLocationStateValue, useLocationSetState } =
+  getHooksWith<"local" | "indexeddb">();
+```
+
+Returns state hooks with `storeName` as a type argument and bound store name. This is useful when you want to implement a custom store.
