@@ -137,8 +137,8 @@ importers:
         specifier: 5.14.9
         version: 5.14.9
       '@types/uuid':
-        specifier: 9.0.5
-        version: 9.0.5
+        specifier: 9.0.6
+        version: 9.0.6
       client-only:
         specifier: 0.0.1
         version: 0.0.1
@@ -190,8 +190,8 @@ importers:
         version: 9.0.1
     devDependencies:
       '@types/uuid':
-        specifier: 9.0.5
-        version: 9.0.5
+        specifier: 9.0.6
+        version: 9.0.6
       configs:
         specifier: workspace:*
         version: link:../configs
@@ -1594,8 +1594,8 @@ packages:
     resolution: {integrity: sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==}
     dev: true
 
-  /@types/uuid@9.0.5:
-    resolution: {integrity: sha512-xfHdwa1FMJ082prjSJpoEI57GZITiQz10r3vEJCHa2khEFQjKy91aWKz6+zybzssCvXUwE1LQWgWVwZ4nYUvHQ==}
+  /@types/uuid@9.0.6:
+    resolution: {integrity: sha512-BT2Krtx4xaO6iwzwMFUYvWBWkV2pr37zD68Vmp1CDV196MzczBRxuEpD6Pr395HAgebC/co7hOphs53r8V7jew==}
     dev: true
 
   /@types/yargs-parser@21.0.0:
