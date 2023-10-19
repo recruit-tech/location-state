@@ -272,12 +272,12 @@ export declare const getHooksWith: <StoreName extends string>() => {
   useLocationState: <T>(
     definition: LocationStateDefinition<T, StoreName>,
   ) => [T, SetState<T>];
-  useLocationStateValue: <T_1>(
-    definition: LocationStateDefinition<T_1, StoreName>,
-  ) => T_1;
-  useLocationSetState: <T_2>(
-    definition: LocationStateDefinition<T_2, StoreName>,
-  ) => SetState<T_2>;
+  useLocationStateValue: <T>(
+    definition: LocationStateDefinition<T, StoreName>,
+  ) => T;
+  useLocationSetState: <T>(
+    definition: LocationStateDefinition<T, StoreName>,
+  ) => SetState<T>;
 };
 ```
 
@@ -289,7 +289,7 @@ Returns state hooks that allows a type parameter to be specified for the storeNa
 
 #### Returns
 
-Returns the following hooks bound to `StoreName`.
+Returns the following hooks to which `StoreName` is bound.
 
 - [`useLocationState`](#function-useLocationState)
 - [`useLocationStateValue`](#function-useLocationStateValue)
