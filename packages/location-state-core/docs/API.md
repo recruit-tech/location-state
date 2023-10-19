@@ -268,8 +268,36 @@ const defaultStores = createDefaultStores(syncer);
 ### function `getHooksWith`
 
 ```ts
+export declare const getHooksWith: <StoreName extends string>() => {
+  useLocationState: <T>(
+    definition: LocationStateDefinition<T, StoreName>,
+  ) => [T, SetState<T>];
+  useLocationStateValue: <T_1>(
+    definition: LocationStateDefinition<T_1, StoreName>,
+  ) => T_1;
+  useLocationSetState: <T_2>(
+    definition: LocationStateDefinition<T_2, StoreName>,
+  ) => SetState<T_2>;
+};
+```
+
+Returns state hooks that allows a type parameter to be specified for the storeName of the `LocationStateDefinition`. This is useful when you specify custom stores for the `<LocationStateProvider>`.
+
+#### Type Parameters
+
+- `StoreName`: The type of the `Store` name.
+
+#### Returns
+
+Returns the following hooks bound to `StoreName`.
+
+- [`useLocationState`](#function-useLocationState)
+- [`useLocationStateValue`](#function-useLocationStateValue)
+- [`useLocationSetState`](#function-useLocationSetState)
+
+#### Example
+
+```ts
 export const { useLocationState, useLocationStateValue, useLocationSetState } =
   getHooksWith<"local" | "indexeddb">();
 ```
-
-Returns state hooks with `storeName` as a type argument and bound store name. This is useful when you want to implement a custom store.
