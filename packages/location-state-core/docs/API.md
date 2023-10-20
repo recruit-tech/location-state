@@ -6,6 +6,10 @@
   - [function `useLocationState`](#function-useLocationState)
   - [function `useLocationStateValue`](#function-useLocationStateValue)
   - [function `useLocationSetState`](#function-useLocationSetState)
+- [Provider](#provider)
+  - [component `<LocationStateProvider>`](#component-LocationStateProvider)
+  - [function `createDefaultStores`](#function-createDefaultStores)
+  - [function`getHooksWith`](#function-getHooksWith)
 
 ## State hooks
 
@@ -198,4 +202,102 @@ const setCount = useLocationSetState({
   defaultValue: 0,
   storeName: "session",
 });
+```
+
+## Provider
+
+### component `<LocationStateProvider>`
+
+```ts
+declare function LocationStateProvider({
+  children,
+  ...props
+}: {
+  syncer?: Syncer;
+  stores?: Stores | ((syncer: Syncer) => Stores);
+  children: ReactNode;
+}): JSX.Element;
+```
+
+Context Provider of `location-state`.
+
+#### Props
+
+- `syncer?`: Specifies how `location-state` synchronizes with history. It must implement [`Syncer`](#syncer). If not specified, [`NavigationSyncer`](#class-NavigationSyncer) instance is used.
+- `stores?`: [`Stores`](#type-stores) that persist state. If not specified, [`createDefaultStores()`](#function-createDefaultStores) is used.
+
+#### Example
+
+```tsx
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <LocationStateProvider syncer={syncer} stores={stores}>
+      {children}
+    </LocationStateProvider>
+  );
+}
+```
+
+### function `createDefaultStores`
+
+```ts
+export declare const createDefaultStores: (syncer: Syncer) => Stores;
+```
+
+Create default [`Stores`](#type-stores) to be used by `<LocationStateProvider>`.
+
+#### Parameters
+
+- `syncer?`: Specifies how `location-state` synchronizes with history. It must implement [`Syncer`](#syncer). If not specified, [`NavigationSyncer`](#class-NavigationSyncer) instance is used.
+
+#### Returns
+
+Returns [`Stores`](#type-stores) with the following properties.
+
+| Store Name  | Store          | detail                                  |
+| ----------- | -------------- | --------------------------------------- |
+| `"session"` | `StorageStore` | Store to persist in session storage.    |
+| `"url"`     | `URLStore`     | Store to persist in a URL query string. |
+
+#### Example
+
+```ts
+const defaultStores = createDefaultStores(syncer);
+```
+
+### function `getHooksWith`
+
+```ts
+export declare const getHooksWith: <StoreName extends string>() => {
+  useLocationState: <T>(
+    definition: LocationStateDefinition<T, StoreName>,
+  ) => [T, SetState<T>];
+  useLocationStateValue: <T>(
+    definition: LocationStateDefinition<T, StoreName>,
+  ) => T;
+  useLocationSetState: <T>(
+    definition: LocationStateDefinition<T, StoreName>,
+  ) => SetState<T>;
+};
+```
+
+Returns state hooks that allows a type parameter to be specified for the storeName of the `LocationStateDefinition`. This is useful when you specify custom stores for the `<LocationStateProvider>`.
+
+#### Type Parameters
+
+- `StoreName`: The type of the `Store` name.
+
+#### Returns
+
+Returns the following hooks to which `StoreName` is bound.
+
+- [`useLocationState`](#function-useLocationState)
+- [`useLocationStateValue`](#function-useLocationStateValue)
+- [`useLocationSetState`](#function-useLocationSetState)
+
+#### Example
+
+```ts
+export const { useLocationState, useLocationStateValue, useLocationSetState } =
+  getHooksWith<"local" | "indexeddb">();
 ```
