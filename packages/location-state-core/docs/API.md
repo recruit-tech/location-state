@@ -314,7 +314,7 @@ type Syncer = {
 };
 ```
 
-`Syncer`は履歴と同期するためのインターフェースです。`Syncer`を実装することで、履歴と同期する方法をカスタマイズすることができます。
+`Syncer` is an interface for synchronizing with history location. By implementing `Syncer`, you can customize how to synchronize with the history location.
 
 ### class `NavigationSyncer`
 
@@ -324,11 +324,11 @@ export declare class NavigationSyncer implements Syncer {
 }
 ```
 
-`NavigationSyncer`は[Navigation API](https://github.com/WICG/navigation-api)を利用して履歴と同期する`Syncer`です。`NavigationSyncer`のコンストラクタには`window.navigation`相当の Object を渡す必要があります。
+`NavigationSyncer` is a `Syncer` that uses [Navigation API](https://github.com/WICG/navigation-api) to synchronize with history location. The constructor of `NavigationSyncer` must be passed an object equivalent to `window.navigation`.
 
 #### Parameters
 
-- `navigation?`: `window.navigation`、もしくは[Navigation API](https://github.com/WICG/navigation-api)の polyfill を渡してください。
+- `navigation?`: `window.navigation` or polyfill from [Navigation API](https://github.com/WICG/navigation-api).
 
 #### Example
 
@@ -340,7 +340,7 @@ const navigationSyncer = new NavigationSyncer(
 
 #### `unsafeNavigation`
 
-Navigation API をサポートしていないブラウザのために、`unsafeNavigation`という API を提供しています。これは Navigation API の挙動を部分的にサポートした polyfill 的なものですが、実装範囲は必要最小限でライブラリとして**積極的なテスト・サポートをしているわけではありません**。
+For browsers that do not support the Navigation API, we provide an API called `unsafeNavigation`. This is a polyfill-like implementation that partially supports the behavior of the Navigation API, but the scope of implementation is minimal and **the `location-state` does not actively test and support it**.
 
 ```tsx
 import { unsafeNavigation } from "@location-state/core/unsafe-navigation";
