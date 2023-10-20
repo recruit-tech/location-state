@@ -6,10 +6,12 @@
   - [function `useLocationState`](#function-useLocationState)
   - [function `useLocationStateValue`](#function-useLocationStateValue)
   - [function `useLocationSetState`](#function-useLocationSetState)
-- [Provider](#provider)
+- [Provider](#Provider)
   - [component `<LocationStateProvider>`](#component-LocationStateProvider)
   - [function `createDefaultStores`](#function-createDefaultStores)
   - [function`getHooksWith`](#function-getHooksWith)
+- [Syncer](#Syncer)
+  - [class `NavigationSyncer`](#class-NavigationSyncer)
 
 ## State hooks
 
@@ -300,4 +302,48 @@ Returns the following hooks to which `StoreName` is bound.
 ```ts
 export const { useLocationState, useLocationStateValue, useLocationSetState } =
   getHooksWith<"local" | "indexeddb">();
+```
+
+## Syncer
+
+```ts
+type Syncer = {
+  key(): string | undefined;
+  sync(arg: { listener: (key: string) => void; signal: AbortSignal }): void;
+  updateURL(url: string): void;
+};
+```
+
+`Syncer`は履歴と同期するためのインターフェースです。`Syncer`を実装することで、履歴と同期する方法をカスタマイズすることができます。
+
+### class `NavigationSyncer`
+
+```ts
+export declare class NavigationSyncer implements Syncer {
+  constructor(navigation?: Navigation | undefined);
+}
+```
+
+`NavigationSyncer`は[Navigation API](https://github.com/WICG/navigation-api)を利用して履歴と同期する`Syncer`です。`NavigationSyncer`のコンストラクタには`window.navigation`相当の Object を渡す必要があります。
+
+#### Parameters
+
+- `navigation?`: `window.navigation`、もしくは[Navigation API](https://github.com/WICG/navigation-api)の polyfill を渡してください。
+
+#### Example
+
+```tsx
+const navigationSyncer = new NavigationSyncer(
+  typeof window !== "undefined" ? window.navigation : undefined,
+);
+```
+
+#### `unsafeNavigation`
+
+Navigation API をサポートしていないブラウザのために、`unsafeNavigation`という API を提供しています。これは Navigation API の挙動を部分的にサポートした polyfill 的なものですが、実装範囲は必要最小限でライブラリとして**積極的なテスト・サポートをしているわけではありません**。
+
+```tsx
+import { unsafeNavigation } from "@location-state/core/unsafe-navigation";
+
+const navigationSyncer = new NavigationSyncer(unsafeNavigation);
 ```
