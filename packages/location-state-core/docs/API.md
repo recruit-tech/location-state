@@ -306,6 +306,8 @@ export const { useLocationState, useLocationStateValue, useLocationSetState } =
 
 ## Syncer
 
+### type `Syncer`
+
 ```ts
 type Syncer = {
   key(): string | undefined;
