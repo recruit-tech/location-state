@@ -330,7 +330,7 @@ export declare class NavigationSyncer implements Syncer {
 
 #### Parameters
 
-- `navigation?`: `window.navigation` or polyfill from [Navigation API](https://github.com/WICG/navigation-api).
+- `navigation?`: `window.navigation` or implementation of [Navigation API](https://github.com/WICG/navigation-api). Pass undefined when SSR.
 
 #### Example
 
