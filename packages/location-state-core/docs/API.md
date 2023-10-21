@@ -318,6 +318,12 @@ type Syncer = {
 
 `Syncer` is an interface for synchronizing with history location. You can implement a `Syncer` to customize how to synchronize with the history location.
 
+#### Methods
+
+- `key()`: Returns the key of the current history location. If the key cannot be obtained, it returns `undefined`.
+- `sync(arg)`: Synchronizes with the history location. The `listener` function is called when the key of the history location changes.
+- `updateURL(url)`: Update the URL. It is used to persist state by URL.
+
 ### class `NavigationSyncer`
 
 ```ts
