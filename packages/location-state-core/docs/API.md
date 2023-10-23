@@ -316,13 +316,13 @@ type Syncer = {
 };
 ```
 
-`Syncer` is an interface for synchronizing with history location. You can implement a `Syncer` to customize how to synchronize with the history location.
+`Syncer` is an interface for synchronizing with history location. You can implement a `Syncer` to customize how to synchronize with the history location. The history location is identified by the return value of `key()`.
 
 #### Methods
 
 - `key()`: Returns the key of the current history location. If the key cannot be obtained, it returns `undefined`.
-- `sync(arg)`: Synchronizes with the history location. The `listener` function is called when the key of the history location changes.
-- `updateURL(url)`: Update the URL. It is used to persist state by URL.
+- `sync(arg)`: Called to synchronize with the history location. Call the `listener` function when the history location is changed.
+- `updateURL(url)`: Update the browser's URL. It is used to persist state by URL.
 
 ### class `NavigationSyncer`
 
@@ -336,7 +336,7 @@ export declare class NavigationSyncer implements Syncer {
 
 #### Parameters
 
-- `navigation?`: `window.navigation` or implementation of [Navigation API](https://github.com/WICG/navigation-api). Pass undefined when SSR.
+- `navigation?`: `window.navigation` or implementation of [Navigation API](https://github.com/WICG/navigation-api). Pass `undefined` when server side.
 
 #### Example
 
