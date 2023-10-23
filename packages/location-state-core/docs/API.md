@@ -348,13 +348,13 @@ const navigationSyncer = new NavigationSyncer(
 
 #### `unsafeNavigation`
 
-Provides a temporary implementation for browsers that do not support the Navigation API.
+Provides a temporary implementation for browsers that do not support the Navigation API. The actual value is below, depending on the runtime environment.
 
 - Server side
   - `undefined`
 - Client side
-  - `window.navigation`
-  - Navigation API polyfill(partially supports)
+  - `window.navigation` when the Navigation API is supported.
+  - Otherwise, Navigation API polyfill (partially implemented).
 
 > **Warning**
 > This is a polyfill-like implementation that partially supports the behavior of the Navigation API, but the scope of implementation is minimal and **the `location-state` does not actively test and support it**.
