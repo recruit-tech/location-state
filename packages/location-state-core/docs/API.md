@@ -320,7 +320,7 @@ type Syncer = {
 
 #### Methods
 
-- `key()`: Returns a stable identifier string for the current history location. On the server side, return `undefined`.
+- `key()`: Returns a stable identifier string for the current history location. On the server side, returns `undefined`.
 - `sync(arg)`: Called to synchronize with the history location. Call back the `listener` function when the history location is changed.
 - `updateURL(url)`: Update the browser's URL. It is used to persist state by URL.
 
