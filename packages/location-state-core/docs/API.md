@@ -321,7 +321,7 @@ type Syncer = {
 #### Methods
 
 - `key()`: Returns a stable identifier string for the current history location. On the server side, returns `undefined`.
-- `sync({ listener, signal })`: Called to synchronize with the history location. Call back the `listener` function when the history location is changed. [Signal](https://developer.mozilla.org/en-US/docs/Web/API/AbortController/signal) has been aborted, `listener` must not be call back thereafter.
+- `sync({ listener, signal })`: Called to synchronize with the history location. Call back the `listener` function when the history location is changed. When [signal](https://developer.mozilla.org/en-US/docs/Web/API/AbortController/signal) has been aborted, do not call back the `listener` anymore.
 - `updateURL(url)`: Update the browser's URL. It is used to persist state by URL.
 
 ### class `NavigationSyncer`
