@@ -12,6 +12,12 @@
   - [function`getHooksWith`](#function-getHooksWith)
 - [Syncer](#Syncer)
   - [class `NavigationSyncer`](#class-NavigationSyncer)
+- [Store](#Store)
+  - [type `Store`](#type-Store)
+  - [type `Stores`](#type-Stores)
+  - [type `StateSerializer`](#type-StateSerializer)
+  - [class `StorageStore`](#class-StorageStore)
+  - [class `URLStore`](#class-URLStore)
 
 ## State hooks
 
@@ -186,7 +192,7 @@ Allows updating of the state associated with the current history location from a
 
 #### Type Parameters
 
-- `T`: state の型
+- `T`: Type of state.
 
 #### Parameters
 
@@ -246,7 +252,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 export declare const createDefaultStores: (syncer: Syncer) => Stores;
 ```
 
-Create default [`Stores`](#type-stores) to be used by `<LocationStateProvider>`.
+Create default [`Stores`](#type-Stores) to be used by `<LocationStateProvider>`.
 
 #### Parameters
 
@@ -364,3 +370,116 @@ import { unsafeNavigation } from "@location-state/core/unsafe-navigation";
 
 const navigationSyncer = new NavigationSyncer(unsafeNavigation);
 ```
+
+## Store
+
+### type `Store`
+
+```ts
+type Store = {
+  subscribe(name: string, listener: Listener): () => void;
+  get(name: string): unknown;
+  set(name: string, value: unknown): void;
+  load(key: string): void;
+  save(): void;
+};
+```
+
+`Store`はstateの保持と永続化を実装するためのインターフェースです。`Store`を実装することで、`location-state`の保存先をカスタマイズすることができます。
+
+#### Methods
+
+- `subscribe(name, listener)`: `name`で指定されたstateが変更されたときに`listener`を呼び出します。`unsubscribe`する関数を返す必要があります。
+- `get(name)`: `name`で指定されたstateを取得します。
+- `set(name, value)`: `name`で指定されたstateを`value`で更新します。
+- `load(key)`: `key`で指定されたstateを保存先から読み込み、stateを更新します。
+- `save()`: 現在の`key`でstateを保存します。
+
+### type `Stores`
+
+```ts
+export type Stores = Record<string, Store>;
+```
+
+`Stores`は`Store`の key-value object です。
+
+### type `StateSerializer`
+
+```ts
+type StateSerializer = {
+  serialize: (value: Record<string, unknown>) => string;
+  deserialize: (value: string) => Record<string, unknown>;
+};
+```
+
+stateをserialize/deserializeするためのインターフェースです。`Store`のカスタマイズによく利用されます。
+
+### class `StorageStore`
+
+```ts
+export declare class StorageStore implements Store {
+  constructor(storage?: Storage | undefined, stateSerializer?: StateSerializer);
+}
+```
+
+stateを`Storage`に保存する`Store`です。
+
+#### Parameters
+
+- `storage?`: 保存先の`Storage`です。サーバーサイドでは`undefined`を渡してください。
+- `stateSerializer?`: stateのserialize/deserializeをカスタムすることができます。デフォルトでは`JSON.stringify`と`JSON.parse`によってserialize/deserializeされます。
+
+#### Example
+
+```ts
+const sessionStore = new StorageStore(globalThis.sessionStorage);
+```
+
+### class `URLStore`
+
+```ts
+type URLEncoder = {
+  encode: (url: string, state?: Record<string, unknown>) => string;
+  decode: (url: string) => Record<string, unknown>;
+};
+
+export declare class URLStore implements Store {
+  constructor(syncer: Syncer, urlEncoder?: URLEncoder);
+}
+```
+
+stateをURLに保存する`Store`です。
+
+#### Parameters
+
+- `syncer`: 履歴と同期する[`Syncer`](#syncer)です。URLの更新のために利用されます。
+- `urlEncoder?`: URLのencode/decodeをカスタムすることができます。デフォルトでは[`defaultSearchParamEncoder`](#Object-defaultSearchParamEncoder)が利用されます。
+
+#### Example
+
+```ts
+const urlStore = new URLStore(syncer);
+const customUrlStore = new URLStore(syncer, {
+  encode: encodeUrlState,
+  decode: decodeUrlState,
+});
+```
+
+#### `defaultSearchParamEncoder`
+
+```ts
+declare const defaultSearchParamEncoder: URLEncoder;
+```
+
+デフォルトで利用される`URLEncoder`です。`location-state`クエリパラメータにstateを`JSON.stringify`/`JSON.parse`でserialize/deserializeします。
+
+#### function `searchParamEncoder`
+
+```ts
+declare function searchParamEncoder(
+  paramName: string,
+  stateSerializer: StateSerializer,
+): URLEncoder;
+```
+
+保存時のクエリパラメータ名と`StateSerializer`を指定して`URLEncoder`を生成します。
