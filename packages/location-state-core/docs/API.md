@@ -6,10 +6,12 @@
   - [function `useLocationState`](#function-useLocationState)
   - [function `useLocationStateValue`](#function-useLocationStateValue)
   - [function `useLocationSetState`](#function-useLocationSetState)
-- [Provider](#provider)
+- [Provider](#Provider)
   - [component `<LocationStateProvider>`](#component-LocationStateProvider)
   - [function `createDefaultStores`](#function-createDefaultStores)
   - [function`getHooksWith`](#function-getHooksWith)
+- [Syncer](#Syncer)
+  - [class `NavigationSyncer`](#class-NavigationSyncer)
 
 ## State hooks
 
@@ -300,4 +302,65 @@ Returns the following hooks to which `StoreName` is bound.
 ```ts
 export const { useLocationState, useLocationStateValue, useLocationSetState } =
   getHooksWith<"local" | "indexeddb">();
+```
+
+## Syncer
+
+### type `Syncer`
+
+```ts
+type Syncer = {
+  key(): string | undefined;
+  sync(arg: { listener: (key: string) => void; signal: AbortSignal }): void;
+  updateURL(url: string): void;
+};
+```
+
+`Syncer` is an interface for synchronizing with history location. You can implement a `Syncer` to customize how to synchronize with the history location.
+
+#### Methods
+
+- `key()`: Returns a stable identifier string for the current history location. On the server side, returns `undefined`.
+- `sync({ listener, signal })`: Called to synchronize with the history location. Call back the `listener` function when the history location is changed. When [signal](https://developer.mozilla.org/en-US/docs/Web/API/AbortController/signal) has been aborted, do not call back the `listener` anymore.
+- `updateURL(url)`: Update the browser's URL. It is used to persist state by URL.
+
+### class `NavigationSyncer`
+
+```ts
+export declare class NavigationSyncer implements Syncer {
+  constructor(navigation?: Navigation | undefined);
+}
+```
+
+`Syncer` implementation that uses the [Navigation API](https://github.com/WICG/navigation-api) to synchronize with history location.
+
+#### Parameters
+
+- `navigation?`: `window.navigation` or implementation of [Navigation API](https://github.com/WICG/navigation-api). Pass `undefined` when server side.
+
+#### Example
+
+```tsx
+const navigationSyncer = new NavigationSyncer(
+  typeof window !== "undefined" ? window.navigation : undefined,
+);
+```
+
+#### `unsafeNavigation`
+
+Provides a temporary implementation for browsers that do not support the Navigation API. The actual value is below, depending on the runtime environment.
+
+- Server side
+  - `undefined`
+- Client side
+  - `window.navigation` when the Navigation API is supported.
+  - Otherwise, Navigation API polyfill (partially implemented).
+
+> **Warning**
+> This is a polyfill-like implementation that partially supports the behavior of the Navigation API, but the scope of implementation is minimal and **the `location-state` does not actively test and support it**.
+
+```tsx
+import { unsafeNavigation } from "@location-state/core/unsafe-navigation";
+
+const navigationSyncer = new NavigationSyncer(unsafeNavigation);
 ```
