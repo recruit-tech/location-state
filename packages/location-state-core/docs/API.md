@@ -376,8 +376,9 @@ const navigationSyncer = new NavigationSyncer(unsafeNavigation);
 ### type `Store`
 
 ```ts
+type Unsubscribe = () => void;
 type Store = {
-  subscribe(name: string, listener: Listener): () => void;
+  subscribe(name: string, listener: Listener): Unsubscribe;
   get(name: string): unknown;
   set(name: string, value: unknown): void;
   load(key: string): void;
@@ -412,7 +413,7 @@ type StateSerializer = {
 };
 ```
 
-stateをserialize/deserializeするためのインターフェースです。`Store`のカスタマイズによく利用されます。
+stateをserialize/deserializeするためのインターフェースです。`Store`のカスタマイズで使われることがあります。
 
 ### class `StorageStore`
 
