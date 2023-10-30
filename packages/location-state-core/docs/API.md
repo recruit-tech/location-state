@@ -386,15 +386,15 @@ type Store = {
 };
 ```
 
-`Store`はstateの保持と永続化を実装するためのインターフェースです。`Store`を実装することで、`location-state`の保存先をカスタマイズすることができます。
+`Store` is an interface to implement state retention and persistence. By implementing `Store`, you can customize where `location-state` is stored.
 
 #### Methods
 
-- `subscribe(name, listener)`: `name`で指定されたstateが変更されたときに`listener`を呼び出します。`unsubscribe`する関数を返す必要があります。
-- `get(name)`: `name`で指定されたstateを取得します。
-- `set(name, value)`: `name`で指定されたstateを`value`で更新します。
-- `load(key)`: `key`で指定されたstateを保存先から読み込み、stateを更新します。
-- `save()`: 現在の`key`でstateを保存します。
+- `subscribe(name, listener)`: Call `listener` when `state[name]` changes. Return a function to `unsubscribe`.
+- `get(name)`: Returns `state[name]`.
+- `set(name, value)`: Update `state[name]` with `value`.
+- `load(key)`: Load the state specified by `key` from the destination and update the state.
+- `save()`: Save the state with the current `key`.
 
 ### type `Stores`
 
@@ -402,7 +402,7 @@ type Store = {
 export type Stores = Record<string, Store>;
 ```
 
-`Stores`は`Store`の key-value object です。
+`Stores` is a key-value object of `Store`.
 
 ### type `StateSerializer`
 
@@ -413,7 +413,7 @@ type StateSerializer = {
 };
 ```
 
-stateをserialize/deserializeするためのインターフェースです。`Store`のカスタマイズで使われることがあります。
+Interface to serialize/deserialize state. It may be used for `Store`s customization.
 
 ### class `StorageStore`
 
@@ -423,12 +423,12 @@ export declare class StorageStore implements Store {
 }
 ```
 
-stateを`Storage`に保存する`Store`です。
+A `Store` that stores state in `Storage`.
 
 #### Parameters
 
-- `storage?`: 保存先の`Storage`です。サーバーサイドでは`undefined`を渡してください。
-- `stateSerializer?`: stateのserialize/deserializeをカスタムすることができます。デフォルトでは`JSON.stringify`と`JSON.parse`によってserialize/deserializeされます。
+- `storage?`: The `Storage` of the destination. Pass `sessionStorage` or `localStorage`. On the server side, pass `undefined`.
+- `stateSerializer?`: Specifies how to serialize/deserialize. By default, it is `JSON.stringify` and `JSON.parse`.
 
 #### Example
 
@@ -449,12 +449,12 @@ export declare class URLStore implements Store {
 }
 ```
 
-stateをURLに保存する`Store`です。
+A `Store` that stores state in a URL.
 
 #### Parameters
 
-- `syncer`: 履歴と同期する[`Syncer`](#syncer)です。URLの更新のために利用されます。
-- `urlEncoder?`: URLのencode/decodeをカスタムすることができます。デフォルトでは[`defaultSearchParamEncoder`](#Object-defaultSearchParamEncoder)が利用されます。
+- `syncer`: [`Syncer`](#syncer) to synchronize with history, used for URL updates.
+- `urlEncoder?`: Specifies how to URL encoding/decoding. By default, [`defaultSearchParamEncoder`](#defaultSearchParamEncoder) is used.
 
 #### Example
 
@@ -472,7 +472,7 @@ const customUrlStore = new URLStore(syncer, {
 declare const defaultSearchParamEncoder: URLEncoder;
 ```
 
-デフォルトで利用される`URLEncoder`です。`location-state`クエリパラメータにstateを`JSON.stringify`/`JSON.parse`でserialize/deserializeします。
+The `URLEncoder` used by default. Serialize/deserialize the state in the `location-state` query parameter with `JSON.stringify`/`JSON.parse`.
 
 #### function `searchParamEncoder`
 
@@ -483,4 +483,4 @@ declare function searchParamEncoder(
 ): URLEncoder;
 ```
 
-保存時のクエリパラメータ名と`StateSerializer`を指定して`URLEncoder`を生成します。
+Generate a `URLEncoder` with the query parameter name and `StateSerializer`.
