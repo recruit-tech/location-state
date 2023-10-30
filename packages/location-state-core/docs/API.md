@@ -393,7 +393,7 @@ type Store = {
 - `subscribe(name, listener)`: Call `listener` when `state[name]` changes. Return a function to `unsubscribe`.
 - `get(name)`: Returns `state[name]`.
 - `set(name, value)`: Update `state[name]` with `value`.
-- `load(key)`: Load the state specified by `key` from the destination and update the state.
+- `load(key)`: Load the state from the destination using the `key` of the history location and update the state.
 - `save()`: Save the state with the current `key`.
 
 ### type `Stores`
@@ -436,14 +436,20 @@ A `Store` that stores state in `Storage`.
 const sessionStore = new StorageStore(globalThis.sessionStorage);
 ```
 
-### class `URLStore`
+### type `URLEncoder`
 
 ```ts
 type URLEncoder = {
   encode: (url: string, state?: Record<string, unknown>) => string;
   decode: (url: string) => Record<string, unknown>;
 };
+```
 
+Interface to URL encoding/decoding. It may be used for `URLStore`s customization.
+
+### class `URLStore`
+
+```ts
 export declare class URLStore implements Store {
   constructor(syncer: Syncer, urlEncoder?: URLEncoder);
 }
@@ -453,8 +459,8 @@ A `Store` that stores state in a URL.
 
 #### Parameters
 
-- `syncer`: [`Syncer`](#syncer) to synchronize with history, used for URL updates.
-- `urlEncoder?`: Specifies how to URL encoding/decoding. By default, [`defaultSearchParamEncoder`](#defaultSearchParamEncoder) is used.
+- `syncer`: Implementation of [`Syncer`](#syncer) used for URL updates.
+- `urlEncoder?`: Implementation of [`URLEncoder`](#type-urlencoder) used for URL encoding/decoding. By default, [`defaultSearchParamEncoder`](#defaultSearchParamEncoder) is used.
 
 #### Example
 
