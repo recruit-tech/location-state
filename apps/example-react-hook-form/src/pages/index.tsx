@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import { useFromSync } from "@location-state/react-hook-form";
 
 type Form = {
   firstName: string;
@@ -8,7 +8,14 @@ type Form = {
 };
 
 export default function Home() {
-  const { register, handleSubmit } = useForm<Form>();
+  const { register, handleSubmit, onFormChange } = useFromSync({
+    name: "my-form",
+    defaultValue: {
+      firstName: "John",
+      lastName: "Doe",
+    },
+    storeName: "session",
+  });
   const router = useRouter();
   const onSubmit = async (data: Form) => {
     await router.push(
@@ -24,7 +31,7 @@ export default function Home() {
       <main>
         <h1>`react-hook-form` example</h1>
         <h2>My form</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} onChange={onFormChange}>
           <div>
             <label>
               first name:&nbsp;

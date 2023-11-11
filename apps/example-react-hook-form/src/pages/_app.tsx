@@ -1,5 +1,12 @@
+import { LocationStateProvider } from "@location-state/core";
+import { useNextPagesSyncer } from "@location-state/next";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  const syncer = useNextPagesSyncer();
+  return (
+    <LocationStateProvider syncer={syncer}>
+      <Component {...pageProps} />
+    </LocationStateProvider>
+  );
 }

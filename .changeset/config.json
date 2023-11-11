@@ -2,7 +2,13 @@
   "$schema": "https://unpkg.com/@changesets/config@2.3.1/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [["@location-state/core", "@location-state/next"]],
+  "fixed": [
+    [
+      "@location-state/core",
+      "@location-state/next",
+      "@location-state/react-hook-form"
+    ]
+  ],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
