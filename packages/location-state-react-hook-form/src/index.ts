@@ -1,8 +1,9 @@
 import {
-  useLocationState,
   LocationStateDefinition,
+  useLocationSetState,
+  useLocationStateSnapshot,
 } from "@location-state/core";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DefaultValues, useForm } from "react-hook-form";
 import { FieldValues } from "react-hook-form";
 
@@ -18,26 +19,30 @@ function shallowEqual<T extends Record<string, unknown>>(a: T, b: T) {
   return keysA.every((key) => a[key] === b[key]);
 }
 
-export function useFromSync<TFieldValues extends FieldValues = FieldValues>({
-  ...definition
-}: LocationStateDefinition<TFieldValues>) {
+export function useFromSync<TFieldValues extends FieldValues = FieldValues>(
+  definition: LocationStateDefinition<TFieldValues>,
+) {
   const resetCalled = useRef(false);
-  // fixme: change rendering
-  const [state, setState] = useLocationState({
-    ...definition,
-  });
+  const setState = useLocationSetState(definition);
+  const snapshot = useLocationStateSnapshot(definition);
+  const [defaultValues] = useState(() => snapshot.get());
   const { getValues, reset, ...form } = useForm({
     // fixme: remove type cast
-    defaultValues: state as DefaultValues<TFieldValues>,
+    defaultValues: defaultValues as DefaultValues<TFieldValues>,
   });
 
+  const currentState = snapshot.get();
   useEffect(() => {
-    if (shallowEqual(state, definition.defaultValue) || resetCalled.current) {
+    if (
+      shallowEqual(currentState, definition.defaultValue) ||
+      resetCalled.current
+    ) {
       return;
     }
-    reset(state);
+    // reset once
+    reset(currentState);
     resetCalled.current = true;
-  }, [state, definition, reset]);
+  }, [definition, reset, currentState]);
 
   return {
     ...form,

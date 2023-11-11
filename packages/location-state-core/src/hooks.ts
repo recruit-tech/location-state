@@ -1,6 +1,12 @@
 import { LocationStateContext } from "./context";
 import { DefaultStoreName } from "./types";
-import { useCallback, useContext, useState, useSyncExternalStore } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  useSyncExternalStore,
+} from "react";
 
 export type Refine<T> = (value: unknown) => T | undefined;
 
@@ -82,11 +88,32 @@ const _useLocationSetState = <T, StoreName extends string>(
   return setStoreState;
 };
 
+const _useLocationStateSnapshot = <T, StoreName extends string>(
+  definition: LocationStateDefinition<T, StoreName>,
+) => {
+  const { name, defaultValue, storeName, refine } = useState(definition)[0];
+  const store = useStore(storeName);
+  const [, setNotify] = useState(false);
+
+  useEffect(() => {
+    // render notify
+    return store.subscribe(name, () => setNotify(true));
+  }, [name, store]);
+
+  const get = useCallback(() => {
+    const storeValue = store.get(name) as T | undefined;
+    const refinedValue = refine ? refine(storeValue) : storeValue;
+    return refinedValue ?? defaultValue;
+  }, [store, name, refine, defaultValue]);
+  return { get };
+};
+
 export const getHooksWith = <StoreName extends string>() =>
   ({
     useLocationState: _useLocationState,
     useLocationStateValue: _useLocationStateValue,
     useLocationSetState: _useLocationSetState,
+    useLocationStateSnapshot: _useLocationStateSnapshot,
   }) as {
     useLocationState: <T>(
       definition: LocationStateDefinition<T, StoreName>,
@@ -97,7 +124,16 @@ export const getHooksWith = <StoreName extends string>() =>
     useLocationSetState: <T>(
       definition: LocationStateDefinition<T, StoreName>,
     ) => SetState<T>;
+    useLocationStateSnapshot: <T>(
+      definition: LocationStateDefinition<T, StoreName>,
+    ) => {
+      get: () => T;
+    };
   };
 
-export const { useLocationState, useLocationStateValue, useLocationSetState } =
-  getHooksWith<DefaultStoreName>();
+export const {
+  useLocationState,
+  useLocationStateValue,
+  useLocationSetState,
+  useLocationStateSnapshot,
+} = getHooksWith<DefaultStoreName>();
