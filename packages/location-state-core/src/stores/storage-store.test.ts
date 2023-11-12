@@ -41,7 +41,7 @@ test("listener is called when updating slice.", () => {
   // Act
   store.set("foo", "updated");
   // Assert
-  expect(listener).toBeCalledTimes(1);
+  expect(listener).toHaveBeenCalledTimes(1);
 });
 
 test("listener is called even if updated with undefined.", () => {
@@ -53,7 +53,7 @@ test("listener is called even if updated with undefined.", () => {
   // Act
   store.set("foo", undefined);
   // Assert
-  expect(listener).toBeCalledTimes(1);
+  expect(listener).toHaveBeenCalledTimes(1);
 });
 
 test("store.get in the listener to get the latest value.", () => {
@@ -71,8 +71,8 @@ test("store.get in the listener to get the latest value.", () => {
   // Act
   store.set("foo", "updated");
   // Assert
-  expect(listener1).toBeCalledTimes(1);
-  expect(listener2).toBeCalledTimes(1);
+  expect(listener1).toHaveBeenCalledTimes(1);
+  expect(listener2).toHaveBeenCalledTimes(1);
 });
 
 test("The listener is unsubscribed by the returned callback, it will no longer be called when the slice is updated.", () => {
@@ -161,8 +161,22 @@ test("On `load` called, all listener notified.", async () => {
   // Generate and execute microtasks with Promise to wait for listener execution.
   await Promise.resolve();
   // Assert
-  expect(listener1).toBeCalledTimes(1);
-  expect(listener2).toBeCalledTimes(1);
+  expect(listener1).toHaveBeenCalledTimes(1);
+  expect(listener2).toHaveBeenCalledTimes(1);
+});
+
+test("On `load` called, `onLoad` listener notified.", async () => {
+  // Arrange
+  const navigationKey = "current_location";
+  const store = new StorageStore(storage);
+  const listener = jest.fn();
+  store.onLoad(listener);
+  // Act
+  store.load(navigationKey);
+  // Generate and execute microtasks with Promise to wait for listener execution.
+  await Promise.resolve();
+  // Assert
+  expect(listener).toHaveBeenCalledTimes(1);
 });
 
 test("On `save` called, the state is saved in Storage with evaluated by deserialize.", () => {

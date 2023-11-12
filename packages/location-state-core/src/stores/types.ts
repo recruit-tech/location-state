@@ -8,14 +8,18 @@ export type StateSerializer = {
   deserialize: Deserialize;
 };
 
+type Unsubscribe = () => void;
+
 export type Store = {
-  subscribe(name: string, listener: Listener): () => void;
+  subscribe(name: string, listener: Listener): Unsubscribe;
 
   get(name: string): unknown;
 
   set(name: string, value: unknown): void;
 
   load(key: string): void;
+
+  onLoad(listener: Listener): Unsubscribe;
 
   save(): void;
 };

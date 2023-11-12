@@ -3,7 +3,7 @@ import { DefaultStoreName } from "./types";
 import {
   useCallback,
   useContext,
-  useEffect,
+  useLayoutEffect,
   useState,
   useSyncExternalStore,
 } from "react";
@@ -95,10 +95,11 @@ const _useLocationStateSnapshot = <T, StoreName extends string>(
   const store = useStore(storeName);
   const [, setNotify] = useState(false);
 
-  useEffect(() => {
+  // Use `useLayoutEffect` to ensure we listen before loading.
+  useLayoutEffect(() => {
     // render notify
-    return store.subscribe(name, () => setNotify(true));
-  }, [name, store]);
+    return store.onLoad(() => setNotify(true));
+  }, [store]);
 
   const get = useCallback(() => {
     const storeValue = store.get(name) as T | undefined;

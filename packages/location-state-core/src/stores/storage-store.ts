@@ -6,7 +6,8 @@ export const locationKeyPrefix = "__location_state_";
 
 export class StorageStore implements Store {
   private state: Record<string, unknown> = {};
-  private events = new EventEmitter();
+  private stateEvents = new EventEmitter();
+  private loadEvents = new EventEmitter();
   private currentKey: string | null = null;
 
   constructor(
@@ -15,8 +16,8 @@ export class StorageStore implements Store {
   ) {}
 
   subscribe(name: string, listener: Listener) {
-    this.events.on(name, listener);
-    return () => this.events.off(name, listener);
+    this.stateEvents.on(name, listener);
+    return () => this.stateEvents.off(name, listener);
   }
 
   get(name: string) {
@@ -29,7 +30,7 @@ export class StorageStore implements Store {
     } else {
       this.state[name] = value;
     }
-    this.events.emit(name);
+    this.stateEvents.emit(name);
   }
 
   load(locationKey: string) {
@@ -43,7 +44,13 @@ export class StorageStore implements Store {
       console.error(e);
       this.state = {};
     }
-    this.events.deferEmitAll();
+    this.stateEvents.deferEmitAll();
+    this.loadEvents.deferEmit("load");
+  }
+
+  onLoad(listener: Listener) {
+    this.loadEvents.on("load", listener);
+    return () => this.loadEvents.off("load", listener);
   }
 
   save() {

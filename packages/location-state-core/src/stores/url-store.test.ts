@@ -69,7 +69,7 @@ describe("`URLStore`", () => {
       // Act
       store.set("foo", "updated");
       // Assert
-      expect(listener).toBeCalledTimes(1);
+      expect(listener).toHaveBeenCalledTimes(1);
     });
 
     test("listener is called even if updated with undefined.", () => {
@@ -81,7 +81,7 @@ describe("`URLStore`", () => {
       // Act
       store.set("foo", undefined);
       // Assert
-      expect(listener).toBeCalledTimes(1);
+      expect(listener).toHaveBeenCalledTimes(1);
     });
 
     test("When called `store.get` in the listener to get the latest value.", () => {
@@ -99,8 +99,8 @@ describe("`URLStore`", () => {
       // Act
       store.set("foo", "updated");
       // Assert
-      expect(listener1).toBeCalledTimes(1);
-      expect(listener2).toBeCalledTimes(1);
+      expect(listener1).toHaveBeenCalledTimes(1);
+      expect(listener2).toHaveBeenCalledTimes(1);
     });
 
     test("When the listener is unsubscribed, it will no longer be called when the value is updated.", () => {
@@ -145,8 +145,8 @@ describe("`URLStore`", () => {
       // Generate and execute microtasks with Promise to wait for listener execution.
       await Promise.resolve();
       // Assert
-      expect(listener1).toBeCalledTimes(1);
-      expect(listener2).toBeCalledTimes(1);
+      expect(listener1).toHaveBeenCalledTimes(1);
+      expect(listener2).toHaveBeenCalledTimes(1);
     });
 
     test("When called `load`, delete parameter if invalid JSON string.", () => {
@@ -165,6 +165,19 @@ describe("`URLStore`", () => {
       expect(syncerMock.updateURL).toHaveBeenCalledWith("http://localhost/");
       // Restore console
       consoleSpy.mockRestore();
+    });
+
+    test("On `load` called, `onLoad` listener notified.", async () => {
+      // Arrange
+      const store = new URLStore(syncerMock);
+      const listener = jest.fn();
+      store.onLoad(listener);
+      // Act
+      store.load();
+      // Generate and execute microtasks with Promise to wait for listener execution.
+      await Promise.resolve();
+      // Assert
+      expect(listener).toHaveBeenCalledTimes(1);
     });
   });
 

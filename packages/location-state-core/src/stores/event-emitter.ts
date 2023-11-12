@@ -24,6 +24,10 @@ export class EventEmitter {
     this.listeners.get(event)?.forEach((listener) => listener());
   }
 
+  deferEmit(event: string) {
+    queueMicrotask(() => this.emit(event));
+  }
+
   emitAll() {
     this.listeners.forEach((listeners) =>
       listeners.forEach((listener) => listener()),

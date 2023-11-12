@@ -26,7 +26,7 @@ test("listener is called when updating slice.", () => {
   // Act
   store.set("foo", "updated");
   // Assert
-  expect(listener).toBeCalledTimes(1);
+  expect(listener).toHaveBeenCalledTimes(1);
 });
 
 test("listener is called even if updated with undefined.", () => {
@@ -38,7 +38,7 @@ test("listener is called even if updated with undefined.", () => {
   // Act
   store.set("foo", undefined);
   // Assert
-  expect(listener).toBeCalledTimes(1);
+  expect(listener).toHaveBeenCalledTimes(1);
 });
 
 test("store.get in the listener to get the latest value.", () => {
@@ -56,8 +56,8 @@ test("store.get in the listener to get the latest value.", () => {
   // Act
   store.set("foo", "updated");
   // Assert
-  expect(listener1).toBeCalledTimes(1);
-  expect(listener2).toBeCalledTimes(1);
+  expect(listener1).toHaveBeenCalledTimes(1);
+  expect(listener2).toHaveBeenCalledTimes(1);
 });
 
 test("The listener is unsubscribed by the returned callback, it will no longer be called when the slice is updated.", () => {
@@ -69,7 +69,7 @@ test("The listener is unsubscribed by the returned callback, it will no longer b
   unsubscribe();
   store.set("foo", "updated");
   // Assert
-  expect(listener).toBeCalledTimes(0);
+  expect(listener).toHaveBeenCalledTimes(0);
 });
 
 test("The slice is reset when `load` is called and the key is updated.", () => {
@@ -109,6 +109,19 @@ test("On `load` called, all listener notified.", async () => {
   // Generate and execute microtasks with Promise to wait for listener execution.
   await Promise.resolve();
   // Assert
-  expect(listener1).toBeCalledTimes(1);
-  expect(listener2).toBeCalledTimes(1);
+  expect(listener1).toHaveBeenCalledTimes(1);
+  expect(listener2).toHaveBeenCalledTimes(1);
+});
+
+test("On `load` called, `onLoad` listener notified.", async () => {
+  // Arrange
+  const store = new InMemoryStore();
+  const listener = jest.fn();
+  store.onLoad(listener);
+  // Act
+  store.load("initial");
+  // Generate and execute microtasks with Promise to wait for listener execution.
+  await Promise.resolve();
+  // Assert
+  expect(listener).toHaveBeenCalledTimes(1);
 });

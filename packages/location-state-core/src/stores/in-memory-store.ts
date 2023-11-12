@@ -5,14 +5,15 @@ type State = Record<string, unknown>;
 
 export class InMemoryStore implements Store {
   private state: Record<string, unknown> = {};
-  private events = new EventEmitter();
+  private stateEvents = new EventEmitter();
+  private loadEvents = new EventEmitter();
   private currentKey: string | null = null;
 
   constructor(private readonly storage: Map<string, State> = new Map()) {}
 
   subscribe(name: string, listener: Listener) {
-    this.events.on(name, listener);
-    return () => this.events.off(name, listener);
+    this.stateEvents.on(name, listener);
+    return () => this.stateEvents.off(name, listener);
   }
 
   get(name: string) {
@@ -25,14 +26,20 @@ export class InMemoryStore implements Store {
     } else {
       this.state[name] = value;
     }
-    this.events.emit(name);
+    this.stateEvents.emit(name);
   }
 
   load(locationKey: string) {
     if (this.currentKey === locationKey) return;
     this.currentKey = locationKey;
     this.state = this.storage.get(locationKey) ?? {};
-    this.events.deferEmitAll();
+    this.stateEvents.deferEmitAll();
+    this.loadEvents.deferEmit("load");
+  }
+
+  onLoad(listener: Listener) {
+    this.loadEvents.on("load", listener);
+    return () => this.loadEvents.off("load", listener);
   }
 
   save() {
