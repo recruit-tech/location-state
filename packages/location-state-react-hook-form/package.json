@@ -27,11 +27,12 @@
   },
   "devDependencies": {
     "configs": "workspace:*",
-    "eslint-config-custom": "workspace:*"
+    "eslint-config-custom": "workspace:*",
+    "@location-state/core": "workspace:*"
   },
   "peerDependencies": {
     "react": "^18.2.0",
     "react-hook-form": "^7.48.2",
-    "@location-state/core": "workspace:*"
+    "@location-state/core": "^1.0.1"
   }
 }
