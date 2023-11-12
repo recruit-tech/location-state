@@ -222,6 +222,9 @@ importers:
 
   packages/location-state-react-hook-form:
     dependencies:
+      '@location-state/core':
+        specifier: workspace:*
+        version: link:../location-state-core
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -229,9 +232,6 @@ importers:
         specifier: ^7.48.2
         version: 7.48.2(react@18.2.0)
     devDependencies:
-      '@location-state/core':
-        specifier: workspace:*
-        version: link:../location-state-core
       configs:
         specifier: workspace:*
         version: link:../configs

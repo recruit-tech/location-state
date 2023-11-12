@@ -24,6 +24,7 @@ export function useFromSync<TFieldValues extends FieldValues = FieldValues>(
 ) {
   const resetCalled = useRef(false);
   const setState = useLocationSetState(definition);
+  // `useLocationStateSnapshot` is re-rendered on `store.load()`.
   const snapshot = useLocationStateSnapshot(definition);
   const [defaultValues] = useState(() => snapshot.get());
   const { getValues, reset, ...form } = useForm({
