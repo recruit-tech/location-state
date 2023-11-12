@@ -17,11 +17,6 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./types/index.d.ts"
-    },
-    "./unsafe-navigation": {
-      "require": "./dist/unsafe-navigation.js",
-      "import": "./dist/unsafe-navigation.mjs",
-      "types": "./types/unsafe-navigation.d.ts"
     }
   },
   "scripts": {
