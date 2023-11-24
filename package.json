@@ -23,7 +23,7 @@
     "@changesets/cli": "2.26.2",
     "@playwright/test": "1.39.0",
     "@types/jest": "29.5.8",
-    "@types/node": "20.9.0",
+    "@types/node": "20.10.0",
     "@types/react": "18.2.37",
     "@types/react-dom": "18.2.15",
     "@typescript-eslint/eslint-plugin": "6.10.0",
