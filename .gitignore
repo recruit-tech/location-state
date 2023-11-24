@@ -32,3 +32,4 @@ yarn-error.log*
 
 # project
 /packages/*/types
+test-results
