@@ -13,7 +13,7 @@
   "dependencies": {
     "@location-state/core": "workspace:*",
     "@location-state/next": "workspace:*",
-    "@types/node": "20.10.0",
+    "@types/node": "20.10.1",
     "@types/react": "18.2.39",
     "@types/react-dom": "18.2.17",
     "eslint": "8.54.0",
