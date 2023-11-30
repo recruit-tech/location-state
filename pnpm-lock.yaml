@@ -207,6 +207,9 @@ importers:
       '@location-state/next':
         specifier: workspace:*
         version: link:../../packages/location-state-next
+      '@location-state/react-hook-form':
+        specifier: workspace:*
+        version: link:../../packages/location-state-react-hook-form
       next:
         specifier: 14.0.3
         version: 14.0.3(@babel/core@7.22.10)(react-dom@18.2.0)(react@18.2.0)
@@ -301,6 +304,25 @@ importers:
       next:
         specifier: 14.0.4
         version: 14.0.4(@babel/core@7.22.10)(react-dom@18.2.0)(react@18.2.0)
+
+  packages/location-state-react-hook-form:
+    dependencies:
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-hook-form:
+        specifier: ^7.48.2
+        version: 7.48.2(react@18.2.0)
+    devDependencies:
+      '@location-state/core':
+        specifier: workspace:*
+        version: link:../location-state-core
+      configs:
+        specifier: workspace:*
+        version: link:../configs
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
 
   packages/test-utils:
     dependencies:

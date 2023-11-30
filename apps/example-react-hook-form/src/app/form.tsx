@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocationForm } from "@location-state/react-hook-form";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -9,11 +10,16 @@ type FormValues = {
 };
 
 export function Form() {
-  const { register, handleSubmit } = useForm<FormValues>({
+  const { register, handleSubmit, reset, getValues } = useForm<FormValues>({
     defaultValues: {
       firstName: "John",
       lastName: "Doe",
     },
+  });
+  const { handleChange } = useLocationForm({
+    name: "my-form",
+    reset,
+    getValues,
   });
   const router = useRouter();
   const onSubmit = (data: FormValues) => {
@@ -25,7 +31,7 @@ export function Form() {
   return (
     <>
       <h2>My form</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} onChange={handleChange()}>
         <div>
           <label>
             first name:&nbsp;
