@@ -1,27 +1,45 @@
+import { useLocationGetState, useLocationSetState } from "@location-state/core";
+import { LocationStateDefinition } from "@location-state/core";
+import { DefaultStoreName } from "@location-state/core";
+import { useEffect } from "react";
 import type { UseFormReturn } from "react-hook-form";
 
 type LocationForm = {
   handleChange: (
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  ) => () => void;
+    onChange?: (event: React.ChangeEvent<HTMLFormElement>) => void,
+  ) => (event: React.ChangeEvent<HTMLFormElement>) => void;
 };
 
 export function useLocationForm<T extends Record<string, unknown>>({
   name,
   reset,
   getValues,
+  storeName = "session",
 }: Pick<UseFormReturn<T>, "reset" | "getValues"> & {
   name: string;
+  storeName?: DefaultStoreName;
 }): LocationForm {
-  return {
-    handleChange: (onChange) => () => {
-      // todo: implement
-      console.log("handleChange", {
-        name,
-        onChange,
-        reset,
-        getValues,
-      });
-    },
+  const definition: LocationStateDefinition<T> = {
+    name,
+    defaultValue: getValues(),
+    storeName,
   };
+  const getState = useLocationGetState(definition);
+  const setState = useLocationSetState(definition);
+
+  console.log("on render", getState());
+  useEffect(() => {
+    // FIXME: Can be restored on browser back, but not on reload.
+    console.log("on useEffect", getState());
+    reset(getState());
+  }, [reset, getState]);
+
+  const handleChange =
+    (onChange?: (event: React.ChangeEvent<HTMLFormElement>) => void) =>
+    (event: React.ChangeEvent<HTMLFormElement>) => {
+      onChange?.(event);
+      setState(getValues());
+    };
+
+  return { handleChange };
 }
