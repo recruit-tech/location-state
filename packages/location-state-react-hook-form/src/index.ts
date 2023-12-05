@@ -27,11 +27,10 @@ export function useLocationForm<T extends Record<string, unknown>>({
   const getState = useLocationGetState(definition);
   const setState = useLocationSetState(definition);
 
-  console.log("on render", getState());
   useEffect(() => {
-    // FIXME: Can be restored on browser back, but not on reload.
-    console.log("on useEffect", getState());
-    reset(getState());
+    queueMicrotask(() => {
+      reset(getState());
+    });
   }, [reset, getState]);
 
   const handleChange =
