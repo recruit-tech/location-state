@@ -6,9 +6,5 @@
   "dependencyDashboard": false,
   "automerge": true,
   "platformAutomerge": true,
-  "separateMultipleMajor": true,
-  "ignoreDeps": ["next"],
-  "description": [
-    "`ignoreDeps`: next@14.0.x has unstable behavior and we stop updating at 2023/11. Please fixme."
-  ]
+  "separateMultipleMajor": true
 }
