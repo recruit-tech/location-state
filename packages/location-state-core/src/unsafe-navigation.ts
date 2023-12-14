@@ -4,8 +4,8 @@ export const unsafeNavigation =
   typeof window === "undefined"
     ? undefined
     : window.navigation
-    ? window.navigation
-    : installUnsafeNavigation();
+      ? window.navigation
+      : installUnsafeNavigation();
 
 function installUnsafeNavigation(): Navigation {
   const originalHistory = window.history;
