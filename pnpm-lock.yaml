@@ -51,8 +51,8 @@ importers:
         specifier: 29.7.0
         version: 29.7.0(@types/node@20.10.4)
       navigation-api-types:
-        specifier: 0.5.0
-        version: 0.5.0
+        specifier: 0.5.1
+        version: 0.5.1
       playwright:
         specifier: 1.40.1
         version: 1.40.1
@@ -4787,8 +4787,8 @@ packages:
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  /navigation-api-types@0.5.0:
-    resolution: {integrity: sha512-8daAf+44soKz9TkoAvlU9NFD6l+lYkCRXOL6gEiCXKemGDE/m2YC3TQQMh7XW3fgs5DUO3gfza1qO5/TRIag6A==}
+  /navigation-api-types@0.5.1:
+    resolution: {integrity: sha512-STpzr4JvInYi+GFIckNe/dM5cKc9M7Q/ZLKLWcWxFzOCXCBK5Oog3PzjwXwJ18yCJ1RnPVgdVueQG357PIeiAA==}
     dev: true
 
   /next@14.0.2(@babel/core@7.22.10)(react-dom@18.2.0)(react@18.2.0):

@@ -18,7 +18,7 @@ export class NavigationSyncer implements Syncer {
     this.navigation?.addEventListener(
       "currententrychange",
       (e) => {
-        const { navigationType } = e as NavigateEvent;
+        const { navigationType } = e;
         if (navigationType !== "push" && navigationType !== "replace") {
           return;
         }
