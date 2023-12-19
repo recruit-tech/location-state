@@ -1,9 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { describe } from "node:test";
 
-// Safari/Firefox: different from actual behavior
-test.skip(({ browserName }) => browserName !== "chromium", "Chromium only!");
-
 describe('"session list" is restored on browser back.', () => {
   describe("In app router", () => {
     [

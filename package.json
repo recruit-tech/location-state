@@ -13,7 +13,7 @@
   "scripts": {
     "build": "turbo build",
     "test": "turbo test",
-    "integration-test": "turbo integration-test",
+    "integration-test": "turbo integration-test --concurrency=1",
     "typecheck": "turbo typecheck",
     "lint": "turbo lint",
     "check": "turbo dts typecheck lint build test",
