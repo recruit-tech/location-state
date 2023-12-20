@@ -126,11 +126,11 @@ importers:
         specifier: 20.5.6
         version: 20.5.6
       '@types/react':
-        specifier: 18.2.23
-        version: 18.2.23
+        specifier: 18.2.45
+        version: 18.2.45
       '@types/react-dom':
-        specifier: 18.2.8
-        version: 18.2.8
+        specifier: 18.2.18
+        version: 18.2.18
       eslint:
         specifier: 8.48.0
         version: 8.48.0
@@ -172,11 +172,11 @@ importers:
         specifier: 20.5.6
         version: 20.5.6
       '@types/react':
-        specifier: 18.2.23
-        version: 18.2.23
+        specifier: 18.2.45
+        version: 18.2.45
       '@types/react-dom':
-        specifier: 18.2.8
-        version: 18.2.8
+        specifier: 18.2.18
+        version: 18.2.18
       eslint:
         specifier: 8.48.0
         version: 8.48.0
@@ -1840,20 +1840,6 @@ packages:
     resolution: {integrity: sha512-TJxDm6OfAX2KJWJdMEVTwWke5Sc/E/RlnPGvGfS0W7+6ocy2xhDVQVh/KvC2Uf7kACs+gDytdusDSdWfWkaNzw==}
     dependencies:
       '@types/react': 18.2.45
-
-  /@types/react-dom@18.2.8:
-    resolution: {integrity: sha512-bAIvO5lN/U8sPGvs1Xm61rlRHHaq5rp5N3kp9C+NJ/Q41P8iqjkXSu0+/qu8POsjH9pNWb0OYabFez7taP7omw==}
-    dependencies:
-      '@types/react': 18.2.45
-    dev: false
-
-  /@types/react@18.2.23:
-    resolution: {integrity: sha512-qHLW6n1q2+7KyBEYnrZpcsAmU/iiCh9WGCKgXvMxx89+TYdJWRjZohVIo9XTcoLhfX3+/hP0Pbulu3bCZQ9PSA==}
-    dependencies:
-      '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.3
-      csstype: 3.1.2
-    dev: false
 
   /@types/react@18.2.45:
     resolution: {integrity: sha512-TtAxCNrlrBp8GoeEp1npd5g+d/OejJHFxS3OWmrPBMFaVQMSN0OFySozJio5BHxTuTeug00AVXVAjfDSfk+lUg==}
