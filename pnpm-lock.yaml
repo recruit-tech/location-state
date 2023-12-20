@@ -157,8 +157,8 @@ importers:
         version: 3.22.2
     devDependencies:
       '@types/qs':
-        specifier: 6.9.8
-        version: 6.9.8
+        specifier: 6.9.10
+        version: 6.9.10
 
   apps/example-next-unsafe-navigation:
     dependencies:
@@ -1832,8 +1832,8 @@ packages:
   /@types/prop-types@15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
 
-  /@types/qs@6.9.8:
-    resolution: {integrity: sha512-u95svzDlTysU5xecFNTgfFG5RUWu1A9P0VzgpcIiGZA9iraHOdSzcxMxQ55DyeRaGCSxQi7LxXDI4rzq/MYfdg==}
+  /@types/qs@6.9.10:
+    resolution: {integrity: sha512-3Gnx08Ns1sEoCrWssEgTSJs/rsT2vhGP+Ja9cnnk9k4ALxinORlQneLXFeFKOTJMOeZUFD1s7w+w2AphTpvzZw==}
     dev: true
 
   /@types/react-dom@18.2.18:
