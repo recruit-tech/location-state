@@ -24,6 +24,6 @@
     "zod": "3.22.2"
   },
   "devDependencies": {
-    "@types/qs": "6.9.10"
+    "@types/qs": "6.9.11"
   }
 }
