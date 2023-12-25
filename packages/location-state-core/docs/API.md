@@ -340,7 +340,7 @@ export declare class NavigationSyncer implements Syncer {
 
 `Syncer` implementation that uses the [Navigation API](https://github.com/WICG/navigation-api) to synchronize with history location.
 
-#### Parameters
+#### `new NavigationSyncer(navigation)`
 
 - `navigation?`: `window.navigation` or implementation of [Navigation API](https://github.com/WICG/navigation-api). Pass `undefined` when server side.
 
@@ -393,8 +393,8 @@ type Store = {
 - `subscribe(name, listener)`: Call `listener` when `state[name]` changes. Return a function to `unsubscribe`.
 - `get(name)`: Returns `state[name]`.
 - `set(name, value)`: Update `state[name]` with `value`.
-- `load(key)`: Load the state from the destination using the `key` of the history location and update the state.
-- `save()`: Save the state with the current `key`.
+- `load(key)`: Load state from destination using `key` in history location and update state.
+- `save()`: Save state to destination with current `key`.
 
 ### type `Stores`
 
@@ -425,10 +425,10 @@ export declare class StorageStore implements Store {
 
 A `Store` that stores state in `Storage`.
 
-#### Parameters
+#### `new StorageStore(storage, stateSerializer)`
 
-- `storage?`: The `Storage` of the destination. Pass `sessionStorage` or `localStorage`. On the server side, pass `undefined`.
-- `stateSerializer?`: Specifies how to serialize/deserialize. By default, it is `JSON.stringify` and `JSON.parse`.
+- `storage?`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
+- `stateSerializer?`: Specifies how to serialize/deserialize. The defaults are used `JSON.stringify` and `JSON.parse`.
 
 #### Example
 
@@ -457,7 +457,7 @@ export declare class URLStore implements Store {
 
 A `Store` that stores state in a URL.
 
-#### Parameters
+#### `new URLStore(syncer, urlEncoder)`
 
 - `syncer`: Implementation of [`Syncer`](#syncer) used for URL updates.
 - `urlEncoder?`: Implementation of [`URLEncoder`](#type-urlencoder) used for URL encoding/decoding. By default, [`defaultSearchParamEncoder`](#defaultSearchParamEncoder) is used.
@@ -472,14 +472,6 @@ const customUrlStore = new URLStore(syncer, {
 });
 ```
 
-#### `defaultSearchParamEncoder`
-
-```ts
-declare const defaultSearchParamEncoder: URLEncoder;
-```
-
-The `URLEncoder` used by default. Serialize/deserialize the state in the `location-state` query parameter with `JSON.stringify`/`JSON.parse`.
-
 #### function `searchParamEncoder`
 
 ```ts
@@ -490,3 +482,11 @@ declare function searchParamEncoder(
 ```
 
 Generate a `URLEncoder` with the query parameter name and `StateSerializer`.
+
+#### `defaultSearchParamEncoder`
+
+```ts
+declare const defaultSearchParamEncoder: URLEncoder;
+```
+
+This is the `URLEncoder` that `URLStore` uses by default. Serialize/Deserialize the state in the `location-state` query parameter with `JSON.stringify`/`JSON.parse`.
