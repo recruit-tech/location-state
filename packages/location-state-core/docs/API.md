@@ -490,3 +490,7 @@ declare const defaultSearchParamEncoder: URLEncoder;
 ```
 
 This is the `URLEncoder` that `URLStore` uses by default. Serialize/Deserialize the state in the `location-state` query parameter with `JSON.stringify`/`JSON.parse`.
+
+```
+https://test.com?location-state=%7B%22counter%22%3A1%7D
+```
