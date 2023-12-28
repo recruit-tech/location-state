@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   LocationStateDefinition,
   useLocationSetState,
   useLocationState,
   useLocationStateValue,
+  useLocationGetState,
 } from "./hooks";
 import { LocationStateProvider } from "./provider";
 import { createNavigationMock } from "test-utils";
@@ -79,7 +80,7 @@ describe("using `useLocationState`.", () => {
     );
   });
 
-  test("If there is a value in sessionStorage, it will be restored as initial value", async () => {
+  test("If there is a value in sessionStorage, it will be restored as initial value.", async () => {
     // Arrange
     const key = mockNavigation.currentEntry?.key as string;
     sessionStorage.setItem(`${locationKeyPrefix}${key}`, `{"count":2}`);
@@ -111,7 +112,7 @@ describe("using `useLocationStateValue`.", () => {
     );
   }
 
-  test("If there is a value in sessionStorage, it will be restored as initial value", async () => {
+  test("If there is a value in sessionStorage, it will be restored as initial value.", async () => {
     // Arrange
     const key = mockNavigation.currentEntry?.key as string;
     sessionStorage.setItem(`${locationKeyPrefix}${key}`, `{"count":2}`);
@@ -163,5 +164,57 @@ describe("using `useLocationSetState`.", () => {
     // Assert
     expect(screen.getByRole("heading")).toHaveTextContent("rendered: 1");
     // todo: assert store's value updated.
+  });
+});
+
+describe("using `useLocationGetState` with `storeName`.", () => {
+  function LocationSyncOnceCounter() {
+    const counter: LocationStateDefinition<number> = {
+      name: "count",
+      defaultValue: 0,
+      storeName: "session",
+    };
+    const getState = useLocationGetState(counter);
+    const [, setState] = useState(false);
+
+    return (
+      <>
+        <h1>count: {getState()}</h1>
+        <button onClick={() => setState((prev) => !prev)}>force render</button>
+      </>
+    );
+  }
+
+  function LocationSyncCounterPage() {
+    return (
+      <LocationStateProvider>
+        <LocationSyncOnceCounter />
+      </LocationStateProvider>
+    );
+  }
+
+  test("If there is a value in sessionStorage, it is not re-rendered.", async () => {
+    // Arrange
+    const key = mockNavigation.currentEntry?.key as string;
+    sessionStorage.setItem(`${locationKeyPrefix}${key}`, `{"count":2}`);
+    // Act
+    renderWithUser(<LocationSyncCounterPage />);
+    // Assert
+    await waitFor(() =>
+      expect(screen.getByRole("heading")).toHaveTextContent("count: 0"),
+    );
+  });
+
+  test("Always get the latest values.", async () => {
+    // Arrange
+    const key = mockNavigation.currentEntry?.key as string;
+    sessionStorage.setItem(`${locationKeyPrefix}${key}`, `{"count":2}`);
+    const { user } = renderWithUser(<LocationSyncCounterPage />);
+    // Act
+    await user.click(
+      await screen.findByRole("button", { name: "force render" }),
+    );
+    // Assert
+    expect(screen.getByRole("heading")).toHaveTextContent("count: 2");
   });
 });

@@ -1,0 +1,38 @@
+{
+  "name": "@location-state/react-hook-form",
+  "version": "1.0.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/recruit-tech/location-state",
+  "description": "State management library for React that synchronizes with history entries supporting Next.js App Router.",
+  "files": [
+    "dist",
+    "types",
+    "src",
+    "package.json"
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./types/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts",
+    "dts": "tsc -p tsconfig.dts.json",
+    "typecheck": "tsc",
+    "lint": "eslint . --ext .ts,.tsx"
+  },
+  "devDependencies": {
+    "configs": "workspace:*",
+    "eslint-config-custom": "workspace:*",
+    "@location-state/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-hook-form": "^7.48.2",
+    "@location-state/core": "^1.0.1"
+  }
+}
