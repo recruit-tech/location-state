@@ -30,7 +30,6 @@ export function Form() {
 
   return (
     <>
-      <h2>My form</h2>
       <form onSubmit={handleSubmit(onSubmit)} onChange={handleChange()}>
         <div>
           <label>

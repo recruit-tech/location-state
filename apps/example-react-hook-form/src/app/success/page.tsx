@@ -1,4 +1,4 @@
-import { QueryResult } from "@/app/success/query-result";
+import { QueryResult } from "./query-result";
 
 export default function Page() {
   return (

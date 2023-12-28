@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean-start": "rm -rf .next && next build && next start"
   },
   "dependencies": {
     "@location-state/core": "workspace:*",
