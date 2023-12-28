@@ -8,6 +8,7 @@ type LocationForm = {
   handleChange: (
     onChange?: (event: React.ChangeEvent<HTMLFormElement>) => void,
   ) => (event: React.ChangeEvent<HTMLFormElement>) => void;
+  handleFieldArrayItem: (mutation: () => void) => () => void;
 };
 
 export function useLocationForm<T extends Record<string, unknown>>({
@@ -40,5 +41,10 @@ export function useLocationForm<T extends Record<string, unknown>>({
       setState(getValues());
     };
 
-  return { handleChange };
+  const handleFieldArrayItem = (mutation: () => void) => () => {
+    mutation();
+    setState(getValues());
+  };
+
+  return { handleChange, handleFieldArrayItem };
 }
