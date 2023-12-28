@@ -12,10 +12,12 @@ type FormValues = {
   }>;
 };
 
+const createNewItem = () => ({ name: "" });
+
 export function Form() {
   const { register, control, handleSubmit, reset, getValues } =
     useForm<FormValues>();
-  const { fields, append } = useFieldArray({
+  const { fields, append, insert, swap, remove } = useFieldArray({
     control,
     name: "members",
   });
@@ -39,12 +41,24 @@ export function Form() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} onChange={handleChange()}>
-        <button type="button" onClick={() => append({ name: "" })}>
+        <button type="button" onClick={() => append(createNewItem())}>
           append
         </button>
-        <ul>
+        <ul
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            rowGap: "30px",
+          }}
+        >
           {fields.map((field, index) => (
-            <li key={field.id}>
+            <li
+              key={field.id}
+              style={{
+                display: "flex",
+                columnGap: "20px",
+              }}
+            >
               <div
                 style={{
                   display: "flex",
@@ -68,12 +82,29 @@ export function Form() {
                   />
                 </label>
               </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  rowGap: "10px",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => insert(index, createNewItem())}
+                >
+                  insert before
+                </button>
+                <button type="button" onClick={() => swap(index, index + 1)}>
+                  swap before
+                </button>
+                <button type="button" onClick={() => remove(index)}>
+                  remove
+                </button>
+              </div>
             </li>
           ))}
         </ul>
-        {/* todo: insert */}
-        {/* todo: swap */}
-        {/* todo: remove */}
         <button>submit</button>
       </form>
     </>
