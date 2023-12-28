@@ -29,22 +29,20 @@ export function Form() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)} onChange={handleChange()}>
-        <div>
-          <label>
-            first name:&nbsp;
-            <input type="text" {...register("firstName")} />
-          </label>
-        </div>
-        <div>
-          <label>
-            last name:&nbsp;
-            <input type="text" {...register("lastName")} />
-          </label>
-        </div>
-        <button>submit</button>
-      </form>
-    </>
+    <form onSubmit={handleSubmit(onSubmit)} onChange={handleChange()}>
+      <div>
+        <label>
+          first name:&nbsp;
+          <input type="text" {...register("firstName")} />
+        </label>
+      </div>
+      <div>
+        <label>
+          last name:&nbsp;
+          <input type="text" {...register("lastName")} />
+        </label>
+      </div>
+      <button>submit</button>
+    </form>
   );
 }

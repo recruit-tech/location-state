@@ -30,7 +30,6 @@ export function Form() {
 
   const router = useRouter();
   const onSubmit = (data: FormValues) => {
-    console.log(data);
     router.push(
       `/success?members=${JSON.stringify(data.members)}&leaderId=${
         data.leaderId
@@ -39,85 +38,83 @@ export function Form() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)} onChange={handleChange()}>
-        <button
-          type="button"
-          onClick={handleFieldArrayItem(() => append(createNewItem()))}
-        >
-          append
-        </button>
-        <ul
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            rowGap: "30px",
-          }}
-        >
-          {fields.map((field, index) => (
-            <li
-              key={field.id}
+    <form onSubmit={handleSubmit(onSubmit)} onChange={handleChange()}>
+      <button
+        type="button"
+        onClick={handleFieldArrayItem(() => append(createNewItem()))}
+      >
+        append
+      </button>
+      <ul
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          rowGap: "30px",
+        }}
+      >
+        {fields.map((field, index) => (
+          <li
+            key={field.id}
+            style={{
+              display: "flex",
+              columnGap: "20px",
+            }}
+          >
+            <div
               style={{
                 display: "flex",
-                columnGap: "20px",
+                flexDirection: "column",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
+              <label>
+                name:&nbsp;
+                <input type="text" {...register(`members.${index}.name`)} />
+              </label>
+              <label>
+                leader:&nbsp;
+                <input type="radio" {...register("leaderId")} value={index} />
+              </label>
+              <label>
+                engineer:&nbsp;
+                <input
+                  type="checkbox"
+                  {...register("engineerIds")}
+                  value={index}
+                />
+              </label>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                rowGap: "10px",
+              }}
+            >
+              <button
+                type="button"
+                onClick={handleFieldArrayItem(() =>
+                  insert(index, createNewItem()),
+                )}
               >
-                <label>
-                  name:&nbsp;
-                  <input type="text" {...register(`members.${index}.name`)} />
-                </label>
-                <label>
-                  leader:&nbsp;
-                  <input type="radio" {...register("leaderId")} value={index} />
-                </label>
-                <label>
-                  engineer:&nbsp;
-                  <input
-                    type="checkbox"
-                    {...register("engineerIds")}
-                    value={index}
-                  />
-                </label>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  rowGap: "10px",
-                }}
+                insert before
+              </button>
+              <button
+                type="button"
+                onClick={handleFieldArrayItem(() => swap(index, index + 1))}
               >
-                <button
-                  type="button"
-                  onClick={handleFieldArrayItem(() =>
-                    insert(index, createNewItem()),
-                  )}
-                >
-                  insert before
-                </button>
-                <button
-                  type="button"
-                  onClick={handleFieldArrayItem(() => swap(index, index + 1))}
-                >
-                  swap before
-                </button>
-                <button
-                  type="button"
-                  onClick={handleFieldArrayItem(() => remove(index))}
-                >
-                  remove
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <button>submit</button>
-      </form>
-    </>
+                swap before
+              </button>
+              <button
+                type="button"
+                onClick={handleFieldArrayItem(() => remove(index))}
+              >
+                remove
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <button>submit</button>
+    </form>
   );
 }
