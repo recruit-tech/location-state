@@ -386,7 +386,7 @@ type Store = {
 };
 ```
 
-`Store` is an interface to implement state retention and persistence. By implementing `Store`, you can customize where `location-state` is stored.
+`Store` is an interface to implement state retention and persistence.
 
 #### Methods
 
@@ -428,12 +428,14 @@ A `Store` that stores state in `Storage`.
 #### `new StorageStore(storage, stateSerializer)`
 
 - `storage?`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
-- `stateSerializer?`: Specifies how to serialize/deserialize. The defaults are used `JSON.stringify` and `JSON.parse`.
+- `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
 
 #### Example
 
 ```ts
-const sessionStore = new StorageStore(globalThis.sessionStorage);
+const sessionStore = new StorageStore(
+  typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
+);
 ```
 
 ### type `URLEncoder`
@@ -483,7 +485,7 @@ declare function searchParamEncoder(
 
 Generate a `URLEncoder` with the query parameter name and `StateSerializer`.
 
-#### `defaultSearchParamEncoder`
+#### object `defaultSearchParamEncoder`: URLEncoder
 
 ```ts
 declare const defaultSearchParamEncoder: URLEncoder;
@@ -492,5 +494,6 @@ declare const defaultSearchParamEncoder: URLEncoder;
 This is the `URLEncoder` that `URLStore` uses by default. Serialize/Deserialize the state in the `location-state` query parameter with `JSON.stringify`/`JSON.parse`.
 
 ```
+// Example of saving `counter: 1`.
 https://test.com?location-state=%7B%22counter%22%3A1%7D
 ```
