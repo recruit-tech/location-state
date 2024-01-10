@@ -22,7 +22,7 @@ export function Form() {
     name: "members",
   });
 
-  const { handleChange, handleFieldArrayItem } = useLocationForm({
+  const { handleChange, withSave } = useLocationForm({
     name: "my-form",
     reset,
     getValues,
@@ -39,10 +39,7 @@ export function Form() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} onChange={handleChange()}>
-      <button
-        type="button"
-        onClick={handleFieldArrayItem(() => append(createNewItem()))}
-      >
+      <button type="button" onClick={withSave(() => append(createNewItem()))}>
         append
       </button>
       <ul
@@ -92,22 +89,17 @@ export function Form() {
             >
               <button
                 type="button"
-                onClick={handleFieldArrayItem(() =>
-                  insert(index, createNewItem()),
-                )}
+                onClick={withSave(() => insert(index, createNewItem()))}
               >
                 insert before
               </button>
               <button
                 type="button"
-                onClick={handleFieldArrayItem(() => swap(index, index + 1))}
+                onClick={withSave(() => swap(index, index + 1))}
               >
                 swap before
               </button>
-              <button
-                type="button"
-                onClick={handleFieldArrayItem(() => remove(index))}
-              >
+              <button type="button" onClick={withSave(() => remove(index))}>
                 remove
               </button>
             </div>
