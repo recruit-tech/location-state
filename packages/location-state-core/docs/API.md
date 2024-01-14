@@ -17,6 +17,7 @@
   - [type `Stores`](#type-Stores)
   - [type `StateSerializer`](#type-StateSerializer)
   - [class `StorageStore`](#class-StorageStore)
+  - [type `URLEncoder`](#type-URLEncoder)
   - [class `URLStore`](#class-URLStore)
 
 ## State hooks
