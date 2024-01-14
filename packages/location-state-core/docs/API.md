@@ -12,6 +12,13 @@
   - [function`getHooksWith`](#function-getHooksWith)
 - [Syncer](#Syncer)
   - [class `NavigationSyncer`](#class-NavigationSyncer)
+- [Store](#Store)
+  - [type `Store`](#type-Store)
+  - [type `Stores`](#type-Stores)
+  - [type `StateSerializer`](#type-StateSerializer)
+  - [class `StorageStore`](#class-StorageStore)
+  - [type `URLEncoder`](#type-URLEncoder)
+  - [class `URLStore`](#class-URLStore)
 
 ## State hooks
 
@@ -186,7 +193,7 @@ Allows updating of the state associated with the current history location from a
 
 #### Type Parameters
 
-- `T`: state の型
+- `T`: Type of state.
 
 #### Parameters
 
@@ -246,7 +253,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 export declare const createDefaultStores: (syncer: Syncer) => Stores;
 ```
 
-Create default [`Stores`](#type-stores) to be used by `<LocationStateProvider>`.
+Create default [`Stores`](#type-Stores) to be used by `<LocationStateProvider>`.
 
 #### Parameters
 
@@ -334,7 +341,7 @@ export declare class NavigationSyncer implements Syncer {
 
 `Syncer` implementation that uses the [Navigation API](https://github.com/WICG/navigation-api) to synchronize with history location.
 
-#### Parameters
+#### `new NavigationSyncer(navigation)`
 
 - `navigation?`: `window.navigation` or implementation of [Navigation API](https://github.com/WICG/navigation-api). Pass `undefined` when server side.
 
@@ -363,4 +370,131 @@ Provides a temporary implementation for browsers that do not support the Navigat
 import { unsafeNavigation } from "@location-state/core/unsafe-navigation";
 
 const navigationSyncer = new NavigationSyncer(unsafeNavigation);
+```
+
+## Store
+
+### type `Store`
+
+```ts
+type Unsubscribe = () => void;
+type Store = {
+  subscribe(name: string, listener: Listener): Unsubscribe;
+  get(name: string): unknown;
+  set(name: string, value: unknown): void;
+  load(key: string): void;
+  save(): void;
+};
+```
+
+`Store` is an interface to implement state retention and persistence.
+
+#### Methods
+
+- `subscribe(name, listener)`: Call `listener` when `state[name]` changes. Return a function to `unsubscribe`.
+- `get(name)`: Returns `state[name]`.
+- `set(name, value)`: Update `state[name]` with `value`.
+- `load(key)`: Load state from destination using `key` in history location and update state.
+- `save()`: Save state to destination with current `key`.
+
+### type `Stores`
+
+```ts
+export type Stores = Record<string, Store>;
+```
+
+`Stores` is a key-value object of `Store`.
+
+### type `StateSerializer`
+
+```ts
+type StateSerializer = {
+  serialize: (value: Record<string, unknown>) => string;
+  deserialize: (value: string) => Record<string, unknown>;
+};
+```
+
+Interface to serialize/deserialize state. It may be used for `Store`s customization.
+
+### class `StorageStore`
+
+```ts
+export declare class StorageStore implements Store {
+  constructor(storage?: Storage | undefined, stateSerializer?: StateSerializer);
+}
+```
+
+A `Store` that stores state in `Storage`.
+
+#### `new StorageStore(storage, stateSerializer)`
+
+- `storage?`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
+- `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
+
+#### Example
+
+```ts
+const sessionStore = new StorageStore(
+  typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
+);
+```
+
+### type `URLEncoder`
+
+```ts
+type URLEncoder = {
+  encode: (url: string, state?: Record<string, unknown>) => string;
+  decode: (url: string) => Record<string, unknown>;
+};
+```
+
+Interface to URL encoding/decoding. It may be used for `URLStore`s customization.
+
+### class `URLStore`
+
+```ts
+export declare class URLStore implements Store {
+  constructor(syncer: Syncer, urlEncoder?: URLEncoder);
+}
+```
+
+A `Store` that stores state in a URL.
+
+#### `new URLStore(syncer, urlEncoder)`
+
+- `syncer`: Implementation of [`Syncer`](#syncer) used for URL updates.
+- `urlEncoder?`: Implementation of [`URLEncoder`](#type-urlencoder) used for URL encoding/decoding. By default, [`defaultSearchParamEncoder`](#defaultSearchParamEncoder) is used.
+
+#### Example
+
+```ts
+const urlStore = new URLStore(syncer);
+const customUrlStore = new URLStore(syncer, {
+  encode: encodeUrlState,
+  decode: decodeUrlState,
+});
+```
+
+#### function `searchParamEncoder`
+
+```ts
+declare function searchParamEncoder(
+  paramName: string,
+  stateSerializer: StateSerializer,
+): URLEncoder;
+```
+
+Generate a `URLEncoder` with the query parameter name and `StateSerializer`.
+
+#### object `defaultSearchParamEncoder`: URLEncoder
+
+```ts
+declare const defaultSearchParamEncoder: URLEncoder;
+```
+
+This is the `URLEncoder` that `URLStore` uses by default. Serialize/Deserialize the state in the `location-state` query parameter with `JSON.stringify`/`JSON.parse`.
+
+```
+// Example of saving `counter: 1`.
+https://test.com?location-state=%7B%22counter%22%3A1%7D
 ```
