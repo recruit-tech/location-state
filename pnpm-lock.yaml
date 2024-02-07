@@ -24,8 +24,8 @@ importers:
         specifier: 18.2.55
         version: 18.2.55
       '@types/react-dom':
-        specifier: 18.2.18
-        version: 18.2.18
+        specifier: 18.2.19
+        version: 18.2.19
       '@typescript-eslint/eslint-plugin':
         specifier: 6.21.0
         version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.56.0)(typescript@5.3.3)
@@ -90,8 +90,8 @@ importers:
         specifier: 18.2.55
         version: 18.2.55
       '@types/react-dom':
-        specifier: 18.2.18
-        version: 18.2.18
+        specifier: 18.2.19
+        version: 18.2.19
       eslint:
         specifier: 8.56.0
         version: 8.56.0
@@ -129,8 +129,8 @@ importers:
         specifier: 18.2.55
         version: 18.2.55
       '@types/react-dom':
-        specifier: 18.2.18
-        version: 18.2.18
+        specifier: 18.2.19
+        version: 18.2.19
       eslint:
         specifier: 8.48.0
         version: 8.48.0
@@ -175,8 +175,8 @@ importers:
         specifier: 18.2.55
         version: 18.2.55
       '@types/react-dom':
-        specifier: 18.2.18
-        version: 18.2.18
+        specifier: 18.2.19
+        version: 18.2.19
       eslint:
         specifier: 8.48.0
         version: 8.48.0
@@ -1710,7 +1710,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.22.15
       '@testing-library/dom': 9.3.1
-      '@types/react-dom': 18.2.18
+      '@types/react-dom': 18.2.19
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
@@ -1839,8 +1839,8 @@ packages:
     resolution: {integrity: sha512-oGk0gmhnEJK4Yyk+oI7EfXsLayXatCWPHary1MtcmbAifkobT9cM9yutG/hZKIseOU0MqbIwQ/u2nn/Gb+ltuQ==}
     dev: true
 
-  /@types/react-dom@18.2.18:
-    resolution: {integrity: sha512-TJxDm6OfAX2KJWJdMEVTwWke5Sc/E/RlnPGvGfS0W7+6ocy2xhDVQVh/KvC2Uf7kACs+gDytdusDSdWfWkaNzw==}
+  /@types/react-dom@18.2.19:
+    resolution: {integrity: sha512-aZvQL6uUbIJpjZk4U8JZGbau9KDeAwMfmhyWorxgBkqDIEf6ROjRozcmPIicqsUwPUjbkDfHKgGee1Lq65APcA==}
     dependencies:
       '@types/react': 18.2.55
 
