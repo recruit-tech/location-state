@@ -14,7 +14,7 @@
     "@location-state/core": "workspace:*",
     "@location-state/next": "workspace:*",
     "@types/node": "20.10.5",
-    "@types/react": "18.2.60",
+    "@types/react": "18.2.61",
     "@types/react-dom": "18.2.19",
     "eslint": "8.56.0",
     "eslint-config-next": "14.0.4",
