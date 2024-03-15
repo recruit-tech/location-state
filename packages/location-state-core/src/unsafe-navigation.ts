@@ -9,16 +9,19 @@ export const unsafeNavigation =
 
 function installUnsafeNavigation(): Navigation {
   const originalHistory = window.history;
+  const originalPushState = window.history.pushState.bind(window.history);
+  const originalReplaceState = window.history.replaceState.bind(window.history);
+
   if (!originalHistory.state) {
-    originalHistory.replaceState(
+    originalReplaceState(
       { ___UNSAFE_NAVIGATION_KEY___: crypto.randomUUID() },
       "",
       location.href,
     );
   }
 
-  const pushState: History["pushState"] = (state, unused, url) => {
-    originalHistory.pushState(
+  window.history.pushState = (state, unused, url) => {
+    originalPushState(
       { ___UNSAFE_NAVIGATION_KEY___: crypto.randomUUID(), ...state },
       unused,
       url,
@@ -28,9 +31,9 @@ function installUnsafeNavigation(): Navigation {
     } as NavigationCurrentEntryChangeEvent);
   };
 
-  const replaceState: History["replaceState"] = (state, unused, url) => {
+  window.history.replaceState = (state, unused, url) => {
     const { ___UNSAFE_NAVIGATION_KEY___ } = originalHistory.state ?? {};
-    originalHistory.replaceState(
+    originalReplaceState(
       { ...state, ___UNSAFE_NAVIGATION_KEY___ },
       unused,
       url,
@@ -39,46 +42,6 @@ function installUnsafeNavigation(): Navigation {
       navigationType: "replace",
     } as NavigationCurrentEntryChangeEvent);
   };
-
-  const proxyHandler: ProxyHandler<History> = {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get(target, propName, receiver) {
-      // if (typeof propName !== "string") return;
-      switch (propName) {
-        case "state": {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { ___UNSAFE_NAVIGATION_KEY___, state } = target.state;
-          return state;
-        }
-        case "pushState": {
-          return pushState;
-        }
-        case "replaceState": {
-          return replaceState;
-        }
-      }
-      const value = Reflect.get(target, propName);
-      if (typeof value === "function") {
-        return value.bind(target);
-      }
-      return value;
-    },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    set(target, propertyName, newValue, receiver) {
-      if (propertyName !== "scrollRestoration") return false;
-      return Reflect.set(target, propertyName, newValue);
-    },
-  };
-
-  const historyProxy = new Proxy(originalHistory, proxyHandler);
-
-  Object.defineProperty(window, "history", {
-    configurable: true,
-    enumerable: true,
-    get() {
-      return historyProxy;
-    },
-  });
 
   const listenersMap = new Map<string, Set<EventListener>>();
 
