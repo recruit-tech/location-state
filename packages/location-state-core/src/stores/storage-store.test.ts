@@ -1,4 +1,4 @@
-import { vi } from "vitest";
+import { beforeEach, expect, test, vi } from "vitest";
 import { StorageStore, locationKeyPrefix } from "./storage-store";
 
 const storageMock = {

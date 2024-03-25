@@ -1,4 +1,4 @@
-import { type Mock, vi } from "vitest";
+import { type Mock, beforeEach, describe, expect, test, vi } from "vitest";
 import type { Syncer } from "../types";
 import { jsonSerializer } from "./serializer";
 import { URLStore, searchParamEncoder } from "./url-store";

@@ -1,5 +1,5 @@
 import { createNavigationMock } from "test-utils";
-import { vi } from "vitest";
+import { expect, test, vi } from "vitest";
 import { NavigationSyncer } from "./navigation-syncer";
 
 test("Key changes when `navigation.currentEntry` changes.", () => {

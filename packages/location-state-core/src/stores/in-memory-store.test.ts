@@ -1,4 +1,4 @@
-import { vi } from "vitest";
+import { expect, test, vi } from "vitest";
 import { InMemoryStore } from "./in-memory-store";
 
 test("The initial value is undefined.", () => {
