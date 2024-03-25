@@ -12,7 +12,6 @@ import { LocationStateProvider } from "./provider";
 import { locationKeyPrefix } from "./stores";
 
 const mockNavigation = createNavigationMock("/");
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 globalThis.navigation = mockNavigation;
 

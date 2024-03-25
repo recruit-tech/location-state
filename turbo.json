@@ -12,9 +12,6 @@
     "typecheck": {
       "dependsOn": ["dts"]
     },
-    "lint": {
-      "dependsOn": ["dts"]
-    },
     "integration-test": {},
     "test": {
       "outputs": ["coverage/**"]
