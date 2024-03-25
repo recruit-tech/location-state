@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import { describe } from "node:test";
+import { expect, test } from "@playwright/test";
 
 describe('"session list" is restored on browser back.', () => {
   describe("In app router", () => {

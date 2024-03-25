@@ -6,12 +6,7 @@
   },
   "repository": "https://github.com/recruit-tech/location-state",
   "description": "State management library for React that synchronizes with history entries supporting Next.js Pages Router.",
-  "files": [
-    "dist",
-    "types",
-    "src",
-    "package.json"
-  ],
+  "files": ["dist", "types", "src", "package.json"],
   "exports": {
     ".": {
       "require": "./dist/index.js",
@@ -22,8 +17,7 @@
   "scripts": {
     "build": "tsup src/index.ts",
     "dts": "tsc -p tsconfig.dts.json",
-    "typecheck": "tsc",
-    "lint": "eslint . --ext .ts,.tsx"
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@location-state/core": "workspace:*"
@@ -31,7 +25,6 @@
   "devDependencies": {
     "@location-state/core": "workspace:*",
     "configs": "workspace:*",
-    "eslint-config-custom": "workspace:*",
     "next": "14.0.4"
   },
   "peerDependencies": {

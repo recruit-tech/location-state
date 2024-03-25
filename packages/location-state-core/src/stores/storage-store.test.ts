@@ -1,4 +1,4 @@
-import { locationKeyPrefix, StorageStore } from "./storage-store";
+import { StorageStore, locationKeyPrefix } from "./storage-store";
 
 const storageMock = {
   getItem: jest.fn().mockReturnValue(null),

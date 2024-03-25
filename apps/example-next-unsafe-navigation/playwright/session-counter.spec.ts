@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import { describe } from "node:test";
+import { expect, test } from "@playwright/test";
 
 // Safari/Firefox: different from actual behavior
 test.skip(({ browserName }) => browserName !== "chromium", "Chromium only!");

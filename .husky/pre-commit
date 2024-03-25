@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-pnpm exec turbo typecheck lint test
-pnpm exec prettier --check .
+pnpm run commit-check

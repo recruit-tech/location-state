@@ -1,9 +1,0 @@
-**/dist/*
-.github/**
-.husky/**
-.next
-.turbo
-dist
-types
-pnpm-lock.yaml
-playwright-report

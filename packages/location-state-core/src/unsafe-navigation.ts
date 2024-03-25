@@ -68,7 +68,6 @@ function installUnsafeNavigation(): Navigation {
     type: string,
     listener: EventListener,
     options?: boolean | AddEventListenerOptions | undefined,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ) => void = (type, listener, options) => {
     if (!listener) return;
     const listeners = listenersMap.get(type);

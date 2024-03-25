@@ -1,6 +1,7 @@
+import { setTimeout } from "node:timers/promises";
 import { Counter } from "@/components/Counter";
 import { List } from "@/components/List";
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 import Link from "next/link";
 
 type Props = {
@@ -27,14 +28,12 @@ export default function Page({ id }: Props) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  { id: string }
-> = async ({ params }) => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return {
-    props: {
-      id: Number(params?.id),
-    },
+export const getServerSideProps: GetServerSideProps<Props, { id: string }> =
+  async ({ params }) => {
+    await setTimeout(1000);
+    return {
+      props: {
+        id: Number(params?.id),
+      },
+    };
   };
-};

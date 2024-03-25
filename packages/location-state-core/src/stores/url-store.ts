@@ -1,7 +1,7 @@
-import { Syncer } from "../types";
+import type { Syncer } from "../types";
 import { EventEmitter } from "./event-emitter";
 import { jsonSerializer } from "./serializer";
-import { Listener, Store, StateSerializer } from "./types";
+import type { Listener, StateSerializer, Store } from "./types";
 
 type URLEncoder = {
   encode: (url: string, state?: Record<string, unknown>) => string;

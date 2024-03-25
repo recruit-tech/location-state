@@ -1,0 +1,48 @@
+{
+  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "ignore": [
+      ".vscode",
+      "**/tsconfig.*.json",
+      "**/node_modules",
+      "**/.next",
+      "**/types",
+      "**/dist",
+      "backend",
+      "playwright-report",
+      "**/styled-system",
+      "pnpm-lock.yaml"
+    ],
+    "ignoreUnknown": true
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "ignore": [
+      ".vscode",
+      "**/tsconfig.*.json",
+      "**/node_modules",
+      "**/.next",
+      "**/types",
+      "**/dist",
+      "backend",
+      "playwright-report",
+      "**/styled-system",
+      "pnpm-lock.yaml"
+    ],
+    "indentWidth": 2,
+    "indentStyle": "space"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "noForEach": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off"
+      }
+    }
+  }
+}

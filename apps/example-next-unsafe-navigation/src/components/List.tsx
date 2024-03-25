@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocationState, DefaultStoreName } from "@location-state/core";
+import { type DefaultStoreName, useLocationState } from "@location-state/core";
 import { useId } from "react";
 
 export function List({ storeName }: { storeName: DefaultStoreName }) {
@@ -35,6 +35,7 @@ export function List({ storeName }: { storeName: DefaultStoreName }) {
         }}
       >
         {list.map((_, index) => (
+          // biome-ignore lint: noArrayIndexKey
           <li key={index}>{index}</li>
         ))}
       </ul>

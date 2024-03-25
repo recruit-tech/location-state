@@ -1,6 +1,6 @@
 import { EventEmitter } from "./event-emitter";
 import { jsonSerializer } from "./serializer";
-import { Listener, StateSerializer, Store } from "./types";
+import type { Listener, StateSerializer, Store } from "./types";
 
 export const locationKeyPrefix = "__location_state_";
 

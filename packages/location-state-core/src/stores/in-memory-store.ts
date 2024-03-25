@@ -1,5 +1,5 @@
 import { EventEmitter } from "./event-emitter";
-import { Listener, Store } from "./types";
+import type { Listener, Store } from "./types";
 
 type State = Record<string, unknown>;
 

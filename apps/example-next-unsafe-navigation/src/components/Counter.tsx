@@ -1,15 +1,15 @@
 "use client";
 
 import {
+  type DefaultStoreName,
+  type Refine,
   useLocationState,
-  DefaultStoreName,
-  Refine,
 } from "@location-state/core";
 import { useId } from "react";
-import { z, ZodType } from "zod";
+import { type ZodType, z } from "zod";
 
 const zodRefine =
-  <T extends unknown>(schema: ZodType<T>): Refine<T> =>
+  <T,>(schema: ZodType<T>): Refine<T> =>
   (value) => {
     const result = schema.safeParse(value);
     return result.success ? result.data : undefined;
@@ -32,7 +32,9 @@ export function Counter({ storeName }: { storeName: DefaultStoreName }) {
       <p>
         counter: <b>{counter}</b>
       </p>
-      <button onClick={() => setCounter(counter + 1)}>increment</button>
+      <button type="button" onClick={() => setCounter(counter + 1)}>
+        increment
+      </button>
     </section>
   );
 }

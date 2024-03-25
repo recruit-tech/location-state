@@ -30,8 +30,8 @@ jobs:
           run_install: false
       - name: Install packages
         run: pnpm i --ignore-scripts
-      - name: Release check&build
-        run: pnpm check
+      - name: Release check
+        run: pnpm run ci-check
       - name: Setup npm auth
         run: |
           echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" >> ~/.npmrc
