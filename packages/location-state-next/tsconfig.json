@@ -7,6 +7,6 @@
       }
     ]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "./jest-setup.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", ".next"]
 }

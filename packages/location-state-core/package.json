@@ -23,17 +23,15 @@
     "build": "tsup src/index.ts src/unsafe-navigation.ts",
     "dts": "tsc -p tsconfig.dts.json",
     "typecheck": "tsc",
-    "test": "jest"
+    "test": "vitest run"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "6.4.2",
     "@testing-library/react": "14.2.2",
     "@testing-library/user-event": "14.5.2",
-    "@types/testing-library__jest-dom": "5.14.9",
     "@types/uuid": "9.0.8",
     "client-only": "0.0.1",
     "configs": "workspace:*",
-    "jest-environment-jsdom": "29.7.0",
     "test-utils": "workspace:*",
     "uuid": "9.0.1"
   },
