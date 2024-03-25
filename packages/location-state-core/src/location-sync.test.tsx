@@ -1,14 +1,14 @@
+import { screen, waitFor } from "@testing-library/react";
 import { useEffect, useRef } from "react";
+import { createNavigationMock } from "test-utils";
+import { renderWithUser } from "test-utils";
 import {
-  LocationStateDefinition,
+  type LocationStateDefinition,
   useLocationSetState,
   useLocationState,
   useLocationStateValue,
 } from "./hooks";
 import { LocationStateProvider } from "./provider";
-import { createNavigationMock } from "test-utils";
-import { renderWithUser } from "test-utils";
-import { screen, waitFor } from "@testing-library/react";
 import { locationKeyPrefix } from "./stores";
 
 const mockNavigation = createNavigationMock("/");
@@ -31,8 +31,10 @@ describe("using `useLocationState`.", () => {
     return (
       <div>
         <h1>count: {count}</h1>
-        <button onClick={() => setCount(count + 1)}>increment</button>
-        <button onClick={() => setCount((prev) => prev + 1)}>
+        <button type="button" onClick={() => setCount(count + 1)}>
+          increment
+        </button>
+        <button type="button" onClick={() => setCount((prev) => prev + 1)}>
           increment with updater
         </button>
       </div>
@@ -142,7 +144,9 @@ describe("using `useLocationSetState`.", () => {
     return (
       <div>
         <h1>rendered: {rendered.current}</h1>
-        <button onClick={() => setCount((prev) => prev + 1)}>increment</button>
+        <button type="button" onClick={() => setCount((prev) => prev + 1)}>
+          increment
+        </button>
       </div>
     );
   }

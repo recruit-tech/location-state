@@ -1,6 +1,6 @@
 import { Counter } from "@/components/Counter";
 import { List } from "@/components/List";
-import { GetServerSideProps, GetStaticPaths } from "next";
+import type { GetServerSideProps, GetStaticPaths } from "next";
 import Link from "next/link";
 
 type Props = {
@@ -36,13 +36,11 @@ export const getStaticPaths: GetStaticPaths<{ id: string }> = async () => {
   };
 };
 
-export const getStaticProps: GetServerSideProps<
-  Props,
-  { id: string }
-> = async ({ params }) => {
-  return {
-    props: {
-      id: Number(params?.id),
-    },
+export const getStaticProps: GetServerSideProps<Props, { id: string }> =
+  async ({ params }) => {
+    return {
+      props: {
+        id: Number(params?.id),
+      },
+    };
   };
-};

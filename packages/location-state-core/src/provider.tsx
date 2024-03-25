@@ -1,8 +1,8 @@
+import { type ReactNode, useEffect, useState } from "react";
 import { LocationStateContext } from "./context";
-import { StorageStore, Store, URLStore } from "./stores";
+import { StorageStore, type Store, URLStore } from "./stores";
 import { NavigationSyncer } from "./syncers";
-import { Syncer } from "./types";
-import { ReactNode, useEffect, useState } from "react";
+import type { Syncer } from "./types";
 
 export type Stores = Record<string, Store>;
 export type CreateStores = (syncer: Syncer) => Stores;

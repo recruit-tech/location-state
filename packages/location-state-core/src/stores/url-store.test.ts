@@ -1,6 +1,6 @@
-import { Syncer } from "../types";
+import type { Syncer } from "../types";
 import { jsonSerializer } from "./serializer";
-import { searchParamEncoder, URLStore } from "./url-store";
+import { URLStore, searchParamEncoder } from "./url-store";
 
 describe("`URLStore`", () => {
   function prepareLocation({

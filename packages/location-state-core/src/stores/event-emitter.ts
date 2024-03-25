@@ -1,4 +1,4 @@
-import { Listener } from "./types";
+import type { Listener } from "./types";
 
 export class EventEmitter {
   private readonly listeners: Map<string, Set<Listener>> = new Map();

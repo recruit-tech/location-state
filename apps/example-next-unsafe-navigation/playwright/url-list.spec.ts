@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
 import { describe } from "node:test";
+import { expect, test } from "@playwright/test";
 
 describe('"url list" is restored on browser back.', () => {
   [["http://127.0.0.1:3000/static"], ["http://127.0.0.1:3000/dynamic"]].forEach(

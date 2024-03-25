@@ -1,6 +1,6 @@
-import { NextPagesSyncer } from "./next-pages-syncer";
 import { Router, useRouter } from "next/router";
 import React from "react";
+import { NextPagesSyncer } from "./next-pages-syncer";
 
 export function useNextPagesSyncer() {
   const router = useRouter();

@@ -40,7 +40,7 @@ function decodeUrlState(url: string): Record<string, unknown> {
     // see: https://github.com/ljharb/qs/issues/91#issuecomment-348481496
     decoder(value) {
       if (/^(\d+|\d*\.\d+)$/.test(value)) {
-        return parseFloat(value);
+        return Number.parseFloat(value);
       }
 
       const keywords = {

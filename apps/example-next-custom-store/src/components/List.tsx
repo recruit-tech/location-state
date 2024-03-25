@@ -35,6 +35,7 @@ export function List() {
         }}
       >
         {list.map((_, index) => (
+          // biome-ignore lint: noArrayIndexKey
           <li key={index}>{index}</li>
         ))}
       </ul>
