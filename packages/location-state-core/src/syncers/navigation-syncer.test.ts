@@ -1,4 +1,5 @@
 import { createNavigationMock } from "test-utils";
+import { expect, test, vi } from "vitest";
 import { NavigationSyncer } from "./navigation-syncer";
 
 test("Key changes when `navigation.currentEntry` changes.", () => {
@@ -19,8 +20,8 @@ test("Listener is called when `currententrychange` event and `event.navigationTy
   // Arrange
   const navigation = createNavigationMock("/");
   const navigationSyncer = new NavigationSyncer(navigation);
-  const listener1 = jest.fn();
-  const listener2 = jest.fn();
+  const listener1 = vi.fn();
+  const listener2 = vi.fn();
   navigationSyncer.sync({
     listener: listener1,
     signal: new AbortController().signal,
@@ -40,8 +41,8 @@ test("Listener is called when `currententrychange` event and `event.navigationTy
   // Arrange
   const navigation = createNavigationMock("/");
   const navigationSyncer = new NavigationSyncer(navigation);
-  const listener1 = jest.fn();
-  const listener2 = jest.fn();
+  const listener1 = vi.fn();
+  const listener2 = vi.fn();
   navigationSyncer.sync({
     listener: listener1,
     signal: new AbortController().signal,
@@ -61,7 +62,7 @@ test("Listener is not called when `currententrychange` event and `event.navigati
   // Arrange
   const navigation = createNavigationMock("/");
   const navigationSyncer = new NavigationSyncer(navigation);
-  const listener = jest.fn();
+  const listener = vi.fn();
   navigationSyncer.sync({
     listener,
     signal: new AbortController().signal,
@@ -77,8 +78,8 @@ test("After `abort`, listener is called when `currententrychange` event and `eve
   // Arrange
   const navigation = createNavigationMock("/");
   const navigationSyncer = new NavigationSyncer(navigation);
-  const listener1 = jest.fn();
-  const listener2 = jest.fn();
+  const listener1 = vi.fn();
+  const listener2 = vi.fn();
   const controller = new AbortController();
   navigationSyncer.sync({ listener: listener1, signal: controller.signal });
   navigationSyncer.sync({
@@ -104,5 +105,5 @@ test("When `updateURL` called, navigation.navigate` is called with replace speci
   expect(globalThis.history.state).toEqual({
     foo: "bar",
   });
-  expect(location.href).toBe("http://localhost/hoge");
+  expect(location.href).toBe("http://localhost:3000/hoge");
 });

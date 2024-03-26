@@ -1,3 +1,4 @@
+import { type Mock, beforeEach, describe, expect, test, vi } from "vitest";
 import type { Syncer } from "../types";
 import { jsonSerializer } from "./serializer";
 import { URLStore, searchParamEncoder } from "./url-store";
@@ -23,7 +24,7 @@ describe("`URLStore`", () => {
   }
 
   const syncerMock = {
-    updateURL: jest.fn() as unknown,
+    updateURL: vi.fn() as unknown,
   } as Syncer;
 
   beforeEach(() => {
@@ -31,7 +32,7 @@ describe("`URLStore`", () => {
       pathname: "/",
       search: "",
     });
-    (syncerMock.updateURL as jest.Mock).mockClear();
+    (syncerMock.updateURL as Mock).mockClear();
   });
 
   describe("Default urlEncoder", () => {
@@ -64,7 +65,7 @@ describe("`URLStore`", () => {
     test("listener is called when updating value.", () => {
       // Arrange
       const store = new URLStore(syncerMock);
-      const listener = jest.fn();
+      const listener = vi.fn();
       store.subscribe("foo", listener);
       // Act
       store.set("foo", "updated");
@@ -76,7 +77,7 @@ describe("`URLStore`", () => {
       // Arrange
       const store = new URLStore(syncerMock);
       store.set("foo", "updated");
-      const listener = jest.fn();
+      const listener = vi.fn();
       store.subscribe("foo", listener);
       // Act
       store.set("foo", undefined);
@@ -88,10 +89,10 @@ describe("`URLStore`", () => {
       // Arrange
       expect.assertions(4);
       const store = new URLStore(syncerMock);
-      const listener1 = jest.fn(() => {
+      const listener1 = vi.fn(() => {
         expect(store.get("foo")).toBe("updated");
       });
-      const listener2 = jest.fn(() => {
+      const listener2 = vi.fn(() => {
         expect(store.get("foo")).toBe("updated");
       });
       store.subscribe("foo", listener1);
@@ -107,8 +108,8 @@ describe("`URLStore`", () => {
       // Arrange
       const store = new URLStore(syncerMock);
       const listeners = {
-        unsubscribeTarget: jest.fn(),
-        other: jest.fn(),
+        unsubscribeTarget: vi.fn(),
+        other: vi.fn(),
       };
       const unsubscribe = store.subscribe("foo", listeners.unsubscribeTarget);
       store.subscribe("foo", listeners.other);
@@ -136,8 +137,8 @@ describe("`URLStore`", () => {
     test("When called `load`, all listener notified.", async () => {
       // Arrange
       const store = new URLStore(syncerMock);
-      const listener1 = jest.fn();
-      const listener2 = jest.fn();
+      const listener1 = vi.fn();
+      const listener2 = vi.fn();
       store.subscribe("foo", listener1);
       store.subscribe("bar", listener2);
       // Act
@@ -151,7 +152,9 @@ describe("`URLStore`", () => {
 
     test("When called `load`, delete parameter if invalid JSON string.", () => {
       // Arrange
-      const consoleSpy = jest.spyOn(console, "error").mockImplementation();
+      const consoleSpy = vi
+        .spyOn(console, "error")
+        .mockImplementation(() => {});
       prepareLocation({
         pathname: "/",
         search: "?location-state=invalid-json-string",
@@ -175,7 +178,7 @@ describe("`URLStore`", () => {
         pathname: "/",
         search: "?hoge=fuga",
       });
-      const encodeMock = jest.fn(
+      const encodeMock = vi.fn(
         (url, state) => `${url}#mock-location-state=${JSON.stringify(state)}`,
       );
       const store = new URLStore(syncerMock, {
@@ -198,7 +201,7 @@ describe("`URLStore`", () => {
       prepareLocation({
         pathname: "/",
       });
-      const decodeMock = jest.fn(() => ({
+      const decodeMock = vi.fn(() => ({
         foo: "initial-value",
       }));
       const store = new URLStore(syncerMock, {
@@ -254,7 +257,7 @@ describe("`searchParamEncoder`", () => {
       // Arrange
       const url = "http://localhost/";
       const state = { foo: "bar" };
-      const serializeMock = jest.fn(() => "dummy-result");
+      const serializeMock = vi.fn(() => "dummy-result");
       const encoder = searchParamEncoder("location-state", {
         serialize: serializeMock,
         deserialize: () => ({}), // unused
@@ -270,7 +273,7 @@ describe("`searchParamEncoder`", () => {
     test("When decoding, the state is obtained based on deserialize.", () => {
       // Arrange
       const stateString = "dummy-result";
-      const deserializeMock = jest.fn(() => ({ foo: "bar" }));
+      const deserializeMock = vi.fn(() => ({ foo: "bar" }));
       const encoder = searchParamEncoder("location-state", {
         serialize: () => "unused",
         deserialize: deserializeMock,

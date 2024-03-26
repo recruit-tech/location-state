@@ -1,3 +1,4 @@
+import { expect, test, vi } from "vitest";
 import { InMemoryStore } from "./in-memory-store";
 
 test("The initial value is undefined.", () => {
@@ -21,7 +22,7 @@ test("After updating a slice, the updated value can be obtained.", () => {
 test("listener is called when updating slice.", () => {
   // Arrange
   const store = new InMemoryStore();
-  const listener = jest.fn();
+  const listener = vi.fn();
   store.subscribe("foo", listener);
   // Act
   store.set("foo", "updated");
@@ -33,7 +34,7 @@ test("listener is called even if updated with undefined.", () => {
   // Arrange
   const store = new InMemoryStore();
   store.set("foo", "updated");
-  const listener = jest.fn();
+  const listener = vi.fn();
   store.subscribe("foo", listener);
   // Act
   store.set("foo", undefined);
@@ -45,10 +46,10 @@ test("store.get in the listener to get the latest value.", () => {
   // Arrange
   expect.assertions(4);
   const store = new InMemoryStore();
-  const listener1 = jest.fn(() => {
+  const listener1 = vi.fn(() => {
     expect(store.get("foo")).toBe("updated");
   });
-  const listener2 = jest.fn(() => {
+  const listener2 = vi.fn(() => {
     expect(store.get("foo")).toBe("updated");
   });
   store.subscribe("foo", listener1);
@@ -63,7 +64,7 @@ test("store.get in the listener to get the latest value.", () => {
 test("The listener is unsubscribed by the returned callback, it will no longer be called when the slice is updated.", () => {
   // Arrange
   const store = new InMemoryStore();
-  const listener = jest.fn();
+  const listener = vi.fn();
   const unsubscribe = store.subscribe("foo", listener);
   // Act
   unsubscribe();
@@ -100,8 +101,8 @@ test("When the key is restored, the slice value is also restored.", () => {
 test("On `load` called, all listener notified.", async () => {
   // Arrange
   const store = new InMemoryStore();
-  const listener1 = jest.fn();
-  const listener2 = jest.fn();
+  const listener1 = vi.fn();
+  const listener2 = vi.fn();
   store.subscribe("foo", listener1);
   store.subscribe("foo", listener2);
   // Act

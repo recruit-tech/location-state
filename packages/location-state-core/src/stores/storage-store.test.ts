@@ -1,9 +1,10 @@
+import { beforeEach, expect, test, vi } from "vitest";
 import { StorageStore, locationKeyPrefix } from "./storage-store";
 
 const storageMock = {
-  getItem: jest.fn().mockReturnValue(null),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
+  getItem: vi.fn().mockReturnValue(null),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
 };
 
 beforeEach(() => {
@@ -36,7 +37,7 @@ test("After updating a slice, the updated value can be obtained.", () => {
 test("listener is called when updating slice.", () => {
   // Arrange
   const store = new StorageStore(storage);
-  const listener = jest.fn();
+  const listener = vi.fn();
   store.subscribe("foo", listener);
   // Act
   store.set("foo", "updated");
@@ -48,7 +49,7 @@ test("listener is called even if updated with undefined.", () => {
   // Arrange
   const store = new StorageStore(storage);
   store.set("foo", "updated");
-  const listener = jest.fn();
+  const listener = vi.fn();
   store.subscribe("foo", listener);
   // Act
   store.set("foo", undefined);
@@ -60,10 +61,10 @@ test("store.get in the listener to get the latest value.", () => {
   // Arrange
   expect.assertions(4);
   const store = new StorageStore(storage);
-  const listener1 = jest.fn(() => {
+  const listener1 = vi.fn(() => {
     expect(store.get("foo")).toBe("updated");
   });
-  const listener2 = jest.fn(() => {
+  const listener2 = vi.fn(() => {
     expect(store.get("foo")).toBe("updated");
   });
   store.subscribe("foo", listener1);
@@ -79,8 +80,8 @@ test("The listener is unsubscribed by the returned callback, it will no longer b
   // Arrange
   const store = new StorageStore(storage);
   const listeners = {
-    unsubscribeTarget: jest.fn(),
-    other: jest.fn(),
+    unsubscribeTarget: vi.fn(),
+    other: vi.fn(),
   };
   const unsubscribe = store.subscribe("foo", listeners.unsubscribeTarget);
   store.subscribe("foo", listeners.other);
@@ -129,7 +130,7 @@ test("On `load` called with serializer, if the value of the corresponding key is
 
 test("On `load` called with invalid serializer, the value of slice remains at its initial value.", () => {
   // Arrange
-  const consoleSpy = jest.spyOn(console, "error").mockImplementation();
+  const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
   const navigationKey = "current_location";
   storageMock.getItem.mockReturnValueOnce(
     JSON.stringify({ foo: "storage value" }),
@@ -152,8 +153,8 @@ test("On `load` called, all listener notified.", async () => {
   // Arrange
   const navigationKey = "current_location";
   const store = new StorageStore(storage);
-  const listener1 = jest.fn();
-  const listener2 = jest.fn();
+  const listener1 = vi.fn();
+  const listener2 = vi.fn();
   store.subscribe("foo", listener1);
   store.subscribe("bar", listener2);
   // Act
@@ -204,7 +205,7 @@ test("On `save` called with serializer, the state is saved in Storage with the p
 
 test("On `save` called with invalid serializer, the state is not saved in Storage.", () => {
   // Arrange
-  const consoleSpy = jest.spyOn(console, "error").mockImplementation();
+  const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
   const currentLocationKey = "current_location";
   const store = new StorageStore(storage, {
     serialize: () => {
