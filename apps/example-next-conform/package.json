@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@location-state/core": "workspace:*",
     "@conform-to/react": "1.0.6",
     "@conform-to/zod": "1.0.6",
     "next": "14.1.4",
