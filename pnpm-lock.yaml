@@ -90,6 +90,40 @@ importers:
         specifier: 3.22.4
         version: 3.22.4
 
+  apps/example-next-conform:
+    dependencies:
+      '@conform-to/react':
+        specifier: 1.0.6
+        version: 1.0.6(react@18.2.0)
+      '@conform-to/zod':
+        specifier: 1.0.6
+        version: 1.0.6(zod@3.22.4)
+      next:
+        specifier: 14.1.4
+        version: 14.1.4(@babel/core@7.24.3)(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      zod:
+        specifier: 3.22.4
+        version: 3.22.4
+    devDependencies:
+      '@types/node':
+        specifier: 20.11.30
+        version: 20.11.30
+      '@types/react':
+        specifier: 18.2.67
+        version: 18.2.67
+      '@types/react-dom':
+        specifier: 18.2.22
+        version: 18.2.22
+      typescript:
+        specifier: 5.4.3
+        version: 5.4.3
+
   apps/example-next-custom-store:
     dependencies:
       '@location-state/core':
@@ -757,6 +791,28 @@ packages:
       human-id: 1.0.2
       prettier: 2.8.8
     dev: true
+
+  /@conform-to/dom@1.0.6:
+    resolution: {integrity: sha512-24teTftuAfcjv+SiaFYb9msjdQA7Kq8Yk9QkMPrkF8LETl80+i5fpCaIG8V91KyTitBeBcc80gg9HuPuuq3dqQ==}
+    dev: false
+
+  /@conform-to/react@1.0.6(react@18.2.0):
+    resolution: {integrity: sha512-GHnUP89tGoikg7HhHP3V9U38BybyijjEV618GZFkqmW5o2jcViWsiLiY9XokJVEVckZ7aj5rZo3u6TfBv0lXlQ==}
+    peerDependencies:
+      react: '>=18'
+    dependencies:
+      '@conform-to/dom': 1.0.6
+      react: 18.2.0
+    dev: false
+
+  /@conform-to/zod@1.0.6(zod@3.22.4):
+    resolution: {integrity: sha512-l+fMqEymGG7wrCIdp7Lyt1UPKdlvHbM5KDHeGQkuIEgqISpDVwOH/xt3xb/THzW1unk6beYWh99xMuEmV/ATYw==}
+    peerDependencies:
+      zod: ^3.21.0
+    dependencies:
+      '@conform-to/dom': 1.0.6
+      zod: 3.22.4
+    dev: false
 
   /@esbuild/aix-ppc64@0.20.2:
     resolution: {integrity: sha512-D+EBOJHXdNZcLJRBkhENNG8Wji2kgc9AZ9KiPr1JuZjsNtyHzrsfLRrY0tk2H2aoFu6RANO1y1iPPUCDYWkb5g==}
@@ -3348,16 +3404,10 @@ packages:
       thenify-all: 1.6.0
     dev: true
 
-  /nanoid@3.3.6:
-    resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
-    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
-
   /nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
-    dev: true
 
   /navigation-api-types@0.5.1:
     resolution: {integrity: sha512-STpzr4JvInYi+GFIckNe/dM5cKc9M7Q/ZLKLWcWxFzOCXCBK5Oog3PzjwXwJ18yCJ1RnPVgdVueQG357PIeiAA==}
@@ -3671,9 +3721,9 @@ packages:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.3.6
+      nanoid: 3.3.7
       picocolors: 1.0.0
-      source-map-js: 1.0.2
+      source-map-js: 1.2.0
 
   /postcss@8.4.38:
     resolution: {integrity: sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==}
@@ -4062,14 +4112,9 @@ packages:
       yargs: 15.4.1
     dev: true
 
-  /source-map-js@1.0.2:
-    resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
-    engines: {node: '>=0.10.0'}
-
   /source-map-js@1.2.0:
     resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
