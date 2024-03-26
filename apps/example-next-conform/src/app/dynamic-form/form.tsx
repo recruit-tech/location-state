@@ -52,7 +52,7 @@ export default function Form() {
               <input name={memberFields.engineer.name} type="checkbox" />
             </label>
             <button
-              type="button"
+              type="submit"
               {...form.remove.getButtonProps({
                 name: fields.members.name,
                 index,
