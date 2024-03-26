@@ -22,7 +22,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.6.2",
+    "@biomejs/biome": "1.6.3",
     "@changesets/cli": "2.27.1",
     "@playwright/test": "1.42.1",
     "@types/node": "20.11.30",
