@@ -101,6 +101,9 @@ importers:
       '@conform-to/zod':
         specifier: 1.0.6
         version: 1.0.6(zod@3.22.4)
+      '@location-state/core':
+        specifier: workspace:*
+        version: link:../../packages/location-state-core
       next:
         specifier: 14.1.4
         version: 14.1.4(@babel/core@7.24.3)(react-dom@18.2.0)(react@18.2.0)
