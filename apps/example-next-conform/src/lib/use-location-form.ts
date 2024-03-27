@@ -1,7 +1,4 @@
-import { getFormProps, useForm } from "@conform-to/react";
-// todo: fix /context dependency
-// @ts-ignore
-import type { FormMetadata, FormOptions } from "@conform-to/react/context";
+import { type DefaultValue, getFormProps, useForm } from "@conform-to/react";
 import {
   useLocationSetState,
   useLocationStateValue,
@@ -11,10 +8,17 @@ type Pretty<T> = {
   [K in keyof T]: T[K];
 } & {};
 
-type UseFormOptionPartial = Pick<
-  Parameters<typeof useForm>[0],
-  "id" | "defaultNoValidate"
->;
+type UseFormOption<
+  Schema extends Record<string, unknown>,
+  FormValue = Schema,
+  FormError = string[],
+> = Parameters<typeof useForm<Schema, FormValue, FormError>>[0];
+
+type UseFormReturnValue<
+  Schema extends Record<string, unknown>,
+  FormValue = Schema,
+  FormError = string[],
+> = ReturnType<typeof useForm<Schema, FormValue, FormError>>;
 
 function isEmpty(target: Record<string, unknown>) {
   return Object.keys(target).length === 0;
@@ -25,15 +29,11 @@ export function useLocationForm<
   FormValue = Schema,
   FormError = string[],
 >(
-  options: Pretty<Omit<FormOptions<Schema, FormError, FormValue>, "formId">> &
-    UseFormOptionPartial,
-): [
-  FormMetadata<Schema, FormError>,
-  ReturnType<FormMetadata<Schema, FormError>["getFieldset"]>,
-] {
-  const locationState = useLocationStateValue({
+  options: Pretty<UseFormOption<Schema, FormValue, FormError>>,
+): UseFormReturnValue<Schema, FormValue, FormError> {
+  const locationState = useLocationStateValue<Schema>({
     name: "__test__conform",
-    defaultValue: {},
+    defaultValue: {} as Schema, // todo: fix default value and type
     storeName: "session",
   });
   // fixme: impl `useSyncer()`
@@ -44,7 +44,7 @@ export function useLocationForm<
   return useForm({
     ...options,
     id,
-    defaultValue: locationState,
+    defaultValue: locationState as DefaultValue<Schema>,
   });
 }
 
