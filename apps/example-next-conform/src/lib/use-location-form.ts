@@ -1,8 +1,6 @@
-import { type DefaultValue, getFormProps, useForm } from "@conform-to/react";
-import {
-  useLocationSetState,
-  useLocationStateValue,
-} from "@location-state/core";
+import { type DefaultValue, useForm } from "@conform-to/react";
+import { type DefaultStoreName, useLocationState } from "@location-state/core";
+import type { ChangeEvent } from "react";
 
 type Pretty<T> = {
   [K in keyof T]: T[K];
@@ -20,52 +18,52 @@ type UseFormReturnValue<
   FormError = string[],
 > = ReturnType<typeof useForm<Schema, FormValue, FormError>>;
 
-function isEmpty(target: Record<string, unknown>) {
-  return Object.keys(target).length === 0;
-}
+type LocationFormProps = {
+  onChange: (e: ChangeEvent<HTMLFormElement>) => void;
+};
 
 export function useLocationForm<
   Schema extends Record<string, unknown>,
   FormValue = Schema,
   FormError = string[],
->(
-  options: Pretty<UseFormOption<Schema, FormValue, FormError>>,
-): UseFormReturnValue<Schema, FormValue, FormError> {
-  const locationState = useLocationStateValue<Schema>({
-    name: "__test__conform",
-    defaultValue: {} as Schema, // todo: fix default value and type
-    storeName: "session",
+>({
+  location,
+  defaultValue,
+  ...options
+}: Pretty<
+  UseFormOption<Schema, FormValue, FormError> & {
+    location: {
+      name: string;
+      storeName: DefaultStoreName;
+    };
+  }
+>): [...UseFormReturnValue<Schema, FormValue, FormError>, LocationFormProps] {
+  const [locationState, setLocationState] = useLocationState({
+    ...location,
+    defaultValue,
   });
   // fixme: impl `useSyncer()`
   let id: string | undefined;
-  if (!isEmpty(locationState) && typeof window !== "undefined") {
+  if (locationState && typeof window !== "undefined") {
     id = `useLocationForm-${window?.navigation?.currentEntry?.key}`;
   }
-  return useForm({
+  const [form, fields] = useForm({
     ...options,
     id,
     defaultValue: locationState as DefaultValue<Schema>,
   });
-}
-
-type GetFormPropsArgs = Parameters<typeof getFormProps>;
-
-export function getLocationFormProps(...args: GetFormPropsArgs) {
-  const formProps = getFormProps(...args);
-  const setLocationState = useLocationSetState({
-    name: "__test__conform",
-    defaultValue: {},
-    storeName: "session",
-  });
-  return {
-    ...formProps,
-    onChange: (e: React.ChangeEvent<HTMLFormElement>) => {
-      setLocationState((prev) => ({
-        ...prev,
-        [e.target.name]: e.target.value,
-      }));
+  return [
+    form,
+    fields,
+    {
+      onChange: (e: React.ChangeEvent<HTMLFormElement>) => {
+        setLocationState((prev) => ({
+          ...prev,
+          [e.target.name]: e.target.value,
+        }));
+      },
     },
-  };
+  ];
 }
 
 export * from "@conform-to/react";
