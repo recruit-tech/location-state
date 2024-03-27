@@ -11,6 +11,8 @@ jobs:
     name: Run playwright tests
     steps:
       - uses: actions/checkout@v4
+      - name: Launch Turbo Remote Cache Server
+        uses: dtinth/setup-github-actions-caching-for-turbo@v1.1.0
       - name: Install and cache nodejs
         uses: actions/setup-node@v4
         with:
@@ -23,7 +25,9 @@ jobs:
       - name: Install packages
         run: pnpm i --ignore-scripts
       - name: Install playwright browsers
-        run: pnpm exec playwright install --with-deps
+        run: | 
+          pnpm exec playwright install --with-deps chromium
+          pnpm exec playwright install --with-deps webkit
       - name: Build project
         run: pnpm build
       - name: Run integration-test
