@@ -1,4 +1,4 @@
-import { type DefaultValue, useForm } from "@conform-to/react";
+import { useForm } from "@conform-to/react";
 import { type DefaultStoreName, useLocationState } from "@location-state/core";
 import type { ChangeEvent } from "react";
 
@@ -10,7 +10,7 @@ type UseFormOption<
   Schema extends Record<string, unknown>,
   FormValue = Schema,
   FormError = string[],
-> = Parameters<typeof useForm<Schema, FormValue, FormError>>[0];
+> = Omit<Parameters<typeof useForm<Schema, FormValue, FormError>>[0], "id">;
 
 type UseFormReturnValue<
   Schema extends Record<string, unknown>,
@@ -42,15 +42,19 @@ export function useLocationForm<
     ...location,
     defaultValue,
   });
+
   // fixme: impl `useSyncer()`
   let id: string | undefined;
   if (locationState && typeof window !== "undefined") {
+    // Reset form value by changing id when history key is changed.
+    // https://ja.conform.guide/api/react/useForm#tips
     id = `useLocationForm-${window?.navigation?.currentEntry?.key}`;
   }
+
   const [form, fields] = useForm({
     ...options,
     id,
-    defaultValue: locationState as DefaultValue<Schema>,
+    defaultValue: locationState,
   });
   return [
     form,
