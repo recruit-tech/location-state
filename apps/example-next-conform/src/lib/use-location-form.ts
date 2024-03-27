@@ -1,4 +1,4 @@
-import { useForm } from "@conform-to/react";
+import { getFormProps, useForm } from "@conform-to/react";
 import { type DefaultStoreName, useLocationState } from "@location-state/core";
 import { type ChangeEvent, useSyncExternalStore } from "react";
 
@@ -18,9 +18,13 @@ type UseFormReturnValue<
   FormError = string[],
 > = ReturnType<typeof useForm<Schema, FormValue, FormError>>;
 
-type LocationFormProps = {
+type GetFormPropsArgs = Parameters<typeof getFormProps>;
+type GetLocationFormPropsReturnWith = ReturnType<typeof getFormProps> & {
   onChange: (e: ChangeEvent<HTMLFormElement>) => void;
 };
+type GetLocationFormProps = (
+  option?: GetFormPropsArgs[1],
+) => GetLocationFormPropsReturnWith;
 
 export function useLocationForm<
   Schema extends Record<string, unknown>,
@@ -37,7 +41,10 @@ export function useLocationForm<
       storeName: DefaultStoreName;
     };
   }
->): [...UseFormReturnValue<Schema, FormValue, FormError>, LocationFormProps] {
+>): [
+  ...UseFormReturnValue<Schema, FormValue, FormError>,
+  GetLocationFormProps,
+] {
   const [locationState, setLocationState] = useLocationState({
     ...location,
     defaultValue,
@@ -64,13 +71,25 @@ export function useLocationForm<
   return [
     form,
     fields,
-    {
-      onChange: (e: React.ChangeEvent<HTMLFormElement>) => {
-        setLocationState((prev) => ({
-          ...prev,
-          [e.target.name]: e.target.value,
-        }));
-      },
+    (option) => {
+      const { onSubmit: onSubmitOriginal, ...formProps } = getFormProps(
+        form,
+        option,
+      );
+      return {
+        ...formProps,
+        onSubmit(e: React.FormEvent<HTMLFormElement>) {
+          // todo?: onSubmitで動的formの追加を検知しようとするとbutton.valueを元に判断するしかない（formはProxy挟んでるので動作に影響が出る可能性あり）
+          console.log("getLocationInputProps", e.nativeEvent);
+          onSubmitOriginal(e);
+        },
+        onChange: (e: React.ChangeEvent<HTMLFormElement>) => {
+          setLocationState((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+          }));
+        },
+      };
     },
   ];
 }
