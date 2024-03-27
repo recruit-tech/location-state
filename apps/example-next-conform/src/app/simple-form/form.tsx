@@ -1,27 +1,33 @@
 "use client";
 
+import { getFormProps } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
-import {
-  getInputProps,
-  getLocationFormProps,
-  useLocationForm,
-} from "../../lib/use-location-form";
+import { getInputProps, useLocationForm } from "../../lib/use-location-form";
 import { saveUser } from "./action";
 import { userSchema } from "./schema";
 
 export default function Form() {
   const [lastResult, action] = useFormState(saveUser, undefined);
-  const [form, fields] = useLocationForm({
+  const [form, fields, locationFormProps] = useLocationForm({
     lastResult,
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: userSchema });
     },
     shouldValidate: "onBlur",
+    location: {
+      name: "dynamic-form",
+      storeName: "session",
+    },
   });
 
   return (
-    <form {...getLocationFormProps(form)} action={action} noValidate>
+    <form
+      {...getFormProps(form)}
+      {...locationFormProps}
+      action={action}
+      noValidate
+    >
       <div>
         <label htmlFor={fields.firstName.id}>First name</label>
         <input
