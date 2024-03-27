@@ -16,7 +16,7 @@ export default function Form() {
     },
     shouldValidate: "onBlur",
     location: {
-      name: "dynamic-form",
+      name: "simple-form",
       storeName: "session",
     },
   });
