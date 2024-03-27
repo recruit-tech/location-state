@@ -1,6 +1,6 @@
 import { useForm } from "@conform-to/react";
 import { type DefaultStoreName, useLocationState } from "@location-state/core";
-import type { ChangeEvent } from "react";
+import { type ChangeEvent, useSyncExternalStore } from "react";
 
 type Pretty<T> = {
   [K in keyof T]: T[K];
@@ -43,17 +43,22 @@ export function useLocationForm<
     defaultValue,
   });
 
-  // fixme: impl `useSyncer()`
-  let id: string | undefined;
-  if (locationState && typeof window !== "undefined") {
-    // Reset form value by changing id when history key is changed.
-    // https://ja.conform.guide/api/react/useForm#tips
-    id = `useLocationForm-${window?.navigation?.currentEntry?.key}`;
-  }
+  const keyFromStore = useSyncExternalStore(
+    // noop
+    () => () => {},
+    () => {
+      // fixme: impl `useSyncer()`
+      const locationKey = window?.navigation?.currentEntry?.key;
+      if (locationKey) return `useLocationForm-${locationKey}`;
+      return undefined; // not support navigation api
+    },
+    () => "useLocationForm-server",
+  );
 
   const [form, fields] = useForm({
     ...options,
-    id,
+    // Need to change id when there are restored values from history
+    id: locationState ? keyFromStore : undefined,
     defaultValue: locationState,
   });
   return [
