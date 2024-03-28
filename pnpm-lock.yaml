@@ -21,11 +21,11 @@ importers:
         specifier: 20.11.30
         version: 20.11.30
       '@types/react':
-        specifier: 18.2.67
-        version: 18.2.67
+        specifier: 18.2.73
+        version: 18.2.73
       '@types/react-dom':
-        specifier: 18.2.22
-        version: 18.2.22
+        specifier: 18.2.23
+        version: 18.2.23
       '@vitejs/plugin-react':
         specifier: 4.2.1
         version: 4.2.1(vite@5.2.6)
@@ -72,11 +72,11 @@ importers:
         specifier: 20.11.30
         version: 20.11.30
       '@types/react':
-        specifier: 18.2.67
-        version: 18.2.67
+        specifier: 18.2.73
+        version: 18.2.73
       '@types/react-dom':
-        specifier: 18.2.22
-        version: 18.2.22
+        specifier: 18.2.23
+        version: 18.2.23
       next:
         specifier: 14.1.4
         version: 14.1.4(@babel/core@7.24.3)(react-dom@18.2.0)(react@18.2.0)
@@ -105,11 +105,11 @@ importers:
         specifier: 20.11.30
         version: 20.11.30
       '@types/react':
-        specifier: 18.2.67
-        version: 18.2.67
+        specifier: 18.2.73
+        version: 18.2.73
       '@types/react-dom':
-        specifier: 18.2.22
-        version: 18.2.22
+        specifier: 18.2.23
+        version: 18.2.23
       next:
         specifier: 14.1.4
         version: 14.1.4(@babel/core@7.24.3)(react-dom@18.2.0)(react@18.2.0)
@@ -145,11 +145,11 @@ importers:
         specifier: 20.11.30
         version: 20.11.30
       '@types/react':
-        specifier: 18.2.67
-        version: 18.2.67
+        specifier: 18.2.73
+        version: 18.2.73
       '@types/react-dom':
-        specifier: 18.2.22
-        version: 18.2.22
+        specifier: 18.2.23
+        version: 18.2.23
       next:
         specifier: 14.1.4
         version: 14.1.4(@babel/core@7.24.3)(react-dom@18.2.0)(react@18.2.0)
@@ -1603,7 +1603,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.22.15
       '@testing-library/dom': 9.3.1
-      '@types/react-dom': 18.2.22
+      '@types/react-dom': 18.2.23
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
@@ -1675,20 +1675,16 @@ packages:
     resolution: {integrity: sha512-5khscbd3SwWMhFqylJBLQ0zIu7c1K6Vz0uBIt915BI3zV0q1nfjRQD3RqSBcPaO6PHEF4ov/t9y89fSiyThlPA==}
     dev: true
 
-  /@types/react-dom@18.2.22:
-    resolution: {integrity: sha512-fHkBXPeNtfvri6gdsMYyW+dW7RXFo6Ad09nLFK0VQWR7yGLai/Cyvyj696gbwYvBnhGtevUG9cET0pmUbMtoPQ==}
+  /@types/react-dom@18.2.23:
+    resolution: {integrity: sha512-ZQ71wgGOTmDYpnav2knkjr3qXdAFu0vsk8Ci5w3pGAIdj7/kKAyn+VsQDhXsmzzzepAiI9leWMmubXz690AI/A==}
     dependencies:
-      '@types/react': 18.2.67
+      '@types/react': 18.2.73
 
-  /@types/react@18.2.67:
-    resolution: {integrity: sha512-vkIE2vTIMHQ/xL0rgmuoECBCkZFZeHr49HeWSc24AptMbNRo7pwSBvj73rlJJs9fGKj0koS+V7kQB1jHS0uCgw==}
+  /@types/react@18.2.73:
+    resolution: {integrity: sha512-XcGdod0Jjv84HOC7N5ziY3x+qL0AfmubvKOZ9hJjJ2yd5EE+KYjWhdOjt387e9HPheHkdggF9atTifMRtyAaRA==}
     dependencies:
       '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.3
       csstype: 3.1.2
-
-  /@types/scheduler@0.16.3:
-    resolution: {integrity: sha512-5cJ8CB4yAx7BH1oMvdU0Jh9lrEXyPkar6F9G/ERswkCuvP4KQZfZkSjcMbAICCpQTN4OuZn8tz0HiKv9TGZgrQ==}
 
   /@types/semver@7.5.0:
     resolution: {integrity: sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw==}
