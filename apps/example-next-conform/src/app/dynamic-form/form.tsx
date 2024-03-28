@@ -1,6 +1,6 @@
 "use client";
 
-import { getInputProps } from "@conform-to/react";
+import { getFormProps, getInputProps } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
 import { useLocationForm } from "../../lib/use-location-form";
@@ -41,7 +41,12 @@ export default function Form() {
             <input type="hidden" name={memberFields.id.name} value={index} />
             <label htmlFor={memberFields.name.id}>
               name:&nbsp;
-              <input name={memberFields.name.name} />
+              <input
+                {...getInputProps(memberFields.name, {
+                  type: "text",
+                })}
+                key={memberFields.engineer.key}
+              />
             </label>
             <label>
               leader:&nbsp;
@@ -55,7 +60,12 @@ export default function Form() {
             </label>
             <label>
               engineer:&nbsp;
-              <input name={memberFields.engineer.name} type="checkbox" />
+              <input
+                {...getInputProps(memberFields.engineer, {
+                  type: "checkbox",
+                })}
+                key={memberFields.engineer.key}
+              />
             </label>
             <button
               type="submit"
