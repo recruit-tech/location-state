@@ -2,6 +2,8 @@ import { getFormProps, useForm } from "@conform-to/react";
 import { type DefaultStoreName, useLocationState } from "@location-state/core";
 import { type ChangeEvent, useSyncExternalStore } from "react";
 
+const noop = () => () => {};
+
 type Pretty<T> = {
   [K in keyof T]: T[K];
 } & {};
@@ -50,9 +52,9 @@ export function useLocationForm<
     defaultValue,
   });
 
+  // https://tkdodo.eu/blog/avoiding-hydration-mismatches-with-use-sync-external-store
   const keyFromStore = useSyncExternalStore(
-    // noop
-    () => () => {},
+    noop,
     () => {
       // fixme: impl `useSyncer()`
       const locationKey = window?.navigation?.currentEntry?.key;
