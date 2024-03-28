@@ -50,6 +50,7 @@ export default function Form() {
                   type: "radio",
                   value: index.toString(),
                 })}
+                key={memberFields.engineer.key}
               />
             </label>
             <label>

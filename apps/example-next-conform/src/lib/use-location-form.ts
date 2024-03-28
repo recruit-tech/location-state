@@ -1,6 +1,6 @@
-import { getFormProps, useForm } from "@conform-to/react";
+import { type DefaultValue, getFormProps, useForm } from "@conform-to/react";
 import { type DefaultStoreName, useLocationState } from "@location-state/core";
-import { type ChangeEvent, useSyncExternalStore } from "react";
+import { type ChangeEvent, useMemo, useRef, useSyncExternalStore } from "react";
 
 const noop = () => () => {};
 
@@ -68,8 +68,22 @@ export function useLocationForm<
     ...options,
     // Need to change id when there are restored values from history
     id: locationState ? keyFromStore : undefined,
+    // fixme: 動的formにデフォルト値が反映されない
     defaultValue: locationState,
   });
+
+  const shouldUpdateLocationState = useRef(false);
+  const filteredFormValue = useMemo(
+    () => filterFormValueWithoutAction(form.value),
+    [form.value],
+  );
+  if (shouldUpdateLocationState.current) {
+    queueMicrotask(() => {
+      setLocationState(filteredFormValue as DefaultValue<Schema>);
+    });
+    shouldUpdateLocationState.current = false;
+  }
+
   return [
     form,
     fields,
@@ -81,19 +95,24 @@ export function useLocationForm<
       return {
         ...formProps,
         onSubmit(e: React.FormEvent<HTMLFormElement>) {
-          // todo?: onSubmitで動的formの追加を検知しようとするとbutton.valueを元に判断するしかない（formはProxy挟んでるので動作に影響が出る可能性あり）
-          console.log("getLocationInputProps", e.nativeEvent);
+          shouldUpdateLocationState.current = true;
           onSubmitOriginal(e);
         },
         onChange: (e: React.ChangeEvent<HTMLFormElement>) => {
-          setLocationState((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-          }));
+          shouldUpdateLocationState.current = true;
         },
       };
     },
   ];
+}
+
+type FormValue = Pretty<ReturnType<typeof useForm>[0]>["value"];
+
+function filterFormValueWithoutAction(formValue: FormValue | undefined) {
+  if (formValue === undefined) return formValue;
+  return Object.fromEntries(
+    Object.entries(formValue).filter(([key]) => !key.includes("$ACTION")),
+  );
 }
 
 export * from "@conform-to/react";
