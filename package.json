@@ -21,6 +21,9 @@
     "commit-check": "pnpm check && turbo typecheck test",
     "prepare": "husky install"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,json,cjs,mjs}": "biome format --write"
+  },
   "devDependencies": {
     "@biomejs/biome": "1.6.3",
     "@changesets/cli": "2.27.1",
@@ -31,6 +34,7 @@
     "@vitejs/plugin-react": "4.2.1",
     "husky": "9.0.11",
     "jsdom": "24.0.0",
+    "lint-staged": "15.2.2",
     "navigation-api-types": "0.5.1",
     "playwright": "1.42.1",
     "react": "18.2.0",
