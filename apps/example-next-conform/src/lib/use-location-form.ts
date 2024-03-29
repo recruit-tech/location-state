@@ -74,7 +74,6 @@ export function useLocationForm<
     ...options,
     // Need to change id when there are restored values from history
     id: locationState ? keyFromStore : undefined,
-    // fixme: 動的formにデフォルト値が反映されない
     defaultValue: locationState,
   });
 
@@ -90,26 +89,24 @@ export function useLocationForm<
     }
   }, [filteredFormValue, setLocationState]);
 
-  return [
-    form,
-    fields,
-    (option) => {
-      const { onSubmit: onSubmitOriginal, ...formProps } = getFormProps(
-        form,
-        option,
-      );
-      return {
-        ...formProps,
-        onSubmit(e: React.FormEvent<HTMLFormElement>) {
-          shouldUpdateLocationState.current = true;
-          onSubmitOriginal(e);
-        },
-        onChange: (e: React.ChangeEvent<HTMLFormElement>) => {
-          shouldUpdateLocationState.current = true;
-        },
-      };
-    },
-  ];
+  const getLocationFormProps: GetLocationFormProps = (option) => {
+    const { onSubmit: onSubmitOriginal, ...formProps } = getFormProps(
+      form,
+      option,
+    );
+    return {
+      ...formProps,
+      onSubmit(e: React.FormEvent<HTMLFormElement>) {
+        shouldUpdateLocationState.current = true;
+        onSubmitOriginal(e);
+      },
+      onChange: (e: React.ChangeEvent<HTMLFormElement>) => {
+        shouldUpdateLocationState.current = true;
+      },
+    };
+  };
+
+  return [form, fields, getLocationFormProps];
 }
 
 type FormValue = Pretty<ReturnType<typeof useForm>[0]>["value"];
