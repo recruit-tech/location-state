@@ -1,6 +1,12 @@
 import { type DefaultValue, getFormProps, useForm } from "@conform-to/react";
 import { type DefaultStoreName, useLocationState } from "@location-state/core";
-import { type ChangeEvent, useMemo, useRef, useSyncExternalStore } from "react";
+import {
+  type ChangeEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+} from "react";
 
 const noop = () => () => {};
 
@@ -77,12 +83,12 @@ export function useLocationForm<
     () => filterFormValueWithoutAction(form.value),
     [form.value],
   );
-  if (shouldUpdateLocationState.current) {
-    queueMicrotask(() => {
+  useEffect(() => {
+    if (shouldUpdateLocationState.current) {
       setLocationState(filteredFormValue as DefaultValue<Schema>);
-    });
-    shouldUpdateLocationState.current = false;
-  }
+      shouldUpdateLocationState.current = false;
+    }
+  }, [filteredFormValue, setLocationState]);
 
   return [
     form,
