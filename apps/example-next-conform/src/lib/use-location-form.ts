@@ -1,10 +1,17 @@
 import { type DefaultValue, getFormProps, useForm } from "@conform-to/react";
-import { type DefaultStoreName, useLocationState } from "@location-state/core";
+import {
+  type DefaultStoreName,
+  type LocationStateDefinition,
+  useLocationGetState,
+  useLocationSetState,
+} from "@location-state/core";
 import {
   type ChangeEvent,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
+  useState,
   useSyncExternalStore,
 } from "react";
 
@@ -27,9 +34,7 @@ type UseFormReturnValue<
 > = ReturnType<typeof useForm<Schema, FormValue, FormError>>;
 
 type GetFormPropsArgs = Parameters<typeof getFormProps>;
-type GetLocationFormPropsReturnWith = ReturnType<typeof getFormProps> & {
-  onChange: (e: ChangeEvent<HTMLFormElement>) => void;
-};
+type GetLocationFormPropsReturnWith = ReturnType<typeof getFormProps>;
 type GetLocationFormProps = (
   option?: GetFormPropsArgs[1],
 ) => GetLocationFormPropsReturnWith;
@@ -53,11 +58,12 @@ export function useLocationForm<
   ...UseFormReturnValue<Schema, FormValue, FormError>,
   GetLocationFormProps,
 ] {
-  const [locationState, setLocationState] = useLocationState({
+  const locationDefinition: LocationStateDefinition<DefaultValue<Schema>> = {
     ...location,
     defaultValue,
-  });
-
+  };
+  const setLocationState = useLocationSetState(locationDefinition);
+  const getLocationState = useLocationGetState(locationDefinition);
   // https://tkdodo.eu/blog/avoiding-hydration-mismatches-with-use-sync-external-store
   const keyFromStore = useSyncExternalStore(
     noop,
@@ -70,41 +76,51 @@ export function useLocationForm<
     () => "useLocationForm-server",
   );
 
+  const [formOption, setFormOption] = useState<{
+    id?: string;
+    defaultValue?: DefaultValue<Schema>;
+  }>({});
+
+  useEffect(() => {
+    setFormOption({
+      id: keyFromStore,
+      defaultValue: getLocationState(),
+    });
+  }, [keyFromStore, getLocationState]);
+
   const [form, fields] = useForm({
     ...options,
     // Need to change id when there are restored values from history
-    id: locationState ? keyFromStore : undefined,
-    defaultValue: locationState,
+    id: formOption.id,
+    defaultValue: formOption.defaultValue,
   });
 
   const shouldUpdateLocationState = useRef(false);
-  const filteredFormValue = useMemo(
-    () => filterFormValueWithoutAction(form.value),
-    [form.value],
-  );
   useEffect(() => {
     if (shouldUpdateLocationState.current) {
-      setLocationState(filteredFormValue as DefaultValue<Schema>);
+      setLocationState(
+        filterFormValueWithoutAction(form.value) as DefaultValue<Schema>,
+      );
       shouldUpdateLocationState.current = false;
     }
-  }, [filteredFormValue, setLocationState]);
+  }, [form, setLocationState]);
 
-  const getLocationFormProps: GetLocationFormProps = (option) => {
-    const { onSubmit: onSubmitOriginal, ...formProps } = getFormProps(
-      form,
-      option,
-    );
-    return {
-      ...formProps,
-      onSubmit(e: React.FormEvent<HTMLFormElement>) {
-        shouldUpdateLocationState.current = true;
-        onSubmitOriginal(e);
-      },
-      onChange: (e: React.ChangeEvent<HTMLFormElement>) => {
-        shouldUpdateLocationState.current = true;
-      },
-    };
-  };
+  const getLocationFormProps: GetLocationFormProps = useCallback(
+    (option) => {
+      const { onSubmit: onSubmitOriginal, ...formProps } = getFormProps(
+        form,
+        option,
+      );
+      return {
+        ...formProps,
+        onSubmit(e: React.FormEvent<HTMLFormElement>) {
+          shouldUpdateLocationState.current = true;
+          onSubmitOriginal(e);
+        },
+      };
+    },
+    [form],
+  );
 
   return [form, fields, getLocationFormProps];
 }
