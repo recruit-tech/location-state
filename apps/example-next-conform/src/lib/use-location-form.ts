@@ -5,11 +5,10 @@ import {
   useLocationGetState,
   useLocationSetState,
 } from "@location-state/core";
+import set from "lodash.set";
 import {
-  type ChangeEvent,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
   useSyncExternalStore,
@@ -37,7 +36,9 @@ type GetFormPropsArgs = Parameters<typeof getFormProps>;
 type GetLocationFormPropsReturnWith = ReturnType<typeof getFormProps>;
 type GetLocationFormProps = (
   option?: GetFormPropsArgs[1],
-) => GetLocationFormPropsReturnWith;
+) => GetLocationFormPropsReturnWith & {
+  onChange: (e: React.ChangeEvent<HTMLFormElement>) => void;
+};
 
 export function useLocationForm<
   Schema extends Record<string, unknown>,
@@ -117,9 +118,14 @@ export function useLocationForm<
           shouldUpdateLocationState.current = true;
           onSubmitOriginal(e);
         },
+        onChange(e) {
+          const locationState = getLocationState();
+          set(locationState, e.target.name, e.target.value);
+          setLocationState(locationState);
+        },
       };
     },
-    [form],
+    [form, setLocationState, getLocationState],
   );
 
   return [form, fields, getLocationFormProps];

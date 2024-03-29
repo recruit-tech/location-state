@@ -6,9 +6,10 @@
     "start": "next start"
   },
   "dependencies": {
-    "@location-state/core": "workspace:*",
     "@conform-to/react": "1.0.6",
     "@conform-to/zod": "1.0.6",
+    "@location-state/core": "workspace:*",
+    "lodash.set": "4.3.2",
     "next": "14.1.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
