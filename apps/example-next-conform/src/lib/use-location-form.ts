@@ -119,7 +119,11 @@ export function useLocationForm<
         },
         onChange(e) {
           const locationState = getLocationState();
-          set(locationState, e.target.name, e.target.value);
+          if (e.target.type === "checkbox") {
+            set(locationState, e.target.name, e.target.checked);
+          } else {
+            set(locationState, e.target.name, e.target.value);
+          }
           setLocationState(locationState);
         },
       };

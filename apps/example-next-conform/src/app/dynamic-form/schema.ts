@@ -13,7 +13,7 @@ export const teamSchema = z.object({
         })
         .min(1)
         .max(100),
-      engineer: z.preprocess((x) => x === "on", z.boolean()),
+      engineer: z.boolean().optional(),
     }),
   ),
 });
