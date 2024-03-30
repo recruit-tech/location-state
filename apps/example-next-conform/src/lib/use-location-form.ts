@@ -138,6 +138,7 @@ type FormValue = Pretty<ReturnType<typeof useForm>[0]>["value"];
 
 function filterFormValueWithoutAction(formValue: FormValue | undefined) {
   if (formValue === undefined) return formValue;
+  // Ignore ServerActions specific values
   return Object.fromEntries(
     Object.entries(formValue).filter(([key]) => !key.includes("$ACTION")),
   );
