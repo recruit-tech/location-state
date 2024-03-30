@@ -13,7 +13,7 @@ import {
   useSyncExternalStore,
 } from "react";
 
-const noop = () => () => {};
+const emptySubscribe = () => () => {};
 
 type Pretty<T> = {
   [K in keyof T]: T[K];
@@ -66,7 +66,7 @@ export function useLocationForm<
   const getLocationState = useLocationGetState(locationDefinition);
   // https://tkdodo.eu/blog/avoiding-hydration-mismatches-with-use-sync-external-store
   const keyFromStore = useSyncExternalStore(
-    noop,
+    emptySubscribe,
     () => {
       // fixme: impl `useSyncer()`
       const locationKey = window?.navigation?.currentEntry?.key;
