@@ -1,6 +1,5 @@
 import { type DefaultValue, getFormProps, useForm } from "@conform-to/react";
 import {
-  type DefaultStoreName,
   type LocationStateDefinition,
   useLocationGetState,
   useLocationSetState,
@@ -24,7 +23,7 @@ type UseFormOption<
   Schema extends Record<string, unknown>,
   FormValue = Schema,
   FormError = string[],
-> = Omit<Parameters<typeof useForm<Schema, FormValue, FormError>>[0], "id">;
+> = Parameters<typeof useForm<Schema, FormValue, FormError>>[0];
 
 type UseFormReturnValue<
   Schema extends Record<string, unknown>,
@@ -35,7 +34,7 @@ type UseFormReturnValue<
 type GetFormPropsArgs = Parameters<typeof getFormProps>;
 type GetLocationFormPropsReturnWith = ReturnType<typeof getFormProps>;
 type GetLocationFormProps = (
-  option?: GetFormPropsArgs[1],
+  option?: GetFormPropsArgs[1], // exclude 1st args: `form`
 ) => GetLocationFormPropsReturnWith & {
   onChange: (e: React.ChangeEvent<HTMLFormElement>) => void;
 };
@@ -47,13 +46,13 @@ export function useLocationForm<
 >({
   location,
   defaultValue,
+  id: idFromOptions,
   ...options
 }: Pretty<
   UseFormOption<Schema, FormValue, FormError> & {
-    location: {
-      name: string;
-      storeName: DefaultStoreName;
-    };
+    location: Pretty<
+      Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
+    >;
   }
 >): [
   ...UseFormReturnValue<Schema, FormValue, FormError>,
@@ -78,22 +77,22 @@ export function useLocationForm<
   );
 
   const [formOption, setFormOption] = useState<{
-    id?: string;
-    defaultValue?: DefaultValue<Schema>;
-  }>({});
+    id: string;
+    defaultValue: DefaultValue<Schema>;
+  }>();
 
   useEffect(() => {
     setFormOption({
-      id: keyFromStore,
+      id: idFromOptions ? `${idFromOptions}${keyFromStore}` : keyFromStore,
       defaultValue: getLocationState(),
     });
-  }, [keyFromStore, getLocationState]);
+  }, [idFromOptions, keyFromStore, getLocationState]);
 
   const [form, fields] = useForm({
     ...options,
     // Need to change id when there are restored values from history
-    id: formOption.id,
-    defaultValue: formOption.defaultValue,
+    id: formOption?.id,
+    defaultValue: formOption?.defaultValue,
   });
 
   const shouldUpdateLocationState = useRef(false);
