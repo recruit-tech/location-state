@@ -1,6 +1,6 @@
 "use client";
 
-import { getFormProps, getInputProps } from "@conform-to/react";
+import { getInputProps } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
 import { useLocationForm } from "../../lib/use-location-form";
