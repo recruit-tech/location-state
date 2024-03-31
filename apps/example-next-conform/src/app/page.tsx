@@ -16,6 +16,9 @@ export default function Home() {
         <li>
           <Link href="/dynamic-form">dynamic-form</Link>
         </li>
+        <li>
+          <Link href="/search-form">search-form</Link>
+        </li>
       </ul>
     </main>
   );
