@@ -1,10 +1,11 @@
 "use server";
 
 import { parseWithZod } from "@conform-to/zod";
-import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { searchSchema } from "./schema";
+import { redirect } from "next/navigation";
 
-export async function search(formData: FormData) {
+export async function search(_prevState: unknown, formData: FormData) {
   const submission = parseWithZod(formData, {
     schema: searchSchema,
   });
@@ -12,6 +13,7 @@ export async function search(formData: FormData) {
   if (submission.status !== "success") {
     return submission.reply();
   }
+
   const params = new URLSearchParams();
   if (submission.value.title) {
     params.set("title", submission.value.title);
@@ -26,5 +28,6 @@ export async function search(formData: FormData) {
   if (params.size === 0) {
     return redirect("/search-form");
   }
+
   redirect(`/search-form?${params.toString()}`);
 }

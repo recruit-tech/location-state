@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "clean-start": "rm -rf .next && next build && next start"
   },
   "dependencies": {
     "@conform-to/react": "1.0.6",

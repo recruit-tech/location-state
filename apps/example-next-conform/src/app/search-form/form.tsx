@@ -1,62 +1,63 @@
 "use client";
 
-import { getFormProps, getInputProps, useForm } from "@conform-to/react";
+import { getInputProps } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { useRef } from "react";
-import { useDebouncedCallback } from "use-debounce";
+import { useFormState } from "react-dom";
+import { useLocationForm } from "../../lib/use-location-form";
 import { search } from "./action";
-import { type SearchParams, searchSchema } from "./schema";
+import { searchSchema } from "./schema";
 
-export default function Form({
-  defaultParams,
-}: { defaultParams: SearchParams }) {
-  const [form, fields] = useForm({
+export default function Form() {
+  const [lastResult, action] = useFormState(search, undefined);
+  const [_form, fields, getLocationFormProps] = useLocationForm({
+    lastResult,
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: searchSchema });
     },
     shouldValidate: "onBlur",
-    defaultValue: defaultParams,
+    location: {
+      name: "search-form",
+      storeName: "url",
+    },
   });
-  const formRef = useRef<HTMLFormElement>();
-  const handleChange = useDebouncedCallback(() => {
-    formRef.current?.requestSubmit();
-  }, 1000);
+
+  // fixme: ホットリロード後しかうまく動作しない
 
   return (
-    <form
-      {...getFormProps(form)}
-      action={search}
-      onChange={handleChange}
-      ref={formRef}
-      noValidate
-    >
-      <div>
-        <input
-          {...getInputProps(fields.title, {
-            type: "text",
-          })}
-          placeholder="free word"
-        />
-      </div>
-      <div>
-        <label>
+    <>
+      <form {...getLocationFormProps()} action={action} noValidate>
+        <div>
           <input
-            {...getInputProps(fields.news, {
-              type: "checkbox",
+            {...getInputProps(fields.title, {
+              type: "text",
             })}
+            key={fields.title.id}
+            placeholder="free word"
           />
-          News
-        </label>
-        <label>
-          <input
-            {...getInputProps(fields.tech, {
-              type: "checkbox",
-            })}
-          />
-          Tech
-        </label>
-      </div>
-      <button type="submit">Search</button>
-    </form>
+          {fields.title.errors && <p>{fields.title.errors}</p>}
+        </div>
+        <ul>
+          <li>
+            <label htmlFor={fields.news.id}>News</label>
+            <input
+              {...getInputProps(fields.news, {
+                type: "checkbox",
+              })}
+              key={fields.news.id}
+            />
+          </li>
+          <li>
+            <label htmlFor={fields.tech.id}>Tech</label>
+            <input
+              {...getInputProps(fields.tech, {
+                type: "checkbox",
+              })}
+              key={fields.tech.id}
+            />
+          </li>
+        </ul>
+        <button type="submit">search</button>
+      </form>
+    </>
   );
 }

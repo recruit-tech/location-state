@@ -5,9 +5,13 @@ import { NavigationSyncer } from "./syncers";
 import type { Syncer } from "./types";
 
 export type Stores = Record<string, Store>;
-export type CreateStores = (syncer: Syncer) => Stores;
+type DefaultStores = {
+  session: Store;
+  url: Store;
+};
+export type CreateStores<S extends Stores = Stores> = (syncer: Syncer) => S;
 
-export const createDefaultStores: CreateStores = (syncer) => ({
+export const createDefaultStores: CreateStores<DefaultStores> = (syncer) => ({
   session: new StorageStore(globalThis.sessionStorage),
   url: new URLStore(syncer),
 });

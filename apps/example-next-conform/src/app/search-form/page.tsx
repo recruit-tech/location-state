@@ -1,26 +1,32 @@
 import Form from "./form";
 import { type SearchParams, searchSchema } from "./schema";
 
+type Posts = Array<{
+  title: string;
+  content: string;
+}>;
+
+const searchParamsSchema = searchSchema.optional();
+
 export default async function Page({
   searchParams,
 }: {
   searchParams: unknown;
 }) {
   const validatedParams = searchSchema.safeParse(searchParams);
-  if (!validatedParams.success) {
+  if (validatedParams.success === false) {
     throw new Error("invalid search params");
   }
-  const searchResults = await searchPosts(validatedParams.data);
+  const searchResults =
+    Object.keys(validatedParams.data).length > 0
+      ? await searchPosts(validatedParams.data)
+      : undefined;
 
   return (
     <main>
       <h1>Post search form</h1>
       <p>note: not using `location state`</p>
-      <Form
-        defaultParams={validatedParams.data}
-        // todo: fix key
-        key={JSON.stringify(validatedParams.data)}
-      />
+      <Form />
       {searchResults && (
         <div>
           <h2>Search results</h2>
@@ -38,7 +44,7 @@ export default async function Page({
   );
 }
 
-async function searchPosts(params: SearchParams) {
+async function searchPosts(params: SearchParams): Promise<Posts> {
   if (!params.title && !params.news && !params.tech) {
     return null;
   }
