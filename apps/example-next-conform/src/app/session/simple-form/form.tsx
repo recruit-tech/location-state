@@ -2,7 +2,7 @@
 
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
-import { getInputProps, useLocationForm } from "../../lib/use-location-form";
+import { getInputProps, useLocationForm } from "../../../lib/use-location-form";
 import { saveUser } from "./action";
 import { userSchema } from "./schema";
 

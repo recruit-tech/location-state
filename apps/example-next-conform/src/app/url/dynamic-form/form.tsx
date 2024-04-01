@@ -3,7 +3,7 @@
 import { getInputProps } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
-import { useLocationForm } from "../../lib/use-location-form";
+import { useLocationForm } from "../../../lib/use-location-form";
 import { saveTeam } from "./action";
 import { teamSchema } from "./schema";
 
@@ -17,7 +17,7 @@ export default function Form() {
     shouldValidate: "onBlur",
     location: {
       name: "dynamic-form",
-      storeName: "session",
+      storeName: "url",
     },
   });
   const members = fields.members.getFieldList();
