@@ -95,15 +95,20 @@ export function useLocationForm<
     ...formOption,
   });
 
-  const shouldUpdateLocationState = useRef(false);
+  const formRef = useRef(form);
+  // Update formRef when form is updated
+  formRef.current = form;
+  const [shouldUpdateLocationState, setShouldUpdateLocationState] = useState(0);
   useEffect(() => {
-    if (shouldUpdateLocationState.current) {
+    // ignore initial call to avoid overwriting with undefined
+    if (shouldUpdateLocationState) {
       setLocationState(
-        filterFormValueWithoutAction(form.value) as DefaultValue<Schema>,
+        filterFormValueWithoutAction(
+          formRef.current.value,
+        ) as DefaultValue<Schema>,
       );
-      shouldUpdateLocationState.current = false;
     }
-  }, [form, setLocationState]);
+  }, [shouldUpdateLocationState, setLocationState]);
 
   const getLocationFormProps: GetLocationFormProps = useCallback(
     (option) => {
@@ -114,7 +119,13 @@ export function useLocationForm<
       return {
         ...formProps,
         onSubmit(e: React.FormEvent<HTMLFormElement>) {
-          shouldUpdateLocationState.current = true;
+          // Updated only intent button is submitted
+          if (
+            ((e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement)
+              .name === "__intent__" // https://github.com/edmundhung/conform/blob/ec101a2fb579e5438d443417a582c896bff050df/packages/conform-dom/submission.ts#L62
+          ) {
+            setShouldUpdateLocationState((prev) => prev + 1);
+          }
           onSubmitOriginal(e);
         },
         onChange(e) {
