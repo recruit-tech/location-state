@@ -46,7 +46,7 @@ export function useLocationForm<
 >({
   location,
   defaultValue,
-  id: idFromOptions,
+  id: idPrefix,
   ...options
 }: Pretty<
   UseFormOption<Schema, FormValue, FormError> & {
@@ -64,8 +64,9 @@ export function useLocationForm<
   };
   const setLocationState = useLocationSetState(locationDefinition);
   const getLocationState = useLocationGetState(locationDefinition);
+
   // https://tkdodo.eu/blog/avoiding-hydration-mismatches-with-use-sync-external-store
-  const keyFromStore = useSyncExternalStore(
+  const idSuffix = useSyncExternalStore(
     emptySubscribe,
     () => {
       // fixme: impl `useSyncer()`
@@ -83,16 +84,15 @@ export function useLocationForm<
 
   useEffect(() => {
     setFormOption({
-      id: idFromOptions ? `${idFromOptions}${keyFromStore}` : keyFromStore,
+      id: idPrefix ? `${idPrefix}${idSuffix}` : idSuffix,
       defaultValue: getLocationState(),
     });
-  }, [idFromOptions, keyFromStore, getLocationState]);
+  }, [idPrefix, idSuffix, getLocationState]);
 
   const [form, fields] = useForm({
     ...options,
     // Need to change id when there are restored values from history
-    id: formOption?.id,
-    defaultValue: formOption?.defaultValue,
+    ...formOption,
   });
 
   const shouldUpdateLocationState = useRef(false);
@@ -144,5 +144,3 @@ function filterFormValueWithoutAction(formValue: FormValue | undefined) {
     Object.entries(formValue).filter(([key]) => !key.includes("$ACTION")),
   );
 }
-
-export * from "@conform-to/react";
