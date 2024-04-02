@@ -28,7 +28,7 @@ export default function Form() {
           {...getInputProps(fields.firstName, {
             type: "text",
           })}
-          key={undefined}
+          key={fields.firstName.key}
         />
         <div>{fields.firstName.errors}</div>
       </div>
@@ -38,7 +38,7 @@ export default function Form() {
           {...getInputProps(fields.lastName, {
             type: "text",
           })}
-          key={undefined}
+          key={fields.lastName.key}
         />
         <div>{fields.lastName.errors}</div>
       </div>
