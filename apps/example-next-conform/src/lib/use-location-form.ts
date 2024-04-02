@@ -113,9 +113,10 @@ export function useLocationForm<
   const getLocationFormProps: GetLocationFormProps = useCallback(
     (option) => {
       const { onSubmit: onSubmitOriginal, ...formProps } = getFormProps(
-        form,
+        formRef.current,
         option,
       );
+
       return {
         ...formProps,
         onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -140,7 +141,7 @@ export function useLocationForm<
         },
       };
     },
-    [form, setLocationState, getLocationState],
+    [setLocationState, getLocationState],
   );
 
   return [form, fields, getLocationFormProps];
