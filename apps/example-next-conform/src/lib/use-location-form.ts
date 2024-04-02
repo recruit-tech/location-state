@@ -118,7 +118,8 @@ export function useLocationForm<
           onSubmitOriginal(e);
         },
         onChange(e) {
-          const locationState = getLocationState();
+          const locationState =
+            getLocationState() ?? ({} as DefaultValue<Schema>);
           if (e.target.type === "checkbox") {
             set(locationState, e.target.name, e.target.checked);
           } else {
