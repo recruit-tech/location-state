@@ -22,7 +22,7 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,json,cjs,mjs}": "biome format --write"
+    "*.{js,jsx,ts,tsx,css,json,cjs,mjs}": "biome check --apply"
   },
   "devDependencies": {
     "@biomejs/biome": "1.6.3",
