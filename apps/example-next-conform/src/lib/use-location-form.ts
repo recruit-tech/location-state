@@ -33,6 +33,41 @@ type GetLocationFormProps = (
 
 export function useLocationForm<Schema extends Record<string, unknown>>({
   location,
+  idPrefix,
+}: Pretty<
+  Pretty<{
+    location: Pretty<
+      Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
+    >;
+    idPrefix?: string;
+  }>
+>): [
+  {
+    id: string;
+  },
+  GetLocationFormProps,
+];
+export function useLocationForm<Schema extends Record<string, unknown>>({
+  location,
+  defaultValue,
+  idPrefix,
+}: Pretty<
+  Pretty<{
+    location: Pretty<
+      Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
+    >;
+    defaultValue: DefaultValue<Schema>;
+    idPrefix?: string;
+  }>
+>): [
+  {
+    id: string;
+    defaultValue: DefaultValue<Schema>;
+  },
+  GetLocationFormProps,
+];
+export function useLocationForm<Schema extends Record<string, unknown>>({
+  location,
   defaultValue,
   idPrefix,
 }: Pretty<
@@ -46,7 +81,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
 >): [
   {
     id: string;
-    defaultValue: DefaultValue<Schema> | undefined;
+    defaultValue?: DefaultValue<Schema>;
   },
   GetLocationFormProps,
 ] {
