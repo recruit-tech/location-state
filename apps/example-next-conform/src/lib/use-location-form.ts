@@ -23,7 +23,7 @@ type UseFormOption<
   Schema extends Record<string, unknown>,
   FormValue = Schema,
   FormError = string[],
-> = Parameters<typeof useForm<Schema, FormValue, FormError>>[0];
+> = Omit<Parameters<typeof useForm<Schema, FormValue, FormError>>[0], "id">;
 
 type UseFormReturnValue<
   Schema extends Record<string, unknown>,
@@ -46,13 +46,14 @@ export function useLocationForm<
 >({
   location,
   defaultValue,
-  id: idPrefix,
+  idPrefix,
   ...options
 }: Pretty<
   UseFormOption<Schema, FormValue, FormError> & {
     location: Pretty<
       Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
     >;
+    idPrefix?: string;
   }
 >): [
   ...UseFormReturnValue<Schema, FormValue, FormError>,
