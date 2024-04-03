@@ -1,4 +1,8 @@
-import { type DefaultValue, getFormProps, useForm } from "@conform-to/react";
+import {
+  type DefaultValue,
+  getFormProps,
+  type useForm,
+} from "@conform-to/react";
 import {
   type LocationStateDefinition,
   useLocationGetState,
@@ -19,44 +23,31 @@ type Pretty<T> = {
   [K in keyof T]: T[K];
 } & {};
 
-type UseFormOption<
-  Schema extends Record<string, unknown>,
-  FormValue = Schema,
-  FormError = string[],
-> = Omit<Parameters<typeof useForm<Schema, FormValue, FormError>>[0], "id">;
-
-type UseFormReturnValue<
-  Schema extends Record<string, unknown>,
-  FormValue = Schema,
-  FormError = string[],
-> = ReturnType<typeof useForm<Schema, FormValue, FormError>>;
-
 type GetFormPropsArgs = Parameters<typeof getFormProps>;
 type GetLocationFormPropsReturnWith = ReturnType<typeof getFormProps>;
 type GetLocationFormProps = (
-  option?: GetFormPropsArgs[1], // exclude 1st args: `form`
+  ...args: GetFormPropsArgs
 ) => GetLocationFormPropsReturnWith & {
   onChange: (e: React.ChangeEvent<HTMLFormElement>) => void;
 };
 
-export function useLocationForm<
-  Schema extends Record<string, unknown>,
-  FormValue = Schema,
-  FormError = string[],
->({
+export function useLocationForm<Schema extends Record<string, unknown>>({
   location,
   defaultValue,
   idPrefix,
-  ...options
 }: Pretty<
-  UseFormOption<Schema, FormValue, FormError> & {
+  Pretty<{
     location: Pretty<
       Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
     >;
+    defaultValue?: DefaultValue<Schema>;
     idPrefix?: string;
-  }
+  }>
 >): [
-  ...UseFormReturnValue<Schema, FormValue, FormError>,
+  {
+    id: string;
+    defaultValue: DefaultValue<Schema> | undefined;
+  },
   GetLocationFormProps,
 ] {
   const locationDefinition: LocationStateDefinition<DefaultValue<Schema>> = {
@@ -90,19 +81,11 @@ export function useLocationForm<
     });
   }, [idPrefix, idSuffix, getLocationState]);
 
-  const [form, fields] = useForm({
-    ...options,
-    // Need to change id when there are restored values from history
-    ...formOption,
-  });
-
-  const formRef = useRef(form);
-  // Update formRef when form is updated
-  formRef.current = form;
+  const formRef = useRef(null);
   const [shouldUpdateLocationState, setShouldUpdateLocationState] = useState(0);
   useEffect(() => {
     // ignore initial call to avoid overwriting with undefined
-    if (shouldUpdateLocationState) {
+    if (formRef.current && shouldUpdateLocationState) {
       setLocationState(
         filterFormValueWithoutAction(
           formRef.current.value,
@@ -112,9 +95,10 @@ export function useLocationForm<
   }, [shouldUpdateLocationState, setLocationState]);
 
   const getLocationFormProps: GetLocationFormProps = useCallback(
-    (option) => {
+    (form, option) => {
+      formRef.current = form;
       const { onSubmit: onSubmitOriginal, ...formProps } = getFormProps(
-        formRef.current,
+        form,
         option,
       );
 
@@ -145,7 +129,7 @@ export function useLocationForm<
     [setLocationState, getLocationState],
   );
 
-  return [form, fields, getLocationFormProps];
+  return [formOption, getLocationFormProps];
 }
 
 type FormValue = Pretty<ReturnType<typeof useForm>[0]>["value"];

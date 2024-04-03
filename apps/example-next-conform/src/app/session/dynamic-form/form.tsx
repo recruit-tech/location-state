@@ -1,29 +1,34 @@
 "use client";
 
-import { getInputProps } from "@conform-to/react";
+import { getInputProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
+import type { z } from "zod";
 import { useLocationForm } from "../../../lib/use-location-form";
 import { saveTeam } from "./action";
 import { teamSchema } from "./schema";
 
+type FormValue = z.infer<typeof teamSchema>;
+
 export default function Form() {
   const [lastResult, action] = useFormState(saveTeam, undefined);
-  const [form, fields, getLocationFormProps] = useLocationForm({
-    lastResult,
-    onValidate({ formData }) {
-      return parseWithZod(formData, { schema: teamSchema });
-    },
-    shouldValidate: "onBlur",
+  const [formOptions, getLocationFormProps] = useLocationForm<FormValue>({
     location: {
       name: "dynamic-form",
       storeName: "session",
     },
   });
+  const [form, fields] = useForm({
+    ...formOptions,
+    lastResult,
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: teamSchema });
+    },
+  });
   const members = fields.members.getFieldList();
 
   return (
-    <form {...getLocationFormProps()} action={action} noValidate>
+    <form {...getLocationFormProps(form)} action={action} noValidate>
       <button
         type="submit"
         {...form.insert.getButtonProps({

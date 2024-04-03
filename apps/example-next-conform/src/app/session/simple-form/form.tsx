@@ -1,6 +1,6 @@
 "use client";
 
-import { getInputProps } from "@conform-to/react";
+import { getInputProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
 import { useLocationForm } from "../../../lib/use-location-form";
@@ -9,20 +9,22 @@ import { userSchema } from "./schema";
 
 export default function Form() {
   const [lastResult, action] = useFormState(saveUser, undefined);
-  const [form, fields, getLocationFormProps] = useLocationForm({
-    lastResult,
-    onValidate({ formData }) {
-      return parseWithZod(formData, { schema: userSchema });
-    },
-    shouldValidate: "onBlur",
+  const [formOptions, getLocationFormProps] = useLocationForm({
     location: {
       name: "simple-form",
       storeName: "session",
     },
   });
+  const [form, fields] = useForm({
+    lastResult,
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: userSchema });
+    },
+    ...formOptions,
+  });
 
   return (
-    <form {...getLocationFormProps()} action={action} noValidate>
+    <form {...getLocationFormProps(form)} action={action} noValidate>
       <div>
         <label htmlFor={fields.firstName.id}>First name</label>
         <input
