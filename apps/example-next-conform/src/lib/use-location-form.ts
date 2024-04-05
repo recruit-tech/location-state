@@ -104,18 +104,22 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     },
     () => "useLocationForm-server",
   );
+  const formId = idPrefix ? `${idPrefix}-${idSuffix}` : idSuffix;
 
   const [formOption, setFormOption] = useState<{
     id: string;
-    defaultValue: DefaultValue<Schema>;
-  }>();
+    defaultValue?: DefaultValue<Schema>;
+  }>({
+    id: formId,
+    defaultValue,
+  });
 
   useEffect(() => {
     setFormOption({
-      id: idPrefix ? `${idPrefix}${idSuffix}` : idSuffix,
+      id: formId,
       defaultValue: getLocationState(),
     });
-  }, [idPrefix, idSuffix, getLocationState]);
+  }, [formId, getLocationState]);
 
   const formRef = useRef(null);
   const [shouldUpdateLocationState, incrementShouldUpdateLocationState] =
