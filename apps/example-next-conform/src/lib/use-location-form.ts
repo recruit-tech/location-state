@@ -114,10 +114,10 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   const formId = idPrefix ? `${idPrefix}-${idSuffix}` : idSuffix;
 
   const [formOption, setFormOption] = useState<{
-    id: string;
+    id?: string;
     defaultValue?: DefaultValue<Schema>;
   }>({
-    id: formId,
+    // Change `id` on `useEffect`
     defaultValue,
   });
 
