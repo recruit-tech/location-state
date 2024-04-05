@@ -143,13 +143,9 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     }
     // ignore initial call to avoid overwriting with undefined
     if (shouldUpdateLocationState) {
-      setLocationState(
-        filterFormValueWithoutAction(
-          formRef.current.value,
-        ) as DefaultValue<Schema>,
-      );
+      setLocationState(filterFormValue(formRef.current.value));
     }
-  }, [shouldUpdateLocationState, setLocationState]);
+  }, [filterFormValue, shouldUpdateLocationState, setLocationState]);
 
   const getLocationFormProps: GetLocationFormProps = useCallback(
     (form, option) => {
@@ -200,9 +196,11 @@ function filterFormValueWithoutAction(formValue: FormValue | undefined) {
 }
 
 export function filterFormValueWihZodShape(shape: ZodRawShape) {
-  // Ignore framework-derived form elements(e.g. Server Actions) by shallowly converting to z.any()
-  const partialSchema = z
-    .object(Object.fromEntries(Object.keys(shape).map((key) => [key, z.any()])))
-    .optional();
-  return (data: unknown) => partialSchema.parse(data);
+  return (data: unknown) => {
+    if (data === undefined) return data;
+    // Ignore framework-derived form elements(e.g. Server Actions)
+    return Object.fromEntries(
+      Object.keys(shape).map((key) => [key, data[key]]),
+    );
+  };
 }
