@@ -101,6 +101,8 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   const setLocationState = useLocationSetState(locationDefinition);
   const getLocationState = useLocationGetState(locationDefinition);
 
+  const randomId = useId();
+  const formIdPrefix = idPrefix ?? randomId;
   // https://tkdodo.eu/blog/avoiding-hydration-mismatches-with-use-sync-external-store
   const idSuffix = useSyncExternalStore(
     emptySubscribe,
@@ -112,25 +114,25 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     },
     () => "useLocationForm-server",
   );
-  const formId = idPrefix ? `${idPrefix}-${idSuffix}` : idSuffix;
-  const randomId = useId();
 
   const [formOption, setFormOption] = useState<{
     id: string;
     defaultValue?: DefaultValue<Schema>;
   }>({
     // https://conform.guide/api/react/useForm#tips
-    // You can pass a different id to the useForm hook to reset the form.
-    id: idPrefix ? `${idPrefix}-${randomId}` : randomId,
+    // We can pass a different id to the useForm hook to reset the form.
+    // Change id on useEffect.
+    id: formIdPrefix,
     defaultValue,
   });
 
   useEffect(() => {
+    const formId = `${formIdPrefix}-${idSuffix}`;
     setFormOption({
       id: formId,
       defaultValue: getLocationState(),
     });
-  }, [formId, getLocationState]);
+  }, [formIdPrefix, idSuffix, getLocationState]);
 
   const formRef = useRef(null);
   const [shouldUpdateLocationState, incrementShouldUpdateLocationState] =
