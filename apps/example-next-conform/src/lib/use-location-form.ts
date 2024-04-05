@@ -12,6 +12,7 @@ import set from "lodash.set";
 import {
   useCallback,
   useEffect,
+  useReducer,
   useRef,
   useState,
   useSyncExternalStore,
@@ -117,7 +118,8 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   }, [idPrefix, idSuffix, getLocationState]);
 
   const formRef = useRef(null);
-  const [shouldUpdateLocationState, setShouldUpdateLocationState] = useState(0);
+  const [shouldUpdateLocationState, incrementShouldUpdateLocationState] =
+    useReducer((prev) => prev + 1, 0);
   useEffect(() => {
     // ignore initial call to avoid overwriting with undefined
     if (formRef.current && shouldUpdateLocationState) {
@@ -145,7 +147,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
             ((e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement)
               .name === "__intent__" // https://github.com/edmundhung/conform/blob/ec101a2fb579e5438d443417a582c896bff050df/packages/conform-dom/submission.ts#L62
           ) {
-            setShouldUpdateLocationState((prev) => prev + 1);
+            incrementShouldUpdateLocationState();
           }
           onSubmitOriginal(e);
         },
