@@ -17,6 +17,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import { type ZodRawShape, z } from "zod";
 
 const emptySubscribe = () => () => {};
 
@@ -34,12 +35,14 @@ type GetLocationFormProps = (
 
 export function useLocationForm<Schema extends Record<string, unknown>>({
   location,
+  filterFormValue,
   idPrefix,
 }: Pretty<
   Pretty<{
     location: Pretty<
       Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
     >;
+    filterFormValue: (form: Record<string, unknown>) => DefaultValue<Schema>;
     idPrefix?: string;
   }>
 >): [
@@ -50,6 +53,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
 ];
 export function useLocationForm<Schema extends Record<string, unknown>>({
   location,
+  filterFormValue,
   defaultValue,
   idPrefix,
 }: Pretty<
@@ -57,6 +61,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     location: Pretty<
       Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
     >;
+    filterFormValue: (form: Record<string, unknown>) => DefaultValue<Schema>;
     defaultValue: DefaultValue<Schema>;
     idPrefix?: string;
   }>
@@ -69,6 +74,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
 ];
 export function useLocationForm<Schema extends Record<string, unknown>>({
   location,
+  filterFormValue,
   defaultValue,
   idPrefix,
 }: Pretty<
@@ -76,6 +82,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     location: Pretty<
       Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
     >;
+    filterFormValue: (form: Record<string, unknown>) => DefaultValue<Schema>;
     defaultValue?: DefaultValue<Schema>;
     idPrefix?: string;
   }>
@@ -186,4 +193,12 @@ function filterFormValueWithoutAction(formValue: FormValue | undefined) {
   return Object.fromEntries(
     Object.entries(formValue).filter(([key]) => !key.includes("$ACTION")),
   );
+}
+
+export function filterFormValueWihZodShape(shape: ZodRawShape) {
+  // Ignore framework-derived form elements(e.g. Server Actions) by shallowly converting to z.any()
+  const partialSchema = z
+    .object(Object.fromEntries(Object.keys(shape).map((key) => [key, z.any()])))
+    .optional();
+  return (data: unknown) => partialSchema.parse(data);
 }

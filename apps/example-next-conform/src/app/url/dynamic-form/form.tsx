@@ -4,7 +4,10 @@ import { getInputProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
 import type { z } from "zod";
-import { useLocationForm } from "../../../lib/use-location-form";
+import {
+  filterFormValueWihZodShape,
+  useLocationForm,
+} from "../../../lib/use-location-form";
 import { saveTeam } from "./action";
 import { teamSchema } from "./schema";
 
@@ -17,6 +20,7 @@ export default function Form() {
       name: "dynamic-form",
       storeName: "url",
     },
+    filterFormValue: filterFormValueWihZodShape(teamSchema.shape),
   });
   const [form, fields] = useForm({
     lastResult,

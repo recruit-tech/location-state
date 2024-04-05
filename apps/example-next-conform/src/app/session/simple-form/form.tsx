@@ -3,7 +3,10 @@
 import { getInputProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
-import { useLocationForm } from "../../../lib/use-location-form";
+import {
+  filterFormValueWihZodShape,
+  useLocationForm,
+} from "../../../lib/use-location-form";
 import { saveUser } from "./action";
 import { userSchema } from "./schema";
 
@@ -14,6 +17,7 @@ export default function Form() {
       name: "simple-form",
       storeName: "session",
     },
+    filterFormValue: filterFormValueWihZodShape(userSchema.shape),
   });
   const [form, fields] = useForm({
     lastResult,
