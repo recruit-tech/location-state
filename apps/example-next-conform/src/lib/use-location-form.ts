@@ -12,6 +12,7 @@ import set from "lodash.set";
 import {
   useCallback,
   useEffect,
+  useId,
   useReducer,
   useRef,
   useState,
@@ -112,12 +113,15 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     () => "useLocationForm-server",
   );
   const formId = idPrefix ? `${idPrefix}-${idSuffix}` : idSuffix;
+  const randomId = useId();
 
   const [formOption, setFormOption] = useState<{
-    id?: string;
+    id: string;
     defaultValue?: DefaultValue<Schema>;
   }>({
-    // Change `id` on `useEffect`
+    // https://conform.guide/api/react/useForm#tips
+    // You can pass a different id to the useForm hook to reset the form.
+    id: idPrefix ? `${idPrefix}-${randomId}` : randomId,
     defaultValue,
   });
 
