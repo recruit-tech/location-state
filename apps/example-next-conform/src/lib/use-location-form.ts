@@ -121,8 +121,13 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   const [shouldUpdateLocationState, incrementShouldUpdateLocationState] =
     useReducer((prev) => prev + 1, 0);
   useEffect(() => {
+    if (!formRef.current) {
+      throw new Error(
+        "`formRef.current` is null. You need to pass `form` to `getLocationFormProps`.",
+      );
+    }
     // ignore initial call to avoid overwriting with undefined
-    if (formRef.current && shouldUpdateLocationState) {
+    if (shouldUpdateLocationState) {
       setLocationState(
         filterFormValueWithoutAction(
           formRef.current.value,
