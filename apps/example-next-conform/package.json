@@ -4,7 +4,9 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "clean-start": "rm -rf .next && next build && next start"
+    "clean-start": "rm -rf .next && next build && next start",
+    "integration-test": "playwright test",
+    "integration-test:ui": "playwright test --ui"
   },
   "dependencies": {
     "@conform-to/react": "1.0.6",
@@ -17,6 +19,7 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
+    "@playwright/test": "1.42.1",
     "@types/lodash.set": "4.3.9",
     "@types/node": "20.11.30",
     "@types/react": "18.2.67",
