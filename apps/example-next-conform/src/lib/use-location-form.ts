@@ -100,7 +100,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   const randomId = useId();
   const formIdPrefix = idPrefix ?? randomId;
   // https://tkdodo.eu/blog/avoiding-hydration-mismatches-with-use-sync-external-store
-  const idSuffix = useSyncExternalStore(
+  const formIdSuffix = useSyncExternalStore(
     emptySubscribe,
     () => {
       // fixme: impl `useSyncer()`
@@ -123,12 +123,12 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   });
 
   useEffect(() => {
-    const formId = `${formIdPrefix}-${idSuffix}`;
+    const formId = `${formIdPrefix}-${formIdSuffix}`;
     setFormOption({
       id: formId,
       defaultValue: getLocationState(),
     });
-  }, [formIdPrefix, idSuffix, getLocationState]);
+  }, [formIdPrefix, formIdSuffix, getLocationState]);
 
   const formRef = useRef(null);
   const [shouldUpdateLocationState, incrementShouldUpdateLocationState] =
