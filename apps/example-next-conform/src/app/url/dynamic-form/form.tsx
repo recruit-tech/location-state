@@ -3,24 +3,18 @@
 import { getInputProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
-import type { z } from "zod";
-import {
-  filterFormValueWihZodShape,
-  useLocationForm,
-} from "../../../lib/use-location-form";
+import { useLocationForm } from "../../../lib/use-location-form";
 import { saveTeam } from "./action";
 import { teamSchema } from "./schema";
 
-type FormValue = z.infer<typeof teamSchema>;
-
 export default function Form() {
   const [lastResult, action] = useFormState(saveTeam, undefined);
-  const [formOptions, getLocationFormProps] = useLocationForm<FormValue>({
+  const [formOptions, getLocationFormProps] = useLocationForm({
     location: {
       name: "dynamic-form",
       storeName: "url",
     },
-    filterFormValue: filterFormValueWihZodShape(teamSchema.shape),
+    shape: teamSchema.shape,
   });
   const [form, fields] = useForm({
     lastResult,

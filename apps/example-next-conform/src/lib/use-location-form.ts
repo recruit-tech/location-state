@@ -1,8 +1,4 @@
-import {
-  type DefaultValue,
-  getFormProps,
-  type useForm,
-} from "@conform-to/react";
+import { type DefaultValue, getFormProps } from "@conform-to/react";
 import {
   type LocationStateDefinition,
   useLocationGetState,
@@ -36,14 +32,14 @@ type GetLocationFormProps = (
 
 export function useLocationForm<Schema extends Record<string, unknown>>({
   location,
-  filterFormValue,
+  shape,
   idPrefix,
 }: Pretty<
   Pretty<{
     location: Pretty<
       Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
     >;
-    filterFormValue: (form: Record<string, unknown>) => DefaultValue<Schema>;
+    shape: Schema;
     idPrefix?: string;
   }>
 >): [
@@ -54,7 +50,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
 ];
 export function useLocationForm<Schema extends Record<string, unknown>>({
   location,
-  filterFormValue,
+  shape,
   defaultValue,
   idPrefix,
 }: Pretty<
@@ -62,7 +58,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     location: Pretty<
       Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
     >;
-    filterFormValue: (form: Record<string, unknown>) => DefaultValue<Schema>;
+    shape: Schema;
     defaultValue: DefaultValue<Schema>;
     idPrefix?: string;
   }>
@@ -75,7 +71,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
 ];
 export function useLocationForm<Schema extends Record<string, unknown>>({
   location,
-  filterFormValue,
+  shape,
   defaultValue,
   idPrefix,
 }: Pretty<
@@ -83,7 +79,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     location: Pretty<
       Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
     >;
-    filterFormValue: (form: Record<string, unknown>) => DefaultValue<Schema>;
+    shape: Schema;
     defaultValue?: DefaultValue<Schema>;
     idPrefix?: string;
   }>
@@ -145,9 +141,10 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     }
     // ignore initial call to avoid overwriting with undefined
     if (shouldUpdateLocationState) {
-      setLocationState(filterFormValue(formRef.current.value));
+      const filterShape = filterObjectWith(shape);
+      setLocationState(filterShape(formRef.current.value));
     }
-  }, [filterFormValue, shouldUpdateLocationState, setLocationState]);
+  }, [shape, shouldUpdateLocationState, setLocationState]);
 
   const getLocationFormProps: GetLocationFormProps = useCallback(
     (form, option) => {
@@ -187,22 +184,12 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   return [formOption, getLocationFormProps];
 }
 
-type FormValue = Pretty<ReturnType<typeof useForm>[0]>["value"];
-
-function filterFormValueWithoutAction(formValue: FormValue | undefined) {
-  if (formValue === undefined) return formValue;
-  // Ignore ServerActions specific values
-  return Object.fromEntries(
-    Object.entries(formValue).filter(([key]) => !key.includes("$ACTION")),
-  );
-}
-
-export function filterFormValueWihZodShape(shape: ZodRawShape) {
-  return (data: unknown) => {
-    if (data === undefined) return data;
+function filterObjectWith<Shape extends Record<string, unknown>>(shape: Shape) {
+  return (data: unknown): DefaultValue<Shape> => {
+    if (data === undefined) return undefined;
     // Ignore framework-derived form elements(e.g. Server Actions)
     return Object.fromEntries(
       Object.keys(shape).map((key) => [key, data[key]]),
-    );
+    ) as DefaultValue<Shape>;
   };
 }
