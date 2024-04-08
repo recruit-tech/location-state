@@ -11,8 +11,8 @@ export default function Form() {
   const [lastResult, action] = useFormState(saveUser, undefined);
   const [formOptions, getLocationFormProps] = useLocationForm({
     location: {
-      name: "simple-form",
-      storeName: "url",
+      name: "static-form",
+      storeName: "session",
     },
   });
   const [form, fields] = useForm({
@@ -41,7 +41,7 @@ export default function Form() {
           {...getInputProps(fields.lastName, {
             type: "text",
           })}
-          key={fields.lastName.key}
+          key={fields.firstName.key}
         />
         <div>{fields.lastName.errors}</div>
       </div>
