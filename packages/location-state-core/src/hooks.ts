@@ -60,6 +60,18 @@ const _useLocationStateValue = <T, StoreName extends string>(
   return storeState;
 };
 
+const _useLocationGetState = <T, StoreName extends string>(
+  definition: LocationStateDefinition<T, StoreName>,
+): GetState<T> => {
+  const { name, defaultValue, storeName, refine } = useState(definition)[0];
+  const store = useStore(storeName);
+  return useCallback(() => {
+    const storeValue = store.get(name) as T | undefined;
+    const refinedValue = refine ? refine(storeValue) : storeValue;
+    return refinedValue ?? defaultValue;
+  }, [store, name, refine, defaultValue]);
+};
+
 const _useLocationSetState = <T, StoreName extends string>(
   definition: LocationStateDefinition<T, StoreName>,
 ): SetState<T> => {
@@ -83,24 +95,12 @@ const _useLocationSetState = <T, StoreName extends string>(
   return setStoreState;
 };
 
-const _useLocationGetState = <T, StoreName extends string>(
-  definition: LocationStateDefinition<T, StoreName>,
-): GetState<T> => {
-  const { name, defaultValue, storeName, refine } = useState(definition)[0];
-  const store = useStore(storeName);
-  return useCallback(() => {
-    const storeValue = store.get(name) as T | undefined;
-    const refinedValue = refine ? refine(storeValue) : storeValue;
-    return refinedValue ?? defaultValue;
-  }, [store, name, refine, defaultValue]);
-};
-
 export const getHooksWith = <StoreName extends string>() =>
   ({
     useLocationState: _useLocationState,
     useLocationStateValue: _useLocationStateValue,
-    useLocationSetState: _useLocationSetState,
     useLocationGetState: _useLocationGetState,
+    useLocationSetState: _useLocationSetState,
   }) as {
     useLocationState: <T>(
       definition: LocationStateDefinition<T, StoreName>,
@@ -108,17 +108,17 @@ export const getHooksWith = <StoreName extends string>() =>
     useLocationStateValue: <T>(
       definition: LocationStateDefinition<T, StoreName>,
     ) => T;
-    useLocationSetState: <T>(
-      definition: LocationStateDefinition<T, StoreName>,
-    ) => SetState<T>;
     useLocationGetState: <T>(
       definition: LocationStateDefinition<T, StoreName>,
     ) => GetState<T>;
+    useLocationSetState: <T>(
+      definition: LocationStateDefinition<T, StoreName>,
+    ) => SetState<T>;
   };
 
 export const {
   useLocationState,
   useLocationStateValue,
-  useLocationSetState,
   useLocationGetState,
+  useLocationSetState,
 } = getHooksWith<DefaultStoreName>();
