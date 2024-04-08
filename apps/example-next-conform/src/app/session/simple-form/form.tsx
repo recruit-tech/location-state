@@ -14,7 +14,6 @@ export default function Form() {
       name: "simple-form",
       storeName: "session",
     },
-    shape: userSchema.shape,
   });
   const [form, fields] = useForm({
     lastResult,

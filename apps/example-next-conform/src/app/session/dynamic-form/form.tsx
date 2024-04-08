@@ -14,7 +14,6 @@ export default function Form() {
       name: "dynamic-form",
       storeName: "session",
     },
-    shape: teamSchema.shape,
   });
   const [form, fields] = useForm({
     ...formOptions,
