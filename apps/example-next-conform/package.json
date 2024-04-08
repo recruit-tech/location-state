@@ -5,6 +5,7 @@
     "build": "next build",
     "start": "next start",
     "clean-start": "rm -rf .next && next build && next start",
+    "test": "vitest run",
     "integration-test": "playwright test",
     "integration-test:ui": "playwright test --ui"
   },
@@ -12,7 +13,6 @@
     "@conform-to/react": "1.0.6",
     "@conform-to/zod": "1.0.6",
     "@location-state/core": "workspace:*",
-    "lodash.set": "4.3.2",
     "next": "14.1.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@playwright/test": "1.42.1",
-    "@types/lodash.set": "4.3.9",
+    "@testing-library/jest-dom": "6.4.2",
     "@types/node": "20.11.30",
     "@types/react": "18.2.67",
     "@types/react-dom": "18.2.22",

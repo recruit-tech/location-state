@@ -5,7 +5,6 @@ import {
   useLocationKey,
   useLocationSetState,
 } from "@location-state/core";
-import set from "lodash.set";
 import {
   useCallback,
   useEffect,
@@ -14,6 +13,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { setWithObjectPath } from "./utils/set-with-object-path";
 
 type Pretty<T> = {
   [K in keyof T]: T[K];
@@ -151,11 +151,14 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
           const locationState =
             getLocationState() ?? ({} as DefaultValue<Schema>);
           if (e.target.type === "checkbox") {
-            set(locationState, e.target.name, e.target.checked);
+            setLocationState(
+              setWithObjectPath(locationState, e.target.name, e.target.checked),
+            );
           } else {
-            set(locationState, e.target.name, e.target.value);
+            setLocationState(
+              setWithObjectPath(locationState, e.target.name, e.target.value),
+            );
           }
-          setLocationState(locationState);
         },
       };
     },
