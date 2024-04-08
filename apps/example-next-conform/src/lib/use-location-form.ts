@@ -2,6 +2,7 @@ import { type DefaultValue, getFormProps } from "@conform-to/react";
 import {
   type LocationStateDefinition,
   useLocationGetState,
+  useLocationKey,
   useLocationSetState,
 } from "@location-state/core";
 import set from "lodash.set";
@@ -12,10 +13,7 @@ import {
   useReducer,
   useRef,
   useState,
-  useSyncExternalStore,
 } from "react";
-
-const emptySubscribe = () => () => {};
 
 type Pretty<T> = {
   [K in keyof T]: T[K];
@@ -92,17 +90,8 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
 
   const randomId = useId();
   const formIdPrefix = idPrefix ?? randomId;
-  // https://tkdodo.eu/blog/avoiding-hydration-mismatches-with-use-sync-external-store
-  const formIdSuffix = useSyncExternalStore(
-    emptySubscribe,
-    () => {
-      // fixme: impl `useSyncer()`
-      const locationKey = window?.navigation?.currentEntry?.key;
-      if (locationKey) return `useLocationForm-${locationKey}`;
-      return undefined; // not support navigation api
-    },
-    () => "useLocationForm-server",
-  );
+  const locationKey = useLocationKey();
+  const formIdSuffix = `location-form-${locationKey}`;
 
   const [formOption, setFormOption] = useState<{
     id: string;

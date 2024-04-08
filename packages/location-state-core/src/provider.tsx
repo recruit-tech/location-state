@@ -24,20 +24,20 @@ export function LocationStateProvider({
   stores?: Stores | CreateStores;
   children: ReactNode;
 }) {
-  const [syncer] = useState(
-    () =>
-      props.syncer ??
-      new NavigationSyncer(
-        typeof window !== "undefined" ? window.navigation : undefined,
-      ),
-  );
   // Generated on first render to prevent provider from re-rendering
   const [contextValue] = useState(() => {
     const stores = props.stores ?? createDefaultStores;
+    const syncer =
+      props.syncer ??
+      new NavigationSyncer(
+        typeof window !== "undefined" ? window.navigation : undefined,
+      );
     return {
       stores: typeof stores === "function" ? stores(syncer) : stores,
+      syncer,
     };
   });
+  const syncer = contextValue.syncer;
 
   useEffect(() => {
     const abortController = new AbortController();
