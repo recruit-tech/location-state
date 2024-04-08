@@ -87,8 +87,8 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     ...location,
     defaultValue,
   };
-  const setLocationState = useLocationSetState(locationDefinition);
   const getLocationState = useLocationGetState(locationDefinition);
+  const setLocationState = useLocationSetState(locationDefinition);
 
   const randomId = useId();
   const formIdPrefix = idPrefix ?? randomId;
