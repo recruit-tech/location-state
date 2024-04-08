@@ -11,10 +11,16 @@ export default function Home() {
       <h1>`conform` example</h1>
       <ul>
         <li>
+          <Link href="/session/simple-form">/session/simple-form</Link>
+        </li>
+        <li>
           <Link href="/session/static-form">/session/static-form</Link>
         </li>
         <li>
           <Link href="/session/dynamic-form">/session/dynamic-form</Link>
+        </li>
+        <li>
+          <Link href="/url/simple-form">/url/simple-form</Link>
         </li>
         <li>
           <Link href="/url/static-form">/url/static-form</Link>
