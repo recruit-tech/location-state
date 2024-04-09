@@ -10,7 +10,10 @@ export default function Form() {
       storeName: "url",
     },
   });
-  const [form, fields] = useForm({
+  const [form, fields] = useForm<{
+    firstName: string;
+    lastName: string;
+  }>({
     onSubmit(e, { formData }) {
       console.log(Object.fromEntries(formData.entries()));
       e.preventDefault();
