@@ -105,9 +105,8 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   });
 
   useEffect(() => {
-    const formId = `${formIdPrefix}-${formIdSuffix}`;
     setFormOption({
-      id: formId,
+      id: `${formIdPrefix}-${formIdSuffix}`,
       defaultValue: getLocationState(),
     });
   }, [formIdPrefix, formIdSuffix, getLocationState]);
