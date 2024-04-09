@@ -13,7 +13,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { setWithObjectPath } from "./utils/set-with-object-path";
+import { updateWithObjectPath } from "./utils/update-with-object-path";
 
 type Pretty<T> = {
   [K in keyof T]: T[K];
@@ -151,11 +151,19 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
             getLocationState() ?? ({} as DefaultValue<Schema>);
           if (e.target.type === "checkbox") {
             setLocationState(
-              setWithObjectPath(locationState, e.target.name, e.target.checked),
+              updateWithObjectPath(
+                locationState,
+                e.target.name,
+                e.target.checked,
+              ),
             );
           } else {
             setLocationState(
-              setWithObjectPath(locationState, e.target.name, e.target.value),
+              updateWithObjectPath(
+                locationState,
+                e.target.name,
+                e.target.value,
+              ),
             );
           }
         },
