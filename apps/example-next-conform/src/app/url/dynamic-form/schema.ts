@@ -14,6 +14,7 @@ export const teamSchema = z.object({
         .min(1)
         .max(100),
       engineer: z.boolean().optional(),
+      numbers: z.array(z.number()),
     }),
   ),
 });

@@ -3,39 +3,43 @@
  *
  * @param src The object you want to update.
  * @param path The path to the value you want to update. You can contain arrays.
- * @param value The value you want to update.
+ * @param updaterOrValue The updater or value.
  */
 export function updatedWithObjectPath<T extends Record<string, unknown>>(
   src: T,
   path: string,
-  value: unknown,
+  updaterOrValue: unknown | ((currentValue: unknown) => unknown),
 ): T {
-  const paths = getPaths(path);
-  const dest: Record<string, unknown> | unknown[] = { ...src };
-  paths.reduce(
-    ([currentSrc, currentDest], path, index) => {
-      if (index === paths.length - 1) {
-        currentDest[path] = value;
+  const dest = { ...src };
+  const pathSegments = getPathSegments(path);
+  pathSegments.reduce(
+    ([currentSrc, currentDest], pathSegment, index) => {
+      if (index === pathSegments.length - 1) {
+        currentDest[pathSegment] =
+          typeof updaterOrValue === "function"
+            ? updaterOrValue(currentSrc[pathSegment])
+            : updaterOrValue;
         return [currentSrc, currentDest];
       }
-      // If the next path is number, then array.
-      if (typeof paths[index + 1] === "number") {
-        currentDest[path] = [...((currentSrc[path] ?? []) as unknown[])];
-        return [currentSrc[path], currentDest[path]];
+      const nextPath = pathSegments[index + 1];
+      if (typeof nextPath === "number") {
+        currentDest[pathSegment] = [...(currentSrc[pathSegment] ?? [])];
+        return [
+          currentSrc[pathSegment] ?? new Array<unknown>(nextPath + 1).fill({}),
+          currentDest[pathSegment],
+        ];
       }
-      currentDest[path] = {
-        ...(currentSrc[path] as Record<string, unknown>),
-      };
-      return [currentSrc[path], currentDest[path]];
+      currentDest[pathSegment] = { ...currentSrc[pathSegment] };
+      return [currentSrc[pathSegment] ?? {}, currentDest[pathSegment]];
     },
-    [src, dest],
+    [src ?? {}, dest],
   );
-  return dest as T;
+  return dest;
 }
 
 // Return path segments separated by `. ` or `[]`.
 // https://github.com/edmundhung/conform/blob/28f453bb636b7881ba971c62cf961a84b7b65d51/packages/conform-dom/formdata.ts#L33-L52
-export function getPaths(path: string): Array<string | number> {
+export function getPathSegments(path: string): Array<string | number> {
   if (!path) {
     return [];
   }

@@ -5,14 +5,7 @@ import {
   useLocationKey,
   useLocationSetState,
 } from "@location-state/core";
-import {
-  useCallback,
-  useEffect,
-  useId,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useId, useRef } from "react";
 import { updatedWithObjectPath } from "./utils/updated-with-object-path";
 
 type Pretty<T> = {
@@ -42,48 +35,10 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     id: string;
   },
   GetLocationFormProps,
-];
-export function useLocationForm<Schema extends Record<string, unknown>>({
-  location,
-  defaultValue,
-  idPrefix,
-}: Pretty<
-  Pretty<{
-    location: Pretty<
-      Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
-    >;
-    defaultValue: DefaultValue<Schema>;
-    idPrefix?: string;
-  }>
->): [
-  {
-    id: string;
-    defaultValue: DefaultValue<Schema>;
-  },
-  GetLocationFormProps,
-];
-export function useLocationForm<Schema extends Record<string, unknown>>({
-  location,
-  defaultValue,
-  idPrefix,
-}: Pretty<
-  Pretty<{
-    location: Pretty<
-      Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
-    >;
-    defaultValue?: DefaultValue<Schema>;
-    idPrefix?: string;
-  }>
->): [
-  {
-    id: string;
-    defaultValue?: DefaultValue<Schema>;
-  },
-  GetLocationFormProps,
 ] {
   const locationDefinition: LocationStateDefinition<DefaultValue<Schema>> = {
     ...location,
-    defaultValue,
+    defaultValue: undefined,
   };
   const getLocationState = useLocationGetState(locationDefinition);
   const setLocationState = useLocationSetState(locationDefinition);
@@ -92,39 +47,24 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   const formIdPrefix = idPrefix ?? randomId;
   const locationKey = useLocationKey();
   const formIdSuffix = `location-form-${locationKey}`;
+  const formId = `${formIdPrefix}-${formIdSuffix}`;
 
-  const [formOption, setFormOption] = useState<{
-    id: string;
-    defaultValue?: DefaultValue<Schema>;
-  }>({
-    // https://conform.guide/api/react/useForm#tips
-    // We can pass a different id to the useForm hook to reset the form.
-    // Change id on useEffect.
-    id: formIdPrefix,
-    defaultValue,
-  });
-
-  useEffect(() => {
-    setFormOption({
-      id: `${formIdPrefix}-${formIdSuffix}`,
-      defaultValue: getLocationState(),
-    });
-  }, [formIdPrefix, formIdSuffix, getLocationState]);
-
-  const formRef = useRef(null);
-  const [shouldUpdateLocationState, incrementShouldUpdateLocationState] =
-    useReducer((prev) => prev + 1, 0);
+  const formRef = useRef<GetFormPropsArgs[0]>(null);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!formRef.current) {
       throw new Error(
         "`formRef.current` is null. You need to pass `form` to `getLocationFormProps`.",
       );
     }
-    // ignore initial call to avoid overwriting with undefined
-    if (shouldUpdateLocationState) {
-      setLocationState(formRef.current.value);
+    const values = getLocationState();
+    if (values) {
+      console.log("updating form", values);
+      Object.entries(values).forEach(([name, value]) =>
+        formRef.current.update({ name, value }),
+      );
     }
-  }, [shouldUpdateLocationState, setLocationState]);
+  }, [formId, getLocationState]);
 
   const getLocationFormProps: GetLocationFormProps = useCallback(
     (form, option) => {
@@ -136,41 +76,136 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
 
       return {
         ...formProps,
-        onSubmit(e: React.FormEvent<HTMLFormElement>) {
-          // Updated only intent button is submitted
-          if (
-            ((e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement)
-              .name === "__intent__" // https://github.com/edmundhung/conform/blob/ec101a2fb579e5438d443417a582c896bff050df/packages/conform-dom/submission.ts#L62
-          ) {
-            incrementShouldUpdateLocationState();
-          }
-          onSubmitOriginal(e);
-        },
         onChange(e) {
-          const locationState =
-            getLocationState() ?? ({} as DefaultValue<Schema>);
+          const prevState = getLocationState() ?? ({} as DefaultValue<Schema>);
           if (e.target.type === "checkbox") {
             setLocationState(
-              updatedWithObjectPath(
-                locationState,
-                e.target.name,
-                e.target.checked,
-              ),
+              updatedWithObjectPath(prevState, e.target.name, e.target.checked),
             );
           } else {
             setLocationState(
-              updatedWithObjectPath(
-                locationState,
-                e.target.name,
-                e.target.value,
-              ),
+              updatedWithObjectPath(prevState, e.target.name, e.target.value),
             );
           }
+        },
+        onSubmit(e: React.FormEvent<HTMLFormElement>) {
+          const { name, value } = (e.nativeEvent as SubmitEvent)
+            .submitter as HTMLButtonElement;
+          // Updating only intent button is submitted
+          if (
+            // https://github.com/edmundhung/conform/blob/ec101a2fb579e5438d443417a582c896bff050df/packages/conform-dom/submission.ts#L62
+            name === "__intent__"
+          ) {
+            const { type, payload } = parseSafe(value);
+            switch (type) {
+              case "reset": {
+                // https://github.com/edmundhung/conform/blob/f955e1c5ba1fd1014c83bc3a1ba4fb215941a108/packages/conform-dom/submission.ts#L310-L321
+                const { name } = payload as {
+                  name?: string;
+                };
+                const prevState = getLocationState();
+                const nextState = name
+                  ? updatedWithObjectPath(prevState, name, undefined)
+                  : undefined;
+                setLocationState(nextState);
+                console.log("reset", nextState);
+                break;
+              }
+              case "update": {
+                // https://github.com/edmundhung/conform/blob/f955e1c5ba1fd1014c83bc3a1ba4fb215941a108/packages/conform-dom/submission.ts#L323
+                const { name, value } = payload as {
+                  name: string;
+                  value: unknown;
+                };
+                const prevState = getLocationState();
+                const nextState = updatedWithObjectPath(prevState, name, value);
+                setLocationState(nextState);
+                console.log("updated", nextState);
+                break;
+              }
+              case "insert": {
+                console.log("insert", payload);
+                // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L350-L359
+                const { name, index, defaultValue } = payload as {
+                  name: string;
+                  index?: number;
+                  defaultValue?: unknown;
+                };
+                const prevState = getLocationState();
+                const nextState = updatedWithObjectPath(
+                  prevState,
+                  name,
+                  (prevArray: unknown[] = new Array(index ?? 0).fill({})) => {
+                    const insertionIndex = index ?? prevArray.length;
+                    return [
+                      ...prevArray.slice(0, insertionIndex),
+                      defaultValue ?? {},
+                      ...prevArray.slice(insertionIndex, prevArray.length),
+                    ];
+                  },
+                );
+                setLocationState(nextState);
+                console.log("inserted", nextState);
+                break;
+              }
+              case "remove": {
+                // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L342-L349
+                const { name, index } = payload as {
+                  name: string;
+                  index: number;
+                };
+                const prevState = getLocationState();
+                const nextState = updatedWithObjectPath(
+                  prevState,
+                  name,
+                  (prevArray: unknown[]) => [
+                    ...prevArray.slice(0, index),
+                    ...prevArray.slice(index + 1),
+                  ],
+                );
+                setLocationState(nextState);
+                console.log("removed", nextState);
+                break;
+              }
+              case "reorder": {
+                // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L361-L368
+                const { name, from, to } = payload as {
+                  name: string;
+                  from: number;
+                  to: number;
+                };
+                const prevState = getLocationState();
+                const nextState = updatedWithObjectPath(
+                  prevState,
+                  name,
+                  (prevArray: unknown[]) => {
+                    const nextArray = [...prevArray];
+                    const removed = nextArray.splice(from, 1);
+                    nextArray.splice(to, 0, ...removed);
+                    return nextArray;
+                  },
+                );
+                setLocationState(nextState);
+                console.log("reordered", nextState);
+                break;
+              }
+            }
+            // incrementShouldUpdateLocationState();
+          }
+          onSubmitOriginal(e);
         },
       };
     },
     [setLocationState, getLocationState],
   );
 
-  return [formOption, getLocationFormProps];
+  return [{ id: formId }, getLocationFormProps];
+}
+
+function parseSafe(json: string): { type: string; payload: unknown } {
+  try {
+    return JSON.parse(json);
+  } catch (ignore) {
+    return { type: "", payload: {} };
+  }
 }

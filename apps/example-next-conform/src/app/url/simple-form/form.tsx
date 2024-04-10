@@ -1,8 +1,13 @@
 "use client";
 
-import { getInputProps, useForm } from "@conform-to/react";
+import { getInputProps, parse, useForm } from "@conform-to/react";
 import { useRouter } from "next/navigation";
 import { useLocationForm } from "../../../lib/use-location-form";
+
+type FormFields = {
+  firstName: string;
+  lastName: string;
+};
 
 export default function Form() {
   const router = useRouter();
@@ -12,15 +17,21 @@ export default function Form() {
       storeName: "url",
     },
   });
-  const [form, fields] = useForm<{
-    firstName: string;
-    lastName: string;
-  }>({
+  const [form, fields] = useForm<FormFields>({
     onSubmit(e, { formData }) {
       console.log(Object.fromEntries(formData.entries()));
       e.preventDefault();
-      router.push("/success");
+      if (!formData.get("__intent__")) {
+        router.push("/success");
+      }
     },
+    onValidate: ({ formData }) =>
+      parse(formData, {
+        resolve: (value) =>
+          ({ value }) as {
+            value: FormFields;
+          },
+      }),
     ...formOptions,
   });
 

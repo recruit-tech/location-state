@@ -1,8 +1,13 @@
 "use client";
 
-import { getInputProps, useForm } from "@conform-to/react";
+import { getInputProps, parse, useForm } from "@conform-to/react";
 import { useRouter } from "next/navigation";
 import { useLocationForm } from "../../../lib/use-location-form";
+
+type FormFields = {
+  firstName: string;
+  lastName: string;
+};
 
 export default function Form() {
   const router = useRouter();
@@ -12,15 +17,21 @@ export default function Form() {
       storeName: "session",
     },
   });
-  const [form, fields] = useForm<{
-    firstName: string;
-    lastName: string;
-  }>({
+  const [form, fields] = useForm<FormFields>({
     onSubmit(e, { formData }) {
       console.log(Object.fromEntries(formData.entries()));
       e.preventDefault();
-      router.push("/success");
+      if (!formData.get("__intent__")) {
+        router.push("/success");
+      }
     },
+    onValidate: ({ formData }) =>
+      parse(formData, {
+        resolve: (value) =>
+          ({ value }) as {
+            value: FormFields;
+          },
+      }),
     ...formOptions,
   });
 
@@ -47,6 +58,35 @@ export default function Form() {
         <div>{fields.lastName.errors}</div>
       </div>
       <button type="submit">Submit</button>
+      <div>
+        <h2>form intent</h2>
+        <ul>
+          <li>
+            <button
+              type="submit"
+              {...form.update.getButtonProps({
+                name: fields.firstName.name,
+                value: "hoge",
+              })}
+            >
+              Update Firstname
+            </button>
+          </li>
+          <li>
+            <button
+              type="submit"
+              {...form.reset.getButtonProps({ name: fields.firstName.name })}
+            >
+              Reset Firstname
+            </button>
+          </li>
+          <li>
+            <button type="submit" {...form.reset.getButtonProps()}>
+              Reset
+            </button>
+          </li>
+        </ul>
+      </div>
     </form>
   );
 }
