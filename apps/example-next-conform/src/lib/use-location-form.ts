@@ -59,7 +59,6 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     }
     const values = getLocationState();
     if (values) {
-      console.log("updating form", values);
       Object.entries(values).forEach(([name, value]) =>
         formRef.current.update({ name, value }),
       );
@@ -108,7 +107,6 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                   ? updatedWithObjectPath(prevState, name, undefined)
                   : undefined;
                 setLocationState(nextState);
-                console.log("reset", nextState);
                 break;
               }
               case "update": {
@@ -120,11 +118,9 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                 const prevState = getLocationState();
                 const nextState = updatedWithObjectPath(prevState, name, value);
                 setLocationState(nextState);
-                console.log("updated", nextState);
                 break;
               }
               case "insert": {
-                console.log("insert", payload);
                 // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L350-L359
                 const { name, index, defaultValue } = payload as {
                   name: string;
@@ -145,7 +141,6 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                   },
                 );
                 setLocationState(nextState);
-                console.log("inserted", nextState);
                 break;
               }
               case "remove": {
@@ -164,7 +159,6 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                   ],
                 );
                 setLocationState(nextState);
-                console.log("removed", nextState);
                 break;
               }
               case "reorder": {
@@ -186,7 +180,6 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                   },
                 );
                 setLocationState(nextState);
-                console.log("reordered", nextState);
                 break;
               }
             }
