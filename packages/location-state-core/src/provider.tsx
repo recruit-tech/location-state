@@ -26,15 +26,15 @@ export function LocationStateProvider({
 }) {
   // Generated on first render to prevent provider from re-rendering
   const [contextValue] = useState(() => {
-    const stores = props.stores ?? createDefaultStores;
     const syncer =
       props.syncer ??
       new NavigationSyncer(
         typeof window !== "undefined" ? window.navigation : undefined,
       );
+    const stores = props.stores ?? createDefaultStores;
     return {
-      stores: typeof stores === "function" ? stores(syncer) : stores,
       syncer,
+      stores: typeof stores === "function" ? stores(syncer) : stores,
     };
   });
   const syncer = contextValue.syncer;
