@@ -123,7 +123,15 @@ export const {
   useLocationSetState,
 } = getHooksWith<DefaultStoreName>();
 
-export const useLocationKey = () => {
+export const useLocationKey = ({
+  serverDefault = "SERVER",
+  clientDefault,
+}:
+  | {
+      serverDefault?: string;
+      clientDefault?: string;
+    }
+  | undefined = {}) => {
   const { syncer } = useContext(LocationStateContext);
   if (!syncer) {
     throw new Error("syncer not found");
@@ -143,7 +151,7 @@ export const useLocationKey = () => {
   // https://tkdodo.eu/blog/avoiding-hydration-mismatches-with-use-sync-external-store
   return useSyncExternalStore(
     subscribe,
-    () => syncer.key(),
-    () => "SERVER",
+    () => syncer.key() ?? clientDefault,
+    () => serverDefault,
   );
 };
