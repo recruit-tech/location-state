@@ -124,7 +124,7 @@ export const {
 } = getHooksWith<DefaultStoreName>();
 
 export const useLocationKey = ({
-  serverDefault = "SERVER",
+  serverDefault,
   clientDefault,
 }:
   | {
