@@ -21,9 +21,7 @@ export default function Form() {
     onSubmit(e, { formData }) {
       console.log(Object.fromEntries(formData.entries()));
       e.preventDefault();
-      if (!formData.get("__intent__")) {
-        router.push("/success");
-      }
+      router.push("/success");
     },
     onValidate: ({ formData }) =>
       parse(formData, {
