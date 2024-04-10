@@ -13,7 +13,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { updateWithObjectPath } from "./utils/update-with-object-path";
+import { updatedWithObjectPath } from "./utils/updated-with-object-path";
 
 type Pretty<T> = {
   [K in keyof T]: T[K];
@@ -151,7 +151,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
             getLocationState() ?? ({} as DefaultValue<Schema>);
           if (e.target.type === "checkbox") {
             setLocationState(
-              updateWithObjectPath(
+              updatedWithObjectPath(
                 locationState,
                 e.target.name,
                 e.target.checked,
@@ -159,7 +159,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
             );
           } else {
             setLocationState(
-              updateWithObjectPath(
+              updatedWithObjectPath(
                 locationState,
                 e.target.name,
                 e.target.value,

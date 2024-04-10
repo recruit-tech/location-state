@@ -1,36 +1,36 @@
 /**
- * Update values for `object` paths.
+ * Returns an updated object with `object` paths.
  *
- * @param object The object you want to update.
+ * @param src The object you want to update.
  * @param path The path to the value you want to update. You can contain arrays.
  * @param value The value you want to update.
  */
-export function updateWithObjectPath<T extends Record<string, unknown>>(
-  object: T,
+export function updatedWithObjectPath<T extends Record<string, unknown>>(
+  src: T,
   path: string,
   value: unknown,
 ): T {
   const paths = getPathSegments(path);
-  const target: Record<string, unknown> | unknown[] = { ...object };
+  const dest: Record<string, unknown> | unknown[] = { ...src };
   paths.reduce(
-    ([currentSrc, currentTarget], path, index) => {
+    ([currentSrc, currentDest], path, index) => {
       if (index === paths.length - 1) {
-        currentTarget[path] = value;
-        return [currentSrc, currentTarget];
+        currentDest[path] = value;
+        return [currentSrc, currentDest];
       }
       // If the next path is number, then array.
       if (typeof paths[index + 1] === "number") {
-        currentTarget[path] = [...((currentSrc[path] ?? []) as unknown[])];
-        return [currentSrc[path], currentTarget[path]];
+        currentDest[path] = [...((currentSrc[path] ?? []) as unknown[])];
+        return [currentSrc[path], currentDest[path]];
       }
-      currentTarget[path] = {
+      currentDest[path] = {
         ...(currentSrc[path] as Record<string, unknown>),
       };
-      return [currentSrc[path], currentTarget[path]];
+      return [currentSrc[path], currentDest[path]];
     },
-    [object, target],
+    [src, dest],
   );
-  return target as T;
+  return dest as T;
 }
 
 // Return path segments separated by `. ` or `[]`.
