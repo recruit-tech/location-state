@@ -10,7 +10,7 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
   path: string,
   value: unknown,
 ): T {
-  const paths = getPathSegments(path);
+  const paths = getPaths(path);
   const dest: Record<string, unknown> | unknown[] = { ...src };
   paths.reduce(
     ([currentSrc, currentDest], path, index) => {
@@ -34,12 +34,24 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
 }
 
 // Return path segments separated by `. ` or `[]`.
-function getPathSegments(path: string): (string | number)[] {
-  return path.split(/\.|\[|]\./).map((segment) => {
-    const key = segment.replace(/]$/, "");
-    if (Number.isNaN(Number(key))) {
-      return key;
-    }
-    return Number(key);
-  });
+// https://github.com/edmundhung/conform/blob/28f453bb636b7881ba971c62cf961a84b7b65d51/packages/conform-dom/formdata.ts#L33-L52
+export function getPaths(path: string): Array<string | number> {
+  if (!path) {
+    return [];
+  }
+
+  return path
+    .split(/\.|(\[\d*\])/)
+    .reduce<Array<string | number>>((result, segment) => {
+      if (typeof segment !== "undefined" && segment !== "") {
+        if (segment.startsWith("[") && segment.endsWith("]")) {
+          const index = segment.slice(1, -1);
+
+          result.push(Number(index));
+        } else {
+          result.push(segment);
+        }
+      }
+      return result;
+    }, []);
 }
