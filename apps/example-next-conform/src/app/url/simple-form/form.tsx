@@ -1,9 +1,11 @@
 "use client";
 
 import { getInputProps, useForm } from "@conform-to/react";
+import { useRouter } from "next/navigation";
 import { useLocationForm } from "../../../lib/use-location-form";
 
 export default function Form() {
+  const router = useRouter();
   const [formOptions, getLocationFormProps] = useLocationForm({
     location: {
       name: "simple-form",
@@ -17,6 +19,7 @@ export default function Form() {
     onSubmit(e, { formData }) {
       console.log(Object.fromEntries(formData.entries()));
       e.preventDefault();
+      router.push("/success");
     },
     ...formOptions,
   });
