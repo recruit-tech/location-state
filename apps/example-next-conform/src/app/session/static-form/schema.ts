@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const userSchema = z.object({
+export const UserSchema = z.object({
   firstName: z
     .string({
       required_error: "`First name` is required",
@@ -14,3 +14,5 @@ export const userSchema = z.object({
     .min(1)
     .max(100),
 });
+
+export type User = z.infer<typeof UserSchema>;
