@@ -25,7 +25,7 @@ export default function Form() {
 
   return (
     <form {...getLocationFormProps(form)} action={action} noValidate>
-      <div>
+      <div style={{ display: "flex", columnGap: "10px" }}>
         <label htmlFor={fields.firstName.id}>First name</label>
         <input
           {...getInputProps(fields.firstName, {
@@ -33,9 +33,26 @@ export default function Form() {
           })}
           key={fields.firstName.key}
         />
+        <div style={{ display: "flex", columnGap: "10px" }}>
+          <button
+            type="submit"
+            {...form.update.getButtonProps({
+              name: fields.firstName.name,
+              value: "hoge",
+            })}
+          >
+            Update Firstname
+          </button>
+          <button
+            type="submit"
+            {...form.reset.getButtonProps({ name: fields.firstName.name })}
+          >
+            Reset Firstname
+          </button>
+        </div>
         <div>{fields.firstName.errors}</div>
       </div>
-      <div>
+      <div style={{ display: "flex", columnGap: "10px", marginTop: "10px" }}>
         <label htmlFor={fields.lastName.id}>Last name</label>
         <input
           {...getInputProps(fields.lastName, {
@@ -43,26 +60,28 @@ export default function Form() {
           })}
           key={fields.firstName.key}
         />
+        <div style={{ display: "flex", columnGap: "10px" }}>
+          <button
+            type="submit"
+            {...form.update.getButtonProps({
+              name: fields.lastName.name,
+              value: "fuga",
+            })}
+          >
+            Update Lastname
+          </button>
+          <button
+            type="submit"
+            {...form.reset.getButtonProps({ name: fields.lastName.name })}
+          >
+            Reset Lastname
+          </button>
+        </div>
         <div>{fields.lastName.errors}</div>
       </div>
       <button type="submit">Submit</button>
       <h2>form intent</h2>
-      <div style={{ display: "flex", columnGap: "10px" }}>
-        <button
-          type="submit"
-          {...form.update.getButtonProps({
-            name: fields.firstName.name,
-            value: "hoge",
-          })}
-        >
-          Update Firstname
-        </button>
-        <button
-          type="submit"
-          {...form.reset.getButtonProps({ name: fields.firstName.name })}
-        >
-          Reset Firstname
-        </button>
+      <div>
         <button type="submit" {...form.reset.getButtonProps()}>
           Reset
         </button>
