@@ -55,6 +55,7 @@ export default function Form() {
       <ul>
         {members.map((member, index) => {
           const memberFields = member.getFieldset();
+          const numbers = memberFields.numbers.getFieldList();
 
           return (
             <li key={member.key}>
@@ -89,13 +90,13 @@ export default function Form() {
                 >
                   Add number
                 </button>
-                {memberFields.numbers.getFieldList().map((number, index) => (
-                  <div>
+                {numbers.map((number) => (
+                  <div key={number.key}>
                     <input
                       {...getInputProps(number, { type: "text" })}
                       key={number.key}
                     />
-                    <p>{memberFields.numbers.errors?.join(", ")}</p>
+                    <p>{number.errors?.join(", ")}</p>
                   </div>
                 ))}
               </div>
