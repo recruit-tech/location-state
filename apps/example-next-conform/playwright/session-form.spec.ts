@@ -10,7 +10,7 @@ describe('"simple form" is restored on browser back.', () => {
     await page.goto("http://localhost:3000/session/simple-form");
     const firstName = page.getByRole("textbox", { name: "First name" });
     const lastName = page.getByRole("textbox", { name: "Last name" });
-    // Default counter is "".
+    // Default value is "".
     await expect(firstName).toHaveValue("");
     await expect(lastName).toHaveValue("");
     // Change `firstName` & `lastName`.
@@ -34,7 +34,7 @@ describe('"dynamic form" is restored on browser back.', () => {
     const addMember = page.getByRole("button", { name: "Add member to last" });
     await addMember.click();
     await addMember.click();
-    // Default counter is "".
+    // Default value is "".
     const member1Name = page.getByRole("textbox", { name: "name: " }).first();
     const member2Name = page.getByRole("textbox", { name: "name: " }).nth(1);
     await expect(member1Name).toHaveValue("");
