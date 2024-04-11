@@ -90,10 +90,13 @@ export default function Form() {
                   Add number
                 </button>
                 {memberFields.numbers.getFieldList().map((number, index) => (
-                  <input
-                    {...getInputProps(number, { type: "text" })}
-                    key={number.key}
-                  />
+                  <div>
+                    <input
+                      {...getInputProps(number, { type: "text" })}
+                      key={number.key}
+                    />
+                    <p>{memberFields.numbers.errors?.join(", ")}</p>
+                  </div>
                 ))}
               </div>
               <label style={{ display: "block" }}>
