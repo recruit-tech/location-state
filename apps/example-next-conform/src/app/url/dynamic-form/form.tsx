@@ -33,14 +33,25 @@ export default function Form() {
 
   return (
     <form {...getLocationFormProps(form)} action={action} noValidate>
-      <button
-        type="submit"
-        {...form.insert.getButtonProps({
-          name: fields.members.name,
-        })}
-      >
-        Add member
-      </button>
+      <div>
+        <button
+          type="submit"
+          {...form.insert.getButtonProps({
+            name: fields.members.name,
+            index: 0,
+          })}
+        >
+          Add member to first
+        </button>
+        <button
+          type="submit"
+          {...form.insert.getButtonProps({
+            name: fields.members.name,
+          })}
+        >
+          Add member to last
+        </button>
+      </div>
       <ul>
         {members.map((member, index) => {
           const memberFields = member.getFieldset();
