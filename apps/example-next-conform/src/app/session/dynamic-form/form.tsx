@@ -147,6 +147,12 @@ export default function Form() {
       <div>
         <button type="submit">submit</button>
       </div>
+      <h2>form intent</h2>
+      <div>
+        <button type="submit" {...form.reset.getButtonProps()}>
+          Reset
+        </button>
+      </div>
     </form>
   );
 }
