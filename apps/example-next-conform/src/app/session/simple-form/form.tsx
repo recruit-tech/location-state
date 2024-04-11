@@ -89,9 +89,8 @@ export default function Form() {
         </div>
         <div>{fields.lastName.errors}</div>
       </div>
-      <button type="submit">Submit</button>
-      <h2>form intent</h2>
-      <div>
+      <div style={{ display: "flex", columnGap: "10px" }}>
+        <button type="submit">submit</button>
         <button type="submit" {...form.reset.getButtonProps()}>
           Reset
         </button>

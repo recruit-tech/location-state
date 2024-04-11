@@ -144,11 +144,8 @@ export default function Form() {
           );
         })}
       </ul>
-      <div>
+      <div style={{ display: "flex", columnGap: "10px" }}>
         <button type="submit">submit</button>
-      </div>
-      <h2>form intent</h2>
-      <div>
         <button type="submit" {...form.reset.getButtonProps()}>
           Reset
         </button>
