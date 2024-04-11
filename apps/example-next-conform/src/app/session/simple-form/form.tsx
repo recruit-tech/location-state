@@ -18,11 +18,6 @@ export default function Form() {
     },
   });
   const [form, fields] = useForm<FormFields>({
-    onSubmit(e, { formData }) {
-      console.log(Object.fromEntries(formData.entries()));
-      e.preventDefault();
-      router.push("/success");
-    },
     onValidate: ({ formData }) =>
       parse(formData, {
         resolve: (value) =>
@@ -30,6 +25,11 @@ export default function Form() {
             value: FormFields;
           },
       }),
+    onSubmit(e, { formData }) {
+      console.log(Object.fromEntries(formData.entries()));
+      e.preventDefault();
+      router.push("/success");
+    },
     ...formOptions,
   });
 
@@ -56,34 +56,26 @@ export default function Form() {
         <div>{fields.lastName.errors}</div>
       </div>
       <button type="submit">Submit</button>
-      <div>
-        <h2>form intent</h2>
-        <ul>
-          <li>
-            <button
-              type="submit"
-              {...form.update.getButtonProps({
-                name: fields.firstName.name,
-                value: "hoge",
-              })}
-            >
-              Update Firstname
-            </button>
-          </li>
-          <li>
-            <button
-              type="submit"
-              {...form.reset.getButtonProps({ name: fields.firstName.name })}
-            >
-              Reset Firstname
-            </button>
-          </li>
-          <li>
-            <button type="submit" {...form.reset.getButtonProps()}>
-              Reset
-            </button>
-          </li>
-        </ul>
+      <h2>form intent</h2>
+      <div style={{ display: "flex", columnGap: "10px" }}>
+        <button
+          type="submit"
+          {...form.update.getButtonProps({
+            name: fields.firstName.name,
+            value: "hoge",
+          })}
+        >
+          Update Firstname
+        </button>
+        <button
+          type="submit"
+          {...form.reset.getButtonProps({ name: fields.firstName.name })}
+        >
+          Reset Firstname
+        </button>
+        <button type="submit" {...form.reset.getButtonProps()}>
+          Reset
+        </button>
       </div>
     </form>
   );
