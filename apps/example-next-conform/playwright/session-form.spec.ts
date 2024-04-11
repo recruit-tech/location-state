@@ -31,7 +31,7 @@ describe('"dynamic form" is restored on browser back.', () => {
     // Navigate to the target page.
     await page.goto("http://localhost:3000/session/dynamic-form");
     // Add 2 member fields.
-    const addMember = page.getByRole("button", { name: "Add member" });
+    const addMember = page.getByRole("button", { name: "Add member to last" });
     await addMember.click();
     await addMember.click();
     // Default counter is "".
