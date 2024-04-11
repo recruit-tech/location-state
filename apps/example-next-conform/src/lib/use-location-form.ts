@@ -183,13 +183,12 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                 break;
               }
             }
-            // incrementShouldUpdateLocationState();
           }
           onSubmitOriginal(e);
         },
       };
     },
-    [setLocationState, getLocationState],
+    [getLocationState, setLocationState],
   );
 
   return [{ id: formId }, getLocationFormProps];
