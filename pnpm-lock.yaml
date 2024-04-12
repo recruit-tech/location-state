@@ -15,8 +15,8 @@ importers:
         specifier: 2.27.1
         version: 2.27.1
       '@playwright/test':
-        specifier: 1.43.0
-        version: 1.43.0
+        specifier: 1.43.1
+        version: 1.43.1
       '@types/node':
         specifier: 20.12.7
         version: 20.12.7
@@ -42,8 +42,8 @@ importers:
         specifier: 0.5.1
         version: 0.5.1
       playwright:
-        specifier: 1.43.0
-        version: 1.43.0
+        specifier: 1.43.1
+        version: 1.43.1
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -79,7 +79,7 @@ importers:
         version: 18.2.22
       next:
         specifier: 14.2.0
-        version: 14.2.0(@babel/core@7.24.3)(@playwright/test@1.43.0)(react-dom@18.2.0)(react@18.2.0)
+        version: 14.2.0(@babel/core@7.24.3)(@playwright/test@1.43.1)(react-dom@18.2.0)(react@18.2.0)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -112,7 +112,7 @@ importers:
         version: 18.2.22
       next:
         specifier: 14.2.0
-        version: 14.2.0(@babel/core@7.24.3)(@playwright/test@1.43.0)(react-dom@18.2.0)(react@18.2.0)
+        version: 14.2.0(@babel/core@7.24.3)(@playwright/test@1.43.1)(react-dom@18.2.0)(react@18.2.0)
       qs:
         specifier: 6.12.0
         version: 6.12.0
@@ -152,7 +152,7 @@ importers:
         version: 18.2.22
       next:
         specifier: 14.2.0
-        version: 14.2.0(@babel/core@7.24.3)(@playwright/test@1.43.0)(react-dom@18.2.0)(react@18.2.0)
+        version: 14.2.0(@babel/core@7.24.3)(@playwright/test@1.43.1)(react-dom@18.2.0)(react@18.2.0)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -213,7 +213,7 @@ importers:
         version: link:../configs
       next:
         specifier: 14.2.0
-        version: 14.2.0(@babel/core@7.24.3)(@playwright/test@1.43.0)(react-dom@18.2.0)(react@18.2.0)
+        version: 14.2.0(@babel/core@7.24.3)(@playwright/test@1.43.1)(react-dom@18.2.0)(react@18.2.0)
 
   packages/test-utils:
     dependencies:
@@ -1313,12 +1313,12 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@playwright/test@1.43.0:
-    resolution: {integrity: sha512-Ebw0+MCqoYflop7wVKj711ccbNlrwTBCtjY5rlbiY9kHL2bCYxq+qltK6uPsVBGGAOb033H2VO0YobcQVxoW7Q==}
+  /@playwright/test@1.43.1:
+    resolution: {integrity: sha512-HgtQzFgNEEo4TE22K/X7sYTYNqEMMTZmFS8kTq6m8hXj+m1D8TgwgIbumHddJa9h4yl4GkKb8/bgAl2+g7eDgA==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
-      playwright: 1.43.0
+      playwright: 1.43.1
 
   /@rollup/rollup-android-arm-eabi@4.13.0:
     resolution: {integrity: sha512-5ZYPOuaAqEH/W3gYsRkxQATBW3Ii1MfaT4EQstTnLKViLi2gLSQmlmtTpGucNP3sXEpOiI5tdGhjdE111ekyEg==}
@@ -3414,7 +3414,7 @@ packages:
     resolution: {integrity: sha512-STpzr4JvInYi+GFIckNe/dM5cKc9M7Q/ZLKLWcWxFzOCXCBK5Oog3PzjwXwJ18yCJ1RnPVgdVueQG357PIeiAA==}
     dev: true
 
-  /next@14.2.0(@babel/core@7.24.3)(@playwright/test@1.43.0)(react-dom@18.2.0)(react@18.2.0):
+  /next@14.2.0(@babel/core@7.24.3)(@playwright/test@1.43.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-2T41HqJdKPqheR27ll7MFZ3gtTYvGew7cUc0PwPSyK9Ao5vvwpf9bYfP4V5YBGLckHF2kEGvrLte5BqLSv0s8g==}
     engines: {node: '>=18.17.0'}
     hasBin: true
@@ -3433,7 +3433,7 @@ packages:
         optional: true
     dependencies:
       '@next/env': 14.2.0
-      '@playwright/test': 1.43.0
+      '@playwright/test': 1.43.1
       '@swc/helpers': 0.5.5
       busboy: 1.6.0
       caniuse-lite: 1.0.30001597
@@ -3687,17 +3687,17 @@ packages:
       pathe: 1.1.2
     dev: true
 
-  /playwright-core@1.43.0:
-    resolution: {integrity: sha512-iWFjyBUH97+pUFiyTqSLd8cDMMOS0r2ZYz2qEsPjH8/bX++sbIJT35MSwKnp1r/OQBAqC5XO99xFbJ9XClhf4w==}
+  /playwright-core@1.43.1:
+    resolution: {integrity: sha512-EI36Mto2Vrx6VF7rm708qSnesVQKbxEWvPrfA1IPY6HgczBplDx7ENtx+K2n4kJ41sLLkuGfmb0ZLSSXlDhqPg==}
     engines: {node: '>=16'}
     hasBin: true
 
-  /playwright@1.43.0:
-    resolution: {integrity: sha512-SiOKHbVjTSf6wHuGCbqrEyzlm6qvXcv7mENP+OZon1I07brfZLGdfWV0l/efAzVx7TF3Z45ov1gPEkku9q25YQ==}
+  /playwright@1.43.1:
+    resolution: {integrity: sha512-V7SoH0ai2kNt1Md9E3Gwas5B9m8KR2GVvwZnAI6Pg0m3sh7UvgiYhRrhsziCmqMJNouPckiOhk8T+9bSAK0VIA==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
-      playwright-core: 1.43.0
+      playwright-core: 1.43.1
     optionalDependencies:
       fsevents: 2.3.2
 
