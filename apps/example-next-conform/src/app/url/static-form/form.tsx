@@ -5,7 +5,7 @@ import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
 import { useLocationForm } from "../../../lib/use-location-form";
 import { saveUser } from "./action";
-import { UserSchema } from "./schema";
+import { User } from "./schema";
 
 export default function Form() {
   const [lastResult, action] = useFormState(saveUser, undefined);
@@ -18,7 +18,7 @@ export default function Form() {
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema: UserSchema });
+      return parseWithZod(formData, { schema: User });
     },
     ...formOptions,
   });

@@ -6,7 +6,7 @@ import { useEffect, useReducer } from "react";
 import { useFormState } from "react-dom";
 import { useLocationForm } from "../../../lib/use-location-form";
 import { saveTeam } from "./action";
-import { TeamSchema } from "./schema";
+import { Team } from "./schema";
 
 export default function Form() {
   const [lastResult, action] = useFormState(saveTeam, undefined);
@@ -20,7 +20,7 @@ export default function Form() {
     ...formOptions,
     lastResult,
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema: TeamSchema });
+      return parseWithZod(formData, { schema: Team });
     },
   });
   const members = fields.members.getFieldList();

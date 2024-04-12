@@ -2,11 +2,11 @@
 
 import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
-import { UserSchema } from "./schema";
+import { User } from "./schema";
 
 export async function saveUser(prevState: unknown, formData: FormData) {
   const submission = parseWithZod(formData, {
-    schema: UserSchema,
+    schema: User,
   });
 
   if (submission.status !== "success") {
