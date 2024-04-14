@@ -1,40 +1,30 @@
 "use client";
 
-import { getInputProps, parse, useForm } from "@conform-to/react";
-import { useRouter } from "next/navigation";
-import { useLocationForm } from "../../../lib/use-location-form";
+import { useLocationForm } from "@/lib/use-location-form";
+import { getInputProps, useForm } from "@conform-to/react";
+import { parseWithZod } from "@conform-to/zod";
+import { useFormState } from "react-dom";
+import { saveUser } from "./action";
+import { User } from "./schema";
 
-type FormFields = {
-  firstName: string;
-  lastName: string;
-};
-
-export default function Form() {
-  const router = useRouter();
+export default function Form({ storeName }: { storeName: "session" | "url" }) {
+  const [lastResult, action] = useFormState(saveUser, undefined);
   const [formOptions, getLocationFormProps] = useLocationForm({
     location: {
-      name: "simple-form",
-      storeName: "session",
+      name: "static-form",
+      storeName,
     },
   });
-  const [form, fields] = useForm<FormFields>({
-    onValidate: ({ formData }) =>
-      parse(formData, {
-        resolve: (value) =>
-          ({ value }) as {
-            value: FormFields;
-          },
-      }),
-    onSubmit(e, { formData }) {
-      console.log(Object.fromEntries(formData.entries()));
-      e.preventDefault();
-      router.push("/success");
+  const [form, fields] = useForm({
+    lastResult,
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: User });
     },
     ...formOptions,
   });
 
   return (
-    <form {...getLocationFormProps(form)} noValidate>
+    <form {...getLocationFormProps(form)} action={action} noValidate>
       <div style={{ display: "flex", columnGap: "10px" }}>
         <label htmlFor={fields.firstName.id}>First name</label>
         <input

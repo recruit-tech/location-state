@@ -1,19 +1,19 @@
 "use client";
 
+import { useLocationForm } from "@/lib/use-location-form";
 import { getInputProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useEffect, useReducer } from "react";
 import { useFormState } from "react-dom";
-import { useLocationForm } from "../../../lib/use-location-form";
 import { saveTeam } from "./action";
 import { Team } from "./schema";
 
-export default function Form() {
+export default function Form({ storeName }: { storeName: "session" | "url" }) {
   const [lastResult, action] = useFormState(saveTeam, undefined);
   const [formOptions, getLocationFormProps] = useLocationForm({
     location: {
       name: "dynamic-form",
-      storeName: "url",
+      storeName,
     },
   });
   const [form, fields] = useForm({

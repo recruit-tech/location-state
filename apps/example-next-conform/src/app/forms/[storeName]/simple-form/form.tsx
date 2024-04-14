@@ -1,20 +1,20 @@
 "use client";
 
+import { useLocationForm } from "@/lib/use-location-form";
 import { getInputProps, parse, useForm } from "@conform-to/react";
 import { useRouter } from "next/navigation";
-import { useLocationForm } from "../../../lib/use-location-form";
 
 type FormFields = {
   firstName: string;
   lastName: string;
 };
 
-export default function Form() {
+export default function Form({ storeName }: { storeName: "session" | "url" }) {
   const router = useRouter();
   const [formOptions, getLocationFormProps] = useLocationForm({
     location: {
       name: "simple-form",
-      storeName: "url",
+      storeName,
     },
   });
   const [form, fields] = useForm<FormFields>({
