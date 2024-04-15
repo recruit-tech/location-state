@@ -2,7 +2,7 @@
   "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
     "ignore": [
-      ".vscode",
+      ".vscode/**",
       "**/tsconfig.*.json",
       "**/node_modules",
       "**/.next",
@@ -19,7 +19,7 @@
     "enabled": true,
     "formatWithErrors": false,
     "ignore": [
-      ".vscode",
+      ".vscode/**",
       "**/tsconfig.*.json",
       "**/node_modules",
       "**/.next",
