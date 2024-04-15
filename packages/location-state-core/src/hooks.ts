@@ -17,6 +17,7 @@ export type LocationStateDefinition<
 type Updater<T> = (prev: T) => T;
 type ValueOrUpdater<T> = T | Updater<T>;
 type SetState<T> = (valueOrUpdater: ValueOrUpdater<T>) => void;
+type GetState<T> = () => T;
 
 const useStore = (storeName: string) => {
   const { stores } = useContext(LocationStateContext);
@@ -59,6 +60,18 @@ const _useLocationStateValue = <T, StoreName extends string>(
   return storeState;
 };
 
+const _useLocationGetState = <T, StoreName extends string>(
+  definition: LocationStateDefinition<T, StoreName>,
+): GetState<T> => {
+  const { name, defaultValue, storeName, refine } = useState(definition)[0];
+  const store = useStore(storeName);
+  return useCallback(() => {
+    const storeValue = store.get(name) as T | undefined;
+    const refinedValue = refine ? refine(storeValue) : storeValue;
+    return refinedValue ?? defaultValue;
+  }, [store, name, refine, defaultValue]);
+};
+
 const _useLocationSetState = <T, StoreName extends string>(
   definition: LocationStateDefinition<T, StoreName>,
 ): SetState<T> => {
@@ -86,6 +99,7 @@ export const getHooksWith = <StoreName extends string>() =>
   ({
     useLocationState: _useLocationState,
     useLocationStateValue: _useLocationStateValue,
+    useLocationGetState: _useLocationGetState,
     useLocationSetState: _useLocationSetState,
   }) as {
     useLocationState: <T>(
@@ -94,10 +108,50 @@ export const getHooksWith = <StoreName extends string>() =>
     useLocationStateValue: <T>(
       definition: LocationStateDefinition<T, StoreName>,
     ) => T;
+    useLocationGetState: <T>(
+      definition: LocationStateDefinition<T, StoreName>,
+    ) => GetState<T>;
     useLocationSetState: <T>(
       definition: LocationStateDefinition<T, StoreName>,
     ) => SetState<T>;
   };
 
-export const { useLocationState, useLocationStateValue, useLocationSetState } =
-  getHooksWith<DefaultStoreName>();
+export const {
+  useLocationState,
+  useLocationStateValue,
+  useLocationGetState,
+  useLocationSetState,
+} = getHooksWith<DefaultStoreName>();
+
+export const useLocationKey = ({
+  serverDefault,
+  clientDefault,
+}:
+  | {
+      serverDefault?: string;
+      clientDefault?: string;
+    }
+  | undefined = {}) => {
+  const { syncer } = useContext(LocationStateContext);
+  if (!syncer) {
+    throw new Error("syncer not found");
+  }
+  const subscribe = useCallback(
+    (listener: () => void) => {
+      const abortController = new AbortController();
+      const { signal } = abortController;
+      syncer.sync({
+        listener,
+        signal,
+      });
+      return () => abortController.abort();
+    },
+    [syncer],
+  );
+  // https://tkdodo.eu/blog/avoiding-hydration-mismatches-with-use-sync-external-store
+  return useSyncExternalStore(
+    subscribe,
+    () => syncer.key() ?? clientDefault,
+    () => serverDefault,
+  );
+};
