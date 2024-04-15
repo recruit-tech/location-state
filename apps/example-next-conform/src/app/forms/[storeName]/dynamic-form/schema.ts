@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const teamSchema = z.object({
+export const Team = z.object({
   leaderId: z.string({
     required_error: "Leader is required",
   }),
@@ -13,7 +13,10 @@ export const teamSchema = z.object({
         })
         .min(1)
         .max(100),
-      engineer: z.preprocess((x) => x === "on", z.boolean()),
+      engineer: z.boolean().optional(),
+      numbers: z.array(z.number()),
     }),
   ),
 });
+
+export type Team = z.infer<typeof Team>;
