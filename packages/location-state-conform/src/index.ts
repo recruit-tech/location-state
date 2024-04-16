@@ -1,1 +1,1 @@
-export * from "./use-location-form";
+export * from "./hooks";

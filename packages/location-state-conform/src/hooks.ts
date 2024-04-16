@@ -6,7 +6,7 @@ import {
   useLocationSetState,
 } from "@location-state/core";
 import { useCallback, useEffect, useId, useRef } from "react";
-import { updatedWithObjectPath } from "./utils/updated-with-object-path";
+import { updatedWithObjectPath } from "./updated-with-object-path";
 
 type Pretty<T> = {
   [K in keyof T]: T[K];
