@@ -1,4 +1,4 @@
-import { type DefaultValue, getFormProps } from "@conform-to/react";
+import { getFormProps } from "@conform-to/react";
 import {
   type LocationStateDefinition,
   useLocationGetState,
@@ -8,9 +8,16 @@ import {
 import { useCallback, useEffect, useId, useRef } from "react";
 import { updatedWithObjectPath } from "./updated-with-object-path";
 
+// todo: move to utils package
 type Pretty<T> = {
   [K in keyof T]: T[K];
 } & {};
+
+type DeepPartial<T> = T extends object
+  ? {
+      [P in keyof T]?: DeepPartial<T[P]>;
+    }
+  : T;
 
 type GetFormPropsArgs = Parameters<typeof getFormProps>;
 type GetLocationFormPropsReturnWith = ReturnType<typeof getFormProps>;
@@ -26,7 +33,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
 }: Pretty<
   Pretty<{
     location: Pretty<
-      Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
+      Omit<LocationStateDefinition<DeepPartial<Schema>>, "defaultValue">
     >;
     idPrefix?: string;
   }>
@@ -36,7 +43,9 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   },
   GetLocationFormProps,
 ] {
-  const locationDefinition: LocationStateDefinition<DefaultValue<Schema>> = {
+  const locationDefinition: LocationStateDefinition<
+    DeepPartial<Schema> | undefined
+  > = {
     ...location,
     defaultValue: undefined,
   };
@@ -49,7 +58,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   const formIdSuffix = `location-form-${locationKey}`;
   const formId = `${formIdPrefix}-${formIdSuffix}`;
 
-  const formRef = useRef<GetFormPropsArgs[0]>(null);
+  const formRef = useRef<GetFormPropsArgs[0] | null>(null);
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!formRef.current) {
@@ -60,7 +69,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     const values = getLocationState();
     if (values) {
       Object.entries(values).forEach(([name, value]) =>
-        formRef.current.update({ name, value }),
+        formRef.current!.update({ name, value: value! }),
       );
     }
   }, [formId, getLocationState]);
@@ -76,7 +85,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
       return {
         ...formProps,
         onChange(e) {
-          const prevState = getLocationState() ?? ({} as DefaultValue<Schema>);
+          const prevState = getLocationState() ?? ({} as DeepPartial<Schema>);
           if (e.target.type === "checkbox") {
             setLocationState(
               updatedWithObjectPath(prevState, e.target.name, e.target.checked),
@@ -102,7 +111,8 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                 const { name } = payload as {
                   name?: string;
                 };
-                const prevState = getLocationState();
+                // `prevState` always exists at the intent.
+                const prevState = getLocationState() as DeepPartial<Schema>;
                 const nextState = name
                   ? updatedWithObjectPath(prevState, name, undefined)
                   : undefined;
@@ -115,7 +125,8 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                   name: string;
                   value: unknown;
                 };
-                const prevState = getLocationState();
+                // `prevState` always exists at the intent.
+                const prevState = getLocationState() as DeepPartial<Schema>;
                 const nextState = updatedWithObjectPath(prevState, name, value);
                 setLocationState(nextState);
                 break;
@@ -127,7 +138,8 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                   index?: number;
                   defaultValue?: unknown;
                 };
-                const prevState = getLocationState();
+                // `prevState` always exists at the intent.
+                const prevState = getLocationState() as DeepPartial<Schema>;
                 const nextState = updatedWithObjectPath(
                   prevState,
                   name,
@@ -149,7 +161,8 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                   name: string;
                   index: number;
                 };
-                const prevState = getLocationState();
+                // `prevState` always exists at the intent.
+                const prevState = getLocationState() as DeepPartial<Schema>;
                 const nextState = updatedWithObjectPath(
                   prevState,
                   name,
@@ -168,7 +181,8 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                   from: number;
                   to: number;
                 };
-                const prevState = getLocationState();
+                // `prevState` always exists at the intent.
+                const prevState = getLocationState() as DeepPartial<Schema>;
                 const nextState = updatedWithObjectPath(
                   prevState,
                   name,

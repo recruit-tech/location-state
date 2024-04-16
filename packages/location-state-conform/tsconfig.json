@@ -1,8 +1,7 @@
 {
   "extends": "configs/tsconfig.json",
   "compilerOptions": {
-    "types": ["vitest/globals"],
-    "strict": false // todo: enable strict mode
+    "types": ["vitest/globals"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "./vitest.setup.ts"],
   "exclude": ["node_modules"]

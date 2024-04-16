@@ -1,3 +1,9 @@
+type LeafNode = string | number | boolean;
+type LeafNodeParent = Record<string, LeafNode> | Array<LeafNode>;
+type Node = {
+  [key: string]: Node | Array<Node> | LeafNodeParent | LeafNode;
+};
+
 /**
  * Returns an updated object with `object` paths.
  *
@@ -12,9 +18,20 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
 ): T {
   const dest = { ...src };
   const pathSegments = getPathSegments(path);
-  pathSegments.reduce(
+  pathSegments.reduce<[Node, Node | LeafNode]>(
+    // @ts-ignore
     ([currentSrc, currentDest], pathSegment, index) => {
       if (index === pathSegments.length - 1) {
+        if (Array.isArray(currentDest)) {
+          assertNumber(pathSegment);
+          currentDest[pathSegment] =
+            typeof updaterOrValue === "function"
+              ? updaterOrValue(currentSrc[pathSegment])
+              : updaterOrValue;
+          return [currentSrc, currentDest];
+        }
+        assertString(pathSegment);
+        assertHasKey(currentDest, pathSegment);
         currentDest[pathSegment] =
           typeof updaterOrValue === "function"
             ? updaterOrValue(currentSrc[pathSegment])
@@ -23,13 +40,41 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
       }
       const nextPath = pathSegments[index + 1];
       if (typeof nextPath === "number") {
-        currentDest[pathSegment] = [...(currentSrc[pathSegment] ?? [])];
+        if (typeof pathSegment === "number") {
+          const child = currentSrc[pathSegment] ?? [];
+          assertArray(child);
+          assertArray(currentDest);
+          currentDest[pathSegment] = [...child];
+          return [
+            currentSrc[pathSegment] ??
+              new Array<unknown>(nextPath + 1).fill({}),
+            currentDest[pathSegment],
+          ];
+        }
+        const child = currentSrc[pathSegment] ?? [];
+        assertArray(child);
+        assertHasKey(currentDest, pathSegment);
+        currentDest[pathSegment] = [...child] as Array<Node>;
         return [
           currentSrc[pathSegment] ?? new Array<unknown>(nextPath + 1).fill({}),
           currentDest[pathSegment],
         ];
       }
-      currentDest[pathSegment] = { ...currentSrc[pathSegment] };
+      if (typeof pathSegment === "number") {
+        const child = currentSrc[pathSegment] ?? {};
+        assertRecord(child);
+        assertArray(currentDest);
+        currentDest[pathSegment] = {
+          ...child,
+        };
+        return [child, currentDest[pathSegment]];
+      }
+      const child = currentSrc[pathSegment];
+      assertRecord(currentDest);
+      assertRecord(child);
+      currentDest[pathSegment] = {
+        ...child,
+      };
       return [currentSrc[pathSegment] ?? {}, currentDest[pathSegment]];
     },
     [src ?? {}, dest],
@@ -58,4 +103,39 @@ export function getPathSegments(path: string): Array<string | number> {
       }
       return result;
     }, []);
+}
+
+function assertNumber(value: unknown): asserts value is number {
+  if (typeof value !== "number") {
+    throw new Error(`Expected number but got ${typeof value}`);
+  }
+}
+
+function assertString(value: unknown): asserts value is string {
+  if (typeof value !== "string") {
+    throw new Error(`Expected string but got ${typeof value}`);
+  }
+}
+
+function assertRecord(
+  value: unknown,
+): asserts value is Record<string, unknown> {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new Error(`Expected object but got ${typeof value}`);
+  }
+}
+
+function assertArray(value: unknown): asserts value is Array<unknown> {
+  if (!Array.isArray(value)) {
+    throw new Error(`Expected array but got ${typeof value}`);
+  }
+}
+
+function assertHasKey(
+  value: unknown,
+  key: string,
+): asserts value is Record<typeof key, unknown> {
+  if (typeof value !== "object" || value === null || !(key in value)) {
+    throw new Error(`Expected object with key ${key}`);
+  }
 }
