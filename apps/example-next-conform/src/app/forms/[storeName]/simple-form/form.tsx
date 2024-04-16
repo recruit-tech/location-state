@@ -1,7 +1,7 @@
 "use client";
 
-import { useLocationForm } from "@/lib/use-location-form";
 import { getInputProps, parse, useForm } from "@conform-to/react";
+import { useLocationForm } from "@location-state/conform";
 import { useRouter } from "next/navigation";
 
 type FormFields = {

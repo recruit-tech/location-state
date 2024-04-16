@@ -1,0 +1,9 @@
+{
+  "extends": "configs/tsconfig.dts.json",
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules", "src/**/*.test.ts", "src/**/*.test.tsx"],
+  "compilerOptions": {
+    "declarationDir": "types",
+    "strict": false // todo: enable strict mode
+  }
+}

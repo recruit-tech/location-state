@@ -7,7 +7,7 @@ test.skip(({ browserName }) => browserName !== "chromium", "Chromium only!");
 describe('"simple form" is restored on browser back.', () => {
   test("browser back on simple form", async ({ page }) => {
     // Navigate to the target page.
-    await page.goto("http://localhost:3000/session/simple-form");
+    await page.goto("http://localhost:3000/forms/session/simple-form");
     const firstName = page.getByRole("textbox", { name: "First name" });
     const lastName = page.getByRole("textbox", { name: "Last name" });
     // Default value is "".
@@ -29,7 +29,7 @@ describe('"simple form" is restored on browser back.', () => {
 describe('"dynamic form" is restored on browser back.', () => {
   test("browser back on dynamic form", async ({ page }) => {
     // Navigate to the target page.
-    await page.goto("http://localhost:3000/session/dynamic-form");
+    await page.goto("http://localhost:3000/forms/session/dynamic-form");
     // Add 2 member fields.
     const addMember = page.getByRole("button", { name: "Add member to last" });
     await addMember.click();
