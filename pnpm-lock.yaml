@@ -219,6 +219,9 @@ importers:
       '@location-state/core':
         specifier: workspace:*
         version: link:../location-state-core
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../utils
       next:
         specifier: ^13.0.0 || ^14.0.0
         version: 14.1.4(@babel/core@7.24.3)(react-dom@18.2.0)(react@18.2.0)
@@ -239,6 +242,9 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0
     devDependencies:
+      '@repo/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
       '@testing-library/jest-dom':
         specifier: 6.4.2
         version: 6.4.2(vitest@1.4.0)
@@ -257,9 +263,6 @@ importers:
       configs:
         specifier: workspace:*
         version: link:../configs
-      test-utils:
-        specifier: workspace:*
-        version: link:../test-utils
       uuid:
         specifier: 9.0.1
         version: 9.0.1
@@ -295,6 +298,12 @@ importers:
       '@types/uuid':
         specifier: 9.0.8
         version: 9.0.8
+      configs:
+        specifier: workspace:*
+        version: link:../configs
+
+  packages/utils:
+    devDependencies:
       configs:
         specifier: workspace:*
         version: link:../configs

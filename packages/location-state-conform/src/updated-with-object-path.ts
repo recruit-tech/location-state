@@ -1,3 +1,5 @@
+import { assertArray, assertRecord } from "@repo/utils/asserts";
+
 type PrimitiveValue = string | number | boolean;
 type Node =
   | {
@@ -105,18 +107,4 @@ export function getPathSegments(path: string): Array<string | number> {
       }
       return result;
     }, []);
-}
-
-function assertRecord(
-  value: unknown,
-): asserts value is Record<string, unknown> {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) {
-    throw new Error(`Assert Error: Expected object but got ${typeof value}`);
-  }
-}
-
-function assertArray(value: unknown): asserts value is Array<unknown> {
-  if (!Array.isArray(value)) {
-    throw new Error(`Assert Error: Expected array but got ${typeof value}`);
-  }
 }

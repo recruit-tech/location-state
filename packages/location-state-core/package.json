@@ -32,7 +32,7 @@
     "@types/uuid": "9.0.8",
     "client-only": "0.0.1",
     "configs": "workspace:*",
-    "test-utils": "workspace:*",
+    "@repo/test-utils": "workspace:*",
     "uuid": "9.0.1"
   },
   "peerDependencies": {
