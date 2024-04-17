@@ -2,72 +2,89 @@ import { describe, expect, test } from "vitest";
 import { updatedWithObjectPath } from "./updated-with-object-path";
 
 describe("object path setter", () => {
-  test("shallow member set 1 to 2", () => {
-    // Arrange
-    const target = { a: 1 };
+  test.each<{
+    src: Record<string, unknown>;
+    path: string;
+    value: unknown;
+    expected: Record<string, unknown>;
+    explain: string;
+  }>([
+    {
+      src: { a: "old" },
+      path: "a",
+      value: "updated value",
+      expected: { a: "updated value" },
+      explain: "update a string value",
+    },
+    {
+      src: { a: 1 },
+      path: "a",
+      value: 2,
+      expected: { a: 2 },
+      explain: "update a number value",
+    },
+    {
+      src: {
+        a: { b: "a default value", c: "c default value" },
+        d: { e: "d default value" },
+      },
+      path: "a.b",
+      value: "updated value",
+      expected: {
+        a: { b: "updated value", c: "c default value" },
+        d: { e: "d default value" },
+      },
+      explain: "update a nested value and keep other values",
+    },
+    {
+      src: {
+        a: { b: [{ c: "c default value" }] },
+        d: { e: "d default value" },
+      },
+      path: "a.b[0].c",
+      value: "updated value",
+      expected: {
+        a: { b: [{ c: "updated value" }] },
+        d: { e: "d default value" },
+      },
+      explain: "update a nested value in an array and keep other values",
+    },
+    {
+      src: {
+        a: { b: [{ c: [{ d: "d default value" }] }] },
+        d: { e: "d default value" },
+      },
+      path: "a.b[0].c[0].d",
+      value: "updated value",
+      expected: {
+        a: { b: [{ c: [{ d: "updated value" }] }] },
+        d: { e: "d default value" },
+      },
+      explain: "update a nested value in a nested array and keep other values",
+    },
+  ])("update with $explain .", ({ src, path, value, expected }) => {
     // Act
-    const result = updatedWithObjectPath(target, "a", 2);
+    const result = updatedWithObjectPath(src, path, value);
     // Assert
-    expect(target).toEqual({ a: 1 });
-    expect(result).toEqual({ a: 2 });
+    expect(result).toEqual(expected);
   });
 
-  test("deep member set 1 to 2", () => {
+  test("src is not changed, and return value's some member are same reference.", () => {
     // Arrange
     const target = {
-      a: { b: 1 },
-      c: { d: "test" },
+      a: { b: "b default value" },
+      c: { d: "c.d default value" },
     };
     // Act
-    const result = updatedWithObjectPath(target, "a.b", 2);
+    const result = updatedWithObjectPath(target, "a.b", "updated value");
     // Assert
     expect(target).toEqual({
-      a: { b: 1 },
-      c: { d: "test" },
+      a: { b: "b default value" },
+      c: { d: "c.d default value" },
     });
     expect(result).toEqual({
-      a: { b: 2 },
-      c: { d: "test" },
-    });
-    expect(result.c).toBe(target.c);
-  });
-
-  test("deep member with array set 1 to 2", () => {
-    // Arrange
-    const target = {
-      a: { b: [1] },
-      c: { d: "test" },
-    };
-    // Act
-    const result = updatedWithObjectPath(target, "a.b[0]", 2);
-    // Assert
-    expect(target).toEqual({
-      a: { b: [1] },
-      c: { d: "test" },
-    });
-    expect(result).toEqual({
-      a: { b: [2] },
-      c: { d: "test" },
-    });
-    expect(result.c).toBe(target.c);
-  });
-
-  test("deep member include array path set 1 to 2", () => {
-    // Arrange
-    const target = {
-      a: [{ b: [1] }],
-      c: { d: "test" },
-    };
-    // Act
-    const result = updatedWithObjectPath(target, "a[0].b[0]", 2);
-    // Assert
-    expect(target).toEqual({
-      a: [{ b: [1] }],
-      c: { d: "test" },
-    });
-    expect(result).toEqual({
-      a: [{ b: [2] }],
-      c: { d: "test" },
+      a: { b: "updated value" },
+      c: { d: "c.d default value" },
     });
     expect(result.c).toBe(target.c);
   });
