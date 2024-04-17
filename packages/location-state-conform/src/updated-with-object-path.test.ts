@@ -82,6 +82,19 @@ describe("object path setter", () => {
       },
       explain: "update a nested value in a nested array and keep other values",
     },
+    {
+      src: {
+        a: {},
+        d: { e: "d default value" },
+      },
+      path: "a.b.c",
+      value: "updated value",
+      expected: {
+        a: { b: { c: "updated value" } },
+        d: { e: "d default value" },
+      },
+      explain: "update a nested value in a nested array and keep other values",
+    },
   ])("update with $explain .", ({ src, path, value, expected }) => {
     // Act
     const result = updatedWithObjectPath(src, path, value);

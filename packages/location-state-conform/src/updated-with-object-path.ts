@@ -1,8 +1,9 @@
-type LeafNode = string | number | boolean;
-type LeafNodeParent = Record<string, LeafNode>;
-type Node = {
-  [key: string]: Node | Array<Node> | LeafNodeParent | LeafNode | undefined;
-};
+type PrimitiveValue = string | number | boolean;
+type Node =
+  | {
+      [key: string]: Node | PrimitiveValue | undefined;
+    }
+  | Node[];
 
 /**
  * Returns an updated object with `object` paths.
@@ -18,59 +19,68 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
 ): T {
   const dest = { ...src };
   const pathSegments = getPathSegments(path);
-  pathSegments.reduce<[Node, Node | LeafNode]>(
-    // @ts-ignore
+  pathSegments.reduce<[Node, Node]>(
     ([currentSrc, currentDest], pathSegment, index) => {
       // When last segment is reached, update the value.
       if (index === pathSegments.length - 1) {
-        const value =
-          typeof updaterOrValue === "function"
-            ? updaterOrValue(currentSrc[pathSegment])
-            : updaterOrValue;
-
         if (typeof pathSegment === "number") {
+          assertArray(currentSrc);
           assertArray(currentDest);
-          currentDest[pathSegment] = value;
-          return [currentSrc, currentDest];
+          currentDest[pathSegment] =
+            typeof updaterOrValue === "function"
+              ? updaterOrValue(currentSrc[pathSegment])
+              : updaterOrValue;
+        } else {
+          assertRecord(currentSrc);
+          assertRecord(currentDest);
+          currentDest[pathSegment] =
+            typeof updaterOrValue === "function"
+              ? updaterOrValue(currentSrc[pathSegment])
+              : updaterOrValue;
         }
-
-        assertRecord(currentDest);
-        currentDest[pathSegment] = value;
+        // Not used, but return the last node for type checking.
         return [currentSrc, currentDest];
       }
 
-      const currentNodeFromSrc = currentSrc[pathSegment];
       const nextPath = pathSegments[index + 1];
-
       if (typeof nextPath === "number") {
-        // When `nextPath` is number, current node is array.
-        assertArrayOrUndefined(currentNodeFromSrc);
-
         if (typeof pathSegment === "number") {
-          assertArray(currentDest);
-          currentDest[pathSegment] = [...(currentNodeFromSrc ?? [])];
-          return [currentNodeFromSrc, currentDest[pathSegment]];
+          // e.g. a[0][0]
+          throw new Error("Not Supported: Nested array in array");
         }
 
+        assertRecord(currentSrc);
         assertRecord(currentDest);
-        currentDest[pathSegment] = [...(currentNodeFromSrc ?? [])];
-        return [currentNodeFromSrc, currentDest[pathSegment]];
+        const nextSrc = currentSrc[pathSegment];
+        assertArray(nextSrc);
+        currentDest[pathSegment] = [...nextSrc];
+        const nextDest = currentDest[pathSegment];
+        assertArray(nextDest);
+        return [nextSrc, nextDest];
       }
-
-      // When next `pathSegment` is string, current node is object.
-      assertRecordOrUndefined(currentNodeFromSrc);
 
       if (typeof pathSegment === "number") {
+        assertArray(currentSrc);
         assertArray(currentDest);
-        currentDest[pathSegment] = { ...currentNodeFromSrc };
-        return [currentNodeFromSrc, currentDest[pathSegment]];
+        const nextSrc = currentSrc[pathSegment] ?? {};
+        assertRecord(nextSrc);
+        currentDest[pathSegment] = { ...nextSrc };
+        const nextDest = currentDest[pathSegment];
+        assertRecord(nextDest);
+        return [nextSrc, nextDest];
       }
 
+      assertRecord(currentSrc);
       assertRecord(currentDest);
-      currentDest[pathSegment] = { ...currentNodeFromSrc };
-      return [currentSrc[pathSegment], currentDest[pathSegment]];
+      const nextSrc = currentSrc[pathSegment] ?? {};
+      // When `nextPath` is string, `nextSrc` is Record.
+      assertRecord(nextSrc);
+      currentDest[pathSegment] = { ...nextSrc };
+      const nextDest = currentDest[pathSegment];
+      assertRecord(nextDest);
+      return [nextSrc, nextDest];
     },
-    [src, dest],
+    [src as Node, dest as Node],
   );
   return dest;
 }
@@ -105,31 +115,8 @@ function assertRecord(
   }
 }
 
-function assertRecordOrUndefined(
-  value: unknown,
-): asserts value is Record<string, unknown> | undefined {
-  if (
-    value !== undefined &&
-    (typeof value !== "object" || Array.isArray(value))
-  ) {
-    throw new Error(
-      `Assert Error: Expected object or undefined but got ${typeof value}`,
-    );
-  }
-}
-
 function assertArray(value: unknown): asserts value is Array<unknown> {
   if (!Array.isArray(value)) {
     throw new Error(`Assert Error: Expected array but got ${typeof value}`);
-  }
-}
-
-function assertArrayOrUndefined(
-  value: unknown,
-): asserts value is Array<unknown> | undefined {
-  if (value !== undefined && !Array.isArray(value)) {
-    throw new Error(
-      `Assert Error: Expected array or undefined but got ${typeof value}`,
-    );
   }
 }
