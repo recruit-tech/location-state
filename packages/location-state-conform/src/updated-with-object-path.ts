@@ -70,8 +70,7 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
       currentDest[pathSegment] = { ...currentNodeFromSrc };
       return [currentSrc[pathSegment], currentDest[pathSegment]];
     },
-    // todo: fix `?? {}`
-    [src ?? {}, dest],
+    [src, dest],
   );
   return dest;
 }

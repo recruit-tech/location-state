@@ -17,6 +17,13 @@ describe("object path setter", () => {
       explain: "update a string value",
     },
     {
+      src: {},
+      path: "a",
+      value: "updated value",
+      expected: { a: "updated value" },
+      explain: "update a string value",
+    },
+    {
       src: { a: 1 },
       path: "a",
       value: 2,
