@@ -1,5 +1,5 @@
 type LeafNode = string | number | boolean;
-type LeafNodeParent = Record<string, LeafNode> | Array<LeafNode>;
+type LeafNodeParent = Record<string, LeafNode>;
 type Node = {
   [key: string]: Node | Array<Node> | LeafNodeParent | LeafNode;
 };
@@ -21,60 +21,52 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
   pathSegments.reduce<[Node, Node | LeafNode]>(
     // @ts-ignore
     ([currentSrc, currentDest], pathSegment, index) => {
+      // When last segment is reached, update the value.
       if (index === pathSegments.length - 1) {
-        if (Array.isArray(currentDest)) {
-          assertNumber(pathSegment);
-          currentDest[pathSegment] =
-            typeof updaterOrValue === "function"
-              ? updaterOrValue(currentSrc[pathSegment])
-              : updaterOrValue;
-          return [currentSrc, currentDest];
-        }
-        assertString(pathSegment);
-        assertHasKey(currentDest, pathSegment);
-        currentDest[pathSegment] =
+        const value =
           typeof updaterOrValue === "function"
             ? updaterOrValue(currentSrc[pathSegment])
             : updaterOrValue;
+
+        if (typeof pathSegment === "number") {
+          assertArray(currentDest);
+          currentDest[pathSegment] = value;
+          return [currentSrc, currentDest];
+        }
+
+        assertRecord(currentDest);
+        currentDest[pathSegment] = value;
         return [currentSrc, currentDest];
       }
-      const nextPath = pathSegments[index + 1];
-      if (typeof nextPath === "number") {
+
+      const currentNodeFromSrc = currentSrc[pathSegment];
+
+      if (typeof pathSegments[index + 1] === "number") {
+        // When next `pathSegment` is number, current node is array.
+        assertArray(currentNodeFromSrc);
+
         if (typeof pathSegment === "number") {
-          const child = currentSrc[pathSegment] ?? [];
-          assertArray(child);
           assertArray(currentDest);
-          currentDest[pathSegment] = [...child];
-          return [
-            currentSrc[pathSegment] ??
-              new Array<unknown>(nextPath + 1).fill({}),
-            currentDest[pathSegment],
-          ];
+          currentDest[pathSegment] = [...currentNodeFromSrc];
+          return [currentNodeFromSrc, currentDest[pathSegment]];
         }
-        const child = currentSrc[pathSegment] ?? [];
-        assertArray(child);
-        assertHasKey(currentDest, pathSegment);
-        currentDest[pathSegment] = [...child] as Array<Node>;
-        return [
-          currentSrc[pathSegment] ?? new Array<unknown>(nextPath + 1).fill({}),
-          currentDest[pathSegment],
-        ];
+
+        assertRecord(currentDest);
+        currentDest[pathSegment] = [...currentNodeFromSrc];
+        return [currentNodeFromSrc, currentDest[pathSegment]];
       }
+
+      // When next `pathSegment` is string, current node is object.
+      assertRecord(currentNodeFromSrc);
+
       if (typeof pathSegment === "number") {
-        const child = currentSrc[pathSegment] ?? {};
-        assertRecord(child);
         assertArray(currentDest);
-        currentDest[pathSegment] = {
-          ...child,
-        };
-        return [child, currentDest[pathSegment]];
+        currentDest[pathSegment] = { ...currentNodeFromSrc };
+        return [currentNodeFromSrc, currentDest[pathSegment]];
       }
-      const child = currentSrc[pathSegment];
+
       assertRecord(currentDest);
-      assertRecord(child);
-      currentDest[pathSegment] = {
-        ...child,
-      };
+      currentDest[pathSegment] = { ...currentNodeFromSrc };
       return [currentSrc[pathSegment] ?? {}, currentDest[pathSegment]];
     },
     [src ?? {}, dest],
@@ -95,7 +87,6 @@ export function getPathSegments(path: string): Array<string | number> {
       if (typeof segment !== "undefined" && segment !== "") {
         if (segment.startsWith("[") && segment.endsWith("]")) {
           const index = segment.slice(1, -1);
-
           result.push(Number(index));
         } else {
           result.push(segment);
@@ -103,18 +94,6 @@ export function getPathSegments(path: string): Array<string | number> {
       }
       return result;
     }, []);
-}
-
-function assertNumber(value: unknown): asserts value is number {
-  if (typeof value !== "number") {
-    throw new Error(`Expected number but got ${typeof value}`);
-  }
-}
-
-function assertString(value: unknown): asserts value is string {
-  if (typeof value !== "string") {
-    throw new Error(`Expected string but got ${typeof value}`);
-  }
 }
 
 function assertRecord(
@@ -128,14 +107,5 @@ function assertRecord(
 function assertArray(value: unknown): asserts value is Array<unknown> {
   if (!Array.isArray(value)) {
     throw new Error(`Expected array but got ${typeof value}`);
-  }
-}
-
-function assertHasKey(
-  value: unknown,
-  key: string,
-): asserts value is Record<typeof key, unknown> {
-  if (typeof value !== "object" || value === null || !(key in value)) {
-    throw new Error(`Expected object with key ${key}`);
   }
 }
