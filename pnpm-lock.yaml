@@ -229,7 +229,7 @@ importers:
       '@conform-to/react':
         specifier: 1.0.6
         version: 1.0.6(react@18.2.0)
-      configs:
+      '@repo/configs':
         specifier: workspace:*
         version: link:../configs
       react:
@@ -242,6 +242,9 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0
     devDependencies:
+      '@repo/configs':
+        specifier: workspace:*
+        version: link:../configs
       '@repo/test-utils':
         specifier: workspace:*
         version: link:../test-utils
@@ -260,9 +263,6 @@ importers:
       client-only:
         specifier: 0.0.1
         version: 0.0.1
-      configs:
-        specifier: workspace:*
-        version: link:../configs
       uuid:
         specifier: 9.0.1
         version: 9.0.1
@@ -276,7 +276,7 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0
     devDependencies:
-      configs:
+      '@repo/configs':
         specifier: workspace:*
         version: link:../configs
       next:
@@ -295,16 +295,16 @@ importers:
         specifier: 9.0.1
         version: 9.0.1
     devDependencies:
+      '@repo/configs':
+        specifier: workspace:*
+        version: link:../configs
       '@types/uuid':
         specifier: 9.0.8
         version: 9.0.8
-      configs:
-        specifier: workspace:*
-        version: link:../configs
 
   packages/utils:
     devDependencies:
-      configs:
+      '@repo/configs':
         specifier: workspace:*
         version: link:../configs
 

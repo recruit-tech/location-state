@@ -15,6 +15,6 @@
   },
   "devDependencies": {
     "@types/uuid": "9.0.8",
-    "configs": "workspace:*"
+    "@repo/configs": "workspace:*"
   }
 }
