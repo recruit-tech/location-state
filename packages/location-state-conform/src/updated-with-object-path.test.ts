@@ -21,7 +21,7 @@ describe("object path setter", () => {
       path: "a",
       value: "updated value",
       expected: { a: "updated value" },
-      explain: "update a string value",
+      explain: "update a string value to empty object",
     },
     {
       src: { a: 1 },
@@ -80,7 +80,7 @@ describe("object path setter", () => {
         a: { b: [{ c: "updated value" }] },
         d: { e: "d default value" },
       },
-      explain: "update a nested value in a nested array and keep other values",
+      explain: "update a nested value in an empty array and keep other values",
     },
     {
       src: {
@@ -93,7 +93,7 @@ describe("object path setter", () => {
         a: { b: { c: "updated value" } },
         d: { e: "d default value" },
       },
-      explain: "update a nested value in a nested array and keep other values",
+      explain: "update a nested value in an empty object and keep other values",
     },
   ])("update with $explain .", ({ src, path, value, expected }) => {
     // Act
