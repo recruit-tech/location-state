@@ -1,7 +1,7 @@
 type LeafNode = string | number | boolean;
 type LeafNodeParent = Record<string, LeafNode>;
 type Node = {
-  [key: string]: Node | Array<Node> | LeafNodeParent | LeafNode;
+  [key: string]: Node | Array<Node> | LeafNodeParent | LeafNode | undefined;
 };
 
 /**
@@ -40,24 +40,25 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
       }
 
       const currentNodeFromSrc = currentSrc[pathSegment];
+      const nextPath = pathSegments[index + 1];
 
-      if (typeof pathSegments[index + 1] === "number") {
-        // When next `pathSegment` is number, current node is array.
-        assertArray(currentNodeFromSrc);
+      if (typeof nextPath === "number") {
+        // When `nextPath` is number, current node is array.
+        assertArrayOrUndefined(currentNodeFromSrc);
 
         if (typeof pathSegment === "number") {
           assertArray(currentDest);
-          currentDest[pathSegment] = [...currentNodeFromSrc];
+          currentDest[pathSegment] = [...(currentNodeFromSrc ?? [])];
           return [currentNodeFromSrc, currentDest[pathSegment]];
         }
 
         assertRecord(currentDest);
-        currentDest[pathSegment] = [...currentNodeFromSrc];
+        currentDest[pathSegment] = [...(currentNodeFromSrc ?? [])];
         return [currentNodeFromSrc, currentDest[pathSegment]];
       }
 
       // When next `pathSegment` is string, current node is object.
-      assertRecord(currentNodeFromSrc);
+      assertRecordOrUndefined(currentNodeFromSrc);
 
       if (typeof pathSegment === "number") {
         assertArray(currentDest);
@@ -67,8 +68,9 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
 
       assertRecord(currentDest);
       currentDest[pathSegment] = { ...currentNodeFromSrc };
-      return [currentSrc[pathSegment] ?? {}, currentDest[pathSegment]];
+      return [currentSrc[pathSegment], currentDest[pathSegment]];
     },
+    // todo: fix `?? {}`
     [src ?? {}, dest],
   );
   return dest;
@@ -100,12 +102,35 @@ function assertRecord(
   value: unknown,
 ): asserts value is Record<string, unknown> {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
-    throw new Error(`Expected object but got ${typeof value}`);
+    throw new Error(`Assert Error: Expected object but got ${typeof value}`);
+  }
+}
+
+function assertRecordOrUndefined(
+  value: unknown,
+): asserts value is Record<string, unknown> | undefined {
+  if (
+    value !== undefined &&
+    (typeof value !== "object" || Array.isArray(value))
+  ) {
+    throw new Error(
+      `Assert Error: Expected object or undefined but got ${typeof value}`,
+    );
   }
 }
 
 function assertArray(value: unknown): asserts value is Array<unknown> {
   if (!Array.isArray(value)) {
-    throw new Error(`Expected array but got ${typeof value}`);
+    throw new Error(`Assert Error: Expected array but got ${typeof value}`);
+  }
+}
+
+function assertArrayOrUndefined(
+  value: unknown,
+): asserts value is Array<unknown> | undefined {
+  if (value !== undefined && !Array.isArray(value)) {
+    throw new Error(
+      `Assert Error: Expected array or undefined but got ${typeof value}`,
+    );
   }
 }
