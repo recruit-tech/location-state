@@ -42,6 +42,7 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
               ? updaterOrValue(currentSrc[pathSegment])
               : updaterOrValue;
         }
+
         // Not used, but return the last node for type checking.
         return [currentSrc, currentDest];
       }
@@ -64,6 +65,7 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
         currentDest[pathSegment] = [...nextSrc];
         const nextDest = currentDest[pathSegment];
         assertArray(nextDest);
+
         return [nextSrc, nextDest];
       }
 
@@ -78,6 +80,7 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
         currentDest[pathSegment] = { ...nextSrc };
         const nextDest = currentDest[pathSegment];
         assertRecord(nextDest);
+
         return [nextSrc, nextDest];
       }
 
@@ -87,11 +90,11 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
       assertRecord(currentSrc);
       assertRecord(currentDest);
       const nextSrc = currentSrc[pathSegment] ?? {};
-      // When `nextPath` is string, `nextSrc` is Record.
       assertRecord(nextSrc);
       currentDest[pathSegment] = { ...nextSrc };
       const nextDest = currentDest[pathSegment];
       assertRecord(nextDest);
+
       return [nextSrc, nextDest];
     },
     [src as Node, dest as Node],
