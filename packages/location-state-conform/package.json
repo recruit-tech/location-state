@@ -5,7 +5,7 @@
     "access": "public"
   },
   "repository": "https://github.com/recruit-tech/location-state",
-  "description": "State management library for React that synchronizes with history entries supporting Next.js Pages Router.",
+  "description": "State management library for React that synchronizes with history entries supporting `conform`.",
   "files": ["dist", "types", "src", "package.json"],
   "exports": {
     ".": {
@@ -32,7 +32,6 @@
   },
   "peerDependencies": {
     "@conform-to/react": "^1.0.0",
-    "next": "^13.0.0 || ^14.0.0",
     "react": "^18.2.0"
   }
 }
