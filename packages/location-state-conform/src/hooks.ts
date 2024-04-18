@@ -7,6 +7,15 @@ import {
 } from "@location-state/core";
 import type { DeepPartial, Pretty } from "@repo/utils/type";
 import { useCallback, useEffect, useId, useRef } from "react";
+import * as v from "valibot";
+import {
+  InsertIntentValue,
+  RemoveIntentValue,
+  ReorderIntentValue,
+  ResetIntentValue,
+  SubmitEventValue,
+  UpdateIntentValue,
+} from "./schema";
 import { updatedWithObjectPath } from "./updated-with-object-path";
 
 type GetFormPropsArgs = Parameters<typeof getFormProps>;
@@ -94,9 +103,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
             switch (type) {
               case "reset": {
                 // https://github.com/edmundhung/conform/blob/f955e1c5ba1fd1014c83bc3a1ba4fb215941a108/packages/conform-dom/submission.ts#L310-L321
-                const { name } = payload as {
-                  name?: string;
-                };
+                const { name } = v.parse(ResetIntentValue, payload);
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
                 const nextState = name
@@ -107,10 +114,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
               }
               case "update": {
                 // https://github.com/edmundhung/conform/blob/f955e1c5ba1fd1014c83bc3a1ba4fb215941a108/packages/conform-dom/submission.ts#L323
-                const { name, value } = payload as {
-                  name: string;
-                  value: unknown;
-                };
+                const { name, value } = v.parse(UpdateIntentValue, payload);
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
                 const nextState = updatedWithObjectPath(prevState, name, value);
@@ -119,11 +123,10 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
               }
               case "insert": {
                 // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L350-L359
-                const { name, index, defaultValue } = payload as {
-                  name: string;
-                  index?: number;
-                  defaultValue?: unknown;
-                };
+                const { name, index, defaultValue } = v.parse(
+                  InsertIntentValue,
+                  payload,
+                );
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
                 const nextState = updatedWithObjectPath(
@@ -143,10 +146,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
               }
               case "remove": {
                 // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L342-L349
-                const { name, index } = payload as {
-                  name: string;
-                  index: number;
-                };
+                const { name, index } = v.parse(RemoveIntentValue, payload);
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
                 const nextState = updatedWithObjectPath(
@@ -162,11 +162,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
               }
               case "reorder": {
                 // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L361-L368
-                const { name, from, to } = payload as {
-                  name: string;
-                  from: number;
-                  to: number;
-                };
+                const { name, from, to } = v.parse(ReorderIntentValue, payload);
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
                 const nextState = updatedWithObjectPath(
@@ -196,8 +192,10 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
 
 function parseSafe(json: string): { type: string; payload: unknown } {
   try {
-    return JSON.parse(json);
+    const jsonParsed = JSON.parse(json);
+    return v.parse(SubmitEventValue, jsonParsed);
   } catch (ignore) {
+    console.warn("parseSafe failed: ", ignore);
     return { type: "", payload: {} };
   }
 }
