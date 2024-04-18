@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./asserts": "./src/asserts.ts"
+    "./asserts": "./src/asserts.ts",
+    "./type": "./src/type.ts"
   },
   "devDependencies": {
     "@repo/configs": "workspace:*"

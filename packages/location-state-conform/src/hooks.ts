@@ -5,19 +5,9 @@ import {
   useLocationKey,
   useLocationSetState,
 } from "@location-state/core";
+import type { DeepPartial, Pretty } from "@repo/utils/type";
 import { useCallback, useEffect, useId, useRef } from "react";
 import { updatedWithObjectPath } from "./updated-with-object-path";
-
-// todo: move to utils package
-type Pretty<T> = {
-  [K in keyof T]: T[K];
-} & {};
-
-type DeepPartial<T> = T extends object
-  ? {
-      [P in keyof T]?: DeepPartial<T[P]>;
-    }
-  : T;
 
 type GetFormPropsArgs = Parameters<typeof getFormProps>;
 type GetLocationFormPropsReturnWith = ReturnType<typeof getFormProps>;
@@ -86,15 +76,11 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
         ...formProps,
         onChange(e) {
           const prevState = getLocationState() ?? ({} as DeepPartial<Schema>);
-          if (e.target.type === "checkbox") {
-            setLocationState(
-              updatedWithObjectPath(prevState, e.target.name, e.target.checked),
-            );
-          } else {
-            setLocationState(
-              updatedWithObjectPath(prevState, e.target.name, e.target.value),
-            );
-          }
+          const updateValue =
+            e.target.type === "checkbox" ? e.target.checked : e.target.value;
+          setLocationState(
+            updatedWithObjectPath(prevState, e.target.name, updateValue),
+          );
         },
         onSubmit(e: React.FormEvent<HTMLFormElement>) {
           const { name, value } = (e.nativeEvent as SubmitEvent)

@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@conform-to/react": "1.0.6",
-    "@location-state/core": "workspace:*",
     "@repo/configs": "workspace:*",
     "react": "18.2.0"
   },
