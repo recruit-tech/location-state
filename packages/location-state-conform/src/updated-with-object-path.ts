@@ -24,7 +24,7 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
   pathSegments.reduce<[Node, Node]>(
     ([currentSrc, currentDest], pathSegment, index) => {
       /**
-       * Last segment is reached, update the value.
+       * When last segment is reached, update the value.
        */
       if (index === pathSegments.length - 1) {
         if (typeof pathSegment === "number") {
