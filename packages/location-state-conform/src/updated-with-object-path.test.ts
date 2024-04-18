@@ -10,7 +10,7 @@ describe("object path setter", () => {
     explain: string;
   }>([
     {
-      src: { a: "old" },
+      src: { a: "a default value" },
       path: "a",
       value: "updated value",
       expected: { a: "updated value" },
@@ -32,7 +32,7 @@ describe("object path setter", () => {
     },
     {
       src: {
-        a: { b: "a default value", c: "c default value" },
+        a: { b: "b default value", c: "c default value" },
         d: { e: "d default value" },
       },
       path: "a.b",
@@ -58,19 +58,6 @@ describe("object path setter", () => {
     },
     {
       src: {
-        a: { b: [{ c: [{ d: "d default value" }] }] },
-        d: { e: "d default value" },
-      },
-      path: "a.b[0].c[0].d",
-      value: "updated value",
-      expected: {
-        a: { b: [{ c: [{ d: "updated value" }] }] },
-        d: { e: "d default value" },
-      },
-      explain: "update a nested value in a nested array and keep other values",
-    },
-    {
-      src: {
         a: { b: [] },
         d: { e: "d default value" },
       },
@@ -81,6 +68,19 @@ describe("object path setter", () => {
         d: { e: "d default value" },
       },
       explain: "update a nested value in an empty array and keep other values",
+    },
+    {
+      src: {
+        a: { b: [{ c: [{ d: "d default value" }] }] },
+        d: { e: "d default value" },
+      },
+      path: "a.b[0].c[0].d",
+      value: "updated value",
+      expected: {
+        a: { b: [{ c: [{ d: "updated value" }] }] },
+        d: { e: "d default value" },
+      },
+      explain: "update a nested value in a nested array and keep other values",
     },
     {
       src: {
