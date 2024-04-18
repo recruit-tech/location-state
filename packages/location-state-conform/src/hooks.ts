@@ -102,7 +102,6 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
             const { type, payload } = parseSafe(value);
             switch (type) {
               case "reset": {
-                // https://github.com/edmundhung/conform/blob/f955e1c5ba1fd1014c83bc3a1ba4fb215941a108/packages/conform-dom/submission.ts#L310-L321
                 const { name } = v.parse(ResetIntentValue, payload);
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
@@ -113,7 +112,6 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                 break;
               }
               case "update": {
-                // https://github.com/edmundhung/conform/blob/f955e1c5ba1fd1014c83bc3a1ba4fb215941a108/packages/conform-dom/submission.ts#L323
                 const { name, value } = v.parse(UpdateIntentValue, payload);
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
@@ -122,7 +120,6 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                 break;
               }
               case "insert": {
-                // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L350-L359
                 const { name, index, defaultValue } = v.parse(
                   InsertIntentValue,
                   payload,
@@ -145,7 +142,6 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                 break;
               }
               case "remove": {
-                // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L342-L349
                 const { name, index } = v.parse(RemoveIntentValue, payload);
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
@@ -161,7 +157,6 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                 break;
               }
               case "reorder": {
-                // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L361-L368
                 const { name, from, to } = v.parse(ReorderIntentValue, payload);
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
