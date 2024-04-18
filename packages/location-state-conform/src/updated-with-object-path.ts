@@ -23,7 +23,9 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
   const pathSegments = getPathSegments(path);
   pathSegments.reduce<[Node, Node]>(
     ([currentSrc, currentDest], pathSegment, index) => {
-      // When last segment is reached, update the value.
+      /**
+       * Last segment is reached, update the value.
+       */
       if (index === pathSegments.length - 1) {
         if (typeof pathSegment === "number") {
           assertArray(currentSrc);
@@ -44,6 +46,10 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
         return [currentSrc, currentDest];
       }
 
+      /**
+       * current: Record, next: Array
+       * Not supported: current: Array, next: Array
+       */
       const nextPath = pathSegments[index + 1];
       if (typeof nextPath === "number") {
         if (typeof pathSegment === "number") {
@@ -61,6 +67,9 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
         return [nextSrc, nextDest];
       }
 
+      /**
+       * current: Array, next: Record
+       */
       if (typeof pathSegment === "number") {
         assertArray(currentSrc);
         assertArray(currentDest);
@@ -72,6 +81,9 @@ export function updatedWithObjectPath<T extends Record<string, unknown>>(
         return [nextSrc, nextDest];
       }
 
+      /**
+       * current: Record, next: Record
+       */
       assertRecord(currentSrc);
       assertRecord(currentDest);
       const nextSrc = currentSrc[pathSegment] ?? {};
