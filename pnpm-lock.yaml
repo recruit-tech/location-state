@@ -216,15 +216,9 @@ importers:
 
   packages/location-state-conform:
     dependencies:
-      '@location-state/core':
-        specifier: workspace:*
-        version: link:../location-state-core
       '@repo/utils':
         specifier: workspace:*
         version: link:../utils
-      next:
-        specifier: ^13.0.0 || ^14.0.0
-        version: 14.1.4(@babel/core@7.24.3)(react-dom@18.2.0)(react@18.2.0)
       valibot:
         specifier: 0.30.0
         version: 0.30.0
@@ -232,6 +226,9 @@ importers:
       '@conform-to/react':
         specifier: 1.0.6
         version: 1.0.6(react@18.2.0)
+      '@location-state/core':
+        specifier: workspace:*
+        version: link:../location-state-core
       '@repo/configs':
         specifier: workspace:*
         version: link:../configs
