@@ -28,11 +28,15 @@
     "@conform-to/react": "1.0.6",
     "@location-state/core": "workspace:*",
     "@repo/configs": "workspace:*",
+    "@repo/test-utils": "workspace:*",
+    "@testing-library/jest-dom": "6.4.2",
+    "@testing-library/react": "14.2.2",
+    "@testing-library/user-event": "14.5.2",
     "react": "18.2.0"
   },
   "peerDependencies": {
-    "@location-state/core": "^1.0.0",
     "@conform-to/react": "^1.0.0",
+    "@location-state/core": "^1.0.0",
     "react": "^18.2.0"
   }
 }
