@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { updatedWithObjectPath } from "./updated-with-object-path";
+import { updatedWithPath } from "./updated-object";
 
 describe("object path setter", () => {
   test.each<{
@@ -97,7 +97,7 @@ describe("object path setter", () => {
     },
   ])("update with $explain .", ({ src, path, value, expected }) => {
     // Act
-    const result = updatedWithObjectPath(src, path, value);
+    const result = updatedWithPath(src, path, value);
     // Assert
     expect(result).toEqual(expected);
   });
@@ -109,7 +109,7 @@ describe("object path setter", () => {
       c: { d: "c.d default value" },
     };
     // Act
-    const result = updatedWithObjectPath(target, "a.b", "updated value");
+    const result = updatedWithPath(target, "a.b", "updated value");
     // Assert
     expect(target).toEqual({
       a: { b: "b default value" },

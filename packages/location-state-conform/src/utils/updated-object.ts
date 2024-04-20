@@ -14,7 +14,7 @@ type Node =
  * @param path The path to the value you want to update. You can contain arrays.
  * @param updaterOrValue The updater or value.
  */
-export function updatedWithObjectPath<T extends Record<string, unknown>>(
+export function updatedWithPath<T extends Record<string, unknown>>(
   src: T,
   path: string,
   updaterOrValue: unknown | ((currentValue: unknown) => unknown),

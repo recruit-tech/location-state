@@ -16,7 +16,8 @@ import {
   SubmitEventValue,
   UpdateIntentValue,
 } from "./schema";
-import { updatedWithObjectPath } from "./updated-with-object-path";
+import { insertedAt, removedAt, reorderedAt } from "./utils/updated-array";
+import { updatedWithPath } from "./utils/updated-object";
 
 type GetFormPropsArgs = Parameters<typeof getFormProps>;
 type GetLocationFormPropsReturnWith = ReturnType<typeof getFormProps>;
@@ -88,7 +89,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
           const updateValue =
             e.target.type === "checkbox" ? e.target.checked : e.target.value;
           setLocationState(
-            updatedWithObjectPath(prevState, e.target.name, updateValue),
+            updatedWithPath(prevState, e.target.name, updateValue),
           );
         },
         onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -106,7 +107,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
                 const nextState = name
-                  ? updatedWithObjectPath(prevState, name, undefined)
+                  ? updatedWithPath(prevState, name, undefined)
                   : undefined;
                 setLocationState(nextState);
                 break;
@@ -115,7 +116,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                 const { name, value } = v.parse(UpdateIntentValue, payload);
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
-                const nextState = updatedWithObjectPath(prevState, name, value);
+                const nextState = updatedWithPath(prevState, name, value);
                 setLocationState(nextState);
                 break;
               }
@@ -126,16 +127,16 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                 );
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
-                const nextState = updatedWithObjectPath(
+                const nextState = updatedWithPath(
                   prevState,
                   name,
                   (prevArray: unknown[] = new Array(index ?? 0).fill({})) => {
                     const insertionIndex = index ?? prevArray.length;
-                    return [
-                      ...prevArray.slice(0, insertionIndex),
+                    return insertedAt(
+                      prevArray,
+                      insertionIndex,
                       defaultValue ?? {},
-                      ...prevArray.slice(insertionIndex, prevArray.length),
-                    ];
+                    );
                   },
                 );
                 setLocationState(nextState);
@@ -145,13 +146,10 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                 const { name, index } = v.parse(RemoveIntentValue, payload);
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
-                const nextState = updatedWithObjectPath(
+                const nextState = updatedWithPath(
                   prevState,
                   name,
-                  (prevArray: unknown[]) => [
-                    ...prevArray.slice(0, index),
-                    ...prevArray.slice(index + 1),
-                  ],
+                  (prevArray: unknown[]) => removedAt(prevArray, index),
                 );
                 setLocationState(nextState);
                 break;
@@ -160,15 +158,10 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
                 const { name, from, to } = v.parse(ReorderIntentValue, payload);
                 const prevState =
                   getLocationState() ?? ({} as DeepPartial<Schema>);
-                const nextState = updatedWithObjectPath(
+                const nextState = updatedWithPath(
                   prevState,
                   name,
-                  (prevArray: unknown[]) => {
-                    const nextArray = [...prevArray];
-                    const removed = nextArray.splice(from, 1);
-                    nextArray.splice(to, 0, ...removed);
-                    return nextArray;
-                  },
+                  (prevArray: unknown[]) => reorderedAt(prevArray, from, to),
                 );
                 setLocationState(nextState);
                 break;
