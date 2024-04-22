@@ -1,16 +1,23 @@
-import { type DefaultValue, getFormProps } from "@conform-to/react";
+import { getFormProps } from "@conform-to/react";
 import {
   type LocationStateDefinition,
   useLocationGetState,
   useLocationKey,
   useLocationSetState,
 } from "@location-state/core";
+import type { DeepPartial, Pretty } from "@repo/utils/type";
 import { useCallback, useEffect, useId, useRef } from "react";
-import { updatedWithObjectPath } from "./utils/updated-with-object-path";
-
-type Pretty<T> = {
-  [K in keyof T]: T[K];
-} & {};
+import * as v from "valibot";
+import {
+  InsertIntentValue,
+  RemoveIntentValue,
+  ReorderIntentValue,
+  ResetIntentValue,
+  SubmitEventValue,
+  UpdateIntentValue,
+} from "./schema";
+import { insertedAt, removedAt, reorderedAt } from "./utils/updated-array";
+import { updatedWithPath } from "./utils/updated-object";
 
 type GetFormPropsArgs = Parameters<typeof getFormProps>;
 type GetLocationFormPropsReturnWith = ReturnType<typeof getFormProps>;
@@ -26,7 +33,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
 }: Pretty<
   Pretty<{
     location: Pretty<
-      Omit<LocationStateDefinition<DefaultValue<Schema>>, "defaultValue">
+      Omit<LocationStateDefinition<DeepPartial<Schema>>, "defaultValue">
     >;
     idPrefix?: string;
   }>
@@ -36,7 +43,9 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   },
   GetLocationFormProps,
 ] {
-  const locationDefinition: LocationStateDefinition<DefaultValue<Schema>> = {
+  const locationDefinition: LocationStateDefinition<
+    DeepPartial<Schema> | undefined
+  > = {
     ...location,
     defaultValue: undefined,
   };
@@ -49,7 +58,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   const formIdSuffix = `location-form-${locationKey}`;
   const formId = `${formIdPrefix}-${formIdSuffix}`;
 
-  const formRef = useRef<GetFormPropsArgs[0]>(null);
+  const formRef = useRef<GetFormPropsArgs[0] | null>(null);
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!formRef.current) {
@@ -60,7 +69,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     const values = getLocationState();
     if (values) {
       Object.entries(values).forEach(([name, value]) =>
-        formRef.current.update({ name, value }),
+        formRef.current!.update({ name, value: value! }),
       );
     }
   }, [formId, getLocationState]);
@@ -76,16 +85,12 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
       return {
         ...formProps,
         onChange(e) {
-          const prevState = getLocationState() ?? ({} as DefaultValue<Schema>);
-          if (e.target.type === "checkbox") {
-            setLocationState(
-              updatedWithObjectPath(prevState, e.target.name, e.target.checked),
-            );
-          } else {
-            setLocationState(
-              updatedWithObjectPath(prevState, e.target.name, e.target.value),
-            );
-          }
+          const prevState = getLocationState() ?? ({} as DeepPartial<Schema>);
+          const updateValue =
+            e.target.type === "checkbox" ? e.target.checked : e.target.value;
+          setLocationState(
+            updatedWithPath(prevState, e.target.name, updateValue),
+          );
         },
         onSubmit(e: React.FormEvent<HTMLFormElement>) {
           const { name, value } = (e.nativeEvent as SubmitEvent)
@@ -98,86 +103,65 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
             const { type, payload } = parseSafe(value);
             switch (type) {
               case "reset": {
-                // https://github.com/edmundhung/conform/blob/f955e1c5ba1fd1014c83bc3a1ba4fb215941a108/packages/conform-dom/submission.ts#L310-L321
-                const { name } = payload as {
-                  name?: string;
-                };
-                const prevState = getLocationState();
+                const { name } = v.parse(ResetIntentValue, payload);
+                const prevState =
+                  getLocationState() ?? ({} as DeepPartial<Schema>);
                 const nextState = name
-                  ? updatedWithObjectPath(prevState, name, undefined)
+                  ? updatedWithPath(prevState, name, undefined)
                   : undefined;
                 setLocationState(nextState);
                 break;
               }
               case "update": {
-                // https://github.com/edmundhung/conform/blob/f955e1c5ba1fd1014c83bc3a1ba4fb215941a108/packages/conform-dom/submission.ts#L323
-                const { name, value } = payload as {
-                  name: string;
-                  value: unknown;
-                };
-                const prevState = getLocationState();
-                const nextState = updatedWithObjectPath(prevState, name, value);
+                const { name, value } = v.parse(UpdateIntentValue, payload);
+                const prevState =
+                  getLocationState() ?? ({} as DeepPartial<Schema>);
+                const nextState = updatedWithPath(prevState, name, value);
                 setLocationState(nextState);
                 break;
               }
               case "insert": {
-                // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L350-L359
-                const { name, index, defaultValue } = payload as {
-                  name: string;
-                  index?: number;
-                  defaultValue?: unknown;
-                };
-                const prevState = getLocationState();
-                const nextState = updatedWithObjectPath(
+                const { name, index, defaultValue } = v.parse(
+                  InsertIntentValue,
+                  payload,
+                );
+                const prevState =
+                  getLocationState() ?? ({} as DeepPartial<Schema>);
+                const nextState = updatedWithPath(
                   prevState,
                   name,
                   (prevArray: unknown[] = new Array(index ?? 0).fill({})) => {
                     const insertionIndex = index ?? prevArray.length;
-                    return [
-                      ...prevArray.slice(0, insertionIndex),
+                    return insertedAt(
+                      prevArray,
+                      insertionIndex,
                       defaultValue ?? {},
-                      ...prevArray.slice(insertionIndex, prevArray.length),
-                    ];
+                    );
                   },
                 );
                 setLocationState(nextState);
                 break;
               }
               case "remove": {
-                // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L342-L349
-                const { name, index } = payload as {
-                  name: string;
-                  index: number;
-                };
-                const prevState = getLocationState();
-                const nextState = updatedWithObjectPath(
+                const { name, index } = v.parse(RemoveIntentValue, payload);
+                const prevState =
+                  getLocationState() ?? ({} as DeepPartial<Schema>);
+                const nextState = updatedWithPath(
                   prevState,
                   name,
-                  (prevArray: unknown[]) => [
-                    ...prevArray.slice(0, index),
-                    ...prevArray.slice(index + 1),
-                  ],
+                  (prevArray: unknown[]) => removedAt(prevArray, index),
                 );
                 setLocationState(nextState);
                 break;
               }
               case "reorder": {
-                // https://github.com/edmundhung/conform/blob/1964a3981f0a18703744e3a80ad1487073d97e11/packages/conform-dom/submission.ts#L361-L368
-                const { name, from, to } = payload as {
-                  name: string;
-                  from: number;
-                  to: number;
-                };
-                const prevState = getLocationState();
-                const nextState = updatedWithObjectPath(
+                const { name, from, to } = v.parse(ReorderIntentValue, payload);
+                const prevState =
+                  getLocationState() ?? ({} as DeepPartial<Schema>);
+                const nextState = updatedWithPath(
                   prevState,
                   name,
-                  (prevArray: unknown[]) => {
-                    const nextArray = [...prevArray];
-                    const removed = nextArray.splice(from, 1);
-                    nextArray.splice(to, 0, ...removed);
-                    return nextArray;
-                  },
+                  (prevArray: unknown[]) => reorderedAt(prevArray, from, to),
                 );
                 setLocationState(nextState);
                 break;
@@ -196,8 +180,10 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
 
 function parseSafe(json: string): { type: string; payload: unknown } {
   try {
-    return JSON.parse(json);
+    const jsonParsed = JSON.parse(json);
+    return v.parse(SubmitEventValue, jsonParsed);
   } catch (ignore) {
+    console.warn("parseSafe failed: ", ignore);
     return { type: "", payload: {} };
   }
 }

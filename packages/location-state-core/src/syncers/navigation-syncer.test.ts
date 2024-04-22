@@ -1,4 +1,4 @@
-import { createNavigationMock } from "test-utils";
+import { createNavigationMock } from "@repo/test-utils";
 import { expect, test, vi } from "vitest";
 import { NavigationSyncer } from "./navigation-syncer";
 

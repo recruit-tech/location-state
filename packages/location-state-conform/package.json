@@ -1,41 +1,39 @@
 {
-  "name": "@location-state/core",
+  "name": "@location-state/conform",
   "version": "1.0.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": "https://github.com/recruit-tech/location-state",
-  "description": "State management library for React that synchronizes with history entries supporting Next.js App Router.",
+  "description": "Synchronize `conform` with history entries.",
   "files": ["dist", "types", "src", "package.json"],
   "exports": {
     ".": {
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./types/index.d.ts"
-    },
-    "./unsafe-navigation": {
-      "require": "./dist/unsafe-navigation.js",
-      "import": "./dist/unsafe-navigation.mjs",
-      "types": "./types/unsafe-navigation.d.ts"
     }
   },
   "scripts": {
-    "build": "tsup src/index.ts src/unsafe-navigation.ts",
+    "build": "tsup src/index.ts",
     "dts": "tsc -p tsconfig.dts.json",
     "typecheck": "tsc",
     "test": "vitest run"
   },
+  "dependencies": {
+    "@repo/utils": "workspace:*",
+    "valibot": "0.30.0"
+  },
   "devDependencies": {
-    "@testing-library/jest-dom": "6.4.2",
-    "@testing-library/react": "14.2.2",
-    "@testing-library/user-event": "14.5.2",
-    "@types/uuid": "9.0.8",
-    "client-only": "0.0.1",
+    "@conform-to/react": "1.0.6",
+    "@location-state/core": "workspace:*",
     "@repo/configs": "workspace:*",
     "@repo/test-utils": "workspace:*",
-    "uuid": "9.0.1"
+    "react": "18.2.0"
   },
   "peerDependencies": {
+    "@conform-to/react": "^1.0.0",
+    "@location-state/core": "^1.0.0",
     "react": "^18.2.0"
   }
 }

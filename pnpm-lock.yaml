@@ -101,12 +101,15 @@ importers:
       '@conform-to/zod':
         specifier: 1.0.6
         version: 1.0.6(zod@3.22.4)
+      '@location-state/conform':
+        specifier: workspace:*
+        version: link:../../packages/location-state-conform
       '@location-state/core':
         specifier: workspace:*
         version: link:../../packages/location-state-core
       next:
         specifier: 14.1.4
-        version: 14.1.4(react-dom@18.2.0)(react@18.2.0)
+        version: 14.1.4(@babel/core@7.24.3)(react-dom@18.2.0)(react@18.2.0)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -122,7 +125,7 @@ importers:
         version: 1.42.1
       '@testing-library/jest-dom':
         specifier: 6.4.2
-        version: 6.4.2
+        version: 6.4.2(vitest@1.4.0)
       '@types/node':
         specifier: 20.11.30
         version: 20.11.30
@@ -211,12 +214,43 @@ importers:
 
   packages/configs: {}
 
+  packages/location-state-conform:
+    dependencies:
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../utils
+      valibot:
+        specifier: 0.30.0
+        version: 0.30.0
+    devDependencies:
+      '@conform-to/react':
+        specifier: 1.0.6
+        version: 1.0.6(react@18.2.0)
+      '@location-state/core':
+        specifier: workspace:*
+        version: link:../location-state-core
+      '@repo/configs':
+        specifier: workspace:*
+        version: link:../configs
+      '@repo/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+
   packages/location-state-core:
     dependencies:
       react:
         specifier: ^18.2.0
         version: 18.2.0
     devDependencies:
+      '@repo/configs':
+        specifier: workspace:*
+        version: link:../configs
+      '@repo/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
       '@testing-library/jest-dom':
         specifier: 6.4.2
         version: 6.4.2(vitest@1.4.0)
@@ -232,12 +266,6 @@ importers:
       client-only:
         specifier: 0.0.1
         version: 0.0.1
-      configs:
-        specifier: workspace:*
-        version: link:../configs
-      test-utils:
-        specifier: workspace:*
-        version: link:../test-utils
       uuid:
         specifier: 9.0.1
         version: 9.0.1
@@ -251,7 +279,7 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0
     devDependencies:
-      configs:
+      '@repo/configs':
         specifier: workspace:*
         version: link:../configs
       next:
@@ -270,10 +298,16 @@ importers:
         specifier: 9.0.1
         version: 9.0.1
     devDependencies:
+      '@repo/configs':
+        specifier: workspace:*
+        version: link:../configs
       '@types/uuid':
         specifier: 9.0.8
         version: 9.0.8
-      configs:
+
+  packages/utils:
+    devDependencies:
+      '@repo/configs':
         specifier: workspace:*
         version: link:../configs
 
@@ -806,7 +840,6 @@ packages:
 
   /@conform-to/dom@1.0.6:
     resolution: {integrity: sha512-24teTftuAfcjv+SiaFYb9msjdQA7Kq8Yk9QkMPrkF8LETl80+i5fpCaIG8V91KyTitBeBcc80gg9HuPuuq3dqQ==}
-    dev: false
 
   /@conform-to/react@1.0.6(react@18.2.0):
     resolution: {integrity: sha512-GHnUP89tGoikg7HhHP3V9U38BybyijjEV618GZFkqmW5o2jcViWsiLiY9XokJVEVckZ7aj5rZo3u6TfBv0lXlQ==}
@@ -815,7 +848,6 @@ packages:
     dependencies:
       '@conform-to/dom': 1.0.6
       react: 18.2.0
-    dev: false
 
   /@conform-to/zod@1.0.6(zod@3.22.4):
     resolution: {integrity: sha512-l+fMqEymGG7wrCIdp7Lyt1UPKdlvHbM5KDHeGQkuIEgqISpDVwOH/xt3xb/THzW1unk6beYWh99xMuEmV/ATYw==}
@@ -1626,37 +1658,6 @@ packages:
       dom-accessibility-api: 0.5.16
       lz-string: 1.5.0
       pretty-format: 27.5.1
-
-  /@testing-library/jest-dom@6.4.2:
-    resolution: {integrity: sha512-CzqH0AFymEMG48CpzXFriYYkOjk6ZGPCLMhW9e9jg3KMCn5OfJecF8GtGW7yGfR/IgCe3SX8BSwjdzI6BBbZLw==}
-    engines: {node: '>=14', npm: '>=6', yarn: '>=1'}
-    peerDependencies:
-      '@jest/globals': '>= 28'
-      '@types/bun': latest
-      '@types/jest': '>= 28'
-      jest: '>= 28'
-      vitest: '>= 0.32'
-    peerDependenciesMeta:
-      '@jest/globals':
-        optional: true
-      '@types/bun':
-        optional: true
-      '@types/jest':
-        optional: true
-      jest:
-        optional: true
-      vitest:
-        optional: true
-    dependencies:
-      '@adobe/css-tools': 4.3.2
-      '@babel/runtime': 7.22.15
-      aria-query: 5.3.0
-      chalk: 3.0.0
-      css.escape: 1.5.1
-      dom-accessibility-api: 0.6.3
-      lodash: 4.17.21
-      redent: 3.0.0
-    dev: true
 
   /@testing-library/jest-dom@6.4.2(vitest@1.4.0):
     resolution: {integrity: sha512-CzqH0AFymEMG48CpzXFriYYkOjk6ZGPCLMhW9e9jg3KMCn5OfJecF8GtGW7yGfR/IgCe3SX8BSwjdzI6BBbZLw==}
@@ -3616,45 +3617,6 @@ packages:
       - '@babel/core'
       - babel-plugin-macros
 
-  /next@14.1.4(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-1WTaXeSrUwlz/XcnhGTY7+8eiaFvdet5z9u3V2jb+Ek1vFo0VhHKSAIJvDWfQpttWjnyw14kBeq28TPq7bTeEQ==}
-    engines: {node: '>=18.17.0'}
-    hasBin: true
-    peerDependencies:
-      '@opentelemetry/api': ^1.1.0
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      sass: ^1.3.0
-    peerDependenciesMeta:
-      '@opentelemetry/api':
-        optional: true
-      sass:
-        optional: true
-    dependencies:
-      '@next/env': 14.1.4
-      '@swc/helpers': 0.5.2
-      busboy: 1.6.0
-      caniuse-lite: 1.0.30001597
-      graceful-fs: 4.2.11
-      postcss: 8.4.31
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      styled-jsx: 5.1.1(react@18.2.0)
-    optionalDependencies:
-      '@next/swc-darwin-arm64': 14.1.4
-      '@next/swc-darwin-x64': 14.1.4
-      '@next/swc-linux-arm64-gnu': 14.1.4
-      '@next/swc-linux-arm64-musl': 14.1.4
-      '@next/swc-linux-x64-gnu': 14.1.4
-      '@next/swc-linux-x64-musl': 14.1.4
-      '@next/swc-win32-arm64-msvc': 14.1.4
-      '@next/swc-win32-ia32-msvc': 14.1.4
-      '@next/swc-win32-x64-msvc': 14.1.4
-    transitivePeerDependencies:
-      - '@babel/core'
-      - babel-plugin-macros
-    dev: false
-
   /node-releases@2.0.14:
     resolution: {integrity: sha512-y10wOWt8yZpqXmOgRo77WaHEmhYQYGNA6y421PKsKYWEK8aW+cqAphborZDhqfyKrbZEN92CN1X2KbafY2s7Yw==}
 
@@ -4525,23 +4487,6 @@ packages:
       client-only: 0.0.1
       react: 18.2.0
 
-  /styled-jsx@5.1.1(react@18.2.0):
-    resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
-    engines: {node: '>= 12.0.0'}
-    peerDependencies:
-      '@babel/core': '*'
-      babel-plugin-macros: '*'
-      react: '>= 16.8.0 || 17.x.x || ^18.0.0-0'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      babel-plugin-macros:
-        optional: true
-    dependencies:
-      client-only: 0.0.1
-      react: 18.2.0
-    dev: false
-
   /sucrase@3.34.0:
     resolution: {integrity: sha512-70/LQEZ07TEcxiU2dz51FKaE6hCTWC6vr7FOk3Gr0U60C3shtAN+H+BFr9XlYe5xqf3RA8nrc+VIwzCfnxuXJw==}
     engines: {node: '>=8'}
@@ -4895,6 +4840,10 @@ packages:
   /uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
+
+  /valibot@0.30.0:
+    resolution: {integrity: sha512-5POBdbSkM+3nvJ6ZlyQHsggisfRtyT4tVTo1EIIShs6qCdXJnyWU5TJ68vr8iTg5zpOLjXLRiBqNx+9zwZz/rA==}
+    dev: false
 
   /validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
