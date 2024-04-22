@@ -1,11 +1,11 @@
 {
-  "name": "@location-state/next",
+  "name": "@location-state/conform",
   "version": "1.0.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": "https://github.com/recruit-tech/location-state",
-  "description": "State management library for React that synchronizes with history entries supporting Next.js Pages Router.",
+  "description": "Synchronize `conform` with history entries.",
   "files": ["dist", "types", "src", "package.json"],
   "exports": {
     ".": {
@@ -17,17 +17,23 @@
   "scripts": {
     "build": "tsup src/index.ts",
     "dts": "tsc -p tsconfig.dts.json",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "test": "vitest run"
   },
   "dependencies": {
-    "@location-state/core": "workspace:*"
+    "@repo/utils": "workspace:*",
+    "valibot": "0.30.0"
   },
   "devDependencies": {
+    "@conform-to/react": "1.0.6",
     "@location-state/core": "workspace:*",
-    "next": "14.2.3"
+    "@repo/configs": "workspace:*",
+    "@repo/test-utils": "workspace:*",
+    "react": "18.2.0"
   },
   "peerDependencies": {
-    "next": "^13.0.0 || ^14.0.0",
+    "@conform-to/react": "^1.0.0",
+    "@location-state/core": "^1.0.0",
     "react": "^18.2.0"
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 
-import { useLocationForm } from "@/lib/use-location-form";
 import { getInputProps, parse, useForm } from "@conform-to/react";
+import { useLocationForm } from "@location-state/conform";
 import { useRouter } from "next/navigation";
 
 type FormFields = {
@@ -68,7 +68,7 @@ export default function Form({ storeName }: { storeName: "session" | "url" }) {
           {...getInputProps(fields.lastName, {
             type: "text",
           })}
-          key={fields.firstName.key}
+          key={fields.lastName.key}
         />
         <div style={{ display: "flex", columnGap: "10px" }}>
           <button

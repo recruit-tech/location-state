@@ -1,5 +1,5 @@
 {
-  "extends": "configs/tsconfig.dts.json",
+  "extends": "@repo/configs/tsconfig.dts.json",
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", ".next", "src/**/*.test.ts", "src/**/*.test.tsx"],
   "compilerOptions": {
