@@ -3,11 +3,11 @@
 [![npm version](https://badge.fury.io/js/@location-state%2Fconform.svg)](https://badge.fury.io/js/@location-state%2Fconform)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Synchronize `conform` with history entries.
+Synchronize [conform](https://conform.guide/) with history entries.
 
 ## Features
 
-- Manage [conform](https://conform.guide/) state to synchronize with the history location.
+- Manage conform state to synchronize with the history location.
 - By default, supports Session Storage and URL as persistent destinations.
 
 ## Packages
@@ -90,7 +90,7 @@ export default function UserForm() {
   });
 
   return (
-    // use `getLocationFormProps` to get the form props
+    // Use `getLocationFormProps` to get the form props
     <form {...getLocationFormProps(form)} action={action} noValidate>
       <label htmlFor={fields.firstName.id}>First name</label>
       <input
