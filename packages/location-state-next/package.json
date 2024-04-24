@@ -25,7 +25,7 @@
   "devDependencies": {
     "@location-state/core": "workspace:*",
     "configs": "workspace:*",
-    "next": "14.2.2"
+    "next": "14.2.3"
   },
   "peerDependencies": {
     "next": "^13.0.0 || ^14.0.0",
