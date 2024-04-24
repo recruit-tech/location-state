@@ -9,12 +9,14 @@
     "start": "remix-serve ./build/server/index.js"
   },
   "dependencies": {
+    "@location-state/core": "workspace:*",
     "@remix-run/node": "2.9.0",
     "@remix-run/react": "2.9.0",
     "@remix-run/serve": "2.9.0",
     "isbot": "5.1.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "zod": "^3.23.4"
   },
   "devDependencies": {
     "@remix-run/dev": "2.9.0",

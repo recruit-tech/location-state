@@ -4,19 +4,16 @@ import { Counter } from "~/components/counter";
 import { List } from "~/components/list";
 
 export const meta: MetaFunction = () => {
-  return [{ title: "Top page" }];
+  return [{ title: "Child page" }];
 };
 
-export default function IndexPage() {
+export default function ChildPage() {
   return (
     <main>
-      <h1>Top page</h1>
-      <p style={{ color: "red", fontWeight: "bold" }}>
-        todo: not restored on browser back. fixme.
-      </p>
+      <h1>Child page</h1>
       <ul>
         <li>
-          <Link to="/child">/child</Link>
+          <Link to="/">top page</Link>
         </li>
       </ul>
       <Counter storeName="session" />
