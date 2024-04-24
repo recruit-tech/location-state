@@ -1,0 +1,29 @@
+{
+  "name": "example-remix-basic",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "scripts": {
+    "dev": "remix vite:dev",
+    "build": "remix vite:build",
+    "start": "remix-serve ./build/server/index.js"
+  },
+  "dependencies": {
+    "@remix-run/node": "2.9.0",
+    "@remix-run/react": "2.9.0",
+    "@remix-run/serve": "2.9.0",
+    "isbot": "5.1.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "2.9.0",
+    "@types/react": "18.2.79",
+    "@types/react-dom": "18.2.25",
+    "vite": "5.2.10",
+    "vite-tsconfig-paths": "4.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
