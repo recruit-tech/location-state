@@ -82,7 +82,7 @@ type GetLocationFormProps = (
 };
 ```
 
-The function to get form props. It extends the [`getFormProps`](https://conform.guide/api/react/getFormProps) function from the `@conform-to/react` package.
+Return the form props. It extends the [`getFormProps`](https://conform.guide/api/react/getFormProps) function from the `@conform-to/react` package.
 
 #### Parameters
 
