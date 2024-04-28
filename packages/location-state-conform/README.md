@@ -15,7 +15,7 @@ Synchronize [conform](https://conform.guide/) with history entries.
 - [@location-state/core](/packages/location-state-core/README.md): Framework agnostic, but for Next.js App Router.
 - [@location-state/conform](/packages/location-state-core/README.md): For conform.
 
-## Quickstart for [Next.js with conform](https://conform.guide/integration/nextjs)
+## Quickstart for [Next.js App Router with Conform](https://conform.guide/integration/nextjs)
 
 ### Installation
 
