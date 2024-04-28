@@ -8,7 +8,7 @@ Synchronize [conform](https://conform.guide/) with history entries.
 ## Features
 
 - Manage conform state to synchronize with the history location.
-- By default, supports Session Storage and URL as persistent destinations.
+- Supports Session Storage and URL as persistent destinations. View the more detail in the [`@location-state/core` docs](/packages/location-state-core/README.md).
 
 ## Packages
 
