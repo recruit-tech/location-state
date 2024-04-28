@@ -42,7 +42,7 @@ Returns a conform options and function to get form props.
 
 #### Returns
 
-Returns an array that first element is the conform options and the second element is the function to get form props.
+Returns an array that first element is the conform options to passed to the `useForm` argument and the second element is the function to get form props.
 
 #### Example
 
