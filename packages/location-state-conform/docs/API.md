@@ -6,7 +6,7 @@
 
 ## Form hooks
 
-Form hooks that are used to manage the state of a form implemented with conform.
+Form hooks that are used to manage the state of a form implemented with Conform.
 
 ### function `useLocationForm`
 
@@ -26,7 +26,7 @@ declare function useLocationForm<Schema extends Record<string, unknown>>({ locat
 ];
 ```
 
-Returns a conform options and function to get form props.
+Returns a Conform options and function to get form props.
 
 #### Type Parameters
 
@@ -42,7 +42,7 @@ Returns a conform options and function to get form props.
 
 #### Returns
 
-Returns an array that first element is the conform options to passed to the `useForm` argument and the second element is the function to get form props.
+Returns an array that first element is the Conform options to passed to the `useForm` argument and the second element is the function to get form props.
 
 #### Example
 
@@ -87,6 +87,10 @@ Return the form props. It extends the [`getFormProps`](https://conform.guide/api
 #### Parameters
 
 - `form`: The form object that is returned from the `useForm` hook.
+
+#### Returns
+
+Conform options to pass as argument to `useForm`.
 
 #### Example
 
