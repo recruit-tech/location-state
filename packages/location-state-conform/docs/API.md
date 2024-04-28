@@ -15,7 +15,7 @@ declare function useLocationForm<Schema extends Record<string, unknown>>({ locat
   location: {
     name: string;
     storeName: "session" | "url";
-    refine?: Refine<T>;
+    refine?: Refine<DeepPartial<Schema>>;
   };
   idPrefix?: string;
 }): [
