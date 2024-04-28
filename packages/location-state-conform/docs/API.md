@@ -38,7 +38,7 @@ Returns a conform options and function to get form props.
   - `name`: The name of the form.
   - `storeName`: The store name of the form. It can be `session` or `url`.
   - `refine`: The refine function of the form.
-- `idPrefix`: The prefix of the form id.
+- `idPrefix`: The prefix of the [form id](https://conform.guide/api/react/useForm#options).
 
 #### Returns
 
