@@ -61,9 +61,76 @@ export default function RootLayout({
 }
 ```
 
-### Working with conform state
+### Working with Conform state
 
 ```tsx
+// user-form.tsx
+"use client";
+
+import { getInputProps, useForm } from "@conform-to/react";
+import { parseWithZod } from "@conform-to/zod";
+import { useLocationForm } from "@location-state/conform";
+import { useFormState } from "react-dom";
+import { User } from "./schema"; // Your schema
+
+export default function UserForm() {
+  const [formOptions, getLocationFormProps] = useLocationForm({
+    location: {
+      name: "your-form", // Unique form name
+      storeName: "session", // or "url"
+    },
+  });
+  const [form, fields] = useForm({
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: User });
+    },
+    ...formOptions, // Pass the form options from `useLocationForm`
+  });
+
+  return (
+    // Use `getLocationFormProps` to get the form props
+    <form {...getLocationFormProps(form)} noValidate>
+      <label htmlFor={fields.firstName.id}>First name</label>
+      <input
+        {...getInputProps(fields.firstName, {
+          type: "text",
+        })}
+        key={fields.firstName.key}
+      />
+      <div>{fields.firstName.errors}</div>
+      <button type="submit">submit</button>
+    </form>
+  );
+}
+```
+
+### Working with Conform and Server Actions
+
+```ts
+// action.ts
+"use server";
+
+import { parseWithZod } from "@conform-to/zod";
+import { redirect } from "next/navigation";
+import { User } from "./schema";
+
+export async function saveUser(prevState: unknown, formData: FormData) {
+  const submission = parseWithZod(formData, {
+    schema: User,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  console.log("submit data", submission.value);
+
+  redirect("/success");
+}
+```
+
+```tsx
+// user-form.tsx
 "use client";
 
 import { getInputProps, useForm } from "@conform-to/react";
