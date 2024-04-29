@@ -42,7 +42,7 @@ Returns a Conform options and function to get form props.
 
 #### Returns
 
-Returns an array that first element is the Conform options to passed to the `useForm` argument and the second element is the function to get form props.
+Returns an array that first element is the Conform options for passing to the `useForm` argument and the second element is the function to get form props.
 
 #### Example
 
@@ -82,7 +82,7 @@ type GetLocationFormProps = (
 };
 ```
 
-Return the form props. It extends the [`getFormProps`](https://conform.guide/api/react/getFormProps) function from the `@conform-to/react` package.
+Returns the form props. This function extends [`getFormProps`](https://conform.guide/api/react/getFormProps) from the `@conform-to/react` package.
 
 #### Parameters
 
