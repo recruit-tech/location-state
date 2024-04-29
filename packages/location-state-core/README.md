@@ -12,8 +12,8 @@ State management library for React that synchronizes with history location suppo
 
 ## Packages
 
-- [@location-state/core](./packages/location-state-core/README.md): Framework agnostic, but for Next.js App Router.
-- [@location-state/next](./packages/location-state-next/README.md): For Next.js Pages Router.
+- [@location-state/core](/packages/location-state-core/README.md): Framework agnostic, but for Next.js App Router.
+- [@location-state/next](/packages/location-state-next/README.md): For Next.js Pages Router.
 
 ## Quickstart for Next.js [App Router](https://nextjs.org/docs/app)
 
