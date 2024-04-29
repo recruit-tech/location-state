@@ -1,8 +1,9 @@
+import type { Syncer } from "@location-state/core";
 import { Router, useRouter } from "next/router";
 import React from "react";
 import { NextPagesSyncer } from "./next-pages-syncer";
 
-export function useNextPagesSyncer() {
+export function useNextPagesSyncer(): Syncer {
   const router = useRouter();
   const [syncer] = React.useState(() => new NextPagesSyncer(router));
   const needNotify = React.useRef(false);
