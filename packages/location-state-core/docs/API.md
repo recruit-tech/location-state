@@ -5,7 +5,9 @@
   - [type `Refine`](#type-Refine)
   - [function `useLocationState`](#function-useLocationState)
   - [function `useLocationStateValue`](#function-useLocationStateValue)
+  - [function `useLocationGetState`](#function-useLocationGetState)
   - [function `useLocationSetState`](#function-useLocationSetState)
+  - [function `useLocationKey`](#function-useLocationKey)
 - [Provider](#Provider)
   - [component `<LocationStateProvider>`](#component-LocationStateProvider)
   - [function `createDefaultStores`](#function-createDefaultStores)
@@ -179,6 +181,40 @@ const count = useLocationStateValue({
 });
 ```
 
+### function `useLocationGetState`
+
+```ts
+type GetState<T> = () => T;
+
+declare const useLocationGetState: <T>(
+  definition: LocationStateDefinition<T, DefaultStoreName>,
+) => GetState<T>;
+```
+
+Allows getting of the state associated with the current history location from a specified `Store`.
+
+#### Type Parameters
+
+- `T`: Type of state.
+
+#### Parameters
+
+- `definition`: See [`LocationStateDefinition`](#type-locationstatedefinition).
+
+#### Returns
+
+Returns the state.
+
+#### Example
+
+```ts
+const getCount = useLocationGetState({
+  name: "count",
+  defaultValue: 0,
+  storeName: "session",
+});
+```
+
 ### function `useLocationSetState`
 
 ```ts
@@ -211,6 +247,32 @@ const setCount = useLocationSetState({
   defaultValue: 0,
   storeName: "session",
 });
+```
+
+### function `useLocationKey`
+
+```ts
+declare const useLocationKey: ({ serverDefault, clientDefault, }?: {
+  serverDefault?: string | undefined;
+  clientDefault?: string | undefined;
+} | undefined) => string | undefined;
+```
+
+Returns the key associated with the current history location from the `Syncer`.
+
+#### Parameters
+
+- `serverDefault`: Default key on the server side. If not specified, returns `undefined`.
+- `clientDefault`: Default key on the client side. If not specified, returns `undefined`.
+
+#### Returns
+
+Returns the key associated with the current history location.
+
+#### Example
+
+```ts
+const locationKey = useLocationKey();
 ```
 
 ## Provider
