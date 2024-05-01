@@ -90,8 +90,8 @@ importers:
         specifier: 5.4.5
         version: 5.4.5
       zod:
-        specifier: 3.23.4
-        version: 3.23.4
+        specifier: 3.23.5
+        version: 3.23.5
 
   apps/example-next-custom-store:
     dependencies:
@@ -126,8 +126,8 @@ importers:
         specifier: 5.4.5
         version: 5.4.5
       zod:
-        specifier: 3.23.4
-        version: 3.23.4
+        specifier: 3.23.5
+        version: 3.23.5
     devDependencies:
       '@types/qs':
         specifier: 6.9.15
@@ -163,8 +163,8 @@ importers:
         specifier: 5.4.5
         version: 5.4.5
       zod:
-        specifier: 3.23.4
-        version: 3.23.4
+        specifier: 3.23.5
+        version: 3.23.5
 
   packages/configs: {}
 
@@ -5029,6 +5029,6 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  /zod@3.23.4:
-    resolution: {integrity: sha512-/AtWOKbBgjzEYYQRNfoGKHObgfAZag6qUJX1VbHo2PRBgS+wfWagEY2mizjfyAPcGesrJOcx/wcl0L9WnVrHFw==}
+  /zod@3.23.5:
+    resolution: {integrity: sha512-fkwiq0VIQTksNNA131rDOsVJcns0pfVUjHzLrNBiF/O/Xxb5lQyEXkhZWcJ7npWsYlvs+h0jFWXXy4X46Em1JA==}
     dev: false
