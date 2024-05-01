@@ -18,8 +18,8 @@ importers:
         specifier: 1.43.1
         version: 1.43.1
       '@types/node':
-        specifier: 20.12.7
-        version: 20.12.7
+        specifier: 20.12.8
+        version: 20.12.8
       '@types/react':
         specifier: 18.2.67
         version: 18.2.67
@@ -58,7 +58,7 @@ importers:
         version: 5.4.5
       vitest:
         specifier: 1.5.3
-        version: 1.5.3(@types/node@20.12.7)(jsdom@24.0.0)
+        version: 1.5.3(@types/node@20.12.8)(jsdom@24.0.0)
 
   apps/example-next-basic:
     dependencies:
@@ -69,8 +69,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/location-state-next
       '@types/node':
-        specifier: 20.12.7
-        version: 20.12.7
+        specifier: 20.12.8
+        version: 20.12.8
       '@types/react':
         specifier: 18.2.67
         version: 18.2.67
@@ -102,8 +102,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/location-state-next
       '@types/node':
-        specifier: 20.12.7
-        version: 20.12.7
+        specifier: 20.12.8
+        version: 20.12.8
       '@types/react':
         specifier: 18.2.67
         version: 18.2.67
@@ -142,8 +142,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/location-state-next
       '@types/node':
-        specifier: 20.12.7
-        version: 20.12.7
+        specifier: 20.12.8
+        version: 20.12.8
       '@types/react':
         specifier: 18.2.67
         version: 18.2.67
@@ -1575,7 +1575,7 @@ packages:
       dom-accessibility-api: 0.6.3
       lodash: 4.17.21
       redent: 3.0.0
-      vitest: 1.5.3(@types/node@20.12.7)(jsdom@24.0.0)
+      vitest: 1.5.3(@types/node@20.12.8)(jsdom@24.0.0)
     dev: true
 
   /@testing-library/react@15.0.5(react-dom@18.2.0)(react@18.2.0):
@@ -1643,8 +1643,8 @@ packages:
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
     dev: true
 
-  /@types/node@20.12.7:
-    resolution: {integrity: sha512-wq0cICSkRLVaf3UGLMGItu/PtdY7oaXaI/RVU+xliKVOtRna3PRY57ZDfztpDL0n11vfymMUnXv8QwYCO7L1wg==}
+  /@types/node@20.12.8:
+    resolution: {integrity: sha512-NU0rJLJnshZWdE/097cdCBbyW1h4hEg0xpovcoAQYHl8dnEyp/NAOiE45pvc+Bd1Dt+2r94v2eGFpQJ4R7g+2w==}
     dependencies:
       undici-types: 5.26.5
 
@@ -1693,7 +1693,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.24.1(@babel/core@7.24.3)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.0
-      vite: 5.2.6(@types/node@20.12.7)
+      vite: 5.2.6(@types/node@20.12.8)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4677,7 +4677,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite-node@1.5.3(@types/node@20.12.7):
+  /vite-node@1.5.3(@types/node@20.12.8):
     resolution: {integrity: sha512-axFo00qiCpU/JLd8N1gu9iEYL3xTbMbMrbe5nDp9GL0nb6gurIdZLkkFogZXWnE8Oyy5kfSLwNVIcVsnhE7lgQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -4686,7 +4686,7 @@ packages:
       debug: 4.3.4
       pathe: 1.1.2
       picocolors: 1.0.0
-      vite: 5.2.6(@types/node@20.12.7)
+      vite: 5.2.6(@types/node@20.12.8)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4698,7 +4698,7 @@ packages:
       - terser
     dev: true
 
-  /vite@5.2.6(@types/node@20.12.7):
+  /vite@5.2.6(@types/node@20.12.8):
     resolution: {integrity: sha512-FPtnxFlSIKYjZ2eosBQamz4CbyrTizbZ3hnGJlh/wMtCrlp1Hah6AzBLjGI5I2urTfNnpovpHdrL6YRuBOPnCA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -4726,7 +4726,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.12.7
+      '@types/node': 20.12.8
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.13.0
@@ -4734,7 +4734,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitest@1.5.3(@types/node@20.12.7)(jsdom@24.0.0):
+  /vitest@1.5.3(@types/node@20.12.8)(jsdom@24.0.0):
     resolution: {integrity: sha512-2oM7nLXylw3mQlW6GXnRriw+7YvZFk/YNV8AxIC3Z3MfFbuziLGWP9GPxxu/7nRlXhqyxBikpamr+lEEj1sUEw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -4759,7 +4759,7 @@ packages:
       jsdom:
         optional: true
     dependencies:
-      '@types/node': 20.12.7
+      '@types/node': 20.12.8
       '@vitest/expect': 1.5.3
       '@vitest/runner': 1.5.3
       '@vitest/snapshot': 1.5.3
@@ -4778,8 +4778,8 @@ packages:
       strip-literal: 2.0.0
       tinybench: 2.6.0
       tinypool: 0.8.3
-      vite: 5.2.6(@types/node@20.12.7)
-      vite-node: 1.5.3(@types/node@20.12.7)
+      vite: 5.2.6(@types/node@20.12.8)
+      vite-node: 1.5.3(@types/node@20.12.8)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
