@@ -16,7 +16,7 @@ jobs:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
       - name: Launch Turbo Remote Cache Server
-        uses: dtinth/setup-github-actions-caching-for-turbo@v1.2.0
+        uses: dtinth/setup-github-actions-caching-for-turbo@v1.3.0
       - name: Install and cache nodejs
         uses: actions/setup-node@v4
         with:
