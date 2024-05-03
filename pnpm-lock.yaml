@@ -175,8 +175,8 @@ importers:
         version: 18.2.0
     devDependencies:
       '@testing-library/jest-dom':
-        specifier: 6.4.2
-        version: 6.4.2(vitest@1.5.3)
+        specifier: 6.4.5
+        version: 6.4.5(vitest@1.5.3)
       '@testing-library/react':
         specifier: 15.0.6
         version: 15.0.6(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)
@@ -1546,8 +1546,8 @@ packages:
       lz-string: 1.5.0
       pretty-format: 27.5.1
 
-  /@testing-library/jest-dom@6.4.2(vitest@1.5.3):
-    resolution: {integrity: sha512-CzqH0AFymEMG48CpzXFriYYkOjk6ZGPCLMhW9e9jg3KMCn5OfJecF8GtGW7yGfR/IgCe3SX8BSwjdzI6BBbZLw==}
+  /@testing-library/jest-dom@6.4.5(vitest@1.5.3):
+    resolution: {integrity: sha512-AguB9yvTXmCnySBP1lWjfNNUwpbElsaQ567lt2VdGqAdHtpieLgjmcVyv1q7PMIvLbgpDdkWV5Ydv3FEejyp2A==}
     engines: {node: '>=14', npm: '>=6', yarn: '>=1'}
     peerDependencies:
       '@jest/globals': '>= 28'
