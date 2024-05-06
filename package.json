@@ -25,7 +25,7 @@
     "*.{js,jsx,ts,tsx,css,json,cjs,mjs}": "biome check --apply"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.7.2",
+    "@biomejs/biome": "1.7.3",
     "@changesets/cli": "2.27.1",
     "@playwright/test": "1.43.1",
     "@types/node": "20.12.8",
