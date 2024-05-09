@@ -267,8 +267,8 @@ Returns the key associated with the current history location from the `Syncer`.
 
 #### Parameters
 
-- `serverDefault`: Key on the server. This key is used when server side and client hydration. If not specified, this hook returns `undefined`.
-- `clientDefault`: Default key when key is not available. If not specified, this hook returns `undefined`.
+- `serverDefault`: Key on the server. This key is used when server side and client hydration. If not specified, `undefined` is used.
+- `clientDefault`: Default key when key is not available. If not specified, `undefined` is used.
 
 #### Returns
 
