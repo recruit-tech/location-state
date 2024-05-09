@@ -43,7 +43,7 @@ type LocationStateDefinition<
 Common options for state hooks.
 
 > **Warning**
-> State hooks evaluates this option only once at the first rendering.**Passing different values at re-rendering is not applied.**
+> State hooks evaluates this option only once at the first rendering. **Passing different values at re-rendering is not applied.**
 
 #### Type Parameters
 
@@ -191,7 +191,7 @@ declare const useLocationGetState: <T>(
 ) => GetState<T>;
 ```
 
-Allows getting of the state associated with the current history location from a specified `Store`.
+Allows getting of the state associated with the current history location from a specified `Store`. This hooks **not render** the component if there is a change in the state.
 
 #### Type Parameters
 
@@ -203,7 +203,7 @@ Allows getting of the state associated with the current history location from a 
 
 #### Returns
 
-Returns the state.
+Returns the callback function to get state. It can be used in the `useEffect` hook, event handler, etc.
 
 #### Example
 
@@ -213,6 +213,11 @@ const getCount = useLocationGetState({
   defaultValue: 0,
   storeName: "session",
 });
+
+useEffect(() => {
+  const count = getCount();
+  // ...
+}, [getCount]);
 ```
 
 ### function `useLocationSetState`
@@ -262,8 +267,8 @@ Returns the key associated with the current history location from the `Syncer`.
 
 #### Parameters
 
-- `serverDefault`: Default key on the server side. If not specified, returns `undefined`.
-- `clientDefault`: Default key on the client side. If not specified, returns `undefined`.
+- `serverDefault`: Key on the server. This key is used when server side and client hydration. If not specified, this hook returns `undefined` on the server side and client hydration.
+- `clientDefault`: Default key when key is not found from `syncer`. If not specified, this hook returns `undefined` when the key is not found from `syncer` on the client side.
 
 #### Returns
 
