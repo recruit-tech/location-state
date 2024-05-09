@@ -61,6 +61,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   const formRef = useRef<GetFormPropsArgs[0] | null>(null);
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
+    if (!locationKey) return;
     if (!formRef.current) {
       throw new Error(
         "`formRef.current` is null. You need to pass `form` to `getLocationFormProps`.",
@@ -68,11 +69,13 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     }
     const values = getLocationState();
     if (values) {
-      Object.entries(values).forEach(([name, value]) =>
-        formRef.current!.update({ name, value: value! }),
-      );
+      queueMicrotask(() => {
+        Object.entries(values).forEach(([name, value]) =>
+          formRef.current!.update({ name, value: value! }),
+        );
+      });
     }
-  }, [formId, getLocationState]);
+  }, [locationKey, formId, getLocationState]);
 
   const getLocationFormProps: GetLocationFormProps = useCallback(
     (form, option) => {
