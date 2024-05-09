@@ -191,7 +191,7 @@ declare const useLocationGetState: <T>(
 ) => GetState<T>;
 ```
 
-Allows getting of the state associated with the current history location from a specified `Store`. This hooks **not render** the component if there is a change in the state.
+Allows getting of the state associated with the current history location from a specified `Store`. This hooks will **not re-render** the component if there is a change in the state.
 
 #### Type Parameters
 
@@ -267,8 +267,8 @@ Returns the key associated with the current history location from the `Syncer`.
 
 #### Parameters
 
-- `serverDefault`: Key on the server. This key is used when server side and client hydration. If not specified, this hook returns `undefined` on the server side and client hydration.
-- `clientDefault`: Default key when key is not found from `syncer`. If not specified, this hook returns `undefined` when the key is not found from `syncer` on the client side.
+- `serverDefault`: Key on the server. This key is used when server side and client hydration. If not specified, this hook returns `undefined`.
+- `clientDefault`: Default key when key is not available. If not specified, this hook returns `undefined`.
 
 #### Returns
 
