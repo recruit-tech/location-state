@@ -1,0 +1,39 @@
+{
+  "name": "@location-state/conform",
+  "version": "1.0.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/recruit-tech/location-state",
+  "description": "Synchronize `conform` with history entries.",
+  "files": ["dist", "types", "src", "package.json"],
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./types/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts",
+    "dts": "tsc -p tsconfig.dts.json",
+    "typecheck": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@repo/utils": "workspace:*",
+    "valibot": "0.30.0"
+  },
+  "devDependencies": {
+    "@conform-to/react": "1.1.3",
+    "@location-state/core": "workspace:*",
+    "@repo/configs": "workspace:*",
+    "@repo/test-utils": "workspace:*",
+    "react": "18.2.0"
+  },
+  "peerDependencies": {
+    "@conform-to/react": "^1.0.0",
+    "@location-state/core": "^1.0.0",
+    "react": "^18.2.0"
+  }
+}

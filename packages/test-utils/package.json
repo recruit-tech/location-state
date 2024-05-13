@@ -1,5 +1,5 @@
 {
-  "name": "test-utils",
+  "name": "@repo/test-utils",
   "version": "0.0.0",
   "private": true,
   "main": "./src/index.ts",
@@ -15,6 +15,6 @@
   },
   "devDependencies": {
     "@types/uuid": "9.0.8",
-    "configs": "workspace:*"
+    "@repo/configs": "workspace:*"
   }
 }

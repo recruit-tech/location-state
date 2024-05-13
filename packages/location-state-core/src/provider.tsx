@@ -5,9 +5,13 @@ import { NavigationSyncer } from "./syncers";
 import type { Syncer } from "./types";
 
 export type Stores = Record<string, Store>;
-export type CreateStores = (syncer: Syncer) => Stores;
+type DefaultStores = {
+  session: Store;
+  url: Store;
+};
+export type CreateStores<S extends Stores = Stores> = (syncer: Syncer) => S;
 
-export const createDefaultStores: CreateStores = (syncer) => ({
+export const createDefaultStores: CreateStores<DefaultStores> = (syncer) => ({
   session: new StorageStore(globalThis.sessionStorage),
   url: new URLStore(syncer),
 });
@@ -20,20 +24,20 @@ export function LocationStateProvider({
   stores?: Stores | CreateStores;
   children: ReactNode;
 }) {
-  const [syncer] = useState(
-    () =>
+  // Generated on first render to prevent provider from re-rendering
+  const [contextValue] = useState(() => {
+    const syncer =
       props.syncer ??
       new NavigationSyncer(
         typeof window !== "undefined" ? window.navigation : undefined,
-      ),
-  );
-  // Generated on first render to prevent provider from re-rendering
-  const [contextValue] = useState(() => {
+      );
     const stores = props.stores ?? createDefaultStores;
     return {
+      syncer,
       stores: typeof stores === "function" ? stores(syncer) : stores,
     };
   });
+  const syncer = contextValue.syncer;
 
   useEffect(() => {
     const abortController = new AbortController();

@@ -2,11 +2,12 @@
   "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
     "ignore": [
-      ".vscode",
+      ".vscode/**",
       "**/tsconfig.*.json",
       "**/node_modules",
       "**/.next",
       "**/types/**",
+      "**/test-results/**",
       "**/dist/**",
       "backend",
       "playwright-report",
@@ -19,11 +20,12 @@
     "enabled": true,
     "formatWithErrors": false,
     "ignore": [
-      ".vscode",
+      ".vscode/**",
       "**/tsconfig.*.json",
       "**/node_modules",
       "**/.next",
       "**/types/**",
+      "**/test-results/**",
       "**/dist/**",
       "backend",
       "playwright-report",

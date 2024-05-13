@@ -12,11 +12,12 @@
   "license": "MIT",
   "scripts": {
     "build": "turbo build",
+    "build:packages": "turbo build --filter='./packages/*'",
     "test": "turbo test",
     "integration-test": "turbo integration-test --concurrency=1",
     "typecheck": "turbo typecheck",
     "check": "biome check .",
-    "check:apply": "biome check . --apply",
+    "check:apply": "biome check . --apply --no-errors-on-unmatched",
     "ci-check": "pnpm check && turbo dts typecheck build test",
     "commit-check": "pnpm check && turbo typecheck test",
     "prepare": "husky install"

@@ -5,12 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "apps/example-next - dev",
+      "name": "apps/example-next-basic - dev",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["dev"],
-      "cwd": "${workspaceFolder}/apps/example-next",
+      "cwd": "${workspaceFolder}/apps/example-next-basic",
       "skipFiles": ["<node_internals>/**"],
       "outFiles": ["${workspaceFolder}/**/*.js"],
       "sourceMaps": true,
@@ -20,12 +20,27 @@
       ]
     },
     {
-      "name": "apps/example-next - start",
+      "name": "apps/example-next-basic - build",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["build"],
+      "cwd": "${workspaceFolder}/apps/example-next-basic",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/apps/example-next/**",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "name": "apps/example-next-basic - start",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["start"],
-      "cwd": "${workspaceFolder}/apps/example-next",
+      "cwd": "${workspaceFolder}/apps/example-next-basic",
       "skipFiles": ["<node_internals>/**"],
       "outFiles": ["${workspaceFolder}/**/*.js"],
       "sourceMaps": true,
@@ -33,6 +48,141 @@
         "${workspaceFolder}/apps/example-next/.next/server/**/*.js.map",
         "!**/node_modules/**"
       ]
-    }
+    },
+    {
+      "name": "apps/example-next-conform - dev",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
+      "cwd": "${workspaceFolder}/apps/example-next-conform",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/apps/example-next/**",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "name": "apps/example-next-conform - build",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["build"],
+      "cwd": "${workspaceFolder}/apps/example-next-conform",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/apps/example-next/**",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "name": "apps/example-next-conform - start",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["start"],
+      "cwd": "${workspaceFolder}/apps/example-next-conform",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/apps/example-next/.next/server/**/*.js.map",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "name": "apps/example-next-custom-store - dev",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
+      "cwd": "${workspaceFolder}/apps/example-next-custom-store",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/apps/example-next/**",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "name": "apps/example-next-custom-store - build",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["build"],
+      "cwd": "${workspaceFolder}/apps/example-next-custom-store",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/apps/example-next/**",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "name": "apps/example-next-custom-store - start",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["start"],
+      "cwd": "${workspaceFolder}/apps/example-next-custom-store",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/apps/example-next/.next/server/**/*.js.map",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "name": "apps/example-next-unsafe-navigation - dev",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
+      "cwd": "${workspaceFolder}/apps/example-next-unsafe-navigation",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/apps/example-next/**",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "name": "apps/example-next-unsafe-navigation - build",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["build"],
+      "cwd": "${workspaceFolder}/apps/example-next-unsafe-navigation",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/apps/example-next/**",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "name": "apps/example-next-unsafe-navigation - start",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["start"],
+      "cwd": "${workspaceFolder}/apps/example-next-unsafe-navigation",
+      "skipFiles": ["<node_internals>/**"],
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/apps/example-next/.next/server/**/*.js.map",
+        "!**/node_modules/**"
+      ]
+    },
   ]
 }

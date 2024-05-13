@@ -35,6 +35,8 @@ export const defaultSearchParamEncoder = searchParamEncoder(
   jsonSerializer,
 );
 
+// TODO: conform spec base URLEncoder impl
+
 export class URLStore implements Store {
   private state: Record<string, unknown> = {};
   private syncedURL: string | undefined;
