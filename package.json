@@ -12,6 +12,7 @@
   "license": "MIT",
   "scripts": {
     "build": "turbo build",
+    "build:packages": "turbo build --filter='./packages/*'",
     "test": "turbo test",
     "integration-test": "turbo integration-test --concurrency=1",
     "typecheck": "turbo typecheck",

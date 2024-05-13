@@ -20,7 +20,7 @@ jobs:
       - uses: pnpm/action-setup@v2
         name: Install pnpm
         with:
-          version: 9
+          version: 9.1.0
           run_install: false
       - name: Install packages
         run: pnpm i --ignore-scripts
@@ -28,7 +28,7 @@ jobs:
         run: | 
           pnpm exec playwright install --with-deps chromium
           pnpm exec playwright install --with-deps webkit
-      - name: Build project
-        run: pnpm build
+      - name: Build packages
+        run: pnpm build:packages
       - name: Run integration-test
         run: pnpm integration-test

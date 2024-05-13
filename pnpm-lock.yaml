@@ -279,6 +279,9 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0
     devDependencies:
+      '@repo/configs':
+        specifier: workspace:*
+        version: link:../configs
       next:
         specifier: 14.2.3
         version: 14.2.3(@babel/core@7.24.3)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
