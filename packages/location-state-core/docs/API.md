@@ -263,7 +263,7 @@ declare const useLocationKey: ({ serverDefault, clientDefault, }?: {
 } | undefined) => string | undefined;
 ```
 
-Returns the key associated with the current history location from the `Syncer`.
+Returns the key associated with the current history location from the `Syncer`. This hook subscribes to re-render the component if there is a change in the key.
 
 #### Parameters
 

@@ -87,7 +87,7 @@
       "runtimeArgs": ["start"],
       "cwd": "${workspaceFolder}/apps/example-next-conform",
       "skipFiles": ["<node_internals>/**"],
-      "outFiles": ["${workspaceFolder}/**/*.js"],custom-store
+      "outFiles": ["${workspaceFolder}/**/*.js"],
       "sourceMaps": true,
       "resolveSourceMapLocations": [
         "${workspaceFolder}/apps/example-next/.next/server/**/*.js.map",
