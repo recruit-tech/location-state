@@ -59,9 +59,7 @@ export function Counter() {
 
   return (
     <div>
-      <p>
-        storeName: <b>{storeName}</b>, counter: <b>{counter}</b>
-      </p>
+      <p>counter: <b>{counter}</b></p>
       <button onClick={() => setCounter(counter + 1)}>increment</button>
     </div>
   );

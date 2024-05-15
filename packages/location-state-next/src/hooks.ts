@@ -1,5 +1,5 @@
 import type { Syncer } from "@location-state/core";
-import { Router, useRouter } from "next/router";
+import { Router, useRouter } from "next/router.js";
 import React from "react";
 import { NextPagesSyncer } from "./next-pages-syncer";
 
