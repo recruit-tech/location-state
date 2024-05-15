@@ -24,6 +24,7 @@
       "**/tsconfig.*.json",
       "**/node_modules",
       "**/.next",
+      "**/package.json",
       "**/types/**",
       "**/test-results/**",
       "**/dist/**",
