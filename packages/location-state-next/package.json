@@ -15,6 +15,9 @@
     }
   },
   "scripts": {
+    "dev": "pnpm dev:build & pnpm dev:dts",
+    "dev:build": "tsup src/index.ts --watch",
+    "dev:dts": "tsc -p tsconfig.dts.json --watch",
     "build": "tsup src/index.ts",
     "dts": "tsc -p tsconfig.dts.json",
     "typecheck": "tsc"

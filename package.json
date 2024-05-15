@@ -11,6 +11,7 @@
   "keywords": [],
   "license": "MIT",
   "scripts": {
+    "dev:packages": "turbo dev --filter='./packages/*'",
     "build": "turbo build",
     "build:packages": "turbo build --filter='./packages/*'",
     "test": "turbo test",
