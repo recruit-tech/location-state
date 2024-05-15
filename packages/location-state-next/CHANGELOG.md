@@ -1,5 +1,14 @@
 # @location-state/next
 
+## 1.1.0
+
+### Patch Changes
+
+- 5b909c1: fix `next/router` to `next/router.js`.
+- Updated dependencies [b69c437]
+- Updated dependencies [0bad20c]
+  - @location-state/core@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

@@ -1,12 +1,17 @@
 {
   "name": "@location-state/conform",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "publishConfig": {
     "access": "public"
   },
   "repository": "https://github.com/recruit-tech/location-state",
   "description": "Synchronize `conform` with history entries.",
-  "files": ["dist", "types", "src", "package.json"],
+  "files": [
+    "dist",
+    "types",
+    "src",
+    "package.json"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.js",

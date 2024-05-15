@@ -1,12 +1,17 @@
 {
   "name": "@location-state/core",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "publishConfig": {
     "access": "public"
   },
   "repository": "https://github.com/recruit-tech/location-state",
   "description": "State management library for React that synchronizes with history entries supporting Next.js App Router.",
-  "files": ["dist", "types", "src", "package.json"],
+  "files": [
+    "dist",
+    "types",
+    "src",
+    "package.json"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.js",
