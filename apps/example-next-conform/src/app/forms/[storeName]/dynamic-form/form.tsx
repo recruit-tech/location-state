@@ -25,12 +25,6 @@ export default function Form({ storeName }: { storeName: "session" | "url" }) {
   });
   const members = fields.members.getFieldList();
 
-  // Force rendering when `form.id` changes,  until next conform released
-  // https://github.com/edmundhung/conform/pull/571
-  const forceRerender = useReducer((v) => v + 1, 0)[1];
-  // biome-ignore lint/correctness/useExhaustiveDependencies: force rendering when `form.id` changes
-  useEffect(forceRerender, [form.id]);
-
   return (
     <form {...getLocationFormProps(form)} action={action} noValidate>
       <div>
