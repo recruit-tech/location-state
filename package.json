@@ -29,7 +29,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
     "@changesets/cli": "2.27.3",
-    "@playwright/test": "1.44.0",
+    "@playwright/test": "1.44.1",
     "@types/node": "20.12.11",
     "@types/react": "18.2.67",
     "@types/react-dom": "18.2.22",
@@ -38,7 +38,7 @@
     "jsdom": "24.0.0",
     "lint-staged": "15.2.4",
     "navigation-api-types": "0.5.1",
-    "playwright": "1.44.0",
+    "playwright": "1.44.1",
     "react": "18.2.0",
     "tsup": "8.0.2",
     "turbo": "1.13.3",
