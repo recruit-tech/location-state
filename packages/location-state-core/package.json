@@ -41,7 +41,7 @@
     "client-only": "0.0.1",
     "@repo/configs": "workspace:*",
     "@repo/test-utils": "workspace:*",
-    "uuid": "9.0.1"
+    "uuid": "10.0.0"
   },
   "peerDependencies": {
     "react": "^18.2.0"
