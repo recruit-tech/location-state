@@ -28,12 +28,14 @@ export default function Page({ id }: Props) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<Props, { id: string }> =
-  async ({ params }) => {
-    await setTimeout(1000);
-    return {
-      props: {
-        id: Number(params?.id),
-      },
-    };
+export const getServerSideProps: GetServerSideProps<
+  Props,
+  { id: string }
+> = async ({ params }) => {
+  await setTimeout(1000);
+  return {
+    props: {
+      id: Number(params?.id),
+    },
   };
+};
