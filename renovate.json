@@ -6,5 +6,11 @@
   "dependencyDashboard": false,
   "automerge": true,
   "platformAutomerge": true,
-  "separateMultipleMajor": true
+  "separateMultipleMajor": true,
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["^@conform-to/"],
+      "groupName": "conform packages"
+    }
+  ]
 }
