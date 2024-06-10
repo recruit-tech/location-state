@@ -1,7 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "experimentalUI": true,
-  "pipeline": {
+  "tasks": {
     "dev": {
       "cache": false,
       "persistent": true
