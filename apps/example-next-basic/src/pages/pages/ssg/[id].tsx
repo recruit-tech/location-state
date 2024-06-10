@@ -36,11 +36,13 @@ export const getStaticPaths: GetStaticPaths<{ id: string }> = async () => {
   };
 };
 
-export const getStaticProps: GetServerSideProps<Props, { id: string }> =
-  async ({ params }) => {
-    return {
-      props: {
-        id: Number(params?.id),
-      },
-    };
+export const getStaticProps: GetServerSideProps<
+  Props,
+  { id: string }
+> = async ({ params }) => {
+  return {
+    props: {
+      id: Number(params?.id),
+    },
   };
+};
