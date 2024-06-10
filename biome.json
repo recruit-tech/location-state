@@ -12,6 +12,7 @@
       "backend",
       "playwright-report",
       "**/styled-system/**",
+      "**/.turbo/**",
       "pnpm-lock.yaml"
     ],
     "ignoreUnknown": true
@@ -31,6 +32,7 @@
       "backend",
       "playwright-report",
       "**/styled-system/**",
+      "**/.turbo/**",
       "pnpm-lock.yaml"
     ],
     "indentWidth": 2,
