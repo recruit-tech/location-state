@@ -6,6 +6,9 @@
     "./asserts": "./src/asserts.ts",
     "./type": "./src/type.ts"
   },
+  "scripts": {
+    "test": "vitest run"
+  },
   "devDependencies": {
     "@repo/configs": "workspace:*"
   }
