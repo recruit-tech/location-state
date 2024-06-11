@@ -4,7 +4,8 @@
   "private": true,
   "exports": {
     "./asserts": "./src/asserts.ts",
-    "./type": "./src/type.ts"
+    "./type": "./src/type.ts",
+    "./debounce": "./src/debounce.ts"
   },
   "scripts": {
     "test": "vitest run"

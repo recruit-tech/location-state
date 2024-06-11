@@ -1,3 +1,4 @@
+import { createDebounce } from "@repo/utils/debounce";
 import type { Syncer } from "../types";
 import { EventEmitter } from "./event-emitter";
 import { jsonSerializer } from "./serializer";
@@ -41,11 +42,16 @@ export class URLStore implements Store {
   private state: Record<string, unknown> = {};
   private syncedURL: string | undefined;
   private events = new EventEmitter();
+  private readonly option: { delay: number };
+  private debounce = createDebounce();
 
   constructor(
     private readonly syncer: Syncer,
     private readonly urlEncoder: URLEncoder = defaultSearchParamEncoder,
-  ) {}
+    option?: { delay: number },
+  ) {
+    this.option = option ?? { delay: 100 };
+  }
 
   subscribe(name: string, listener: Listener) {
     this.events.on(name, listener);
@@ -66,7 +72,9 @@ export class URLStore implements Store {
     try {
       // save to url
       this.syncedURL = this.urlEncoder.encode(location.href, this.state);
-      this.syncer.updateURL(this.syncedURL);
+      const updateUrl = this.syncer.updateURL.bind(this);
+      const syncedURL = this.syncedURL;
+      this.debounce(() => updateUrl(syncedURL), this.option.delay);
     } catch (e) {
       console.error(e);
     }
