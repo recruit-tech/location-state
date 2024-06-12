@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@location-state/core": "workspace:*",
-    "next": "14.2.3",
+    "next": "14.2.4",
     "@repo/configs": "workspace:*"
   },
   "peerDependencies": {
