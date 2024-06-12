@@ -42,16 +42,12 @@ export class URLStore implements Store {
   private state: Record<string, unknown> = {};
   private syncedURL: string | undefined;
   private events = new EventEmitter();
-  private readonly option: { delay: number };
   private readonly backoff = new ExponentialBackoff();
 
   constructor(
     private readonly syncer: Syncer,
     private readonly urlEncoder: URLEncoder = defaultSearchParamEncoder,
-    option?: { delay: number },
-  ) {
-    this.option = option ?? { delay: 100 };
-  }
+  ) {}
 
   subscribe(name: string, listener: Listener) {
     this.events.on(name, listener);
@@ -71,9 +67,9 @@ export class URLStore implements Store {
 
     try {
       // save to url
-      this.syncedURL = this.urlEncoder.encode(location.href, this.state);
+      const syncedURL = this.urlEncoder.encode(location.href, this.state);
+      this.syncedURL = syncedURL;
       const updateUrl = this.syncer.updateURL.bind(this);
-      const syncedURL = this.syncedURL;
       this.backoff.run(() => updateUrl(syncedURL));
     } catch (e) {
       console.error(e);
