@@ -5,7 +5,7 @@
   "exports": {
     "./asserts": "./src/asserts.ts",
     "./type": "./src/type.ts",
-    "./debounce": "./src/debounce.ts"
+    "./exponential-backoff": "./src/exponential-backoff.ts"
   },
   "scripts": {
     "test": "vitest run"

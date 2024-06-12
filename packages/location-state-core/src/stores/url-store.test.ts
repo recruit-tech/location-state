@@ -1,12 +1,16 @@
-import { setTimeout } from "node:timers/promises";
-import { beforeEach, describe, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import type { Syncer } from "../types";
 import { jsonSerializer } from "./serializer";
 import { URLStore, searchParamEncoder } from "./url-store";
 
-async function waitForUrlApply() {
-  await setTimeout(100); // Wait for task queue
-}
+beforeEach(() => {
+  vi.useFakeTimers();
+});
+
+afterEach(() => {
+  vi.runAllTimers();
+  vi.clearAllTimers();
+});
 
 describe("`URLStore`", () => {
   function prepareLocation({
@@ -62,8 +66,7 @@ describe("`URLStore`", () => {
       const store = new URLStore(syncerMock);
       // Act
       store.set("foo", "updated");
-      // prepare Assert
-      await waitForUrlApply();
+      vi.advanceTimersByTime(200);
       // Assert
       expect(store.get("foo")).toBe("updated");
       expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
@@ -205,8 +208,7 @@ describe("`URLStore`", () => {
       });
       // Act
       store.set("foo", "updated");
-      // prepare Assert
-      await waitForUrlApply();
+      vi.advanceTimersByTime(200);
       // Assert
       expect(store.get("foo")).toBe("updated");
       expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
