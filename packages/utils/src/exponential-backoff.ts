@@ -1,6 +1,6 @@
 export class ExponentialBackoff {
-  private backOffDelayGenerator: Generator<number, unknown> =
-    backOffDelayGenerator();
+  private backoffDelayGenerator: Generator<number, unknown> =
+    backoffDelayGenerator();
   private timeoutId: ReturnType<typeof setTimeout> | null = null;
 
   run(callback: () => void) {
@@ -10,19 +10,20 @@ export class ExponentialBackoff {
     this.timeoutId = setTimeout(() => {
       callback();
       this.clearBackOffDelay();
+      this.timeoutId = null;
     }, this.delay());
   }
 
   private delay() {
-    return this.backOffDelayGenerator.next().value as number;
+    return this.backoffDelayGenerator.next().value as number;
   }
 
   private clearBackOffDelay() {
-    this.backOffDelayGenerator = backOffDelayGenerator();
+    this.backoffDelayGenerator = backoffDelayGenerator();
   }
 }
 
-function* backOffDelayGenerator() {
+function* backoffDelayGenerator() {
   yield* [50, 100, 200, 500];
   while (true) {
     yield 1000; // max delay

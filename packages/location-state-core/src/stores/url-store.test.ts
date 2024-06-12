@@ -56,7 +56,7 @@ describe("`URLStore`", () => {
       expect(value).toBeUndefined();
     });
 
-    test("When called `set`, store's values are updated and reflected in the URL.", async () => {
+    test("When called `set`, store's values are updated and reflected in the URL.", () => {
       // Arrange
       prepareLocation({
         pathname: "/",
@@ -192,7 +192,7 @@ describe("`URLStore`", () => {
   });
 
   describe("Custom urlEncoder", () => {
-    test("When called `set` with urlEncoder, store's values are updated and reflected in the URL.", async () => {
+    test("When called `set` with urlEncoder, store's values are updated and reflected in the URL.", () => {
       // Arrange
       prepareLocation({
         pathname: "/",
