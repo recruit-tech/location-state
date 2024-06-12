@@ -23,7 +23,7 @@ export class ExponentialBackoff {
 }
 
 function* backOffDelayGenerator() {
-  yield* [200, 400, 600, 800];
+  yield* [50, 100, 200, 500];
   while (true) {
     yield 1000; // max delay
   }

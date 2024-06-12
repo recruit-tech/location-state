@@ -66,7 +66,7 @@ describe("`URLStore`", () => {
       const store = new URLStore(syncerMock);
       // Act
       store.set("foo", "updated");
-      vi.advanceTimersByTime(200);
+      vi.advanceTimersByTime(50);
       // Assert
       expect(store.get("foo")).toBe("updated");
       expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
@@ -208,7 +208,7 @@ describe("`URLStore`", () => {
       });
       // Act
       store.set("foo", "updated");
-      vi.advanceTimersByTime(200);
+      vi.advanceTimersByTime(50);
       // Assert
       expect(store.get("foo")).toBe("updated");
       expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
