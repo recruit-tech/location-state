@@ -1,4 +1,4 @@
-import { ExponentialBackoff } from "@repo/utils/exponential-backoff";
+import { ExponentialBackoffThrottle } from "@repo/utils/exponential-backoff-throttle";
 import type { Syncer } from "../types";
 import { EventEmitter } from "./event-emitter";
 import { jsonSerializer } from "./serializer";
@@ -42,7 +42,7 @@ export class URLStore implements Store {
   private state: Record<string, unknown> = {};
   private syncedURL: string | undefined;
   private events = new EventEmitter();
-  private readonly backoff = new ExponentialBackoff();
+  private readonly backoff = new ExponentialBackoffThrottle();
 
   constructor(
     private readonly syncer: Syncer,
@@ -70,7 +70,7 @@ export class URLStore implements Store {
       const syncedURL = this.urlEncoder.encode(location.href, this.state);
       this.syncedURL = syncedURL;
       const updateUrl = this.syncer.updateURL.bind(this);
-      this.backoff.run(() => updateUrl(syncedURL));
+      this.backoff.register(() => updateUrl(syncedURL));
     } catch (e) {
       console.error(e);
     }
