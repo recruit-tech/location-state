@@ -29,8 +29,8 @@ function runUntil(
   vi.runAllTimers();
 }
 
-describe("Execute with 10ms interval.", () => {
-  test("First execution is immediate applied.", () => {
+describe("Register with 10ms interval.", () => {
+  test("First register callback is immediate executed.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -41,7 +41,7 @@ describe("Execute with 10ms interval.", () => {
     expect(callback).toBeCalledTimes(1);
   });
 
-  test("Executed 2 times after 10ms.", () => {
+  test("Register until 10ms, it will be executed 2 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -54,7 +54,7 @@ describe("Execute with 10ms interval.", () => {
     expect(callback).toBeCalledTimes(2);
   });
 
-  test("Executed 2 times after 50ms.", () => {
+  test("Register until 20ms, it will be executed 3 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -64,23 +64,10 @@ describe("Execute with 10ms interval.", () => {
       delay: 10,
     });
     // Assert
-    expect(callback).toBeCalledTimes(2);
-  });
-
-  test("Executed 2 times after 60ms.", () => {
-    // Arrange
-    const backOff = new ExponentialBackoffThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => backOff.register(callback), {
-      until: 60,
-      delay: 10,
-    });
-    // Assert
     expect(callback).toBeCalledTimes(3);
   });
 
-  test("Executed 3 times after 150ms.", () => {
+  test("Register until 50ms, it will be executed 5 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -90,10 +77,10 @@ describe("Execute with 10ms interval.", () => {
       delay: 10,
     });
     // Assert
-    expect(callback).toBeCalledTimes(3);
+    expect(callback).toBeCalledTimes(4);
   });
 
-  test("Executed 4 times after 350ms.", () => {
+  test("Register until 350ms, it will be executed 5 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -103,10 +90,10 @@ describe("Execute with 10ms interval.", () => {
       delay: 10,
     });
     // Assert
-    expect(callback).toBeCalledTimes(4);
+    expect(callback).toBeCalledTimes(5);
   });
 
-  test("Executed 5 times after 850ms.", () => {
+  test("Register until 850ms, it will be executed 6 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -116,10 +103,10 @@ describe("Execute with 10ms interval.", () => {
       delay: 10,
     });
     // Assert
-    expect(callback).toBeCalledTimes(5);
+    expect(callback).toBeCalledTimes(6);
   });
 
-  test("Executed 6 times after 1850ms.", () => {
+  test("Register until 1850ms, it will be executed 7 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -129,10 +116,10 @@ describe("Execute with 10ms interval.", () => {
       delay: 10,
     });
     // Assert
-    expect(callback).toBeCalledTimes(6);
+    expect(callback).toBeCalledTimes(7);
   });
 
-  test("Executed 7 times after 2850ms.", () => {
+  test("Register until 2850ms, it will be executed 8 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -142,23 +129,23 @@ describe("Execute with 10ms interval.", () => {
       delay: 10,
     });
     // Assert
-    expect(callback).toBeCalledTimes(7);
+    expect(callback).toBeCalledTimes(8);
   });
 
-  test("Executed 8 times after 3000ms.", () => {
+  test("Register until 5000ms, it will be executed 10 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
     // Act
     runUntil(() => backOff.register(callback), {
-      until: 3000,
+      until: 5000,
       delay: 10,
     });
     // Assert
-    expect(callback).toBeCalledTimes(8);
+    expect(callback).toBeCalledTimes(10);
   });
 
-  test("Executed 35 times after 30000ms.", () => {
+  test("Register until 30000ms, it will be executed 35 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -172,8 +159,8 @@ describe("Execute with 10ms interval.", () => {
   });
 });
 
-describe("Execute with 50ms interval.", () => {
-  test("Executed 4 times after 150ms.", () => {
+describe("Register with 50ms interval.", () => {
+  test("Register until 150ms, it will be executed 3 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -186,7 +173,7 @@ describe("Execute with 50ms interval.", () => {
     expect(callback).toBeCalledTimes(3);
   });
 
-  test("Executed 4 times after 350ms.", () => {
+  test("Register until 350ms, it will be executed 4 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -199,8 +186,8 @@ describe("Execute with 50ms interval.", () => {
     expect(callback).toBeCalledTimes(4);
   });
 
-  describe("After executed 5 times with 10ms interval.", () => {
-    test("Executed 3 times after 150ms.", () => {
+  describe("After register with 5 times with 10ms interval.", () => {
+    test("Register until 150ms, it will be executed 3 times in the end.", () => {
       // Arrange
       const backOff = new ExponentialBackoffThrottle();
       runUntil(() => backOff.register(() => false), {
@@ -219,8 +206,8 @@ describe("Execute with 50ms interval.", () => {
   });
 });
 
-describe("Execute with 100ms interval.", () => {
-  test("Executed 6 times after 1000ms.", () => {
+describe("Register with 100ms interval.", () => {
+  test("Register until 1000ms, it will be executed 5 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -230,10 +217,10 @@ describe("Execute with 100ms interval.", () => {
       delay: 100,
     });
     // Assert
-    expect(callback).toBeCalledTimes(6);
+    expect(callback).toBeCalledTimes(5);
   });
 
-  test("Executed 8 times after 3000ms.", () => {
+  test("Register until 3000ms, it will be executed 7 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -243,12 +230,12 @@ describe("Execute with 100ms interval.", () => {
       delay: 100,
     });
     // Assert
-    expect(callback).toBeCalledTimes(8);
+    expect(callback).toBeCalledTimes(7);
   });
 });
 
-describe("Execute with 1000ms interval.", () => {
-  test("Executed 11 times after 10000ms.", () => {
+describe("Register with 1000ms interval.", () => {
+  test("Register until 10000ms, it will be executed 11 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
@@ -261,7 +248,7 @@ describe("Execute with 1000ms interval.", () => {
     expect(callback).toBeCalledTimes(11);
   });
 
-  test("Executed 31 times after 30000ms.", () => {
+  test("Register until 30000ms, it will be executed 31 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();
