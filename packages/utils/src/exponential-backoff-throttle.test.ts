@@ -54,7 +54,7 @@ describe("Register with 10ms interval.", () => {
     expect(callback).toBeCalledTimes(2);
   });
 
-  test("Register until 20ms, it will be executed 3 times in the end.", () => {
+  test("Register until 50ms, it will be executed 3 times in the end.", () => {
     // Arrange
     const backOff = new ExponentialBackoffThrottle();
     const callback = vi.fn();

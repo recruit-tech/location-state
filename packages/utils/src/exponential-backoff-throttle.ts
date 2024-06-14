@@ -1,64 +1,48 @@
 export class ExponentialBackoffThrottle {
   private delayGenerator: Generator<number, unknown> = createExponentialDelay();
-  private isFirstCall = true;
   private callback: (() => void) | null = null;
-  private delayCallId: ReturnType<typeof setTimeout> | null = null;
-  private resetRequestId: ReturnType<typeof setTimeout> | null = null;
-  private readonly resetTimeout: number;
-
-  constructor({
-    resetTimeout,
-  }:
-    | {
-        resetTimeout?: number;
-      }
-    | undefined = {}) {
-    this.resetTimeout = resetTimeout || 1000;
-  }
+  private timeoutId: ReturnType<typeof setTimeout> | null = null;
+  private isFirstRegister = true;
 
   register(callback: () => void) {
-    if (this.callback) {
-      this.isFirstCall = false;
-    }
-
     this.callback = callback;
-    if (this.isFirstCall) {
-      this.callback();
-    } else {
-      this.cancelResetRequest();
+    if (this.isFirstRegister) {
+      this.next();
+      this.isFirstRegister = false;
+    } else if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+      this.timeoutId = null;
+      // re start timer.
+      this.next();
     }
+  }
 
-    // Execute after delay.
-    if (this.delayCallId === null) {
-      this.delayCallId = setTimeout(() => {
-        if (!this.isFirstCall) {
-          this.callback!();
-        }
-        this.delayCallId = null;
-      }, this.delayMs());
-      this.resetRequest();
-    }
+  private next() {
+    setTimeout(() => {
+      if (this.callback) {
+        this.callback();
+        this.callback = null;
+        this.next();
+      } else {
+        this.waitRegisterUntilTimeout();
+      }
+    }, this.delayMs());
   }
 
   private delayMs() {
     return this.delayGenerator.next().value as number;
   }
 
-  private resetRequest() {
-    this.resetRequestId = setTimeout(() => {
-      this.callback = null;
+  private waitRegisterUntilTimeout() {
+    this.timeoutId = setTimeout(() => {
+      this.isFirstRegister = true;
       this.delayGenerator = createExponentialDelay();
-    }, this.resetTimeout);
-  }
-
-  private cancelResetRequest() {
-    this.resetRequestId && clearTimeout(this.resetRequestId);
-    this.resetRequestId = null;
+    }, 1000);
   }
 }
 
 function* createExponentialDelay() {
-  yield* [50, 100, 200, 500];
+  yield* [0, 50, 100, 200, 500];
   while (true) {
     yield 1000; // max delay
   }
