@@ -1,5 +1,19 @@
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import {
+  type Mock,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi,
+} from "vitest";
 import { createThrottle } from "./exponential-backoff-throttle";
+
+type IntervalTestParameter = {
+  until: number;
+  callTimes: number;
+  executedTimes?: number[];
+};
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -29,6 +43,15 @@ function runUntil(
   vi.runAllTimers();
 }
 
+function createRecordCalledTimes() {
+  const now = Date.now();
+  return vi.fn(() => Date.now() - now);
+}
+
+function mapExecutedIntervalTimes(callback: Mock) {
+  return callback.mock.results.map((result) => result.value);
+}
+
 describe("Register with 10ms interval.", () => {
   test("First register callback is immediate executed.", () => {
     // Arrange
@@ -41,223 +64,217 @@ describe("Register with 10ms interval.", () => {
     expect(callback).toBeCalledTimes(1);
   });
 
-  test("Register until 10ms, it will be executed 2 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+  test.each<IntervalTestParameter>([
+    {
       until: 10,
-      delay: 10,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(2);
-  });
-
-  test("Register until 50ms, it will be executed 3 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+      callTimes: 2,
+      executedTimes: [0, 50],
+    },
+    {
       until: 50,
-      delay: 10,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(3);
-  });
-
-  test("Register until 50ms, it will be executed 5 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+      callTimes: 3,
+      executedTimes: [0, 50, 150],
+    },
+    {
       until: 150,
-      delay: 10,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(4);
-  });
-
-  test("Register until 350ms, it will be executed 5 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+      callTimes: 4,
+      executedTimes: [0, 50, 150, 350],
+    },
+    {
       until: 350,
-      delay: 10,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(5);
-  });
-
-  test("Register until 850ms, it will be executed 6 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+      callTimes: 5,
+      executedTimes: [0, 50, 150, 350, 850],
+    },
+    {
       until: 850,
-      delay: 10,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(6);
-  });
-
-  test("Register until 1850ms, it will be executed 7 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+      callTimes: 6,
+      executedTimes: [0, 50, 150, 350, 850, 1850],
+    },
+    {
       until: 1850,
-      delay: 10,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(7);
-  });
-
-  test("Register until 2850ms, it will be executed 8 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+      callTimes: 7,
+      executedTimes: [0, 50, 150, 350, 850, 1850, 2850],
+    },
+    {
       until: 2850,
-      delay: 10,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(8);
-  });
-
-  test("Register until 5000ms, it will be executed 10 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+      callTimes: 8,
+      executedTimes: [0, 50, 150, 350, 850, 1850, 2850, 3850],
+    },
+    {
       until: 5000,
-      delay: 10,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(10);
-  });
-
-  test("Register until 30000ms, it will be executed 35 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
-      until: 30000,
-      delay: 10,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(35);
-  });
+      callTimes: 10,
+      executedTimes: [0, 50, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
+    },
+  ])(
+    "Register until $until ms, it will be executed $callTimes times in the end.",
+    ({ until, callTimes, executedTimes }) => {
+      // Arrange
+      const throttle = createThrottle();
+      const callback = createRecordCalledTimes();
+      // Act
+      runUntil(() => throttle(callback), {
+        until,
+        delay: 10,
+      });
+      // Assert
+      expect(callback).toBeCalledTimes(callTimes);
+      expect(mapExecutedIntervalTimes(callback)).toEqual(executedTimes);
+    },
+  );
 });
 
 describe("Register with 50ms interval.", () => {
-  test("Register until 150ms, it will be executed 3 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+  test.each<IntervalTestParameter>([
+    {
       until: 150,
-      delay: 50,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(3);
-  });
-
-  test("Register until 350ms, it will be executed 4 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+      callTimes: 3,
+      executedTimes: [0, 150, 350],
+    },
+    {
       until: 350,
-      delay: 50,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(4);
-  });
-
-  describe("After register with 5 times with 10ms interval.", () => {
-    test("Register until 150ms, it will be executed 3 times in the end.", () => {
+      callTimes: 4,
+      executedTimes: [0, 150, 350, 850],
+    },
+    {
+      until: 850,
+      callTimes: 5,
+      executedTimes: [0, 150, 350, 850, 1850],
+    },
+    {
+      until: 1850,
+      callTimes: 6,
+      executedTimes: [0, 150, 350, 850, 1850, 2850],
+    },
+    {
+      until: 2850,
+      callTimes: 7,
+      executedTimes: [0, 150, 350, 850, 1850, 2850, 3850],
+    },
+    {
+      until: 5000,
+      callTimes: 9,
+      executedTimes: [0, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
+    },
+  ])(
+    "Register until $until ms, it will be executed $callTimes times in the end.",
+    ({ until, callTimes, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
-      runUntil(() => throttle(() => false), {
-        until: 50,
-        delay: 10,
-      });
-      const callback = vi.fn();
+      const callback = createRecordCalledTimes();
       // Act
       runUntil(() => throttle(callback), {
-        until: 150,
+        until,
         delay: 50,
       });
       // Assert
-      expect(callback).toBeCalledTimes(3);
-    });
+      expect(callback).toBeCalledTimes(callTimes);
+      expect(mapExecutedIntervalTimes(callback)).toEqual(executedTimes);
+    },
+  );
+
+  describe("After register with 5 times with 10ms interval.", () => {
+    test.each<IntervalTestParameter>([
+      {
+        until: 50,
+        callTimes: 2,
+        executedTimes: [0, 150],
+      },
+      {
+        until: 150,
+        callTimes: 3,
+        executedTimes: [0, 150, 350],
+      },
+      {
+        until: 350,
+        callTimes: 4,
+        executedTimes: [0, 150, 350, 850],
+      },
+    ])(
+      "Register until $until ms, it will be executed $callTimes times in the end.",
+      ({ until, callTimes, executedTimes }) => {
+        // Arrange
+        const throttle = createThrottle();
+        runUntil(() => throttle(() => false), {
+          until: 50,
+          delay: 10,
+        });
+        const callback = createRecordCalledTimes();
+        // Act
+        runUntil(() => throttle(callback), {
+          until,
+          delay: 50,
+        });
+        // Assert
+        expect(callback).toBeCalledTimes(callTimes);
+        expect(mapExecutedIntervalTimes(callback)).toEqual(executedTimes);
+      },
+    );
   });
 });
 
 describe("Register with 100ms interval.", () => {
-  test("Register until 1000ms, it will be executed 5 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+  test.each<IntervalTestParameter>([
+    {
       until: 1000,
-      delay: 100,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(5);
-  });
-
-  test("Register until 3000ms, it will be executed 7 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+      callTimes: 5,
+      executedTimes: [0, 150, 350, 850, 1850],
+    },
+    {
       until: 3000,
-      delay: 100,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(7);
-  });
+      callTimes: 7,
+      executedTimes: [0, 150, 350, 850, 1850, 2850, 3850],
+    },
+    {
+      until: 5000,
+      callTimes: 9,
+      executedTimes: [0, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
+    },
+  ])(
+    "Register until $until ms, it will be executed $callTimes times in the end.",
+    ({ until, callTimes, executedTimes }) => {
+      // Arrange
+      const throttle = createThrottle();
+      const callback = createRecordCalledTimes();
+      // Act
+      runUntil(() => throttle(callback), {
+        until,
+        delay: 100,
+      });
+      // Assert
+      expect(callback).toBeCalledTimes(callTimes);
+      expect(mapExecutedIntervalTimes(callback)).toEqual(executedTimes);
+    },
+  );
 });
 
 describe("Register with 1000ms interval.", () => {
-  test("Register until 10000ms, it will be executed 11 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
+  test.each<IntervalTestParameter>([
+    {
+      until: 1000,
+      callTimes: 2,
+      executedTimes: [0, 1850],
+    },
+    {
       until: 10000,
-      delay: 1000,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(11);
-  });
-
-  test("Register until 30000ms, it will be executed 31 times in the end.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    runUntil(() => throttle(callback), {
-      until: 30000,
-      delay: 1000,
-    });
-    // Assert
-    expect(callback).toBeCalledTimes(31);
-  });
+      callTimes: 11,
+      executedTimes: [
+        0, 1850, 2850, 3850, 4850, 5850, 6850, 7850, 8850, 9850, 10850,
+      ],
+    },
+  ])(
+    "Register until $until ms, it will be executed $callTimes times in the end.",
+    ({ until, callTimes, executedTimes }) => {
+      // Arrange
+      const throttle = createThrottle();
+      const callback = createRecordCalledTimes();
+      // Act
+      runUntil(() => throttle(callback), {
+        until,
+        delay: 1000,
+      });
+      // Assert
+      expect(callback).toBeCalledTimes(callTimes);
+      expect(mapExecutedIntervalTimes(callback)).toEqual(executedTimes);
+    },
+  );
 });
