@@ -1,7 +1,6 @@
 export class ExponentialBackoffThrottle {
   private delayGenerator: Generator<number, unknown> = createExponentialDelay();
   private callback: (() => void) | null = null;
-  private timeoutId: ReturnType<typeof setTimeout> | null = null;
   private isFirstRegister = true;
 
   register(callback: () => void) {
@@ -9,35 +8,27 @@ export class ExponentialBackoffThrottle {
     if (this.isFirstRegister) {
       this.next();
       this.isFirstRegister = false;
-    } else if (this.timeoutId) {
-      clearTimeout(this.timeoutId);
-      this.timeoutId = null;
-      // re start timer.
-      this.next();
     }
   }
 
   private next() {
+    const timeout = this.delayMs();
     setTimeout(() => {
       if (this.callback) {
         this.callback();
         this.callback = null;
         this.next();
+      } else if (timeout === 1000) {
+        this.isFirstRegister = true;
+        this.delayGenerator = createExponentialDelay();
       } else {
-        this.waitRegisterUntilTimeout();
+        this.next();
       }
-    }, this.delayMs());
+    }, timeout);
   }
 
   private delayMs() {
     return this.delayGenerator.next().value as number;
-  }
-
-  private waitRegisterUntilTimeout() {
-    this.timeoutId = setTimeout(() => {
-      this.isFirstRegister = true;
-      this.delayGenerator = createExponentialDelay();
-    }, 1000);
   }
 }
 
