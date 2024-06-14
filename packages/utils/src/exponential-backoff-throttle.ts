@@ -27,12 +27,12 @@ export function createThrottle() {
   return (callback: () => void) => {
     if (inTimerRunning()) {
       delayExecutedCallback = callback;
-    } else {
-      // execute immediately
-      callback();
-      timeoutGenerator = exponentialTimeout();
-      applyTimer();
+      return;
     }
+    // execute immediately
+    callback();
+    timeoutGenerator = exponentialTimeout();
+    applyTimer();
   };
 }
 
