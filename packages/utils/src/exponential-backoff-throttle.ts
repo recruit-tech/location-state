@@ -1,16 +1,14 @@
 export function createThrottle() {
-  let timeoutGenerator: Generator<number, unknown> = exponentialTimeout();
+  let timeoutGenerator: Generator<number, unknown> | null = null;
   let delayExecutedCallback: (() => void) | null = null;
-  let inRunningTimer = true;
 
   function applyTimer() {
-    const nextTimeout = timeoutGenerator.next();
+    const nextTimeout = timeoutGenerator!.next();
     const timeout = (nextTimeout.value as number | undefined) ?? 500;
     setTimeout(() => {
       if (!delayExecutedCallback && nextTimeout.done) {
         // reset the throttle
-        inRunningTimer = true;
-        timeoutGenerator = exponentialTimeout();
+        timeoutGenerator = null;
         return;
       }
 
@@ -22,14 +20,18 @@ export function createThrottle() {
     }, timeout);
   }
 
+  function inTimerRunning() {
+    return timeoutGenerator !== null;
+  }
+
   return (callback: () => void) => {
-    if (inRunningTimer) {
+    if (inTimerRunning()) {
+      delayExecutedCallback = callback;
+    } else {
       // execute immediately
       callback();
+      timeoutGenerator = exponentialTimeout();
       applyTimer();
-      inRunningTimer = false;
-    } else {
-      delayExecutedCallback = callback;
     }
   };
 }

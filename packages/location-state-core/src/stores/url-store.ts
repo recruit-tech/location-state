@@ -69,8 +69,7 @@ export class URLStore implements Store {
       // save to url
       const syncedURL = this.urlEncoder.encode(location.href, this.state);
       this.syncedURL = syncedURL;
-      const updateUrl = this.syncer.updateURL.bind(this);
-      this.throttle(() => updateUrl(syncedURL));
+      this.throttle(() => this.syncer.updateURL(syncedURL));
     } catch (e) {
       console.error(e);
     }
