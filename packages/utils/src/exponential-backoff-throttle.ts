@@ -23,14 +23,16 @@ export function createThrottle() {
   }
 
   return (callback: () => void) => {
-    latestCallback = callback;
     if (isFirstRegister) {
+      callback();
       applyTimer();
       isFirstRegister = false;
+    } else {
+      latestCallback = callback;
     }
   };
 }
 
 function* exponentialTimeout() {
-  yield* [0, 50, 100, 200, 500];
+  yield* [50, 100, 200, 500];
 }
