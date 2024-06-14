@@ -4,7 +4,7 @@ export function createThrottle() {
 
   function applyTimer() {
     const nextTimeout = timeoutGenerator!.next();
-    const timeout = (nextTimeout.value as number | undefined) ?? 500;
+    const timeout = (nextTimeout.value as number | undefined) ?? 1000;
     setTimeout(() => {
       if (!delayExecutedCallback && nextTimeout.done) {
         // reset the throttle

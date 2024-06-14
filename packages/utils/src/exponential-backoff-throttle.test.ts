@@ -106,7 +106,7 @@ describe("Register with 10ms interval.", () => {
     expect(callback).toBeCalledTimes(6);
   });
 
-  test("Register until 1850ms, it will be executed 8 times in the end.", () => {
+  test("Register until 1850ms, it will be executed 7 times in the end.", () => {
     // Arrange
     const throttle = createThrottle();
     const callback = vi.fn();
@@ -116,10 +116,10 @@ describe("Register with 10ms interval.", () => {
       delay: 10,
     });
     // Assert
-    expect(callback).toBeCalledTimes(8);
+    expect(callback).toBeCalledTimes(7);
   });
 
-  test("Register until 2850ms, it will be executed 10 times in the end.", () => {
+  test("Register until 2850ms, it will be executed 8 times in the end.", () => {
     // Arrange
     const throttle = createThrottle();
     const callback = vi.fn();
@@ -129,10 +129,10 @@ describe("Register with 10ms interval.", () => {
       delay: 10,
     });
     // Assert
-    expect(callback).toBeCalledTimes(10);
+    expect(callback).toBeCalledTimes(8);
   });
 
-  test("Register until 5000ms, it will be executed 14 times in the end.", () => {
+  test("Register until 5000ms, it will be executed 10 times in the end.", () => {
     // Arrange
     const throttle = createThrottle();
     const callback = vi.fn();
@@ -142,10 +142,10 @@ describe("Register with 10ms interval.", () => {
       delay: 10,
     });
     // Assert
-    expect(callback).toBeCalledTimes(14);
+    expect(callback).toBeCalledTimes(10);
   });
 
-  test("Register until 30000ms, it will be executed 64 times in the end.", () => {
+  test("Register until 30000ms, it will be executed 35 times in the end.", () => {
     // Arrange
     const throttle = createThrottle();
     const callback = vi.fn();
@@ -155,7 +155,7 @@ describe("Register with 10ms interval.", () => {
       delay: 10,
     });
     // Assert
-    expect(callback).toBeCalledTimes(64);
+    expect(callback).toBeCalledTimes(35);
   });
 });
 
@@ -220,7 +220,7 @@ describe("Register with 100ms interval.", () => {
     expect(callback).toBeCalledTimes(5);
   });
 
-  test("Register until 3000ms, it will be executed 9 times in the end.", () => {
+  test("Register until 3000ms, it will be executed 7 times in the end.", () => {
     // Arrange
     const throttle = createThrottle();
     const callback = vi.fn();
@@ -230,7 +230,7 @@ describe("Register with 100ms interval.", () => {
       delay: 100,
     });
     // Assert
-    expect(callback).toBeCalledTimes(9);
+    expect(callback).toBeCalledTimes(7);
   });
 });
 
