@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
-import { ExponentialBackoffThrottle } from "./exponential-backoff-throttle";
+import { createThrottle } from "./exponential-backoff-throttle";
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -32,10 +32,10 @@ function runUntil(
 describe("Register with 10ms interval.", () => {
   test("First register callback is immediate executed.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    backOff.register(callback);
+    throttle(callback);
     vi.runAllTimers();
     // Assert
     expect(callback).toBeCalledTimes(1);
@@ -43,10 +43,10 @@ describe("Register with 10ms interval.", () => {
 
   test("Register until 10ms, it will be executed 2 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 10,
       delay: 10,
     });
@@ -56,10 +56,10 @@ describe("Register with 10ms interval.", () => {
 
   test("Register until 50ms, it will be executed 3 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 50,
       delay: 10,
     });
@@ -69,10 +69,10 @@ describe("Register with 10ms interval.", () => {
 
   test("Register until 50ms, it will be executed 5 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 150,
       delay: 10,
     });
@@ -82,10 +82,10 @@ describe("Register with 10ms interval.", () => {
 
   test("Register until 350ms, it will be executed 5 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 350,
       delay: 10,
     });
@@ -95,10 +95,10 @@ describe("Register with 10ms interval.", () => {
 
   test("Register until 850ms, it will be executed 6 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 850,
       delay: 10,
     });
@@ -108,10 +108,10 @@ describe("Register with 10ms interval.", () => {
 
   test("Register until 1850ms, it will be executed 7 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 1850,
       delay: 10,
     });
@@ -121,10 +121,10 @@ describe("Register with 10ms interval.", () => {
 
   test("Register until 2850ms, it will be executed 8 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 2850,
       delay: 10,
     });
@@ -134,10 +134,10 @@ describe("Register with 10ms interval.", () => {
 
   test("Register until 5000ms, it will be executed 10 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 5000,
       delay: 10,
     });
@@ -147,10 +147,10 @@ describe("Register with 10ms interval.", () => {
 
   test("Register until 30000ms, it will be executed 35 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 30000,
       delay: 10,
     });
@@ -162,10 +162,10 @@ describe("Register with 10ms interval.", () => {
 describe("Register with 50ms interval.", () => {
   test("Register until 150ms, it will be executed 3 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 150,
       delay: 50,
     });
@@ -175,10 +175,10 @@ describe("Register with 50ms interval.", () => {
 
   test("Register until 350ms, it will be executed 4 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 350,
       delay: 50,
     });
@@ -189,14 +189,14 @@ describe("Register with 50ms interval.", () => {
   describe("After register with 5 times with 10ms interval.", () => {
     test("Register until 150ms, it will be executed 3 times in the end.", () => {
       // Arrange
-      const backOff = new ExponentialBackoffThrottle();
-      runUntil(() => backOff.register(() => false), {
+      const throttle = createThrottle();
+      runUntil(() => throttle(() => false), {
         until: 50,
         delay: 10,
       });
       const callback = vi.fn();
       // Act
-      runUntil(() => backOff.register(callback), {
+      runUntil(() => throttle(callback), {
         until: 150,
         delay: 50,
       });
@@ -209,10 +209,10 @@ describe("Register with 50ms interval.", () => {
 describe("Register with 100ms interval.", () => {
   test("Register until 1000ms, it will be executed 5 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 1000,
       delay: 100,
     });
@@ -222,10 +222,10 @@ describe("Register with 100ms interval.", () => {
 
   test("Register until 3000ms, it will be executed 7 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 3000,
       delay: 100,
     });
@@ -237,10 +237,10 @@ describe("Register with 100ms interval.", () => {
 describe("Register with 1000ms interval.", () => {
   test("Register until 10000ms, it will be executed 11 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 10000,
       delay: 1000,
     });
@@ -250,10 +250,10 @@ describe("Register with 1000ms interval.", () => {
 
   test("Register until 30000ms, it will be executed 31 times in the end.", () => {
     // Arrange
-    const backOff = new ExponentialBackoffThrottle();
+    const throttle = createThrottle();
     const callback = vi.fn();
     // Act
-    runUntil(() => backOff.register(callback), {
+    runUntil(() => throttle(callback), {
       until: 30000,
       delay: 1000,
     });
