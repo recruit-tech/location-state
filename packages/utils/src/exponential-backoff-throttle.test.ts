@@ -23,26 +23,26 @@ afterEach(() => {
   vi.clearAllTimers();
 });
 
-function runUntil(
+function intervalCallAndRunAllTimers(
   callback: () => void,
   {
-    delay,
-    until,
+    intervalDelay,
+    callUntil,
   }: {
-    delay: number;
-    until: number;
+    intervalDelay: number;
+    callUntil: number;
   },
 ) {
   // immediate execution on 0ms
   callback();
-  for (let i = 0; i < until / delay; i++) {
-    vi.advanceTimersByTime(delay);
+  for (let i = 0; i < callUntil / intervalDelay; i++) {
+    vi.advanceTimersByTime(intervalDelay);
     callback();
   }
   vi.runAllTimers();
 }
 
-function createRecordCalledTimes() {
+function recordTimeMock() {
   const now = Date.now();
   return vi.fn(() => Date.now() - now);
 }
@@ -58,7 +58,6 @@ describe("Register with 10ms interval.", () => {
     const callback = vi.fn();
     // Act
     throttle(callback);
-    vi.runAllTimers();
     // Assert
     expect(callback).toBeCalledTimes(1);
   });
@@ -101,14 +100,16 @@ describe("Register with 10ms interval.", () => {
     ({ until, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
-      const callback = createRecordCalledTimes();
+      const recordExecutedTime = recordTimeMock();
       // Act
-      runUntil(() => throttle(callback), {
-        until,
-        delay: 10,
+      intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
+        callUntil: until,
+        intervalDelay: 10,
       });
       // Assert
-      expect(mapExecutedIntervalTimes(callback)).toEqual(executedTimes);
+      expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(
+        executedTimes,
+      );
     },
   );
 });
@@ -144,14 +145,16 @@ describe("Register with 50ms interval.", () => {
     ({ until, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
-      const callback = createRecordCalledTimes();
+      const recordExecutedTime = recordTimeMock();
       // Act
-      runUntil(() => throttle(callback), {
-        until,
-        delay: 50,
+      intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
+        callUntil: until,
+        intervalDelay: 50,
       });
       // Assert
-      expect(mapExecutedIntervalTimes(callback)).toEqual(executedTimes);
+      expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(
+        executedTimes,
+      );
     },
   );
 
@@ -174,18 +177,20 @@ describe("Register with 50ms interval.", () => {
       ({ until, executedTimes }) => {
         // Arrange
         const throttle = createThrottle();
-        runUntil(() => throttle(() => false), {
-          until: 50,
-          delay: 10,
+        intervalCallAndRunAllTimers(() => throttle(() => false), {
+          callUntil: 50,
+          intervalDelay: 10,
         });
-        const callback = createRecordCalledTimes();
+        const recordExecutedTime = recordTimeMock();
         // Act
-        runUntil(() => throttle(callback), {
-          until,
-          delay: 50,
+        intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
+          callUntil: until,
+          intervalDelay: 50,
         });
         // Assert
-        expect(mapExecutedIntervalTimes(callback)).toEqual(executedTimes);
+        expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(
+          executedTimes,
+        );
       },
     );
   });
@@ -210,14 +215,16 @@ describe("Register with 100ms interval.", () => {
     ({ until, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
-      const callback = createRecordCalledTimes();
+      const recordExecutedTime = recordTimeMock();
       // Act
-      runUntil(() => throttle(callback), {
-        until,
-        delay: 100,
+      intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
+        callUntil: until,
+        intervalDelay: 100,
       });
       // Assert
-      expect(mapExecutedIntervalTimes(callback)).toEqual(executedTimes);
+      expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(
+        executedTimes,
+      );
     },
   );
 });
@@ -239,14 +246,16 @@ describe("Register with 1000ms interval.", () => {
     ({ until, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
-      const callback = createRecordCalledTimes();
+      const recordExecutedTime = recordTimeMock();
       // Act
-      runUntil(() => throttle(callback), {
-        until,
-        delay: 1000,
+      intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
+        callUntil: until,
+        intervalDelay: 1000,
       });
       // Assert
-      expect(mapExecutedIntervalTimes(callback)).toEqual(executedTimes);
+      expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(
+        executedTimes,
+      );
     },
   );
 });
