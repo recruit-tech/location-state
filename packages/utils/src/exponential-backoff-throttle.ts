@@ -3,10 +3,10 @@ export function createThrottle() {
   let delayExecutedCallback: (() => void) | null = null;
 
   function applyTimer() {
-    const nextTimeout = timeoutGenerator!.next();
-    const timeout = (nextTimeout.value as number | undefined) ?? 1000;
+    const timeout = timeoutGenerator!.next().value as number;
     setTimeout(() => {
-      if (!delayExecutedCallback && nextTimeout.done) {
+      // If less than 500 ms, continue timer.
+      if (!delayExecutedCallback && timeout >= 500) {
         // reset the throttle
         timeoutGenerator = null;
         return;
@@ -38,4 +38,7 @@ export function createThrottle() {
 
 function* exponentialTimeout() {
   yield* [50, 100, 200, 500];
+  while (true) {
+    yield 1000;
+  }
 }

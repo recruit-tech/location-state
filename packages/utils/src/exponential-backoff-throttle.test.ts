@@ -123,7 +123,7 @@ describe("Register with 10ms interval.", () => {
     throttle(callback);
     vi.runAllTimers();
     // Assert
-    expect(Date.now() - now).toBe(1850);
+    expect(Date.now() - now).toBe(850);
   });
 });
 
@@ -246,12 +246,12 @@ describe("Register with 1000ms interval.", () => {
   test.each<IntervalTestParameter>([
     {
       until: 1000,
-      executedTimes: [0, 1850],
+      executedTimes: [0, 1000],
     },
     {
       until: 10000,
       executedTimes: [
-        0, 1850, 2850, 3850, 4850, 5850, 6850, 7850, 8850, 9850, 10850,
+        0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000,
       ],
     },
   ])(
