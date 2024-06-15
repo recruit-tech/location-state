@@ -112,6 +112,19 @@ describe("Register with 10ms interval.", () => {
       );
     },
   );
+
+  test("Register twice immediately, the throttle will terminate in 1850ms.", () => {
+    // Arrange
+    const throttle = createThrottle();
+    const callback = vi.fn();
+    const now = Date.now();
+    // Act
+    throttle(callback);
+    throttle(callback);
+    vi.runAllTimers();
+    // Assert
+    expect(Date.now() - now).toBe(1850);
+  });
 });
 
 describe("Register with 50ms interval.", () => {
