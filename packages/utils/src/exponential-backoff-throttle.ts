@@ -1,12 +1,12 @@
 export function createThrottle() {
   let delayExecutedCallback: (() => void) | null = null;
-  let inTimerRunning = false;
+  let isThrottleRunning = false;
 
   function handleTimeout(timeoutGenerator: Generator<number, unknown>) {
     const timeout = timeoutGenerator!.next().value as number;
     // If over 1000ms and no delayExecutedCallback, stop the timer and reset the throttle.
     if (timeout === 1000 && !delayExecutedCallback) {
-      inTimerRunning = false;
+      isThrottleRunning = false;
       return;
     }
     if (delayExecutedCallback) {
@@ -17,13 +17,13 @@ export function createThrottle() {
   }
 
   return (callback: () => void) => {
-    if (inTimerRunning) {
+    if (isThrottleRunning) {
       delayExecutedCallback = callback;
       return;
     }
+    isThrottleRunning = true;
     // execute immediately on first call
     callback();
-    inTimerRunning = true;
     handleTimeout(exponentialTimeout());
   };
 }
