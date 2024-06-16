@@ -25,7 +25,7 @@ export function createThrottle() {
       delayExecutedCallback = callback;
       return;
     }
-    // execute immediately
+    // execute immediately on first call
     callback();
     timeoutGenerator = exponentialTimeout();
     handleTimeout();
