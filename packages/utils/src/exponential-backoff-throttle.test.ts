@@ -10,7 +10,7 @@ import {
 import { createThrottle } from "./exponential-backoff-throttle";
 
 type IntervalTestParameter = {
-  until: number;
+  callUntil: number;
   executedTimes?: number[];
 };
 
@@ -64,46 +64,46 @@ describe("Register with 10ms interval.", () => {
 
   test.each<IntervalTestParameter>([
     {
-      until: 10,
+      callUntil: 10,
       executedTimes: [0, 50],
     },
     {
-      until: 50,
+      callUntil: 50,
       executedTimes: [0, 50, 150],
     },
     {
-      until: 150,
+      callUntil: 150,
       executedTimes: [0, 50, 150, 350],
     },
     {
-      until: 350,
+      callUntil: 350,
       executedTimes: [0, 50, 150, 350, 850],
     },
     {
-      until: 850,
+      callUntil: 850,
       executedTimes: [0, 50, 150, 350, 850, 1850],
     },
     {
-      until: 1850,
+      callUntil: 1850,
       executedTimes: [0, 50, 150, 350, 850, 1850, 2850],
     },
     {
-      until: 2850,
+      callUntil: 2850,
       executedTimes: [0, 50, 150, 350, 850, 1850, 2850, 3850],
     },
     {
-      until: 5000,
+      callUntil: 5000,
       executedTimes: [0, 50, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
     },
   ])(
-    "Register until $until ms, it will be executed $executedTimes times in the end.",
-    ({ until, executedTimes }) => {
+    "Register until $callUntil ms, it will be executed $executedTimes times in the end.",
+    ({ callUntil, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
       const recordExecutedTime = recordTimeMock();
       // Act
       intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
-        callUntil: until,
+        callUntil,
         intervalDelay: 10,
       });
       // Assert
@@ -130,38 +130,38 @@ describe("Register with 10ms interval.", () => {
 describe("Register with 50ms interval.", () => {
   test.each<IntervalTestParameter>([
     {
-      until: 150,
+      callUntil: 150,
       executedTimes: [0, 150, 350],
     },
     {
-      until: 350,
+      callUntil: 350,
       executedTimes: [0, 150, 350, 850],
     },
     {
-      until: 850,
+      callUntil: 850,
       executedTimes: [0, 150, 350, 850, 1850],
     },
     {
-      until: 1850,
+      callUntil: 1850,
       executedTimes: [0, 150, 350, 850, 1850, 2850],
     },
     {
-      until: 2850,
+      callUntil: 2850,
       executedTimes: [0, 150, 350, 850, 1850, 2850, 3850],
     },
     {
-      until: 5000,
+      callUntil: 5000,
       executedTimes: [0, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
     },
   ])(
-    "Register until $until ms, it will be executed $executedTimes times in the end.",
-    ({ until, executedTimes }) => {
+    "Register until $callUntil ms, it will be executed $executedTimes times in the end.",
+    ({ callUntil, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
       const recordExecutedTime = recordTimeMock();
       // Act
       intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
-        callUntil: until,
+        callUntil,
         intervalDelay: 50,
       });
       // Assert
@@ -174,20 +174,20 @@ describe("Register with 50ms interval.", () => {
   describe("After register with 5 times with 10ms interval.", () => {
     test.each<IntervalTestParameter>([
       {
-        until: 50,
+        callUntil: 50,
         executedTimes: [0, 150],
       },
       {
-        until: 150,
+        callUntil: 150,
         executedTimes: [0, 150, 350],
       },
       {
-        until: 350,
+        callUntil: 350,
         executedTimes: [0, 150, 350, 850],
       },
     ])(
-      "Register until $until ms, it will be executed $executedTimes times in the end.",
-      ({ until, executedTimes }) => {
+      "Register until $callUntil ms, it will be executed $executedTimes times in the end.",
+      ({ callUntil, executedTimes }) => {
         // Arrange
         const throttle = createThrottle();
         intervalCallAndRunAllTimers(() => throttle(() => false), {
@@ -197,7 +197,7 @@ describe("Register with 50ms interval.", () => {
         const recordExecutedTime = recordTimeMock();
         // Act
         intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
-          callUntil: until,
+          callUntil,
           intervalDelay: 50,
         });
         // Assert
@@ -212,26 +212,26 @@ describe("Register with 50ms interval.", () => {
 describe("Register with 100ms interval.", () => {
   test.each<IntervalTestParameter>([
     {
-      until: 1000,
+      callUntil: 1000,
       executedTimes: [0, 150, 350, 850, 1850],
     },
     {
-      until: 3000,
+      callUntil: 3000,
       executedTimes: [0, 150, 350, 850, 1850, 2850, 3850],
     },
     {
-      until: 5000,
+      callUntil: 5000,
       executedTimes: [0, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
     },
   ])(
-    "Register until $until ms, it will be executed $executedTimes times in the end.",
-    ({ until, executedTimes }) => {
+    "Register until $callUntil ms, it will be executed $executedTimes times in the end.",
+    ({ callUntil, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
       const recordExecutedTime = recordTimeMock();
       // Act
       intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
-        callUntil: until,
+        callUntil,
         intervalDelay: 100,
       });
       // Assert
@@ -245,24 +245,24 @@ describe("Register with 100ms interval.", () => {
 describe("Register with 1000ms interval.", () => {
   test.each<IntervalTestParameter>([
     {
-      until: 1000,
+      callUntil: 1000,
       executedTimes: [0, 1000],
     },
     {
-      until: 10000,
+      callUntil: 10000,
       executedTimes: [
         0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000,
       ],
     },
   ])(
-    "Register until $until ms, it will be executed $executedTimes times in the end.",
-    ({ until, executedTimes }) => {
+    "Register until $callUntil ms, it will be executed $executedTimes times in the end.",
+    ({ callUntil, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
       const recordExecutedTime = recordTimeMock();
       // Act
       intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
-        callUntil: until,
+        callUntil,
         intervalDelay: 1000,
       });
       // Assert
