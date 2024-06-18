@@ -217,8 +217,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       valibot:
-        specifier: 0.32.0
-        version: 0.32.0
+        specifier: 0.33.1
+        version: 0.33.1
     devDependencies:
       '@conform-to/react':
         specifier: 1.1.5
@@ -2786,8 +2786,8 @@ packages:
     resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
     hasBin: true
 
-  valibot@0.32.0:
-    resolution: {integrity: sha512-FXBnJl4bNOmeg7lQv+jfvo/wADsRBN8e9C3r+O77Re3dEnDma8opp7p4hcIbF7XJJ30h/5SVohdjer17/sHOsQ==}
+  valibot@0.33.1:
+    resolution: {integrity: sha512-rmAlZGIcuvTir4HGFxBKn4vH003w+wr9qUiScMAG46np7TAedj7foYAR7Im4v9W/gW0CyW2Qmaygrmhd96yreQ==}
 
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
@@ -5489,7 +5489,7 @@ snapshots:
 
   uuid@10.0.0: {}
 
-  valibot@0.32.0: {}
+  valibot@0.33.1: {}
 
   validate-npm-package-license@3.0.4:
     dependencies:
