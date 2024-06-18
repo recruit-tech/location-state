@@ -51,7 +51,7 @@ function mapExecutedIntervalTimes(callback: Mock) {
   return callback.mock.results.map((result) => result.value);
 }
 
-test("First function is immediate executed.", () => {
+test("Throttle function is first called, it is calling back immediately.", () => {
   // Arrange
   const throttle = createThrottle();
   const callback = vi.fn();
@@ -96,7 +96,7 @@ describe("Throttle function is called at 10ms interval.", () => {
       executedTimes: [0, 50, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
     },
   ])(
-    "Throttle function called until $callUntil ms, it will be executed $executedTimes times in the end.",
+    "Throttle function called until $callUntil ms, it will be executed $executedTimes .",
     ({ callUntil, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
@@ -174,7 +174,7 @@ describe("Throttle function called at 50ms interval.", () => {
       executedTimes: [0, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
     },
   ])(
-    "Throttle function called until $callUntil ms, it will be executed $executedTimes times in the end.",
+    "Throttle function called until $callUntil ms, it will be executed $executedTimes .",
     ({ callUntil, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
@@ -206,7 +206,7 @@ describe("Throttle function called at 50ms interval.", () => {
         executedTimes: [0, 150, 350, 850],
       },
     ])(
-      "Throttle function called until $callUntil ms, it will be executed $executedTimes times in the end.",
+      "Throttle function called until $callUntil ms, it will be executed $executedTimes .",
       ({ callUntil, executedTimes }) => {
         // Arrange
         const throttle = createThrottle();
@@ -244,7 +244,7 @@ describe("Throttle function called at 100ms interval.", () => {
       executedTimes: [0, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
     },
   ])(
-    "Throttle function called until $callUntil ms, it will be executed $executedTimes times in the end.",
+    "Throttle function called until $callUntil ms, it will be executed $executedTimes .",
     ({ callUntil, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
@@ -275,7 +275,7 @@ describe("Throttle function called at 1000ms interval.", () => {
       ],
     },
   ])(
-    "Throttle function called until $callUntil ms, it will be executed $executedTimes times in the end.",
+    "Throttle function called until $callUntil ms, it will be executed $executedTimes .",
     ({ callUntil, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
