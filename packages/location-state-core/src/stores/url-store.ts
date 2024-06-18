@@ -1,8 +1,8 @@
-import { createThrottle } from "@repo/utils/exponential-backoff-throttle";
 import type { Syncer } from "../types";
 import { EventEmitter } from "./event-emitter";
 import { jsonSerializer } from "./serializer";
 import type { Listener, StateSerializer, Store } from "./types";
+import { createThrottle } from "./utils/create-throttle";
 
 type URLEncoder = {
   encode: (url: string, state?: Record<string, unknown>) => string;

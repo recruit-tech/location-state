@@ -4,12 +4,9 @@
   "private": true,
   "exports": {
     "./asserts": "./src/asserts.ts",
-    "./type": "./src/type.ts",
-    "./exponential-backoff-throttle": "./src/exponential-backoff-throttle.ts"
+    "./type": "./src/type.ts"
   },
-  "scripts": {
-    "test": "vitest run"
-  },
+  "scripts": {},
   "devDependencies": {
     "@repo/configs": "workspace:*"
   }

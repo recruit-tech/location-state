@@ -7,7 +7,7 @@ import {
   test,
   vi,
 } from "vitest";
-import { createThrottle } from "./exponential-backoff-throttle";
+import { createThrottle } from "./create-throttle";
 
 type IntervalTestParameter = {
   callUntil: number;
