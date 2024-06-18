@@ -51,17 +51,17 @@ function mapExecutedIntervalTimes(callback: Mock) {
   return callback.mock.results.map((result) => result.value);
 }
 
-describe("Register with 10ms interval.", () => {
-  test("First register callback is immediate executed.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    // Act
-    throttle(callback);
-    // Assert
-    expect(callback).toBeCalledTimes(1);
-  });
+test("First function is immediate executed.", () => {
+  // Arrange
+  const throttle = createThrottle();
+  const callback = vi.fn();
+  // Act
+  throttle(callback);
+  // Assert
+  expect(callback).toBeCalledTimes(1);
+});
 
+describe("Throttle function is called at 10ms interval.", () => {
   test.each<IntervalTestParameter>([
     {
       callUntil: 10,
@@ -96,7 +96,7 @@ describe("Register with 10ms interval.", () => {
       executedTimes: [0, 50, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
     },
   ])(
-    "Register until $callUntil ms, it will be executed $executedTimes times in the end.",
+    "Throttle function called until $callUntil ms, it will be executed $executedTimes times in the end.",
     ({ callUntil, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
@@ -113,21 +113,41 @@ describe("Register with 10ms interval.", () => {
     },
   );
 
-  test("Register twice immediately, the throttle will terminate in 1850ms.", () => {
-    // Arrange
-    const throttle = createThrottle();
-    const callback = vi.fn();
-    const now = Date.now();
-    // Act
-    throttle(callback);
-    throttle(callback);
-    vi.runAllTimers();
-    // Assert
-    expect(Date.now() - now).toBe(850);
-  });
+  test.each<{
+    callUntil: number;
+    terminatedAt: number;
+  }>([
+    {
+      callUntil: 50,
+      terminatedAt: 850,
+    },
+    {
+      callUntil: 150,
+      terminatedAt: 850,
+    },
+    {
+      callUntil: 350,
+      terminatedAt: 1850,
+    },
+  ])(
+    "Throttle function called until $callUntil, the throttle will terminate in $terminatedAt ms.",
+    ({ callUntil, terminatedAt }) => {
+      // Arrange
+      const throttle = createThrottle();
+      const recordExecutedTime = recordTimeMock();
+      const now = Date.now();
+      // Act
+      intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
+        callUntil,
+        intervalDelay: 10,
+      });
+      // Assert
+      expect(Date.now() - now).toBe(terminatedAt);
+    },
+  );
 });
 
-describe("Register with 50ms interval.", () => {
+describe("Throttle function called at 50ms interval.", () => {
   test.each<IntervalTestParameter>([
     {
       callUntil: 150,
@@ -154,7 +174,7 @@ describe("Register with 50ms interval.", () => {
       executedTimes: [0, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
     },
   ])(
-    "Register until $callUntil ms, it will be executed $executedTimes times in the end.",
+    "Throttle function called until $callUntil ms, it will be executed $executedTimes times in the end.",
     ({ callUntil, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
@@ -171,7 +191,7 @@ describe("Register with 50ms interval.", () => {
     },
   );
 
-  describe("After register with 5 times with 10ms interval.", () => {
+  describe("After called at 5 times with 10ms interval.", () => {
     test.each<IntervalTestParameter>([
       {
         callUntil: 50,
@@ -186,7 +206,7 @@ describe("Register with 50ms interval.", () => {
         executedTimes: [0, 150, 350, 850],
       },
     ])(
-      "Register until $callUntil ms, it will be executed $executedTimes times in the end.",
+      "Throttle function called until $callUntil ms, it will be executed $executedTimes times in the end.",
       ({ callUntil, executedTimes }) => {
         // Arrange
         const throttle = createThrottle();
@@ -209,7 +229,7 @@ describe("Register with 50ms interval.", () => {
   });
 });
 
-describe("Register with 100ms interval.", () => {
+describe("Throttle function called at 100ms interval.", () => {
   test.each<IntervalTestParameter>([
     {
       callUntil: 1000,
@@ -224,7 +244,7 @@ describe("Register with 100ms interval.", () => {
       executedTimes: [0, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
     },
   ])(
-    "Register until $callUntil ms, it will be executed $executedTimes times in the end.",
+    "Throttle function called until $callUntil ms, it will be executed $executedTimes times in the end.",
     ({ callUntil, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
@@ -242,7 +262,7 @@ describe("Register with 100ms interval.", () => {
   );
 });
 
-describe("Register with 1000ms interval.", () => {
+describe("Throttle function called at 1000ms interval.", () => {
   test.each<IntervalTestParameter>([
     {
       callUntil: 1000,
@@ -255,7 +275,7 @@ describe("Register with 1000ms interval.", () => {
       ],
     },
   ])(
-    "Register until $callUntil ms, it will be executed $executedTimes times in the end.",
+    "Throttle function called until $callUntil ms, it will be executed $executedTimes times in the end.",
     ({ callUntil, executedTimes }) => {
       // Arrange
       const throttle = createThrottle();
