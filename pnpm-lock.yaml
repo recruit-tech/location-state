@@ -248,6 +248,9 @@ importers:
       '@repo/test-utils':
         specifier: workspace:*
         version: link:../test-utils
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@testing-library/jest-dom':
         specifier: 6.4.6
         version: 6.4.6(vitest@1.6.0(@types/node@20.14.2)(jsdom@24.1.0))

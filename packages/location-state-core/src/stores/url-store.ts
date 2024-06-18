@@ -2,6 +2,7 @@ import type { Syncer } from "../types";
 import { EventEmitter } from "./event-emitter";
 import { jsonSerializer } from "./serializer";
 import type { Listener, StateSerializer, Store } from "./types";
+import { createThrottle } from "./utils/create-throttle";
 
 type URLEncoder = {
   encode: (url: string, state?: Record<string, unknown>) => string;
@@ -41,6 +42,7 @@ export class URLStore implements Store {
   private state: Record<string, unknown> = {};
   private syncedURL: string | undefined;
   private events = new EventEmitter();
+  private readonly throttle = createThrottle();
 
   constructor(
     private readonly syncer: Syncer,
@@ -65,8 +67,9 @@ export class URLStore implements Store {
 
     try {
       // save to url
-      this.syncedURL = this.urlEncoder.encode(location.href, this.state);
-      this.syncer.updateURL(this.syncedURL);
+      const syncedURL = this.urlEncoder.encode(location.href, this.state);
+      this.syncedURL = syncedURL;
+      this.throttle(() => this.syncer.updateURL(syncedURL));
     } catch (e) {
       console.error(e);
     }

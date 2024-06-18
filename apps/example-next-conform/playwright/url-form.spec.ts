@@ -1,4 +1,5 @@
 import { describe } from "node:test";
+import { setTimeout } from "node:timers/promises";
 import { expect, test } from "@playwright/test";
 
 // Safari/Firefox: different from actual behavior
@@ -16,6 +17,7 @@ describe('"simple form" is restored on browser back.', () => {
     // Change `firstName` & `lastName`.
     await firstName.fill("Tanaka");
     await lastName.fill("Taro");
+    await setTimeout(1000); // Wait for applying the value to URL.
     // Navigate to the top page.
     await page.goto("http://localhost:3000");
     await expect(page.getByRole("heading")).toHaveText("`conform` example");
@@ -41,6 +43,7 @@ describe('"dynamic form" is restored on browser back.', () => {
     await expect(member2Name).toHaveValue("");
     // Change `firstName` & `lastName`.
     await member1Name.fill("Tanaka");
+    await setTimeout(1000); // Wait for applying the value to URL.
     // Navigate to the top page.
     await page.goto("http://localhost:3000");
     await expect(page.getByRole("heading")).toHaveText("`conform` example");

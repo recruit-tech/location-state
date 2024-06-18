@@ -6,6 +6,7 @@
     "./asserts": "./src/asserts.ts",
     "./type": "./src/type.ts"
   },
+  "scripts": {},
   "devDependencies": {
     "@repo/configs": "workspace:*"
   }
