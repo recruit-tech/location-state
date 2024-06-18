@@ -33,7 +33,7 @@
     "valibot": "0.32.0"
   },
   "devDependencies": {
-    "@conform-to/react": "1.1.4",
+    "@conform-to/react": "1.1.5",
     "@location-state/core": "workspace:*",
     "@repo/configs": "workspace:*",
     "@repo/test-utils": "workspace:*",
