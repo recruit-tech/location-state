@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@repo/utils": "workspace:*",
-    "valibot": "0.32.0"
+    "valibot": "0.33.1"
   },
   "devDependencies": {
     "@conform-to/react": "1.1.5",
