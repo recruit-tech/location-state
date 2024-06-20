@@ -34,14 +34,16 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "6.4.6",
-    "@testing-library/react": "16.0.0",
-    "@testing-library/user-event": "14.5.2",
-    "@types/uuid": "9.0.8",
-    "client-only": "0.0.1",
     "@repo/configs": "workspace:*",
     "@repo/test-utils": "workspace:*",
     "@repo/utils": "workspace:*",
+    "@testing-library/jest-dom": "6.4.6",
+    "@testing-library/react": "16.0.0",
+    "@testing-library/user-event": "14.5.2",
+    "@types/react": "18.3.3",
+    "@types/uuid": "9.0.8",
+    "client-only": "0.0.1",
+    "react": "18.3.1",
     "uuid": "10.0.0"
   },
   "peerDependencies": {

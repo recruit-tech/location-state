@@ -20,9 +20,6 @@ importers:
       '@types/node':
         specifier: 20.14.6
         version: 20.14.6
-      '@types/react':
-        specifier: 18.3.3
-        version: 18.3.3
       '@types/react-dom':
         specifier: 18.3.0
         version: 18.3.0
@@ -44,9 +41,6 @@ importers:
       playwright:
         specifier: 1.44.1
         version: 1.44.1
-      react:
-        specifier: 18.3.1
-        version: 18.3.1
       tsup:
         specifier: 8.1.0
         version: 8.1.0(postcss@8.4.38)(typescript@5.4.5)
@@ -232,15 +226,14 @@ importers:
       '@repo/test-utils':
         specifier: workspace:*
         version: link:../test-utils
+      '@types/react':
+        specifier: 18.3.3
+        version: 18.3.3
       react:
         specifier: 18.3.1
         version: 18.3.1
 
   packages/location-state-core:
-    dependencies:
-      react:
-        specifier: ^18.2.0
-        version: 18.2.0
     devDependencies:
       '@repo/configs':
         specifier: workspace:*
@@ -256,16 +249,22 @@ importers:
         version: 6.4.6(vitest@1.6.0(@types/node@20.14.6)(jsdom@24.1.0))
       '@testing-library/react':
         specifier: 16.0.0
-        version: 16.0.0(@testing-library/dom@10.0.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)
+        version: 16.0.0(@testing-library/dom@10.0.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@testing-library/user-event':
         specifier: 14.5.2
         version: 14.5.2(@testing-library/dom@10.0.0)
+      '@types/react':
+        specifier: 18.3.3
+        version: 18.3.3
       '@types/uuid':
         specifier: 9.0.8
         version: 9.0.8
       client-only:
         specifier: 0.0.1
         version: 0.0.1
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
       uuid:
         specifier: 10.0.0
         version: 10.0.0
@@ -275,16 +274,19 @@ importers:
       '@location-state/core':
         specifier: workspace:*
         version: link:../location-state-core
-      react:
-        specifier: ^18.2.0
-        version: 18.2.0
     devDependencies:
       '@repo/configs':
         specifier: workspace:*
         version: link:../configs
+      '@types/react':
+        specifier: 18.3.3
+        version: 18.3.3
       next:
         specifier: 14.2.4
-        version: 14.2.4(@babel/core@7.24.5)(@playwright/test@1.44.1)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)
+        version: 14.2.4(@babel/core@7.24.5)(@playwright/test@1.44.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
 
   packages/test-utils:
     dependencies:
@@ -2315,10 +2317,6 @@ packages:
     resolution: {integrity: sha512-jCvmsr+1IUSMUyzOkRcvnVbX3ZYC6g9TDrDbFuFmRDq7PD4yaGbLKNQL6k2jnArV8hjYxh7hVhAZB6s9HDGpZA==}
     engines: {node: '>=0.10.0'}
 
-  react@18.2.0:
-    resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
-    engines: {node: '>=0.10.0'}
-
   react@18.3.1:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
     engines: {node: '>=0.10.0'}
@@ -3637,16 +3635,6 @@ snapshots:
     optionalDependencies:
       vitest: 1.6.0(@types/node@20.14.6)(jsdom@24.1.0)
 
-  '@testing-library/react@16.0.0(@testing-library/dom@10.0.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)':
-    dependencies:
-      '@babel/runtime': 7.22.15
-      '@testing-library/dom': 10.0.0
-      react: 18.2.0
-      react-dom: 18.3.1(react@18.2.0)
-    optionalDependencies:
-      '@types/react': 18.3.3
-      '@types/react-dom': 18.3.0
-
   '@testing-library/react@16.0.0(@testing-library/dom@10.0.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.22.15
@@ -4783,32 +4771,6 @@ snapshots:
 
   navigation-api-types@0.5.1: {}
 
-  next@14.2.4(@babel/core@7.24.5)(@playwright/test@1.44.1)(react-dom@18.3.1(react@18.2.0))(react@18.2.0):
-    dependencies:
-      '@next/env': 14.2.4
-      '@swc/helpers': 0.5.5
-      busboy: 1.6.0
-      caniuse-lite: 1.0.30001597
-      graceful-fs: 4.2.11
-      postcss: 8.4.31
-      react: 18.2.0
-      react-dom: 18.3.1(react@18.2.0)
-      styled-jsx: 5.1.1(@babel/core@7.24.5)(react@18.2.0)
-    optionalDependencies:
-      '@next/swc-darwin-arm64': 14.2.4
-      '@next/swc-darwin-x64': 14.2.4
-      '@next/swc-linux-arm64-gnu': 14.2.4
-      '@next/swc-linux-arm64-musl': 14.2.4
-      '@next/swc-linux-x64-gnu': 14.2.4
-      '@next/swc-linux-x64-musl': 14.2.4
-      '@next/swc-win32-arm64-msvc': 14.2.4
-      '@next/swc-win32-ia32-msvc': 14.2.4
-      '@next/swc-win32-x64-msvc': 14.2.4
-      '@playwright/test': 1.44.1
-    transitivePeerDependencies:
-      - '@babel/core'
-      - babel-plugin-macros
-
   next@14.2.4(@babel/core@7.24.5)(@playwright/test@1.44.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@next/env': 14.2.4
@@ -5026,12 +4988,6 @@ snapshots:
 
   quick-lru@4.0.1: {}
 
-  react-dom@18.3.1(react@18.2.0):
-    dependencies:
-      loose-envify: 1.4.0
-      react: 18.2.0
-      scheduler: 0.23.2
-
   react-dom@18.3.1(react@18.3.1):
     dependencies:
       loose-envify: 1.4.0
@@ -5043,10 +4999,6 @@ snapshots:
   react-is@18.2.0: {}
 
   react-refresh@0.14.2: {}
-
-  react@18.2.0:
-    dependencies:
-      loose-envify: 1.4.0
 
   react@18.3.1:
     dependencies:
@@ -5324,13 +5276,6 @@ snapshots:
   strip-literal@2.0.0:
     dependencies:
       js-tokens: 8.0.3
-
-  styled-jsx@5.1.1(@babel/core@7.24.5)(react@18.2.0):
-    dependencies:
-      client-only: 0.0.1
-      react: 18.2.0
-    optionalDependencies:
-      '@babel/core': 7.24.5
 
   styled-jsx@5.1.1(@babel/core@7.24.5)(react@18.3.1):
     dependencies:
