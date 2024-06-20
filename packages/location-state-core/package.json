@@ -43,6 +43,7 @@
     "@types/react": "18.3.3",
     "@types/uuid": "9.0.8",
     "client-only": "0.0.1",
+    "navigation-api-types": "0.5.1",
     "react": "18.3.1",
     "uuid": "10.0.0"
   },

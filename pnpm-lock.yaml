@@ -20,9 +20,6 @@ importers:
       '@types/node':
         specifier: 20.14.6
         version: 20.14.6
-      '@types/react-dom':
-        specifier: 18.3.0
-        version: 18.3.0
       '@vitejs/plugin-react':
         specifier: 4.3.1
         version: 4.3.1(vite@5.2.6(@types/node@20.14.6))
@@ -35,9 +32,6 @@ importers:
       lint-staged:
         specifier: 15.2.7
         version: 15.2.7
-      navigation-api-types:
-        specifier: 0.5.1
-        version: 0.5.1
       playwright:
         specifier: 1.44.1
         version: 1.44.1
@@ -262,6 +256,9 @@ importers:
       client-only:
         specifier: 0.0.1
         version: 0.0.1
+      navigation-api-types:
+        specifier: 0.5.1
+        version: 0.5.1
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -281,6 +278,9 @@ importers:
       '@types/react':
         specifier: 18.3.3
         version: 18.3.3
+      navigation-api-types:
+        specifier: 0.5.1
+        version: 0.5.1
       next:
         specifier: 14.2.4
         version: 14.2.4(@babel/core@7.24.5)(@playwright/test@1.44.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -306,6 +306,9 @@ importers:
       '@types/uuid':
         specifier: 9.0.8
         version: 9.0.8
+      navigation-api-types:
+        specifier: 0.5.1
+        version: 0.5.1
 
   packages/utils:
     devDependencies:
