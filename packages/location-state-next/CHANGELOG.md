@@ -1,5 +1,12 @@
 # @location-state/next
 
+## 1.2.0
+
+### Patch Changes
+
+- Updated dependencies [518d0ae]
+  - @location-state/core@1.2.0
+
 ## 1.1.0
 
 ### Patch Changes
