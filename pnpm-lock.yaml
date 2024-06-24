@@ -201,9 +201,6 @@ importers:
 
   packages/location-state-conform:
     dependencies:
-      '@repo/utils':
-        specifier: workspace:*
-        version: link:../utils
       valibot:
         specifier: 0.33.3
         version: 0.33.3
@@ -220,6 +217,9 @@ importers:
       '@repo/test-utils':
         specifier: workspace:*
         version: link:../test-utils
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/react':
         specifier: 18.3.3
         version: 18.3.3

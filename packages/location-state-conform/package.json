@@ -29,7 +29,6 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@repo/utils": "workspace:*",
     "valibot": "0.33.3"
   },
   "devDependencies": {
@@ -37,6 +36,7 @@
     "@location-state/core": "workspace:*",
     "@repo/configs": "workspace:*",
     "@repo/test-utils": "workspace:*",
+    "@repo/utils": "workspace:*",
     "@types/react": "18.3.3",
     "react": "18.3.1"
   },
