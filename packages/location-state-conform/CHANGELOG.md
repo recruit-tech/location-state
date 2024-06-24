@@ -1,5 +1,11 @@
 # @location-state/conform
 
+## 1.2.1
+
+### Patch Changes
+
+- 1b1a8d5: Fixed 404 error for internal package dependencies.
+
 ## 1.2.0
 
 ## 1.1.0
