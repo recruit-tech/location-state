@@ -145,8 +145,8 @@ importers:
         specifier: 14.2.4
         version: 14.2.4(@babel/core@7.24.5)(@playwright/test@1.45.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       qs:
-        specifier: 6.12.2
-        version: 6.12.2
+        specifier: 6.12.3
+        version: 6.12.3
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -2017,8 +2017,8 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  qs@6.12.2:
-    resolution: {integrity: sha512-x+NLUpx9SYrcwXtX7ob1gnkSems4i/mGZX5SlYxwIau6RrUSODO89TR/XDGGpn5RPWSYIB+aSfuSlV5+CmbTBg==}
+  qs@6.12.3:
+    resolution: {integrity: sha512-AWJm14H1vVaO/iNZ4/hO+HyaTehuy9nRqVdkTqlJt0HWvBiBIEXFmb4C0DGeYo3Xes9rrEW+TxHsaigCbN5ICQ==}
     engines: {node: '>=0.6'}
 
   querystringify@2.2.0:
@@ -4173,7 +4173,7 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  qs@6.12.2:
+  qs@6.12.3:
     dependencies:
       side-channel: 1.0.6
 
