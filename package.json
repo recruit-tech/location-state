@@ -36,7 +36,7 @@
     "jsdom": "24.1.1",
     "lint-staged": "15.2.7",
     "playwright": "1.45.2",
-    "tsup": "8.2.1",
+    "tsup": "8.2.2",
     "turbo": "2.0.9",
     "typescript": "5.5.3",
     "vitest": "2.0.4"
