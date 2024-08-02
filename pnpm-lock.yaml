@@ -36,8 +36,8 @@ importers:
         specifier: 1.45.3
         version: 1.45.3
       tsup:
-        specifier: 8.2.3
-        version: 8.2.3(postcss@8.4.38)(typescript@5.5.4)(yaml@2.4.2)
+        specifier: 8.2.4
+        version: 8.2.4(postcss@8.4.38)(typescript@5.5.4)(yaml@2.4.2)
       turbo:
         specifier: 2.0.11
         version: 2.0.11
@@ -2325,8 +2325,8 @@ packages:
   tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
 
-  tsup@8.2.3:
-    resolution: {integrity: sha512-6YNT44oUfXRbZuSMNmN36GzwPPIlD2wBccY7looM2fkTcxkf2NEmwr3OZuDZoySklnrIG4hoEtzy8yUXYOqNcg==}
+  tsup@8.2.4:
+    resolution: {integrity: sha512-akpCPePnBnC/CXgRrcy72ZSntgIEUa1jN0oJbbvpALWKNOz1B7aM+UVDWGRGIO/T/PZugAESWDJUAb5FD48o8Q==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -4512,7 +4512,7 @@ snapshots:
 
   tslib@2.6.2: {}
 
-  tsup@8.2.3(postcss@8.4.38)(typescript@5.5.4)(yaml@2.4.2):
+  tsup@8.2.4(postcss@8.4.38)(typescript@5.5.4)(yaml@2.4.2):
     dependencies:
       bundle-require: 5.0.0(esbuild@0.23.0)
       cac: 6.7.14
