@@ -7,7 +7,7 @@
     "pnpm": "9.x",
     "npm": "please_use_pnpm_instead"
   },
-  "packageManager": "pnpm@9.8.0",
+  "packageManager": "pnpm@9.9.0",
   "keywords": [],
   "license": "MIT",
   "scripts": {
