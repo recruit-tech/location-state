@@ -1,4 +1,5 @@
 import { getFormProps } from "@conform-to/react";
+import type { FormMetadata } from "@conform-to/react";
 import {
   type LocationStateDefinition,
   useLocationGetState,
@@ -19,11 +20,10 @@ import {
 import { insertedAt, removedAt, reorderedAt } from "./utils/updated-array";
 import { updatedWithPath } from "./utils/updated-object";
 
-type GetFormPropsArgs = Parameters<typeof getFormProps>;
-type GetLocationFormPropsReturnWith = ReturnType<typeof getFormProps>;
-type GetLocationFormProps = (
-  ...args: GetFormPropsArgs
-) => GetLocationFormPropsReturnWith & {
+type GetLocationFormProps = <Schema extends Record<string, unknown>, FormError>(
+  metadata: FormMetadata<Schema, FormError>,
+  options?: Parameters<typeof getFormProps>[1],
+) => ReturnType<typeof getFormProps> & {
   onChange: (e: React.ChangeEvent<HTMLFormElement>) => void;
 };
 
@@ -37,12 +37,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     >;
     idPrefix?: string;
   }>
->): [
-  {
-    id: string;
-  },
-  GetLocationFormProps,
-] {
+>) {
   const locationDefinition: LocationStateDefinition<
     DeepPartial<Schema> | undefined
   > = {
@@ -58,7 +53,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   const formIdSuffix = `location-form-${locationKey}`;
   const formId = `${formIdPrefix}-${formIdSuffix}`;
 
-  const formRef = useRef<GetFormPropsArgs[0] | null>(null);
+  const formRef = useRef<FormMetadata | null>(null);
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!locationKey) return;
@@ -77,9 +72,9 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     }
   }, [locationKey, formId, getLocationState]);
 
-  const getLocationFormProps: GetLocationFormProps = useCallback(
-    (form, option) => {
-      formRef.current = form;
+  const getLocationFormProps = useCallback(
+    (form, option?) => {
+      formRef.current = form as FormMetadata;
       const { onSubmit: onSubmitOriginal, ...formProps } = getFormProps(
         form,
         option,
@@ -176,9 +171,9 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
       };
     },
     [getLocationState, setLocationState],
-  );
+  ) satisfies GetLocationFormProps;
 
-  return [{ id: formId }, getLocationFormProps];
+  return [{ id: formId }, getLocationFormProps] as const;
 }
 
 function parseSafe(json: string): { type: string; payload: unknown } {
