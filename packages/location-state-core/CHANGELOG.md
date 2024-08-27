@@ -1,5 +1,11 @@
 # @location-state/core
 
+## 1.2.2
+
+### Patch Changes
+
+- b6cd496: Fix @location-state/conform types: strict check.
+
 ## 1.2.1
 
 ## 1.2.0
