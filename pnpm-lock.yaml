@@ -199,8 +199,8 @@ importers:
   packages/location-state-conform:
     dependencies:
       valibot:
-        specifier: 0.39.0
-        version: 0.39.0(typescript@5.5.4)
+        specifier: 0.40.0
+        version: 0.40.0(typescript@5.5.4)
     devDependencies:
       '@conform-to/react':
         specifier: 1.1.5
@@ -2422,8 +2422,8 @@ packages:
     resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
     hasBin: true
 
-  valibot@0.39.0:
-    resolution: {integrity: sha512-d+vE8SDRNy9zKg6No5MHz2tdz8H6CW8X3OdqYdmlhnoqQmEoM6Hu0hJUrZv3tPSVrzZkIIMCtdCQtMzcM6NCWw==}
+  valibot@0.40.0:
+    resolution: {integrity: sha512-XHKnaVtwHqxPwnGOsLrwka9CEaL7yNeLNp707OKv/bmT29GnPVdl6PxBOZ6BW7hF66/6QT6iVbOlnW7qVPmoKw==}
     peerDependencies:
       typescript: '>=5'
     peerDependenciesMeta:
@@ -4611,7 +4611,7 @@ snapshots:
 
   uuid@10.0.0: {}
 
-  valibot@0.39.0(typescript@5.5.4):
+  valibot@0.40.0(typescript@5.5.4):
     optionalDependencies:
       typescript: 5.5.4
 
