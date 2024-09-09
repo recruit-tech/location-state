@@ -37,13 +37,13 @@ importers:
         version: 1.47.0
       tsup:
         specifier: 8.2.4
-        version: 8.2.4(postcss@8.4.38)(typescript@5.5.4)(yaml@2.5.0)
+        version: 8.2.4(postcss@8.4.38)(typescript@5.6.2)(yaml@2.5.0)
       turbo:
         specifier: 2.1.1
         version: 2.1.1
       typescript:
-        specifier: 5.5.4
-        version: 5.5.4
+        specifier: 5.6.2
+        version: 5.6.2
 
   apps/example-next-basic:
     dependencies:
@@ -72,8 +72,8 @@ importers:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
       typescript:
-        specifier: 5.5.4
-        version: 5.5.4
+        specifier: 5.6.2
+        version: 5.6.2
       zod:
         specifier: 3.23.8
         version: 3.23.8
@@ -118,8 +118,8 @@ importers:
         specifier: 18.3.0
         version: 18.3.0
       typescript:
-        specifier: 5.5.4
-        version: 5.5.4
+        specifier: 5.6.2
+        version: 5.6.2
 
   apps/example-next-custom-store:
     dependencies:
@@ -151,8 +151,8 @@ importers:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
       typescript:
-        specifier: 5.5.4
-        version: 5.5.4
+        specifier: 5.6.2
+        version: 5.6.2
       zod:
         specifier: 3.23.8
         version: 3.23.8
@@ -188,8 +188,8 @@ importers:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
       typescript:
-        specifier: 5.5.4
-        version: 5.5.4
+        specifier: 5.6.2
+        version: 5.6.2
       zod:
         specifier: 3.23.8
         version: 3.23.8
@@ -200,7 +200,7 @@ importers:
     dependencies:
       valibot:
         specifier: 0.41.0
-        version: 0.41.0(typescript@5.5.4)
+        version: 0.41.0(typescript@5.6.2)
     devDependencies:
       '@conform-to/react':
         specifier: 1.1.5
@@ -2368,8 +2368,8 @@ packages:
     resolution: {integrity: sha512-u9gUDkmR9dFS8b5kAYqIETK4OnzsS4l2ragJ0+soSMHh6VEeNHjTfSjk1tKxCqLyziCrPogadxP680J+v6yGHw==}
     hasBin: true
 
-  typescript@5.5.4:
-    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
+  typescript@5.6.2:
+    resolution: {integrity: sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -4455,7 +4455,7 @@ snapshots:
 
   tslib@2.6.2: {}
 
-  tsup@8.2.4(postcss@8.4.38)(typescript@5.5.4)(yaml@2.5.0):
+  tsup@8.2.4(postcss@8.4.38)(typescript@5.6.2)(yaml@2.5.0):
     dependencies:
       bundle-require: 5.0.0(esbuild@0.23.0)
       cac: 6.7.14
@@ -4475,7 +4475,7 @@ snapshots:
       tree-kill: 1.2.2
     optionalDependencies:
       postcss: 8.4.38
-      typescript: 5.5.4
+      typescript: 5.6.2
     transitivePeerDependencies:
       - jiti
       - supports-color
@@ -4509,7 +4509,7 @@ snapshots:
       turbo-windows-64: 2.1.1
       turbo-windows-arm64: 2.1.1
 
-  typescript@5.5.4: {}
+  typescript@5.6.2: {}
 
   undici-types@6.19.6: {}
 
@@ -4530,9 +4530,9 @@ snapshots:
 
   uuid@10.0.0: {}
 
-  valibot@0.41.0(typescript@5.5.4):
+  valibot@0.41.0(typescript@5.6.2):
     optionalDependencies:
-      typescript: 5.5.4
+      typescript: 5.6.2
 
   vite-node@2.0.5(@types/node@20.16.5):
     dependencies:
