@@ -11,8 +11,8 @@
     "integration-test:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@conform-to/react": "1.1.5",
-    "@conform-to/zod": "1.1.5",
+    "@conform-to/react": "1.2.1",
+    "@conform-to/zod": "1.2.1",
     "@location-state/core": "workspace:*",
     "@location-state/conform": "workspace:*",
     "next": "14.2.11",
