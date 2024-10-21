@@ -37,7 +37,7 @@
     "lint-staged": "15.2.10",
     "playwright": "1.48.1",
     "tsup": "8.3.0",
-    "turbo": "2.2.1",
+    "turbo": "2.2.3",
     "typescript": "5.6.3"
   }
 }
