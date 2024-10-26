@@ -15,8 +15,8 @@ importers:
         specifier: 2.27.9
         version: 2.27.9
       '@playwright/test':
-        specifier: 1.48.1
-        version: 1.48.1
+        specifier: 1.48.2
+        version: 1.48.2
       '@types/node':
         specifier: 20.17.1
         version: 20.17.1
@@ -33,8 +33,8 @@ importers:
         specifier: 15.2.10
         version: 15.2.10
       playwright:
-        specifier: 1.48.1
-        version: 1.48.1
+        specifier: 1.48.2
+        version: 1.48.2
       tsup:
         specifier: 8.3.5
         version: 8.3.5(postcss@8.4.38)(typescript@5.6.3)(yaml@2.5.0)
@@ -64,7 +64,7 @@ importers:
         version: 18.3.1
       next:
         specifier: 14.2.16
-        version: 14.2.16(@babel/core@7.25.2)(@playwright/test@1.48.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 14.2.16(@babel/core@7.25.2)(@playwright/test@1.48.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -94,7 +94,7 @@ importers:
         version: link:../../packages/location-state-core
       next:
         specifier: 14.2.16
-        version: 14.2.16(@babel/core@7.25.2)(@playwright/test@1.48.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 14.2.16(@babel/core@7.25.2)(@playwright/test@1.48.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -140,7 +140,7 @@ importers:
         version: 18.3.1
       next:
         specifier: 14.2.16
-        version: 14.2.16(@babel/core@7.25.2)(@playwright/test@1.48.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 14.2.16(@babel/core@7.25.2)(@playwright/test@1.48.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       qs:
         specifier: 6.13.0
         version: 6.13.0
@@ -180,7 +180,7 @@ importers:
         version: 18.3.1
       next:
         specifier: 14.2.16
-        version: 14.2.16(@babel/core@7.25.2)(@playwright/test@1.48.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 14.2.16(@babel/core@7.25.2)(@playwright/test@1.48.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -283,7 +283,7 @@ importers:
         version: 0.5.1
       next:
         specifier: 14.2.16
-        version: 14.2.16(@babel/core@7.25.2)(@playwright/test@1.48.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 14.2.16(@babel/core@7.25.2)(@playwright/test@1.48.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -920,8 +920,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@playwright/test@1.48.1':
-    resolution: {integrity: sha512-s9RtWoxkOLmRJdw3oFvhFbs9OJS0BzrLUc8Hf6l2UdCNd1rqeEyD4BhCJkvzeEoD1FsK4mirsWwGerhVmYKtZg==}
+  '@playwright/test@1.48.2':
+    resolution: {integrity: sha512-54w1xCWfXuax7dz4W2M9uw0gDyh+ti/0K/MxcCUxChFh37kkdxPdfZDw5QBbuPUJHr1CiHJ1hXgSs+GgeQc5Zw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -2013,13 +2013,13 @@ packages:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
     engines: {node: '>= 6'}
 
-  playwright-core@1.48.1:
-    resolution: {integrity: sha512-Yw/t4VAFX/bBr1OzwCuOMZkY1Cnb4z/doAFSwf4huqAGWmf9eMNjmK7NiOljCdLmxeRYcGPPmcDgU0zOlzP0YA==}
+  playwright-core@1.48.2:
+    resolution: {integrity: sha512-sjjw+qrLFlriJo64du+EK0kJgZzoQPsabGF4lBvsid+3CNIZIYLgnMj9V6JY5VhM2Peh20DJWIVpVljLLnlawA==}
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.48.1:
-    resolution: {integrity: sha512-j8CiHW/V6HxmbntOfyB4+T/uk08tBy6ph0MpBXwuoofkSnLmlfdYNNkFTYD6ofzzlSqLA1fwH4vwvVFvJgLN0w==}
+  playwright@1.48.2:
+    resolution: {integrity: sha512-NjYvYgp4BPmiwfe31j4gHLa3J7bD2WiBz8Lk2RoSsmX38SVIARZ18VYjxLjAcDsAhA+F4iSEXTSGgjua0rrlgQ==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -3146,9 +3146,9 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@playwright/test@1.48.1':
+  '@playwright/test@1.48.2':
     dependencies:
-      playwright: 1.48.1
+      playwright: 1.48.2
 
   '@rollup/rollup-android-arm-eabi@4.19.0':
     optional: true
@@ -4066,7 +4066,7 @@ snapshots:
 
   navigation-api-types@0.5.1: {}
 
-  next@14.2.16(@babel/core@7.25.2)(@playwright/test@1.48.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  next@14.2.16(@babel/core@7.25.2)(@playwright/test@1.48.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@next/env': 14.2.16
       '@swc/helpers': 0.5.5
@@ -4087,7 +4087,7 @@ snapshots:
       '@next/swc-win32-arm64-msvc': 14.2.16
       '@next/swc-win32-ia32-msvc': 14.2.16
       '@next/swc-win32-x64-msvc': 14.2.16
-      '@playwright/test': 1.48.1
+      '@playwright/test': 1.48.2
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
@@ -4171,11 +4171,11 @@ snapshots:
 
   pirates@4.0.6: {}
 
-  playwright-core@1.48.1: {}
+  playwright-core@1.48.2: {}
 
-  playwright@1.48.1:
+  playwright@1.48.2:
     dependencies:
-      playwright-core: 1.48.1
+      playwright-core: 1.48.2
     optionalDependencies:
       fsevents: 2.3.2
 
