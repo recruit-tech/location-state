@@ -1,8 +1,10 @@
 import Form from "./form";
 
-export default function Page({
-  params: { storeName },
-}: { params: { storeName: string } }) {
+export default async function Page({
+  params,
+}: { params: Promise<{ storeName: string }> }) {
+  const { storeName } = await params;
+
   if (storeName !== "session" && storeName !== "url") {
     throw new Error("Invalid storeName");
   }

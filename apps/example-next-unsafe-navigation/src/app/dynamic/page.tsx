@@ -3,8 +3,8 @@ import { List } from "@/components/List";
 import { headers } from "next/headers";
 import Link from "next/link";
 
-export default function Page() {
-  const headersList = headers();
+export default async function Page() {
+  const headersList = await headers();
   const referer = headersList.get("referer");
 
   return (
