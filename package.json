@@ -32,7 +32,7 @@
     "@playwright/test": "1.48.2",
     "@types/node": "22.9.0",
     "@vitejs/plugin-react": "4.3.3",
-    "husky": "9.1.6",
+    "husky": "9.1.7",
     "jsdom": "25.0.1",
     "lint-staged": "15.2.10",
     "playwright": "1.48.2",
