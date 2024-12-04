@@ -33,7 +33,7 @@
   "devDependencies": {
     "@location-state/core": "workspace:*",
     "@repo/configs": "workspace:*",
-    "@types/react": "18.3.12",
+    "@types/react": "18.3.13",
     "navigation-api-types": "0.5.1",
     "next": "15.0.3",
     "react": "18.3.1"
