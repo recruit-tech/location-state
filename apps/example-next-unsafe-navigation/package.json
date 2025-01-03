@@ -12,7 +12,7 @@
   "dependencies": {
     "@location-state/core": "workspace:*",
     "@location-state/next": "workspace:*",
-    "@types/node": "22.10.4",
+    "@types/node": "22.10.5",
     "@types/react": "19.0.2",
     "@types/react-dom": "19.0.2",
     "next": "15.1.3",
