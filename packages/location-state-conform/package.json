@@ -37,7 +37,7 @@
     "@repo/configs": "workspace:*",
     "@repo/test-utils": "workspace:*",
     "@repo/utils": "workspace:*",
-    "@types/react": "19.0.3",
+    "@types/react": "19.0.4",
     "react": "19.0.0",
     "vitest": "2.1.8"
   },
