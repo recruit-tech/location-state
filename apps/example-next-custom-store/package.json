@@ -11,7 +11,7 @@
     "@location-state/core": "workspace:*",
     "@location-state/next": "workspace:*",
     "@types/node": "22.10.6",
-    "@types/react": "19.0.6",
+    "@types/react": "19.0.7",
     "@types/react-dom": "19.0.3",
     "next": "15.1.4",
     "qs": "6.14.0",
