@@ -44,7 +44,7 @@
     "client-only": "0.0.1",
     "navigation-api-types": "0.6.1",
     "react": "19.0.0",
-    "uuid": "11.0.5",
+    "uuid": "11.1.0",
     "vitest": "3.0.6"
   },
   "peerDependencies": {

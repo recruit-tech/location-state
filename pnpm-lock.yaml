@@ -260,8 +260,8 @@ importers:
         specifier: 19.0.0
         version: 19.0.0
       uuid:
-        specifier: 11.0.5
-        version: 11.0.5
+        specifier: 11.1.0
+        version: 11.1.0
       vitest:
         specifier: 3.0.6
         version: 3.0.6(@types/node@22.13.4)(jsdom@26.0.0)
@@ -297,8 +297,8 @@ importers:
         specifier: 14.6.1
         version: 14.6.1(@testing-library/dom@10.0.0)
       uuid:
-        specifier: 11.0.5
-        version: 11.0.5
+        specifier: 11.1.0
+        version: 11.1.0
     devDependencies:
       '@repo/configs':
         specifier: workspace:*
@@ -2477,8 +2477,8 @@ packages:
     peerDependencies:
       browserslist: '>= 4.21.0'
 
-  uuid@11.0.5:
-    resolution: {integrity: sha512-508e6IcKLrhxKdBbcA2b4KQZlLVp2+J5UwQ6F7Drckkc5N9ZJwFa4TgWtsww9UG8fGHbm6gbV19TdM5pQ4GaIA==}
+  uuid@11.1.0:
+    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
     hasBin: true
 
   valibot@0.42.1:
@@ -4651,7 +4651,7 @@ snapshots:
       escalade: 3.2.0
       picocolors: 1.1.1
 
-  uuid@11.0.5: {}
+  uuid@11.1.0: {}
 
   valibot@0.42.1(typescript@5.7.3):
     optionalDependencies:
