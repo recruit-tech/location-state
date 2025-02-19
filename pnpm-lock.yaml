@@ -254,8 +254,8 @@ importers:
         specifier: 0.0.1
         version: 0.0.1
       navigation-api-types:
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.6.1
+        version: 0.6.1
       react:
         specifier: 19.0.0
         version: 19.0.0
@@ -279,8 +279,8 @@ importers:
         specifier: 19.0.10
         version: 19.0.10
       navigation-api-types:
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.6.1
+        version: 0.6.1
       next:
         specifier: 15.1.7
         version: 15.1.7(@babel/core@7.26.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -307,8 +307,8 @@ importers:
         specifier: 10.0.0
         version: 10.0.0
       navigation-api-types:
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.6.1
+        version: 0.6.1
 
   packages/utils:
     devDependencies:
@@ -1926,8 +1926,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  navigation-api-types@0.5.1:
-    resolution: {integrity: sha512-STpzr4JvInYi+GFIckNe/dM5cKc9M7Q/ZLKLWcWxFzOCXCBK5Oog3PzjwXwJ18yCJ1RnPVgdVueQG357PIeiAA==}
+  navigation-api-types@0.6.1:
+    resolution: {integrity: sha512-e1BbABfPRKLkBbZfAVuRFR2CLFWOtSt8e0ryJivjvLdw8yxD7ASPgyfl+klcGYvrPcP4zhOtZ4KpmQcEo1FgQw==}
 
   next@15.1.7:
     resolution: {integrity: sha512-GNeINPGS9c6OZKCvKypbL8GTsT5GhWPp4DM0fzkXJuXMilOO2EeFxuAY6JZbtk6XIl6Ws10ag3xRINDjSO5+wg==}
@@ -4138,7 +4138,7 @@ snapshots:
 
   nanoid@3.3.7: {}
 
-  navigation-api-types@0.5.1: {}
+  navigation-api-types@0.6.1: {}
 
   next@15.1.7(@babel/core@7.26.0)(@playwright/test@1.50.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
