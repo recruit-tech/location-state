@@ -18,11 +18,11 @@ importers:
         specifier: 1.50.1
         version: 1.50.1
       '@types/node':
-        specifier: 22.13.8
-        version: 22.13.8
+        specifier: 22.13.9
+        version: 22.13.9
       '@vitejs/plugin-react':
         specifier: 4.3.4
-        version: 4.3.4(vite@5.2.6(@types/node@22.13.8))
+        version: 4.3.4(vite@5.2.6(@types/node@22.13.9))
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -54,8 +54,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/location-state-next
       '@types/node':
-        specifier: 22.13.8
-        version: 22.13.8
+        specifier: 22.13.9
+        version: 22.13.9
       '@types/react':
         specifier: 19.0.10
         version: 19.0.10
@@ -109,8 +109,8 @@ importers:
         specifier: 6.6.3
         version: 6.6.3
       '@types/node':
-        specifier: 22.13.8
-        version: 22.13.8
+        specifier: 22.13.9
+        version: 22.13.9
       '@types/react':
         specifier: 19.0.10
         version: 19.0.10
@@ -130,8 +130,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/location-state-next
       '@types/node':
-        specifier: 22.13.8
-        version: 22.13.8
+        specifier: 22.13.9
+        version: 22.13.9
       '@types/react':
         specifier: 19.0.10
         version: 19.0.10
@@ -170,8 +170,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/location-state-next
       '@types/node':
-        specifier: 22.13.8
-        version: 22.13.8
+        specifier: 22.13.9
+        version: 22.13.9
       '@types/react':
         specifier: 19.0.10
         version: 19.0.10
@@ -225,7 +225,7 @@ importers:
         version: 19.0.0
       vitest:
         specifier: 3.0.7
-        version: 3.0.7(@types/node@22.13.8)(jsdom@26.0.0)
+        version: 3.0.7(@types/node@22.13.9)(jsdom@26.0.0)
 
   packages/location-state-core:
     devDependencies:
@@ -264,7 +264,7 @@ importers:
         version: 11.1.0
       vitest:
         specifier: 3.0.7
-        version: 3.0.7(@types/node@22.13.8)(jsdom@26.0.0)
+        version: 3.0.7(@types/node@22.13.9)(jsdom@26.0.0)
 
   packages/location-state-next:
     dependencies:
@@ -1304,8 +1304,8 @@ packages:
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
 
-  '@types/node@22.13.8':
-    resolution: {integrity: sha512-G3EfaZS+iOGYWLLRCEAXdWK9my08oHNZ+FHluRiggIYJPOXzhOiDgpVCUHaUvyIC5/fj7C/p637jdzC666AOKQ==}
+  '@types/node@22.13.9':
+    resolution: {integrity: sha512-acBjXdRJ3A6Pb3tqnw9HZmyR3Fiol3aGxRCK1x3d+6CDAMjl7I649wpSd+yNURCjbOUGu9tqtLKnTGxmK6CyGw==}
 
   '@types/qs@6.9.18':
     resolution: {integrity: sha512-kK7dgTYDyGqS+e2Q4aK9X3D7q234CIZ1Bv0q/7Z5IwRDoADNU81xXJK/YVyLbLTZCoIwUoDoffFeF+p/eIklAA==}
@@ -3566,7 +3566,7 @@ snapshots:
 
   '@types/node@12.20.55': {}
 
-  '@types/node@22.13.8':
+  '@types/node@22.13.9':
     dependencies:
       undici-types: 6.20.0
 
@@ -3582,14 +3582,14 @@ snapshots:
 
   '@types/uuid@10.0.0': {}
 
-  '@vitejs/plugin-react@4.3.4(vite@5.2.6(@types/node@22.13.8))':
+  '@vitejs/plugin-react@4.3.4(vite@5.2.6(@types/node@22.13.9))':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/plugin-transform-react-jsx-self': 7.25.9(@babel/core@7.26.0)
       '@babel/plugin-transform-react-jsx-source': 7.25.9(@babel/core@7.26.0)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 5.2.6(@types/node@22.13.8)
+      vite: 5.2.6(@types/node@22.13.9)
     transitivePeerDependencies:
       - supports-color
 
@@ -3600,13 +3600,13 @@ snapshots:
       chai: 5.2.0
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@3.0.7(vite@5.2.6(@types/node@22.13.8))':
+  '@vitest/mocker@3.0.7(vite@5.2.6(@types/node@22.13.9))':
     dependencies:
       '@vitest/spy': 3.0.7
       estree-walker: 3.0.3
       magic-string: 0.30.17
     optionalDependencies:
-      vite: 5.2.6(@types/node@22.13.8)
+      vite: 5.2.6(@types/node@22.13.9)
 
   '@vitest/pretty-format@3.0.7':
     dependencies:
@@ -4839,13 +4839,13 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.2
 
-  vite-node@3.0.7(@types/node@22.13.8):
+  vite-node@3.0.7(@types/node@22.13.9):
     dependencies:
       cac: 6.7.14
       debug: 4.4.0
       es-module-lexer: 1.6.0
       pathe: 2.0.3
-      vite: 5.2.6(@types/node@22.13.8)
+      vite: 5.2.6(@types/node@22.13.9)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4856,19 +4856,19 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.2.6(@types/node@22.13.8):
+  vite@5.2.6(@types/node@22.13.9):
     dependencies:
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.24.0
     optionalDependencies:
-      '@types/node': 22.13.8
+      '@types/node': 22.13.9
       fsevents: 2.3.3
 
-  vitest@3.0.7(@types/node@22.13.8)(jsdom@26.0.0):
+  vitest@3.0.7(@types/node@22.13.9)(jsdom@26.0.0):
     dependencies:
       '@vitest/expect': 3.0.7
-      '@vitest/mocker': 3.0.7(vite@5.2.6(@types/node@22.13.8))
+      '@vitest/mocker': 3.0.7(vite@5.2.6(@types/node@22.13.9))
       '@vitest/pretty-format': 3.0.7
       '@vitest/runner': 3.0.7
       '@vitest/snapshot': 3.0.7
@@ -4884,11 +4884,11 @@ snapshots:
       tinyexec: 0.3.2
       tinypool: 1.0.2
       tinyrainbow: 2.0.0
-      vite: 5.2.6(@types/node@22.13.8)
-      vite-node: 3.0.7(@types/node@22.13.8)
+      vite: 5.2.6(@types/node@22.13.9)
+      vite-node: 3.0.7(@types/node@22.13.9)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 22.13.8
+      '@types/node': 22.13.9
       jsdom: 26.0.0
     transitivePeerDependencies:
       - less
