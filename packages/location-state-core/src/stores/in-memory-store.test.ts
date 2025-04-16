@@ -73,7 +73,26 @@ test("The listener is unsubscribed by the returned callback, it will no longer b
   expect(listener).toBeCalledTimes(0);
 });
 
-test("The slice is reset when `load` is called and the key is updated.", () => {
+test("The slice is undefined when `load` is called without `set`.", () => {
+  // Arrange
+  const store = new InMemoryStore();
+  // Act
+  store.load("initial");
+  // Assert
+  expect(store.get("foo")).toBeUndefined();
+});
+
+test("The slice is merged when `load` is called after `set`.", () => {
+  // Arrange
+  const store = new InMemoryStore();
+  store.set("foo", 0);
+  // Act
+  store.load("initial");
+  // Assert
+  expect(store.get("foo")).toBe(0);
+});
+
+test("The slice is reset when `load` is called with different key.", () => {
   // Arrange
   const store = new InMemoryStore();
   store.load("initial");

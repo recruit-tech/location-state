@@ -110,6 +110,31 @@ test("On `load` called, if the value of the corresponding key is in Storage, the
   );
 });
 
+test("On `load` called after `set`, the value of the slice is merged with the value in storage.", () => {
+  // Arrange
+  storageMock.getItem.mockReturnValueOnce(
+    JSON.stringify({ foo: "storage value" }),
+  );
+  const store = new StorageStore(storage);
+  store.set("bar", "updated");
+  // Act
+  store.load("current_location");
+  // Assert
+  expect(store.get("foo")).toBe("storage value");
+  expect(store.get("bar")).toBe("updated");
+});
+
+test("On `load` called twice with different key after `set`, the value of the slice is reset.", () => {
+  // Arrange
+  const store = new StorageStore(storage);
+  store.set("bar", "updated");
+  store.load("current_location");
+  // Act
+  store.load("other_location");
+  // Assert
+  expect(store.get("bar")).toBeUndefined();
+});
+
 test("On `load` called with serializer, if the value of the corresponding key is in Storage, then slice is evaluated by deserialize.", () => {
   // Arrange
   const navigationKey = "current_location";

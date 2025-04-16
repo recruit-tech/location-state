@@ -30,8 +30,18 @@ export class InMemoryStore implements Store {
 
   load(locationKey: string) {
     if (this.currentKey === locationKey) return;
+    const storageState = this.storage.get(locationKey);
+    // Initial key is `null`, so we need to merge the state with the existing state.
+    // Because it may be set before load.
+    if (this.currentKey === null) {
+      this.state = {
+        ...storageState,
+        ...this.state,
+      };
+    } else {
+      this.state = storageState ?? {};
+    }
     this.currentKey = locationKey;
-    this.state = this.storage.get(locationKey) ?? {};
     this.events.deferEmitAll();
   }
 
