@@ -90,6 +90,7 @@ test("The slice is merged when `load` is called after `set`.", () => {
   store.load("initial");
   // Assert
   expect(store.get("foo")).toBe(0);
+  expect(store.get("bar")).toBeUndefined();
 });
 
 test("The slice is reset when `load` is called with different key.", () => {

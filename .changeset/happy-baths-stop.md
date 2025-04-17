@@ -2,4 +2,4 @@
 "@location-state/core": minor
 ---
 
-Improve Store's initial `load()` behavior to merge state when loading with existing state.
+Fixed an issue where state was being discarded even when the user attempted to save it using `useEffect` on initial render.

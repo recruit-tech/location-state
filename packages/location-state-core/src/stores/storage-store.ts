@@ -35,7 +35,8 @@ export class StorageStore implements Store {
   load(locationKey: string) {
     if (this.currentKey === locationKey) return;
     try {
-      const value = this.storage?.getItem(storageKey(locationKey)) ?? null;
+      const value =
+        this.storage?.getItem(formatStorageKey(locationKey)) ?? null;
       const state =
         value !== null ? this.stateSerializer.deserialize(value) : {};
       // Initial key is `null`, so we need to merge the state with the existing state.
@@ -61,7 +62,7 @@ export class StorageStore implements Store {
       return;
     }
     if (Object.keys(this.state).length === 0) {
-      this.storage?.removeItem(storageKey(this.currentKey));
+      this.storage?.removeItem(formatStorageKey(this.currentKey));
       return;
     }
     let value: string;
@@ -71,10 +72,10 @@ export class StorageStore implements Store {
       console.error(e);
       return;
     }
-    this.storage?.setItem(storageKey(this.currentKey), value);
+    this.storage?.setItem(formatStorageKey(this.currentKey), value);
   }
 }
 
-function storageKey(key: string) {
+function formatStorageKey(key: string) {
   return `${locationKeyPrefix}${key}`;
 }
