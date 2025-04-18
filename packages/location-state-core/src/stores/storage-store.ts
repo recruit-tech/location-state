@@ -34,15 +34,25 @@ export class StorageStore implements Store {
 
   load(locationKey: string) {
     if (this.currentKey === locationKey) return;
-    this.currentKey = locationKey;
-    const value = this.storage?.getItem(this.createStorageKey()) ?? null;
     try {
-      this.state =
+      const value = this.storage?.getItem(toStorageKey(locationKey)) ?? null;
+      const state =
         value !== null ? this.stateSerializer.deserialize(value) : {};
+      // Initial key is `null`, so we need to merge the state with the existing state.
+      // Because it may be set before load.
+      if (this.currentKey === null) {
+        this.state = {
+          ...state,
+          ...this.state,
+        };
+      } else {
+        this.state = state;
+      }
     } catch (e) {
       console.error(e);
       this.state = {};
     }
+    this.currentKey = locationKey;
     this.events.deferEmitAll();
   }
 
@@ -51,7 +61,7 @@ export class StorageStore implements Store {
       return;
     }
     if (Object.keys(this.state).length === 0) {
-      this.storage?.removeItem(this.createStorageKey());
+      this.storage?.removeItem(toStorageKey(this.currentKey));
       return;
     }
     let value: string;
@@ -61,10 +71,10 @@ export class StorageStore implements Store {
       console.error(e);
       return;
     }
-    this.storage?.setItem(this.createStorageKey(), value);
+    this.storage?.setItem(toStorageKey(this.currentKey), value);
   }
+}
 
-  private createStorageKey() {
-    return `${locationKeyPrefix}${this.currentKey}`;
-  }
+function toStorageKey(key: string) {
+  return `${locationKeyPrefix}${key}`;
 }

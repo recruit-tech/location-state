@@ -16,6 +16,11 @@ export default function Page() {
         <li>
           <Link href="/pages/ssg/1">/pages/ssg/1</Link>
         </li>
+        <li>
+          <Link href="/pages/save-on-use-effect">
+            /pages/save-on-use-effect
+          </Link>
+        </li>
       </ul>
       <Counter storeName="session" />
       <Counter storeName="url" />
