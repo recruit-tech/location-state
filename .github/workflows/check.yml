@@ -21,10 +21,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         name: Install pnpm
         with:
-          version: 10
+          version: 10.8.1
           run_install: false
       - name: Install packages
         run: pnpm i --ignore-scripts

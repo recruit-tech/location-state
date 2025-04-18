@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "description": "State management library for React that synchronizes with history entries supporting Next.js App Router.",
   "engines": {
-    "pnpm": "10.x",
+    "pnpm": "10.8.1",
     "npm": "please_use_pnpm_instead"
   },
   "packageManager": "pnpm@10.8.1",
