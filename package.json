@@ -38,6 +38,6 @@
     "playwright": "1.52.0",
     "tsup": "8.4.0",
     "turbo": "2.5.0",
-    "typescript": "5.8.2"
+    "typescript": "5.8.3"
   }
 }
