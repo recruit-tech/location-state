@@ -30,7 +30,7 @@
     "@biomejs/biome": "1.9.4",
     "@changesets/cli": "2.29.2",
     "@playwright/test": "1.52.0",
-    "@types/node": "22.15.2",
+    "@types/node": "22.15.3",
     "@vitejs/plugin-react": "4.4.1",
     "husky": "9.1.7",
     "jsdom": "26.1.0",
