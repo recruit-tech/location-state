@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@changesets/cli": "2.29.2",
+    "@changesets/cli": "2.29.3",
     "@playwright/test": "1.52.0",
     "@types/node": "22.15.3",
     "@vitejs/plugin-react": "4.4.1",
