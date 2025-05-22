@@ -18,7 +18,7 @@
     "next": "15.3.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "zod": "3.25.17"
+    "zod": "3.25.23"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "6.6.3",
