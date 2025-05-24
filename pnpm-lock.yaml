@@ -75,8 +75,8 @@ importers:
         specifier: 5.8.2
         version: 5.8.2
       zod:
-        specifier: 3.25.23
-        version: 3.25.23
+        specifier: 3.25.28
+        version: 3.25.28
 
   apps/example-next-conform:
     dependencies:
@@ -85,7 +85,7 @@ importers:
         version: 1.6.0(react@19.1.0)
       '@conform-to/zod':
         specifier: 1.6.0
-        version: 1.6.0(zod@3.25.23)
+        version: 1.6.0(zod@3.25.28)
       '@location-state/conform':
         specifier: workspace:*
         version: link:../../packages/location-state-conform
@@ -102,8 +102,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       zod:
-        specifier: 3.25.23
-        version: 3.25.23
+        specifier: 3.25.28
+        version: 3.25.28
     devDependencies:
       '@testing-library/jest-dom':
         specifier: 6.6.3
@@ -154,8 +154,8 @@ importers:
         specifier: 5.8.2
         version: 5.8.2
       zod:
-        specifier: 3.25.23
-        version: 3.25.23
+        specifier: 3.25.28
+        version: 3.25.28
     devDependencies:
       '@types/qs':
         specifier: 6.14.0
@@ -191,8 +191,8 @@ importers:
         specifier: 5.8.2
         version: 5.8.2
       zod:
-        specifier: 3.25.23
-        version: 3.25.23
+        specifier: 3.25.28
+        version: 3.25.28
 
   packages/configs: {}
 
@@ -2585,8 +2585,8 @@ packages:
     engines: {node: '>= 14'}
     hasBin: true
 
-  zod@3.25.23:
-    resolution: {integrity: sha512-Od2bdMosahjSrSgJtakrwjMDb1zM1A3VIHCPGveZt/3/wlrTWBya2lmEh2OYe4OIu8mPTmmr0gnLHIWQXdtWBg==}
+  zod@3.25.28:
+    resolution: {integrity: sha512-/nt/67WYKnr5by3YS7LroZJbtcCBurDKKPBPWWzaxvVCGuG/NOsiKkrjoOhI8mJ+SQUXEbUzeB3S+6XDUEEj7Q==}
 
 snapshots:
 
@@ -2903,10 +2903,10 @@ snapshots:
       '@conform-to/dom': 1.6.0
       react: 19.1.0
 
-  '@conform-to/zod@1.6.0(zod@3.25.23)':
+  '@conform-to/zod@1.6.0(zod@3.25.28)':
     dependencies:
       '@conform-to/dom': 1.6.0
-      zod: 3.25.23
+      zod: 3.25.28
 
   '@csstools/color-helpers@5.0.1': {}
 
@@ -4711,4 +4711,4 @@ snapshots:
 
   yaml@2.7.1: {}
 
-  zod@3.25.23: {}
+  zod@3.25.28: {}
