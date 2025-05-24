@@ -1,5 +1,11 @@
 # @location-state/core
 
+## 1.3.0
+
+### Minor Changes
+
+- 196698d: Fixed an issue where state was being discarded even when the user attempted to save it using `useEffect` on initial render.
+
 ## 1.2.2
 
 ### Patch Changes
