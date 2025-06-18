@@ -12,8 +12,10 @@ export default async function Page() {
       <h1>Dynamic page</h1>
       <Link href="/">/(top)</Link>
       <p>referer: {referer}</p>
-      <Counter />
-      <List />
+      <Counter storeName="url" />
+      <Counter storeName="session" />
+      <List storeName="url" />
+      <List storeName="session" />
     </main>
   );
 }

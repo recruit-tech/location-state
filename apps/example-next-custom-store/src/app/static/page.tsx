@@ -7,8 +7,10 @@ export default function Page() {
     <main>
       <h1>Static page</h1>
       <Link href="/">/(top)</Link>
-      <Counter />
-      <List />
+      <Counter storeName="url" />
+      <Counter storeName="session" />
+      <List storeName="url" />
+      <List storeName="session" />
     </main>
   );
 }
