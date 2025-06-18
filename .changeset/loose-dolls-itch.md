@@ -2,9 +2,12 @@
 "@location-state/core": minor
 ---
 
-Add `maxSize` option to StorageStore constructor to limit stored location keys. When the limit is exceeded, oldest keys are automatically removed using LRU strategy.
+Add `maxSize` option to StorageStore constructor to limit stored location keys. When the limit is exceeded, oldest keys are automatically removed using LRU strategy. Use the options format for configuration.
 
 ```ts
-// Limit to 10 most recently used location keys
-const store = new StorageStore(sessionStorage, undefined, 10);
+// Legacy format (still supported)
+const store = new StorageStore(sessionStorage, customSerializer);
+
+// Recommended options format
+const store = new StorageStore(sessionStorage, { maxSize: 10 });
 ```

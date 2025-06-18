@@ -267,7 +267,7 @@ test("Calling `save` with empty will remove the Storage with Location key.", () 
 
 test("On `load` with max option, keys are managed within the limit.", () => {
   // Arrange
-  const store = new StorageStore(storage, undefined, 2);
+  const store = new StorageStore(storage, { maxSize: 2 });
   store.load("key1");
   store.save();
   store.load("key2");
@@ -291,8 +291,8 @@ test("On `load` with existing key and max option, key order is updated.", () => 
     }
     return null;
   });
-  const store = new StorageStore(storage, undefined, 3);
-  store.load("key3"); // Initialize keys by loading existing keys from storage
+  const store = new StorageStore(storage, { maxSize: 3 });
+  store.load("key3"); // Access non-existing key
   // Act
   store.load("key1");
   // Assert
@@ -311,7 +311,7 @@ test("Overwrites key list with new one if JSON parse of keys fails", () => {
     }
     return null;
   });
-  const store = new StorageStore(storage, undefined, 2);
+  const store = new StorageStore(storage, { maxSize: 2 });
   store.load("key1");
   // Act
   store.save();
@@ -322,4 +322,53 @@ test("Overwrites key list with new one if JSON parse of keys fails", () => {
   );
   // Restore console
   consoleSpy.mockRestore();
+});
+
+test("New options format: with custom serializer and maxSize", () => {
+  // Arrange
+  const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+  storageMock.getItem.mockImplementation((key) => {
+    if (key === "__location_state_keys__") {
+      return JSON.stringify([]);
+    }
+    return null;
+  });
+  const customSerializer = {
+    serialize: (value: Record<string, unknown>) =>
+      `custom-${JSON.stringify(value)}`,
+    deserialize: (value: string) => JSON.parse(value.replace("custom-", "")),
+  };
+  const store = new StorageStore(storage, {
+    stateSerializer: customSerializer,
+    maxSize: 1,
+  });
+  store.load("test-key");
+  store.set("foo", "bar");
+  // Act
+  store.save();
+  // Assert
+  expect(storageMock.setItem).toHaveBeenCalledWith(
+    "__location_state_test-key",
+    'custom-{"foo":"bar"}',
+  );
+  // Restore console
+  consoleSpy.mockRestore();
+});
+
+test("Legacy format still works with custom serializer", () => {
+  // Arrange
+  const customSerializer = {
+    serialize: () => "legacy-test",
+    deserialize: () => ({ test: "legacy" }),
+  };
+  const store = new StorageStore(storage, customSerializer);
+  store.load("test-key");
+  store.set("foo", "bar");
+  // Act
+  store.save();
+  // Assert
+  expect(storageMock.setItem).toHaveBeenCalledWith(
+    "__location_state_test-key",
+    "legacy-test",
+  );
 });
