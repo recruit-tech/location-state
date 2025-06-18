@@ -114,11 +114,12 @@ export class StorageStore implements Store {
   private updateKeyOrder(currentKey: string) {
     if (!this.keys || !this.maxSize) return;
 
+    // Update key order
     this.keys.delete(currentKey);
     this.keys.add(currentKey);
 
     // Remove old keys if exceeding the limit
-    // Note: `this.keys` is a Set, and its iteration order is from oldest to newest key.
+    // Note: `this.keys` is a Set, and its iteration order is from oldest to newest key. LRU cache algorithm is used.
     for (const oldestKey of this.keys) {
       if (this.keys.size <= this.maxSize) {
         break;
