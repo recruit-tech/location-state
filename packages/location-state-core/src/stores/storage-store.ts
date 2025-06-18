@@ -5,26 +5,17 @@ import type { Listener, StateSerializer, Store } from "./types";
 export const locationKeyPrefix = "__location_state_";
 const storageKeysKey = "__location_state_keys__";
 
-export type StorageStoreOptions = {
-  storage?: Storage;
-  stateSerializer?: StateSerializer;
-  maxSize?: number;
-};
-
 export class StorageStore implements Store {
   private state: Record<string, unknown> = {};
   private events = new EventEmitter();
   private currentKey: string | null = null;
   private keys?: Set<string>;
-  private readonly storage?: Storage;
-  private readonly stateSerializer: StateSerializer;
-  private readonly maxSize?: number;
 
-  constructor(options: StorageStoreOptions = {}) {
-    this.storage = options.storage; // Storage is undefined in SSR.
-    this.stateSerializer = options.stateSerializer ?? jsonSerializer;
-    this.maxSize = options.maxSize;
-  }
+  constructor(
+    private readonly storage?: Storage, // Storage is undefined in SSR.
+    private readonly stateSerializer: StateSerializer = jsonSerializer,
+    private readonly maxSize?: number,
+  ) {}
 
   subscribe(name: string, listener: Listener) {
     this.events.on(name, listener);

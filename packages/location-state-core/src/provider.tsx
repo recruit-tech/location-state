@@ -12,7 +12,7 @@ type DefaultStores = {
 export type CreateStores<S extends Stores = Stores> = (syncer: Syncer) => S;
 
 export const createDefaultStores: CreateStores<DefaultStores> = (syncer) => ({
-  session: new StorageStore({ storage: globalThis.sessionStorage }),
+  session: new StorageStore(globalThis.sessionStorage),
   url: new URLStore(syncer),
 });
 

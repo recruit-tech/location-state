@@ -19,13 +19,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
           decode: decodeUrlState,
         }),
         // add a session store with maxSize limit of 3
-        session: new StorageStore({
-          storage:
-            typeof window !== "undefined"
-              ? globalThis.sessionStorage
-              : undefined,
-          maxSize: 3,
-        }),
+        session: new StorageStore(
+          typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
+          undefined,
+          3,
+        ),
       })}
     >
       {children}

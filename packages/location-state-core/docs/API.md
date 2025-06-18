@@ -486,49 +486,43 @@ Interface to serialize/deserialize state. It may be used for `Store`s customizat
 ### class `StorageStore`
 
 ```ts
-type StorageStoreOptions = {
-  storage?: Storage;
-  stateSerializer?: StateSerializer;
-  max?: number;
-};
-
 export declare class StorageStore implements Store {
-  constructor(options?: StorageStoreOptions);
+  constructor(storage?: Storage, stateSerializer?: StateSerializer, maxSize?: number);
 }
 ```
 
 A `Store` that stores state in `Storage`.
 
-#### `new StorageStore(options)`
+#### `new StorageStore(storage, stateSerializer, maxSize)`
 
-- `options?`: Options to configure the store behavior with the following properties:
-  - `storage?`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
-  - `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
-  - `max?`: Maximum number of location keys to keep in storage. When the limit is exceeded, the oldest keys are removed using LRU (Least Recently Used) strategy.
+- `storage?`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
+- `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
+- `maxSize?`: Maximum number of location keys to keep in storage. When the limit is exceeded, the oldest keys are removed using LRU (Least Recently Used) strategy.
 
 #### Example
 
 ```ts
 // Basic usage
-const sessionStore = new StorageStore({
-  storage: typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
-});
+const sessionStore = new StorageStore(
+  typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
+);
 
 // With max limit (keeps only the 10 most recently used location keys)
-const limitedSessionStore = new StorageStore({
-  storage: typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
-  max: 10,
-});
+const limitedSessionStore = new StorageStore(
+  typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
+  undefined,
+  10,
+);
 
 // With custom serializer
-const customStore = new StorageStore({
-  storage: typeof window !== "undefined" ? globalThis.localStorage : undefined,
-  stateSerializer: {
+const customStore = new StorageStore(
+  typeof window !== "undefined" ? globalThis.localStorage : undefined,
+  {
     serialize: (value) => btoa(JSON.stringify(value)),
     deserialize: (value) => JSON.parse(atob(value)),
   },
-  max: 5,
-});
+  5,
+);
 ```
 
 ### type `URLEncoder`
