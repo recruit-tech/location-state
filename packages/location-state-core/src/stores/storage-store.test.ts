@@ -264,3 +264,65 @@ test("Calling `save` with empty will remove the Storage with Location key.", () 
   // Assert
   expect(storageMock.removeItem).toHaveBeenCalledTimes(1);
 });
+
+test("Recommended format: new StorageStore({ storage, stateSerializer }) works correctly", () => {
+  // Arrange
+  const customSerializer = {
+    serialize: vi.fn().mockReturnValue("serialized"),
+    deserialize: vi.fn().mockReturnValue({ test: "value" }),
+  };
+  storageMock.getItem.mockReturnValueOnce(
+    JSON.stringify({ test: "storage value" }),
+  );
+  const store = new StorageStore({
+    storage,
+    stateSerializer: customSerializer,
+  });
+  // Act
+  store.load("test_key");
+  // Assert
+  expect(customSerializer.deserialize).toHaveBeenCalled();
+});
+
+test("Recommended format: default storage should be sessionStorage when available", () => {
+  // Arrange
+  const originalSessionStorage = globalThis.sessionStorage;
+  const mockSessionStorage = {
+    getItem: vi.fn().mockReturnValue(null),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+  } as unknown as Storage;
+  // Mock globalThis.sessionStorage
+  Object.defineProperty(globalThis, "sessionStorage", {
+    value: mockSessionStorage,
+    writable: true,
+  });
+  const store = new StorageStore({});
+  // Act
+  store.load("test_key");
+  // Assert
+  expect(mockSessionStorage.getItem).toHaveBeenCalledWith(
+    "__location_state_test_key",
+  );
+  // Restore
+  Object.defineProperty(globalThis, "sessionStorage", {
+    value: originalSessionStorage,
+    writable: true,
+  });
+});
+
+test("Recommended format: explicit storage overrides default sessionStorage", () => {
+  // Arrange
+  const customStorage = {
+    getItem: vi.fn().mockReturnValue(null),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+  } as unknown as Storage;
+  const store = new StorageStore({ storage: customStorage });
+  // Act
+  store.load("test_key");
+  // Assert
+  expect(customStorage.getItem).toHaveBeenCalledWith(
+    "__location_state_test_key",
+  );
+});

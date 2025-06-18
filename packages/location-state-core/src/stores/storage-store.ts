@@ -5,14 +5,45 @@ import type { Listener, StateSerializer, Store } from "./types";
 export const locationKeyPrefix = "__location_state_";
 
 export class StorageStore implements Store {
+  private readonly storage?: Storage; // Storage is undefined in SSR.
+  private readonly stateSerializer: StateSerializer;
   private state: Record<string, unknown> = {};
   private events = new EventEmitter();
   private currentKey: string | null = null;
 
+  constructor(storage?: Storage, stateSerializer?: StateSerializer);
+  constructor(options?: {
+    storage?: Storage;
+    stateSerializer?: StateSerializer;
+  });
   constructor(
-    private readonly storage?: Storage, // Storage is undefined in SSR.
-    private readonly stateSerializer: StateSerializer = jsonSerializer,
-  ) {}
+    storageOrOptions?:
+      | Storage
+      | { storage?: Storage; stateSerializer?: StateSerializer },
+    stateSerializer?: StateSerializer,
+  ) {
+    const isOption =
+      storageOrOptions !== undefined && !("getItem" in storageOrOptions);
+
+    // Normalize arguments to a common options object
+    const normalizedOptions: {
+      storage?: Storage;
+      stateSerializer?: StateSerializer;
+    } = isOption
+      ? (storageOrOptions as {
+          storage?: Storage;
+          stateSerializer?: StateSerializer;
+        })
+      : {
+          storage: storageOrOptions as Storage | undefined,
+          stateSerializer: stateSerializer,
+        };
+
+    this.storage =
+      normalizedOptions.storage ??
+      (typeof window === "undefined" ? undefined : globalThis.sessionStorage);
+    this.stateSerializer = normalizedOptions.stateSerializer ?? jsonSerializer;
+  }
 
   subscribe(name: string, listener: Listener) {
     this.events.on(name, listener);
