@@ -21,7 +21,7 @@ export class StorageStore implements Store {
   private readonly maxSize?: number;
 
   constructor(options: StorageStoreOptions = {}) {
-    this.storage = options.storage;
+    this.storage = options.storage; // Storage is undefined in SSR.
     this.stateSerializer = options.stateSerializer ?? jsonSerializer;
     this.maxSize = options.maxSize;
   }
@@ -50,38 +50,9 @@ export class StorageStore implements Store {
     // Manage keys when max limit is specified
     if (this.maxSize !== undefined) {
       if (this.currentKey === null) {
-        // Initial load: read key list from Storage
-        try {
-          const keysValue = this.storage?.getItem(storageKeysKey) ?? null;
-          const keysArray = keysValue !== null ? JSON.parse(keysValue) : [];
-          this.keys = new Set<string>(keysArray);
-        } catch (e) {
-          console.error(e);
-          this.keys = new Set<string>();
-        }
+        this.loadKeys();
       } else {
-        // For existing keys: update order (delete then add)
-        if (this.keys) {
-          this.keys.delete(locationKey);
-          this.keys.add(locationKey);
-
-          // Remove old keys if exceeding the limit
-          while (this.keys.size > this.maxSize) {
-            const oldestKey = this.keys.values().next().value;
-            if (oldestKey) {
-              this.keys.delete(oldestKey);
-              this.storage?.removeItem(toStorageKey(oldestKey));
-            }
-          }
-
-          // Save key list to Storage
-          try {
-            const keysArray = [...this.keys];
-            this.storage?.setItem(storageKeysKey, JSON.stringify(keysArray));
-          } catch (e) {
-            console.error(e);
-          }
-        }
+        this.updateKeyOrder(locationKey);
       }
     }
 
@@ -108,31 +79,11 @@ export class StorageStore implements Store {
   }
 
   save() {
-    if (!this.currentKey) {
-      return;
-    }
+    if (!this.currentKey) return;
 
-    // Add new key when max limit is specified
-    if (this.maxSize !== undefined && this.keys) {
-      this.keys.delete(this.currentKey);
-      this.keys.add(this.currentKey);
-
-      // Remove old keys if exceeding the limit
-      while (this.keys.size > this.maxSize) {
-        const oldestKey = this.keys.values().next().value;
-        if (oldestKey) {
-          this.keys.delete(oldestKey);
-          this.storage?.removeItem(toStorageKey(oldestKey));
-        }
-      }
-
-      // Save key list to Storage
-      try {
-        const keysArray = [...this.keys];
-        this.storage?.setItem(storageKeysKey, JSON.stringify(keysArray));
-      } catch (e) {
-        console.error(e);
-      }
+    // Update key order when max limit is specified
+    if (this.maxSize !== undefined && this.keys !== undefined) {
+      this.updateKeyOrder(this.currentKey);
     }
 
     if (Object.keys(this.state).length === 0) {
@@ -147,6 +98,41 @@ export class StorageStore implements Store {
       return;
     }
     this.storage?.setItem(toStorageKey(this.currentKey), value);
+  }
+
+  private loadKeys() {
+    try {
+      const storageValue = this.storage?.getItem(storageKeysKey) ?? null;
+      const keys = storageValue !== null ? JSON.parse(storageValue) : [];
+      this.keys = new Set<string>(keys);
+    } catch (e) {
+      console.error(e);
+      this.keys = new Set<string>();
+    }
+  }
+
+  private updateKeyOrder(currentKey: string) {
+    if (!this.keys || !this.maxSize) return;
+
+    this.keys.delete(currentKey);
+    this.keys.add(currentKey);
+
+    // Remove old keys if exceeding the limit
+    // Note: `this.keys` is a Set, and its iteration order is from oldest to newest key.
+    for (const oldestKey of this.keys) {
+      if (this.keys.size <= this.maxSize) {
+        break;
+      }
+      this.keys.delete(oldestKey);
+      this.storage?.removeItem(toStorageKey(oldestKey));
+    }
+
+    // Save key list to Storage
+    try {
+      this.storage?.setItem(storageKeysKey, JSON.stringify([...this.keys]));
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
 
