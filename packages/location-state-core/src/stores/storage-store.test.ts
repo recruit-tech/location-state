@@ -1,5 +1,9 @@
 import { beforeEach, expect, test, vi } from "vitest";
-import { StorageStore, locationKeyPrefix } from "./storage-store";
+import {
+  StorageStore,
+  type StorageStoreOptions,
+  locationKeyPrefix,
+} from "./storage-store";
 
 const storageMock = {
   getItem: vi.fn().mockReturnValue(null),
@@ -18,7 +22,7 @@ const storage = storageMock as unknown as Storage;
 
 test("If Storage is empty, the initial value is undefined.", () => {
   // Arrange
-  const store = new StorageStore(storage);
+  const store = new StorageStore({ storage });
   // Act
   const slice = store.get("foo");
   // Assert
@@ -27,7 +31,7 @@ test("If Storage is empty, the initial value is undefined.", () => {
 
 test("After updating a slice, the updated value can be obtained.", () => {
   // Arrange
-  const store = new StorageStore(storage);
+  const store = new StorageStore({ storage });
   // Act
   store.set("foo", "updated");
   // Assert
@@ -36,7 +40,7 @@ test("After updating a slice, the updated value can be obtained.", () => {
 
 test("listener is called when updating slice.", () => {
   // Arrange
-  const store = new StorageStore(storage);
+  const store = new StorageStore({ storage });
   const listener = vi.fn();
   store.subscribe("foo", listener);
   // Act
@@ -47,7 +51,7 @@ test("listener is called when updating slice.", () => {
 
 test("listener is called even if updated with undefined.", () => {
   // Arrange
-  const store = new StorageStore(storage);
+  const store = new StorageStore({ storage });
   store.set("foo", "updated");
   const listener = vi.fn();
   store.subscribe("foo", listener);
@@ -60,7 +64,7 @@ test("listener is called even if updated with undefined.", () => {
 test("store.get in the listener to get the latest value.", () => {
   // Arrange
   expect.assertions(4);
-  const store = new StorageStore(storage);
+  const store = new StorageStore({ storage });
   const listener1 = vi.fn(() => {
     expect(store.get("foo")).toBe("updated");
   });
@@ -78,7 +82,7 @@ test("store.get in the listener to get the latest value.", () => {
 
 test("The listener is unsubscribed by the returned callback, it will no longer be called when the slice is updated.", () => {
   // Arrange
-  const store = new StorageStore(storage);
+  const store = new StorageStore({ storage });
   const listeners = {
     unsubscribeTarget: vi.fn(),
     other: vi.fn(),
@@ -99,7 +103,7 @@ test("On `load` called, if the value of the corresponding key is in Storage, the
   storageMock.getItem.mockReturnValueOnce(
     JSON.stringify({ foo: "storage value" }),
   );
-  const store = new StorageStore(storage);
+  const store = new StorageStore({ storage });
   // Act
   store.load(navigationKey);
   // Assert
@@ -118,7 +122,7 @@ test("On `load` called after `set`, the value of the slice is merged with the va
       bar: "storage bar",
     }),
   );
-  const store = new StorageStore(storage);
+  const store = new StorageStore({ storage });
   store.set("bar", "updated bar");
   store.set("baz", "updated baz");
   // Act
@@ -131,7 +135,7 @@ test("On `load` called after `set`, the value of the slice is merged with the va
 
 test("On `load` called twice with different key after `set`, the value of the slice is reset.", () => {
   // Arrange
-  const store = new StorageStore(storage);
+  const store = new StorageStore({ storage });
   store.set("bar", "updated");
   store.load("current_location");
   // Act
@@ -146,11 +150,14 @@ test("On `load` called with serializer, if the value of the corresponding key is
   storageMock.getItem.mockReturnValueOnce(
     JSON.stringify({ foo: "storage value" }),
   );
-  const store = new StorageStore(storage, {
-    serialize: () => "not-used-value",
-    deserialize: () => ({
-      foo: "dummy-result",
-    }),
+  const store = new StorageStore({
+    storage,
+    stateSerializer: {
+      serialize: () => "not-used-value",
+      deserialize: () => ({
+        foo: "dummy-result",
+      }),
+    },
   });
   // Act
   store.load(navigationKey);
@@ -165,10 +172,13 @@ test("On `load` called with invalid serializer, the value of slice remains at it
   storageMock.getItem.mockReturnValueOnce(
     JSON.stringify({ foo: "storage value" }),
   );
-  const store = new StorageStore(storage, {
-    serialize: JSON.stringify,
-    deserialize: () => {
-      throw new Error("deserialize error");
+  const store = new StorageStore({
+    storage,
+    stateSerializer: {
+      serialize: JSON.stringify,
+      deserialize: () => {
+        throw new Error("deserialize error");
+      },
     },
   });
   // Act
@@ -182,7 +192,7 @@ test("On `load` called with invalid serializer, the value of slice remains at it
 test("On `load` called, all listener notified.", async () => {
   // Arrange
   const navigationKey = "current_location";
-  const store = new StorageStore(storage);
+  const store = new StorageStore({ storage });
   const listener1 = vi.fn();
   const listener2 = vi.fn();
   store.subscribe("foo", listener1);
@@ -199,11 +209,14 @@ test("On `load` called, all listener notified.", async () => {
 test("On `save` called, the state is saved in Storage with evaluated by deserialize.", () => {
   // Arrange
   const currentLocationKey = "current_location";
-  const store = new StorageStore(storage, {
-    serialize: () => "dummy-result",
-    deserialize: () => ({
-      foo: "not-used-value",
-    }),
+  const store = new StorageStore({
+    storage,
+    stateSerializer: {
+      serialize: () => "dummy-result",
+      deserialize: () => ({
+        foo: "not-used-value",
+      }),
+    },
   });
   store.load(currentLocationKey);
   store.set("foo", "updated");
@@ -220,7 +233,7 @@ test("On `save` called, the state is saved in Storage with evaluated by deserial
 test("On `save` called with serializer, the state is saved in Storage with the previous Location key.", () => {
   // Arrange
   const currentLocationKey = "current_location";
-  const store = new StorageStore(storage);
+  const store = new StorageStore({ storage });
   store.load(currentLocationKey);
   store.set("foo", "updated");
   // Act
@@ -237,11 +250,14 @@ test("On `save` called with invalid serializer, the state is not saved in Storag
   // Arrange
   const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
   const currentLocationKey = "current_location";
-  const store = new StorageStore(storage, {
-    serialize: () => {
-      throw new Error("serialize error");
+  const store = new StorageStore({
+    storage,
+    stateSerializer: {
+      serialize: () => {
+        throw new Error("serialize error");
+      },
+      deserialize: JSON.parse,
     },
-    deserialize: JSON.parse,
   });
   store.load(currentLocationKey);
   store.set("foo", "updated");
@@ -257,10 +273,69 @@ test("On `save` called with invalid serializer, the state is not saved in Storag
 test("Calling `save` with empty will remove the Storage with Location key.", () => {
   // Arrange
   const currentLocationKey = "current_location";
-  const store = new StorageStore(storage);
+  const store = new StorageStore({ storage });
   store.load(currentLocationKey); // set key
   // Act
   store.save();
   // Assert
   expect(storageMock.removeItem).toHaveBeenCalledTimes(1);
+});
+
+test("On `load` with max option, keys are managed within the limit.", () => {
+  // Arrange
+  const store = new StorageStore({ storage, maxSize: 2 });
+  store.load("key1");
+  store.save();
+  store.load("key2");
+  store.save();
+  store.load("key3");
+  // Act
+  store.save();
+  // Assert
+  expect(storageMock.removeItem).toHaveBeenCalledWith("__location_state_key1");
+  expect(storageMock.setItem).toHaveBeenCalledWith(
+    "__location_state_keys__",
+    JSON.stringify(["key2", "key3"]),
+  );
+});
+
+test("On `load` with existing key and max option, key order is updated.", () => {
+  // Arrange
+  storageMock.getItem.mockImplementation((key) => {
+    if (key === "__location_state_keys__") {
+      return JSON.stringify(["key1", "key2"]);
+    }
+    return null;
+  });
+  const store = new StorageStore({ storage, maxSize: 3 });
+  store.load("key3"); // Initialize keys by loading existing keys from storage
+  // Act
+  store.load("key1");
+  // Assert
+  expect(storageMock.setItem).toHaveBeenCalledWith(
+    "__location_state_keys__",
+    JSON.stringify(["key2", "key1"]),
+  );
+});
+
+test("Overwrites key list with new one if JSON parse of keys fails", () => {
+  // Arrange
+  const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+  storageMock.getItem.mockImplementation((key) => {
+    if (key === "__location_state_keys__") {
+      return "invalid json";
+    }
+    return null;
+  });
+  const store = new StorageStore({ storage, maxSize: 2 });
+  store.load("key1");
+  // Act
+  store.save();
+  // Assert
+  expect(storageMock.setItem).toHaveBeenCalledWith(
+    "__location_state_keys__",
+    JSON.stringify(["key1"]),
+  );
+  // Restore console
+  consoleSpy.mockRestore();
 });

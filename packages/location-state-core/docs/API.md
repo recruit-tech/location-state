@@ -486,24 +486,49 @@ Interface to serialize/deserialize state. It may be used for `Store`s customizat
 ### class `StorageStore`
 
 ```ts
+type StorageStoreOptions = {
+  storage?: Storage;
+  stateSerializer?: StateSerializer;
+  max?: number;
+};
+
 export declare class StorageStore implements Store {
-  constructor(storage?: Storage | undefined, stateSerializer?: StateSerializer);
+  constructor(options?: StorageStoreOptions);
 }
 ```
 
 A `Store` that stores state in `Storage`.
 
-#### `new StorageStore(storage, stateSerializer)`
+#### `new StorageStore(options)`
 
-- `storage?`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
-- `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
+- `options?`: Options to configure the store behavior with the following properties:
+  - `storage?`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
+  - `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
+  - `max?`: Maximum number of location keys to keep in storage. When the limit is exceeded, the oldest keys are removed using LRU (Least Recently Used) strategy.
 
 #### Example
 
 ```ts
-const sessionStore = new StorageStore(
-  typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
-);
+// Basic usage
+const sessionStore = new StorageStore({
+  storage: typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
+});
+
+// With max limit (keeps only the 10 most recently used location keys)
+const limitedSessionStore = new StorageStore({
+  storage: typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
+  max: 10,
+});
+
+// With custom serializer
+const customStore = new StorageStore({
+  storage: typeof window !== "undefined" ? globalThis.localStorage : undefined,
+  stateSerializer: {
+    serialize: (value) => btoa(JSON.stringify(value)),
+    deserialize: (value) => JSON.parse(atob(value)),
+  },
+  max: 5,
+});
 ```
 
 ### type `URLEncoder`
