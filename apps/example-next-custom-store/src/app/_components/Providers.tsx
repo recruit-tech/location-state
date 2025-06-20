@@ -2,6 +2,7 @@
 
 import {
   LocationStateProvider,
+  StorageStore,
   URLStore,
   createDefaultStores,
 } from "@location-state/core";
@@ -17,6 +18,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
           encode: encodeUrlState,
           decode: decodeUrlState,
         }),
+        // add a session store with maxSize limit of 3 (using new options format)
+        session: new StorageStore(
+          typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
+          { maxSize: 3 },
+        ),
       })}
     >
       {children}

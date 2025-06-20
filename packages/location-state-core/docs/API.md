@@ -320,7 +320,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 export declare const createDefaultStores: (syncer: Syncer) => Stores;
 ```
 
-Create default [`Stores`](#type-Stores) to be used by `<LocationStateProvider>`.
+Create default [`Stores`](#type-stores) to be used by `<LocationStateProvider>`.
 
 #### Parameters
 
@@ -486,24 +486,50 @@ Interface to serialize/deserialize state. It may be used for `Store`s customizat
 ### class `StorageStore`
 
 ```ts
+type StorageStoreOptions = {
+  stateSerializer?: StateSerializer;
+  maxSize?: number;
+};
+
 export declare class StorageStore implements Store {
-  constructor(storage?: Storage | undefined, stateSerializer?: StateSerializer);
+  constructor(storage?: Storage, stateSerializer?: StateSerializer);
+  constructor(storage?: Storage, options?: StorageStoreOptions);
 }
 ```
 
 A `Store` that stores state in `Storage`.
 
-#### `new StorageStore(storage, stateSerializer)`
+#### `new StorageStore(storage, stateSerializer)` (Legacy format)
 
 - `storage?`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
 - `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
 
+#### `new StorageStore(storage, options)` (Recommended format)
+
+- `storage?`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
+- `options?`: Options object to configure the store behavior with the following properties:
+  - `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
+  - `maxSize?`: Maximum number of location keys to keep in storage. When the limit is exceeded, the oldest keys are removed using LRU (Least Recently Used) strategy.
+
 #### Example
 
 ```ts
-const sessionStore = new StorageStore(
-  typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
-);
+// Basic usage
+const sessionStore = new StorageStore(globalThis.sessionStorage);
+
+// Legacy format with custom serializer
+const customStore = new StorageStore(globalThis.localStorage, customSerializer);
+
+// Recommended format with options
+const storeWithMaxSize = new StorageStore(globalThis.sessionStorage, {
+  maxSize: 10,
+});
+
+// Recommended format with custom serializer and maxSize
+const fullOptionsStore = new StorageStore(globalThis.sessionStorage, {
+  stateSerializer: customSerializer,
+  maxSize: 10,
+});
 ```
 
 ### type `URLEncoder`

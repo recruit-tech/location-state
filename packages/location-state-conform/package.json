@@ -26,7 +26,8 @@
     "build": "tsup src/index.ts",
     "dts": "tsc -p tsconfig.dts.json",
     "typecheck": "tsc",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "valibot": "1.1.0"

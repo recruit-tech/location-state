@@ -14,8 +14,10 @@ export default function Page() {
           <Link href="/dynamic">/dynamic</Link>
         </li>
       </ul>
-      <Counter />
-      <List />
+      <Counter storeName="url" />
+      <Counter storeName="session" />
+      <List storeName="url" />
+      <List storeName="session" />
     </main>
   );
 }
