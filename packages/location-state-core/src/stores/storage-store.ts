@@ -4,6 +4,11 @@ import type { Listener, StateSerializer, Store } from "./types";
 
 export const locationKeyPrefix = "__location_state_";
 
+type StorageStoreOptions = {
+  storage?: Storage;
+  stateSerializer?: StateSerializer;
+};
+
 export class StorageStore implements Store {
   private readonly storage?: Storage; // Storage is undefined in SSR.
   private readonly stateSerializer: StateSerializer;
@@ -12,37 +17,32 @@ export class StorageStore implements Store {
   private currentKey: string | null = null;
 
   constructor(storage?: Storage, stateSerializer?: StateSerializer);
-  constructor(options?: {
-    storage?: Storage;
-    stateSerializer?: StateSerializer;
-  });
+  constructor(options?: StorageStoreOptions);
   constructor(
-    storageOrOptions?:
-      | Storage
-      | { storage?: Storage; stateSerializer?: StateSerializer },
+    storageOrOptions?: Storage | StorageStoreOptions,
     stateSerializer?: StateSerializer,
   ) {
-    const isOption =
-      storageOrOptions !== undefined && !("getItem" in storageOrOptions);
-
-    // Normalize arguments to a common options object
+    // Normalize arguments to a common options object with defaults
     const normalizedOptions: {
       storage?: Storage;
-      stateSerializer?: StateSerializer;
-    } = isOption
-      ? (storageOrOptions as {
-          storage?: Storage;
-          stateSerializer?: StateSerializer;
-        })
+      stateSerializer: StateSerializer;
+    } = isStorageStoreOptions(storageOrOptions)
+      ? {
+          // Only in the recommended format, set the initial value for Storage (`sessionStorage` or `undefined`)
+          storage:
+            storageOrOptions?.storage ??
+            (typeof window === "undefined"
+              ? undefined
+              : globalThis.sessionStorage),
+          stateSerializer: storageOrOptions?.stateSerializer ?? jsonSerializer,
+        }
       : {
-          storage: storageOrOptions as Storage | undefined,
-          stateSerializer: stateSerializer,
+          storage: storageOrOptions,
+          stateSerializer: stateSerializer ?? jsonSerializer,
         };
 
-    this.storage =
-      normalizedOptions.storage ??
-      (typeof window === "undefined" ? undefined : globalThis.sessionStorage);
-    this.stateSerializer = normalizedOptions.stateSerializer ?? jsonSerializer;
+    this.storage = normalizedOptions.storage;
+    this.stateSerializer = normalizedOptions.stateSerializer;
   }
 
   subscribe(name: string, listener: Listener) {
@@ -104,6 +104,13 @@ export class StorageStore implements Store {
     }
     this.storage?.setItem(toStorageKey(this.currentKey), value);
   }
+}
+
+function isStorageStoreOptions(
+  value: Storage | StorageStoreOptions | undefined,
+): value is StorageStoreOptions | undefined {
+  // undefined: recommended format
+  return !value || (value !== undefined && !("getItem" in value));
 }
 
 function toStorageKey(key: string) {
