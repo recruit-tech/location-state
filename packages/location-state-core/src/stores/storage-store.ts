@@ -107,15 +107,15 @@ function normalizeArgs(
     return {};
   }
 
-  // If args.length is 1 and args[0] is not Storage, return args[0] (new format)
+  // Recommended format
   if (args.length === 1 && !isStorage(args[0])) {
     return args[0] as StorageStoreOptions;
   }
 
-  // Otherwise, return { storage: args[0], stateSerializer: args[1] } (old format)
+  // Legacy format to Recommended format conversion
   return {
-    storage: args[0] as Storage,
-    stateSerializer: args[1] as StateSerializer,
+    storage: args[0] as StorageStoreOptions["storage"],
+    stateSerializer: args[1] as StorageStoreOptions["stateSerializer"],
   };
 }
 
