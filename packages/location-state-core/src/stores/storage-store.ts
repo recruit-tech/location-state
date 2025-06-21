@@ -19,30 +19,17 @@ export class StorageStore implements Store {
   constructor(storage?: Storage, stateSerializer?: StateSerializer);
   constructor(options?: StorageStoreOptions);
   constructor(
-    storageOrOptions?: Storage | StorageStoreOptions,
-    stateSerializer?: StateSerializer,
+    ...args:
+      | []
+      | [options?: StorageStoreOptions]
+      | [storage?: Storage, stateSerializer?: StateSerializer]
   ) {
-    // Normalize arguments to a common options object with defaults
-    const normalizedOptions: {
-      storage?: Storage;
-      stateSerializer: StateSerializer;
-    } = isStorageStoreOptions(storageOrOptions)
-      ? {
-          // Only in the recommended format, set the initial value for Storage (`sessionStorage` or `undefined`)
-          storage:
-            storageOrOptions?.storage ??
-            (typeof window === "undefined"
-              ? undefined
-              : globalThis.sessionStorage),
-          stateSerializer: storageOrOptions?.stateSerializer ?? jsonSerializer,
-        }
-      : {
-          storage: storageOrOptions,
-          stateSerializer: stateSerializer ?? jsonSerializer,
-        };
+    const options = normalizeArgs(args);
 
-    this.storage = normalizedOptions.storage;
-    this.stateSerializer = normalizedOptions.stateSerializer;
+    this.storage =
+      options.storage ??
+      (typeof window === "undefined" ? undefined : globalThis.sessionStorage);
+    this.stateSerializer = options.stateSerializer ?? jsonSerializer;
   }
 
   subscribe(name: string, listener: Listener) {
@@ -106,13 +93,32 @@ export class StorageStore implements Store {
   }
 }
 
-function isStorageStoreOptions(
-  value: Storage | StorageStoreOptions | undefined,
-): value is StorageStoreOptions | undefined {
-  // undefined: recommended format
-  return !value || (value !== undefined && !("getItem" in value));
-}
-
 function toStorageKey(key: string) {
   return `${locationKeyPrefix}${key}`;
+}
+
+function normalizeArgs(
+  args:
+    | []
+    | [options?: StorageStoreOptions]
+    | [storage?: Storage, stateSerializer?: StateSerializer],
+): StorageStoreOptions {
+  if (args.length === 0) {
+    return {};
+  }
+
+  // If args.length is 1 and args[0] is not Storage, return args[0] (new format)
+  if (args.length === 1 && !isStorage(args[0])) {
+    return args[0] as StorageStoreOptions;
+  }
+
+  // Otherwise, return { storage: args[0], stateSerializer: args[1] } (old format)
+  return {
+    storage: args[0] as Storage,
+    stateSerializer: args[1] as StateSerializer,
+  };
+}
+
+function isStorage(value: unknown): value is Storage {
+  return value !== null && typeof value === "object" && "getItem" in value;
 }
