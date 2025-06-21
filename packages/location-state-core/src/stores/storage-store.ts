@@ -4,15 +4,33 @@ import type { Listener, StateSerializer, Store } from "./types";
 
 export const locationKeyPrefix = "__location_state_";
 
+type StorageStoreOptions = {
+  storage?: Storage;
+  stateSerializer?: StateSerializer;
+};
+
 export class StorageStore implements Store {
+  private readonly storage?: Storage; // Storage is undefined in SSR.
+  private readonly stateSerializer: StateSerializer;
   private state: Record<string, unknown> = {};
   private events = new EventEmitter();
   private currentKey: string | null = null;
 
+  constructor(storage?: Storage, stateSerializer?: StateSerializer);
+  constructor(options?: StorageStoreOptions);
   constructor(
-    private readonly storage?: Storage, // Storage is undefined in SSR.
-    private readonly stateSerializer: StateSerializer = jsonSerializer,
-  ) {}
+    ...args:
+      | []
+      | [options?: StorageStoreOptions]
+      | [storage?: Storage, stateSerializer?: StateSerializer]
+  ) {
+    const options = normalizeArgs(args);
+
+    this.storage =
+      options.storage ??
+      (typeof window === "undefined" ? undefined : globalThis.sessionStorage);
+    this.stateSerializer = options.stateSerializer ?? jsonSerializer;
+  }
 
   subscribe(name: string, listener: Listener) {
     this.events.on(name, listener);
@@ -77,4 +95,30 @@ export class StorageStore implements Store {
 
 function toStorageKey(key: string) {
   return `${locationKeyPrefix}${key}`;
+}
+
+function normalizeArgs(
+  args:
+    | []
+    | [options?: StorageStoreOptions]
+    | [storage?: Storage, stateSerializer?: StateSerializer],
+): StorageStoreOptions {
+  if (args.length === 0) {
+    return {};
+  }
+
+  // Recommended format
+  if (args.length === 1 && !isStorage(args[0])) {
+    return args[0] as StorageStoreOptions;
+  }
+
+  // Legacy format to Recommended format conversion
+  return {
+    storage: args[0] as StorageStoreOptions["storage"],
+    stateSerializer: args[1] as StorageStoreOptions["stateSerializer"],
+  };
+}
+
+function isStorage(value: unknown): value is Storage {
+  return value !== null && typeof value === "object" && "getItem" in value;
 }

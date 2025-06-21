@@ -488,12 +488,19 @@ Interface to serialize/deserialize state. It may be used for `Store`s customizat
 ```ts
 export declare class StorageStore implements Store {
   constructor(storage?: Storage | undefined, stateSerializer?: StateSerializer);
+  constructor(options?: { storage?: Storage; stateSerializer?: StateSerializer });
 }
 ```
 
 A `Store` that stores state in `Storage`.
 
-#### `new StorageStore(storage, stateSerializer)`
+#### `new StorageStore(options)` (Recommended Format)
+
+- `options?`: Configuration object.
+  - `storage?`: The `Storage` of the destination. Defaults to `globalThis.sessionStorage` on the client side, `undefined` on the server side.
+  - `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
+
+#### `new StorageStore(storage, stateSerializer)` (Legacy Format)
 
 - `storage?`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
 - `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
@@ -501,6 +508,20 @@ A `Store` that stores state in `Storage`.
 #### Example
 
 ```ts
+// Recommended format (uses sessionStorage by default)
+const sessionStore = new StorageStore();
+
+// Recommended format with custom storage
+const localStore = new StorageStore({ 
+  storage: typeof window !== "undefined" ? globalThis.localStorage : undefined 
+});
+
+// Recommended format with custom serializer
+const customStore = new StorageStore({ 
+  stateSerializer: myCustomSerializer 
+});
+
+// Legacy format (still supported)
 const sessionStore = new StorageStore(
   typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
 );
