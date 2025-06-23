@@ -9,6 +9,11 @@ type StorageStoreOptions = {
   stateSerializer?: StateSerializer;
 };
 
+type StorageStoreConstructorArgs =
+  | []
+  | [options?: StorageStoreOptions]
+  | [storage?: Storage, stateSerializer?: StateSerializer];
+
 export class StorageStore implements Store {
   private readonly storage?: Storage; // Storage is undefined in SSR.
   private readonly stateSerializer: StateSerializer;
@@ -18,12 +23,7 @@ export class StorageStore implements Store {
 
   constructor(storage?: Storage, stateSerializer?: StateSerializer);
   constructor(options?: StorageStoreOptions);
-  constructor(
-    ...args:
-      | []
-      | [options?: StorageStoreOptions]
-      | [storage?: Storage, stateSerializer?: StateSerializer]
-  ) {
+  constructor(...args: StorageStoreConstructorArgs) {
     const options = normalizeArgs(args);
 
     this.storage =
@@ -108,15 +108,19 @@ function normalizeArgs(
   }
 
   // Recommended format
-  if (args.length === 1 && !isStorage(args[0])) {
-    return args[0] as StorageStoreOptions;
+  if (isStorageOptions(args)) {
+    return args[0];
   }
 
   // Legacy format to Recommended format conversion
   return {
     storage: args[0] as StorageStoreOptions["storage"],
-    stateSerializer: args[1] as StorageStoreOptions["stateSerializer"],
+    stateSerializer: args[1],
   };
+}
+
+function isStorageOptions(args: unknown[]): args is [StorageStoreOptions] {
+  return args.length === 1 && !isStorage(args[0]);
 }
 
 function isStorage(value: unknown): value is Storage {
