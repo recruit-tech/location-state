@@ -297,7 +297,61 @@ test("Recommended format: default storage should be sessionStorage when availabl
     value: mockSessionStorage,
     writable: true,
   });
+  const store = new StorageStore();
+  // Act
+  store.load("test_key");
+  // Assert
+  expect(mockSessionStorage.getItem).toHaveBeenCalledWith(
+    "__location_state_test_key",
+  );
+  // Restore
+  Object.defineProperty(globalThis, "sessionStorage", {
+    value: originalSessionStorage,
+    writable: true,
+  });
+});
+
+test("Recommended format: sessionStorage should be used even when explicit `{}` is provided", () => {
+  // Arrange
+  const originalSessionStorage = globalThis.sessionStorage;
+  const mockSessionStorage = {
+    getItem: vi.fn().mockReturnValue(null),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+  } as unknown as Storage;
+  // Mock globalThis.sessionStorage
+  Object.defineProperty(globalThis, "sessionStorage", {
+    value: mockSessionStorage,
+    writable: true,
+  });
   const store = new StorageStore({});
+  // Act
+  store.load("test_key");
+  // Assert
+  expect(mockSessionStorage.getItem).toHaveBeenCalledWith(
+    "__location_state_test_key",
+  );
+  // Restore
+  Object.defineProperty(globalThis, "sessionStorage", {
+    value: originalSessionStorage,
+    writable: true,
+  });
+});
+
+test("Recommended format: sessionStorage should be used even when explicit `undefined` is provided", () => {
+  // Arrange
+  const originalSessionStorage = globalThis.sessionStorage;
+  const mockSessionStorage = {
+    getItem: vi.fn().mockReturnValue(null),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+  } as unknown as Storage;
+  // Mock globalThis.sessionStorage
+  Object.defineProperty(globalThis, "sessionStorage", {
+    value: mockSessionStorage,
+    writable: true,
+  });
+  const store = new StorageStore(undefined);
   // Act
   store.load("test_key");
   // Assert

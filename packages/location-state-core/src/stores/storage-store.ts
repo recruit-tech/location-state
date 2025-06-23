@@ -97,18 +97,13 @@ function toStorageKey(key: string) {
   return `${locationKeyPrefix}${key}`;
 }
 
-function normalizeArgs(
-  args:
-    | []
-    | [options?: StorageStoreOptions]
-    | [storage?: Storage, stateSerializer?: StateSerializer],
-): StorageStoreOptions {
+function normalizeArgs(args: StorageStoreConstructorArgs): StorageStoreOptions {
   if (args.length === 0) {
     return {};
   }
 
   // Recommended format
-  if (isStorageOptions(args)) {
+  if (isStorageOptions(args[0])) {
     return args[0];
   }
 
@@ -119,10 +114,11 @@ function normalizeArgs(
   };
 }
 
-function isStorageOptions(args: unknown[]): args is [StorageStoreOptions] {
-  return args.length === 1 && !isStorage(args[0]);
-}
-
-function isStorage(value: unknown): value is Storage {
-  return value !== null && typeof value === "object" && "getItem" in value;
+function isStorageOptions(value: unknown): value is StorageStoreOptions {
+  return (
+    value !== undefined &&
+    value !== null &&
+    typeof value === "object" &&
+    !("getItem" in value)
+  );
 }
