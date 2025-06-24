@@ -98,27 +98,19 @@ function toStorageKey(key: string) {
 }
 
 function normalizeArgs(args: StorageStoreConstructorArgs): StorageStoreOptions {
-  if (args.length === 0) {
-    return {};
+  if (isLegacyStorageOptions(args[0])) {
+    return {
+      storage: args[0],
+      stateSerializer: args[1],
+    };
   }
 
-  // Recommended format
-  if (isStorageOptions(args[0])) {
-    return args[0];
-  }
-
-  // Legacy format to Recommended format conversion
-  return {
-    storage: args[0] as StorageStoreOptions["storage"],
-    stateSerializer: args[1],
-  };
+  return args[0];
 }
 
-function isStorageOptions(value: unknown): value is StorageStoreOptions {
+function isLegacyStorageOptions(value: unknown): value is Storage | undefined {
   return (
-    value !== undefined &&
-    value !== null &&
-    typeof value === "object" &&
-    !("getItem" in value)
+    value === undefined ||
+    (value !== null && typeof value === "object" && "getItem" in value)
   );
 }
