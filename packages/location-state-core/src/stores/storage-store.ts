@@ -98,6 +98,14 @@ function toStorageKey(key: string) {
 }
 
 function normalizeArgs(args: StorageStoreConstructorArgs): StorageStoreOptions {
+  // `new StorageStore()` is the recommended format.
+  if (args.length === 0) {
+    return {};
+  }
+
+  // `new StorageStore(undefined)` is the legacy format.
+  // `new StorageStore(storage)` is the legacy format.
+  // `new StorageStore(storage, stateSerializer)` is the legacy format.
   if (isLegacyStorageOptions(args[0])) {
     return {
       storage: args[0],
@@ -105,6 +113,7 @@ function normalizeArgs(args: StorageStoreConstructorArgs): StorageStoreOptions {
     };
   }
 
+  // `new StorageStore(options)` is the recommended format.
   return args[0];
 }
 
