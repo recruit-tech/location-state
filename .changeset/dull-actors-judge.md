@@ -2,11 +2,15 @@
 "@location-state/core": minor
 ---
 
-Add constructor overload to `StorageStore`.
+Add constructor overloads to `StorageStore`.
 
-`StorageStore` constructor now supports both traditional parameters and options object pattern:
+The constructor now supports two formats:
 
-- `new StorageStore(storage?, stateSerializer?)`
-- `new StorageStore({ storage?, stateSerializer? })`
+- Recommended format:
+  - `new StorageStore()` - uses `sessionStorage` by default
+  - `new StorageStore({ storage?, stateSerializer? })` - options object pattern
 
-Backward compatible with existing code.
+- Legacy format (maintained for backward compatibility):
+  - `new StorageStore(storage, stateSerializer?)`
+
+Existing code will continue to work without any changes.
