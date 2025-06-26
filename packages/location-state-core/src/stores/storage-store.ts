@@ -11,8 +11,8 @@ type StorageStoreOptions = {
 
 type StorageStoreConstructorArgs =
   | []
-  | [options?: StorageStoreOptions]
-  | [storage?: Storage, stateSerializer?: StateSerializer];
+  | [options: StorageStoreOptions]
+  | [storage: Storage | undefined, stateSerializer?: StateSerializer];
 
 export class StorageStore implements Store {
   private readonly storage?: Storage; // Storage is undefined in SSR.
@@ -112,6 +112,7 @@ function normalizeArgs(args: StorageStoreConstructorArgs): StorageStoreOptions {
   // Legacy format: `new StorageStore(undefined)`
   // Legacy format: `new StorageStore(storage)`
   // Legacy format: `new StorageStore(storage, stateSerializer)`
+  // Legacy format: `new StorageStore(undefined, stateSerializer)`
   return {
     storage: args[0],
     stateSerializer: args[1],

@@ -503,7 +503,7 @@ A `Store` that stores state in `Storage`.
 
 #### `new StorageStore(storage, stateSerializer)` (Legacy Format)
 
-- `storage?`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
+- `storage`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
 - `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
 
 #### Example
