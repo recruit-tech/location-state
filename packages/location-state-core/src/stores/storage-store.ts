@@ -21,8 +21,9 @@ export class StorageStore implements Store {
   private events = new EventEmitter();
   private currentKey: string | null = null;
 
-  constructor(storage?: Storage, stateSerializer?: StateSerializer);
-  constructor(options?: StorageStoreOptions);
+  constructor(); // Recommended format
+  constructor(options: StorageStoreOptions); // Recommended format
+  constructor(storage: Storage | undefined, stateSerializer?: StateSerializer); // Legacy format
   constructor(...args: StorageStoreConstructorArgs) {
     const options = normalizeArgs(args);
 
