@@ -4,15 +4,34 @@ import type { Listener, StateSerializer, Store } from "./types";
 
 export const locationKeyPrefix = "__location_state_";
 
+type StorageStoreOptions = {
+  storage?: Storage;
+  stateSerializer?: StateSerializer;
+};
+
+type StorageStoreConstructorArgs =
+  | []
+  | [options: StorageStoreOptions]
+  | [storage: Storage | undefined, stateSerializer?: StateSerializer];
+
 export class StorageStore implements Store {
+  private readonly storage?: Storage; // Storage is undefined in SSR.
+  private readonly stateSerializer: StateSerializer;
   private state: Record<string, unknown> = {};
   private events = new EventEmitter();
   private currentKey: string | null = null;
 
-  constructor(
-    private readonly storage?: Storage, // Storage is undefined in SSR.
-    private readonly stateSerializer: StateSerializer = jsonSerializer,
-  ) {}
+  constructor(); // Recommended format
+  constructor(options: StorageStoreOptions); // Recommended format
+  constructor(storage: Storage | undefined, stateSerializer?: StateSerializer); // Legacy format
+  constructor(...args: StorageStoreConstructorArgs) {
+    const options = normalizeArgs(args);
+
+    this.storage =
+      options.storage ??
+      (typeof window === "undefined" ? undefined : globalThis.sessionStorage);
+    this.stateSerializer = options.stateSerializer ?? jsonSerializer;
+  }
 
   subscribe(name: string, listener: Listener) {
     this.events.on(name, listener);
@@ -77,4 +96,32 @@ export class StorageStore implements Store {
 
 function toStorageKey(key: string) {
   return `${locationKeyPrefix}${key}`;
+}
+
+function normalizeArgs(args: StorageStoreConstructorArgs): StorageStoreOptions {
+  // Recommended format: `new StorageStore()`
+  if (args.length === 0) {
+    return {};
+  }
+
+  // Recommended format: `new StorageStore(options)`
+  if (!isLegacyStorageOptions(args[0])) {
+    return args[0];
+  }
+
+  // Legacy format: `new StorageStore(undefined)`
+  // Legacy format: `new StorageStore(storage)`
+  // Legacy format: `new StorageStore(storage, stateSerializer)`
+  // Legacy format: `new StorageStore(undefined, stateSerializer)`
+  return {
+    storage: args[0],
+    stateSerializer: args[1],
+  };
+}
+
+function isLegacyStorageOptions(value: unknown): value is Storage | undefined {
+  return (
+    value === undefined ||
+    (value !== null && typeof value === "object" && "getItem" in value)
+  );
 }

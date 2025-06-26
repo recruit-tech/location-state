@@ -320,7 +320,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 export declare const createDefaultStores: (syncer: Syncer) => Stores;
 ```
 
-Create default [`Stores`](#type-Stores) to be used by `<LocationStateProvider>`.
+Create default [`Stores`](#type-stores) to be used by `<LocationStateProvider>`.
 
 #### Parameters
 
@@ -487,20 +487,42 @@ Interface to serialize/deserialize state. It may be used for `Store`s customizat
 
 ```ts
 export declare class StorageStore implements Store {
-  constructor(storage?: Storage | undefined, stateSerializer?: StateSerializer);
+  constructor(); // Recommended format
+  constructor(options: { storage?: Storage; stateSerializer?: StateSerializer }); // Recommended format
+  constructor(storage: Storage | undefined, stateSerializer?: StateSerializer); // Legacy format (still supported)
 }
 ```
 
 A `Store` that stores state in `Storage`.
 
-#### `new StorageStore(storage, stateSerializer)`
+#### `new StorageStore(options)` (Recommended Format)
 
-- `storage?`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
+- `options?`: Configuration object.
+  - `storage?`: The `Storage` of the destination. Defaults to `globalThis.sessionStorage` on the client side, `undefined` on the server side.
+  - `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
+
+#### `new StorageStore(storage, stateSerializer)` (Legacy Format)
+
+- `storage`: The `Storage` of the destination. On the client side, pass `globalThis.sessionStorage` or `globalThis.localStorage`. On the server side, pass `undefined`.
 - `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
 
 #### Example
 
 ```ts
+// Recommended format (uses sessionStorage by default)
+const sessionStore = new StorageStore();
+
+// Recommended format with custom storage
+const localStore = new StorageStore({ 
+  storage: typeof window !== "undefined" ? globalThis.localStorage : undefined 
+});
+
+// Recommended format with custom serializer
+const customStore = new StorageStore({ 
+  stateSerializer: myCustomSerializer 
+});
+
+// Legacy format (still supported)
 const sessionStore = new StorageStore(
   typeof window !== "undefined" ? globalThis.sessionStorage : undefined,
 );
@@ -559,9 +581,4 @@ Generate a `URLEncoder` with the query parameter name and `StateSerializer`.
 declare const defaultSearchParamEncoder: URLEncoder;
 ```
 
-This is the `URLEncoder` that `URLStore` uses by default. Serialize/Deserialize the state in the `location-state` query parameter with `JSON.stringify`/`JSON.parse`.
-
-```
-// Example of saving `counter: 1`.
-https://test.com?location-state=%7B%22counter%22%3A1%7D
-```
+This is the `URLEncoder` that `URLStore` uses by default. Serialize/Deserialize the state in the `location-state` query parameter with `JSON.stringify`/`JSON.parse`. Example: `https://test.com?location-state=%7B%22counter%22%3A1%7D`
