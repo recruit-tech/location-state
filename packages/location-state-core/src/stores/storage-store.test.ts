@@ -15,6 +15,7 @@ beforeEach(() => {
 
 // partial mock storage to be Storage type
 const storage = storageMock as unknown as Storage;
+
 test("Recommended format: new StorageStore({ storage, stateSerializer }) works correctly", () => {
   // Arrange
   const customSerializer = {
@@ -32,6 +33,8 @@ test("Recommended format: new StorageStore({ storage, stateSerializer }) works c
   store.load("test_key");
   // Assert
   expect(customSerializer.deserialize).toHaveBeenCalled();
+  expect(store.get("test")).toBe("value");
+  expect(storageMock.getItem).toHaveBeenCalledWith("__location_state_test_key");
 });
 
 test("Recommended format: default storage should be sessionStorage when available", () => {
@@ -131,6 +134,53 @@ test("Legacy format: sessionStorage should be used even when explicit `undefined
   });
 });
 
+test("Legacy format: custom storage should be used", () => {
+  // Arrange
+  const customStorage = {
+    getItem: vi.fn().mockReturnValue(null),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+  } as unknown as Storage;
+  const store = new StorageStore(customStorage);
+  // Act
+  store.load("test_key");
+  // Assert
+  expect(customStorage.getItem).toHaveBeenCalledWith(
+    "__location_state_test_key",
+  );
+});
+
+test("Legacy format: custom storage should be used with stateSerializer", () => {
+  // Arrange
+  const customSerializer = {
+    serialize: vi.fn().mockReturnValue("serialized"),
+    deserialize: vi.fn().mockReturnValue({ test: "value" }),
+  };
+  storageMock.getItem.mockReturnValueOnce(
+    JSON.stringify({ test: "storage value" }),
+  );
+  const store = new StorageStore(storage, customSerializer);
+  // Act
+  store.load("test_key");
+  // Assert
+  expect(customSerializer.deserialize).toHaveBeenCalled();
+  expect(store.get("test")).toBe("value");
+  expect(storageMock.getItem).toHaveBeenCalledWith("__location_state_test_key");
+});
+
+test("Legacy format: custom stateSerializer should be used with undefined storage, but it should not throw an error", () => {
+  // Arrange
+  const customSerializer = {
+    serialize: vi.fn().mockReturnValue("serialized"),
+    deserialize: vi.fn().mockReturnValue({ test: "value" }),
+  };
+  // Act & Assert
+  expect(() => {
+    // Only SSR is assumed, so as long as no error occurs, it's fine.
+    new StorageStore(undefined, customSerializer);
+  }).not.toThrow();
+});
+
 test("If Storage is empty, the initial value is undefined.", () => {
   // Arrange
   const store = new StorageStore(storage);
@@ -221,7 +271,7 @@ test("On `load` called, if the value of the corresponding key is in Storage, the
   expect(store.get("foo")).toBe("storage value");
   expect(storageMock.getItem).toHaveBeenCalledTimes(1);
   expect(storageMock.getItem).toHaveBeenCalledWith(
-    `${locationKeyPrefix}${navigationKey}`,
+    `__location_state_${navigationKey}`,
   );
 });
 
@@ -327,7 +377,7 @@ test("On `save` called, the state is saved in Storage with evaluated by deserial
   // Assert
   expect(storageMock.setItem).toHaveBeenCalledTimes(1);
   expect(storageMock.setItem).toHaveBeenCalledWith(
-    `${locationKeyPrefix}${currentLocationKey}`,
+    `__location_state_${currentLocationKey}`,
     "dummy-result",
   );
 });
@@ -343,7 +393,7 @@ test("On `save` called with serializer, the state is saved in Storage with the p
   // Assert
   expect(storageMock.setItem).toHaveBeenCalledTimes(1);
   expect(storageMock.setItem).toHaveBeenCalledWith(
-    `${locationKeyPrefix}${currentLocationKey}`,
+    `__location_state_${currentLocationKey}`,
     JSON.stringify({ foo: "updated" }),
   );
 });
