@@ -45,7 +45,7 @@ describe("`URLStore`", () => {
     });
   });
 
-  describe("Default urlEncoder", () => {
+  describe("with default urlEncoder", () => {
     test("If params is empty, the initial value is undefined.", () => {
       // Arrange
       const syncerMock = createSyncerMock();
@@ -56,143 +56,147 @@ describe("`URLStore`", () => {
       expect(value).toBeUndefined();
     });
 
-    test("When called `set`, store's values are updated and reflected in the URL.", () => {
-      // Arrange
-      prepareLocation({
-        pathname: "/",
-        search: "?hoge=fuga",
+    describe("on `set`", () => {
+      test("The store's values are updated and reflected in the URL.", () => {
+        // Arrange
+        prepareLocation({
+          pathname: "/",
+          search: "?hoge=fuga",
+        });
+        const syncerMock = createSyncerMock();
+        const store = new URLStore(syncerMock);
+        // Act
+        store.set("foo", "updated");
+        vi.advanceTimersByTime(50);
+        // Assert
+        expect(store.get("foo")).toBe("updated");
+        expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
+        expect(syncerMock.updateURL).toHaveBeenCalledWith(
+          "http://localhost/?hoge=fuga&location-state=%7B%22foo%22%3A%22updated%22%7D",
+        );
       });
-      const syncerMock = createSyncerMock();
-      const store = new URLStore(syncerMock);
-      // Act
-      store.set("foo", "updated");
-      vi.advanceTimersByTime(50);
-      // Assert
-      expect(store.get("foo")).toBe("updated");
-      expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
-      expect(syncerMock.updateURL).toHaveBeenCalledWith(
-        "http://localhost/?hoge=fuga&location-state=%7B%22foo%22%3A%22updated%22%7D",
-      );
+
+      test("The listener is called.", () => {
+        // Arrange
+        const syncerMock = createSyncerMock();
+        const store = new URLStore(syncerMock);
+        const listener = vi.fn();
+        store.subscribe("foo", listener);
+        // Act
+        store.set("foo", "updated");
+        // Assert
+        expect(listener).toBeCalledTimes(1);
+      });
+
+      test("`set` with `undefined` is also called the listener.", () => {
+        // Arrange
+        const syncerMock = createSyncerMock();
+        const store = new URLStore(syncerMock);
+        store.set("foo", "updated");
+        const listener = vi.fn();
+        store.subscribe("foo", listener);
+        // Act
+        store.set("foo", undefined);
+        // Assert
+        expect(listener).toBeCalledTimes(1);
+      });
+
+      test("The listener can get the latest value by calling `store.get`.", () => {
+        // Arrange
+        expect.assertions(4);
+        const syncerMock = createSyncerMock();
+        const store = new URLStore(syncerMock);
+        const listener1 = vi.fn(() => {
+          expect(store.get("foo")).toBe("updated");
+        });
+        const listener2 = vi.fn(() => {
+          expect(store.get("foo")).toBe("updated");
+        });
+        store.subscribe("foo", listener1);
+        store.subscribe("foo", listener2);
+        // Act
+        store.set("foo", "updated");
+        // Assert
+        expect(listener1).toBeCalledTimes(1);
+        expect(listener2).toBeCalledTimes(1);
+      });
+
+      test("The listener is unsubscribed, it will no longer be called when the slice is updated.", () => {
+        // Arrange
+        const syncerMock = createSyncerMock();
+        const store = new URLStore(syncerMock);
+        const listeners = {
+          unsubscribeTarget: vi.fn(),
+          other: vi.fn(),
+        };
+        const unsubscribe = store.subscribe("foo", listeners.unsubscribeTarget);
+        store.subscribe("foo", listeners.other);
+        unsubscribe();
+        // Act
+        store.set("foo", "updated");
+        // Assert
+        expect(listeners.unsubscribeTarget).not.toBeCalled();
+        expect(listeners.other).toBeCalled();
+      });
     });
 
-    test("listener is called when updating value.", () => {
-      // Arrange
-      const syncerMock = createSyncerMock();
-      const store = new URLStore(syncerMock);
-      const listener = vi.fn();
-      store.subscribe("foo", listener);
-      // Act
-      store.set("foo", "updated");
-      // Assert
-      expect(listener).toBeCalledTimes(1);
-    });
-
-    test("listener is called even if updated with undefined.", () => {
-      // Arrange
-      const syncerMock = createSyncerMock();
-      const store = new URLStore(syncerMock);
-      store.set("foo", "updated");
-      const listener = vi.fn();
-      store.subscribe("foo", listener);
-      // Act
-      store.set("foo", undefined);
-      // Assert
-      expect(listener).toBeCalledTimes(1);
-    });
-
-    test("When called `store.get` in the listener to get the latest value.", () => {
-      // Arrange
-      expect.assertions(4);
-      const syncerMock = createSyncerMock();
-      const store = new URLStore(syncerMock);
-      const listener1 = vi.fn(() => {
+    describe("on `load`", () => {
+      test("The state is loaded from url.", () => {
+        // Arrange
+        prepareLocation({
+          pathname: "/",
+          search: "?location-state=%7B%22foo%22%3A%22updated%22%7D",
+        });
+        const syncerMock = createSyncerMock();
+        const store = new URLStore(syncerMock);
+        // Act
+        store.load();
+        // Assert
         expect(store.get("foo")).toBe("updated");
       });
-      const listener2 = vi.fn(() => {
-        expect(store.get("foo")).toBe("updated");
+
+      test("All listener notified.", async () => {
+        // Arrange
+        const syncerMock = createSyncerMock();
+        const store = new URLStore(syncerMock);
+        const listener1 = vi.fn();
+        const listener2 = vi.fn();
+        store.subscribe("foo", listener1);
+        store.subscribe("bar", listener2);
+        // Act
+        store.load();
+        // Generate and execute microtasks with Promise to wait for listener execution.
+        await Promise.resolve();
+        // Assert
+        expect(listener1).toBeCalledTimes(1);
+        expect(listener2).toBeCalledTimes(1);
       });
-      store.subscribe("foo", listener1);
-      store.subscribe("foo", listener2);
-      // Act
-      store.set("foo", "updated");
-      // Assert
-      expect(listener1).toBeCalledTimes(1);
-      expect(listener2).toBeCalledTimes(1);
-    });
 
-    test("When the listener is unsubscribed, it will no longer be called when the value is updated.", () => {
-      // Arrange
-      const syncerMock = createSyncerMock();
-      const store = new URLStore(syncerMock);
-      const listeners = {
-        unsubscribeTarget: vi.fn(),
-        other: vi.fn(),
-      };
-      const unsubscribe = store.subscribe("foo", listeners.unsubscribeTarget);
-      store.subscribe("foo", listeners.other);
-      // Act
-      unsubscribe();
-      store.set("foo", "updated");
-      // Assert
-      expect(listeners.unsubscribeTarget).not.toBeCalled();
-      expect(listeners.other).toBeCalled();
-    });
-
-    test("When called `load`, the state is loaded from url.", () => {
-      // Arrange
-      prepareLocation({
-        pathname: "/",
-        search: "?location-state=%7B%22foo%22%3A%22updated%22%7D",
+      test("Delete parameter if invalid JSON string.", () => {
+        // Arrange
+        const consoleSpy = vi
+          .spyOn(console, "error")
+          .mockImplementation(() => {});
+        prepareLocation({
+          pathname: "/",
+          search: "?location-state=invalid-json-string",
+        });
+        const syncerMock = createSyncerMock();
+        const store = new URLStore(syncerMock);
+        // Act
+        store.load();
+        // Assert
+        expect(store.get("foo")).toBeUndefined();
+        expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
+        expect(syncerMock.updateURL).toHaveBeenCalledWith("http://localhost/");
+        // Restore console
+        consoleSpy.mockRestore();
       });
-      const syncerMock = createSyncerMock();
-      const store = new URLStore(syncerMock);
-      // Act
-      store.load();
-      // Assert
-      expect(store.get("foo")).toBe("updated");
-    });
-
-    test("When called `load`, all listener notified.", async () => {
-      // Arrange
-      const syncerMock = createSyncerMock();
-      const store = new URLStore(syncerMock);
-      const listener1 = vi.fn();
-      const listener2 = vi.fn();
-      store.subscribe("foo", listener1);
-      store.subscribe("bar", listener2);
-      // Act
-      store.load();
-      // Generate and execute microtasks with Promise to wait for listener execution.
-      await Promise.resolve();
-      // Assert
-      expect(listener1).toBeCalledTimes(1);
-      expect(listener2).toBeCalledTimes(1);
-    });
-
-    test("When called `load`, delete parameter if invalid JSON string.", () => {
-      // Arrange
-      const consoleSpy = vi
-        .spyOn(console, "error")
-        .mockImplementation(() => {});
-      prepareLocation({
-        pathname: "/",
-        search: "?location-state=invalid-json-string",
-      });
-      const syncerMock = createSyncerMock();
-      const store = new URLStore(syncerMock);
-      // Act
-      store.load();
-      // Assert
-      expect(store.get("foo")).toBeUndefined();
-      expect(syncerMock.updateURL).toHaveBeenCalledTimes(1);
-      expect(syncerMock.updateURL).toHaveBeenCalledWith("http://localhost/");
-      // Restore console
-      consoleSpy.mockRestore();
     });
   });
 
-  describe("Custom urlEncoder", () => {
-    test("When called `set` with urlEncoder, store's values are updated and reflected in the URL.", () => {
+  describe("with custom urlEncoder", () => {
+    test("The store's values are updated and reflected in the URL.", () => {
       // Arrange
       prepareLocation({
         pathname: "/",
@@ -218,7 +222,7 @@ describe("`URLStore`", () => {
       expect(encodeMock).toHaveBeenCalledTimes(1);
     });
 
-    test("When called `load` with urlEncoder, initial value depends on getter.", () => {
+    test("`load` with urlEncoder, initial value depends on getter.", () => {
       // Arrange
       prepareLocation({
         pathname: "/",
@@ -241,10 +245,10 @@ describe("`URLStore`", () => {
 });
 
 describe("`searchParamEncoder`", () => {
-  describe("Default serializer", () => {
+  describe("with default serializer", () => {
     const encoder = searchParamEncoder("location-state", jsonSerializer);
 
-    test("When encoding with state, the state is reflected in the URL.", () => {
+    test("The state is reflected in the URL.", () => {
       // Arrange
       const url = "http://localhost/";
       const state = { foo: "bar" };
@@ -254,7 +258,7 @@ describe("`searchParamEncoder`", () => {
       expect(encoded).toBe(`${url}?location-state=%7B%22foo%22%3A%22bar%22%7D`);
     });
 
-    test("When encoding with undefined, the parameter is deleted.", () => {
+    test("The parameter is deleted.", () => {
       // Arrange
       const url =
         "http://localhost/?location-state=%7B%22foo%22%3A%22bar%22%7D";
@@ -264,7 +268,7 @@ describe("`searchParamEncoder`", () => {
       expect(encoded).toBe("http://localhost/");
     });
 
-    test("When decoding, the state is obtained.", () => {
+    test("The state is obtained.", () => {
       // Arrange
       const url =
         "http://localhost/?location-state=%7B%22foo%22%3A%22bar%22%7D";
@@ -275,8 +279,8 @@ describe("`searchParamEncoder`", () => {
     });
   });
 
-  describe("Custom serializer", () => {
-    test("When encoding, the state is reflected in the returned URL.", () => {
+  describe("with custom serializer", () => {
+    test("The state is reflected in the returned URL.", () => {
       // Arrange
       const url = "http://localhost/";
       const state = { foo: "bar" };
@@ -293,7 +297,7 @@ describe("`searchParamEncoder`", () => {
       expect(serializeMock).toHaveBeenCalledWith(state);
     });
 
-    test("When decoding, the state is obtained based on deserialize.", () => {
+    test("The state is obtained based on deserialize.", () => {
       // Arrange
       const stateString = "dummy-result";
       const deserializeMock = vi.fn(() => ({ foo: "bar" }));

@@ -232,7 +232,7 @@ describe("StoreStorage", () => {
         expect(listener2).toBeCalledTimes(1);
       });
 
-      test("The listener is unsubscribed by the returned callback, it will no longer be called when updating.", () => {
+      test("The listener is unsubscribed, it will no longer be called when updating.", () => {
         // Arrange
         const store = new StorageStore({ storage });
         const listeners = {
