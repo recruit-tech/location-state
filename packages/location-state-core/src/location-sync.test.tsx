@@ -22,7 +22,7 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
-describe("`useLocationState`", () => {
+describe(useLocationState, () => {
   function LocationSyncCounter() {
     const [count, setCount] = useLocationState({
       name: "count",
@@ -95,7 +95,7 @@ describe("`useLocationState`", () => {
   });
 });
 
-describe("`useLocationStateValue`", () => {
+describe(useLocationStateValue, () => {
   function LocationSyncCounter() {
     const counter: LocationStateDefinition<number> = {
       name: "count",
@@ -127,7 +127,7 @@ describe("`useLocationStateValue`", () => {
   });
 });
 
-describe("`useLocationSetState`", () => {
+describe(useLocationSetState, () => {
   function LocationSyncCounter() {
     const counter: LocationStateDefinition<number> = {
       name: "counter",
@@ -168,7 +168,7 @@ describe("`useLocationSetState`", () => {
   });
 });
 
-describe("`useLocationGetState`", () => {
+describe(useLocationGetState, () => {
   function LocationSyncOnceCounter() {
     const counter: LocationStateDefinition<number> = {
       name: "count",

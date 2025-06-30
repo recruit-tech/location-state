@@ -2,7 +2,7 @@ import { createNavigationMock } from "@repo/test-utils";
 import { describe, expect, test, vi } from "vitest";
 import { NavigationSyncer } from "./navigation-syncer";
 
-describe("NavigationSyncer", () => {
+describe(NavigationSyncer, () => {
   test("The key changes when `navigation.currentEntry` changes.", () => {
     // Arrange
     const navigation = createNavigationMock("/");
@@ -17,7 +17,7 @@ describe("NavigationSyncer", () => {
     expect(key1).not.toBe(key2);
   });
 
-  describe("`sync` listener", () => {
+  describe(NavigationSyncer.prototype.sync, () => {
     test("The listener is called when `currententrychange` event and `event.navigationType` is `push`.", () => {
       // Arrange
       const navigation = createNavigationMock("/");
@@ -97,7 +97,7 @@ describe("NavigationSyncer", () => {
     });
   });
 
-  describe("`updateURL`", () => {
+  describe(NavigationSyncer.prototype.updateURL, () => {
     test("When `updateURL` is called, `navigation.navigate` is called with replace specified.", () => {
       // Arrange
       history.replaceState({ foo: "bar" }, "", "/");

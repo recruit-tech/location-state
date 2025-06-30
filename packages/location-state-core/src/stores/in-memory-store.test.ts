@@ -1,7 +1,7 @@
 import { expect, test, vi } from "vitest";
 import { InMemoryStore } from "./in-memory-store";
 
-describe("InMemoryStore", () => {
+describe(InMemoryStore, () => {
   test("The initial value is undefined.", () => {
     // Arrange
     const store = new InMemoryStore();
@@ -11,7 +11,7 @@ describe("InMemoryStore", () => {
     expect(slice).toBeUndefined();
   });
 
-  describe("on `set`", () => {
+  describe(InMemoryStore.prototype.set, () => {
     test("The updated value can be obtained.", () => {
       // Arrange
       const store = new InMemoryStore();
@@ -77,7 +77,7 @@ describe("InMemoryStore", () => {
     });
   });
 
-  describe("on `load`", () => {
+  describe(InMemoryStore.prototype.load, () => {
     test("`load` without `set` is undefined.", () => {
       // Arrange
       const store = new InMemoryStore();

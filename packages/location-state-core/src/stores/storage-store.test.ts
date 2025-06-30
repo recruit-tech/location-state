@@ -13,7 +13,7 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-describe("StoreStorage", () => {
+describe(StorageStore, () => {
   describe("`constructor` format", () => {
     describe("Recommended", () => {
       test("`sessionStorage` is used when arguments are omitted", () => {
@@ -180,7 +180,7 @@ describe("StoreStorage", () => {
       expect(slice).toBeUndefined();
     });
 
-    describe("On `set`", () => {
+    describe(StorageStore.prototype.set, () => {
       test("The updated value is obtained.", () => {
         // Arrange
         const store = new StorageStore({ storage });
@@ -250,7 +250,7 @@ describe("StoreStorage", () => {
       });
     });
 
-    describe("On `load`", () => {
+    describe(StorageStore.prototype.load, () => {
       test("The slice is the value in storage.", () => {
         // Arrange
         const navigationKey = "current_location";
@@ -316,7 +316,7 @@ describe("StoreStorage", () => {
       });
     });
 
-    describe("On `save`", () => {
+    describe(StorageStore.prototype.save, () => {
       test("The state is saved in Storage.", () => {
         // Arrange
         const currentLocationKey = "current_location";
@@ -347,7 +347,7 @@ describe("StoreStorage", () => {
   });
 
   describe("`storage` and `stateSerializer` are provided", () => {
-    describe("On `load`", () => {
+    describe(StorageStore.prototype.load, () => {
       test("The value of the slice is evaluated by `deserialize`.", () => {
         // Arrange
         const navigationKey = "current_location";
@@ -396,7 +396,7 @@ describe("StoreStorage", () => {
       });
     });
 
-    describe("On `save`", () => {
+    describe(StorageStore.prototype.save, () => {
       test("The state is saved in Storage with evaluated by `serialize`.", () => {
         // Arrange
         const currentLocationKey = "current_location";

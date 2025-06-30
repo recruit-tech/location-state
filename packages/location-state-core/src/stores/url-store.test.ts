@@ -12,7 +12,7 @@ afterEach(() => {
   vi.clearAllTimers();
 });
 
-describe("`URLStore`", () => {
+describe(URLStore, () => {
   function prepareLocation({
     pathname,
     search = "",
@@ -56,7 +56,7 @@ describe("`URLStore`", () => {
       expect(value).toBeUndefined();
     });
 
-    describe("on `set`", () => {
+    describe(URLStore.prototype.set, () => {
       test("The store's values are updated and reflected in the URL.", () => {
         // Arrange
         prepareLocation({
@@ -140,7 +140,7 @@ describe("`URLStore`", () => {
       });
     });
 
-    describe("on `load`", () => {
+    describe(URLStore.prototype.load, () => {
       test("The state is loaded from url.", () => {
         // Arrange
         prepareLocation({
@@ -244,7 +244,7 @@ describe("`URLStore`", () => {
   });
 });
 
-describe("`searchParamEncoder`", () => {
+describe(searchParamEncoder, () => {
   describe("with default serializer", () => {
     const encoder = searchParamEncoder("location-state", jsonSerializer);
 
