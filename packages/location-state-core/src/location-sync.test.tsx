@@ -22,7 +22,7 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
-describe("using `useLocationState`.", () => {
+describe(useLocationState, () => {
   function LocationSyncCounter() {
     const [count, setCount] = useLocationState({
       name: "count",
@@ -50,7 +50,7 @@ describe("using `useLocationState`.", () => {
     );
   }
 
-  test("`count` can be updated.", async () => {
+  test("The `count` can be updated.", async () => {
     // Arrange
     const { user } = renderWithUser(<LocationSyncCounterPage />);
     // Act
@@ -59,7 +59,7 @@ describe("using `useLocationState`.", () => {
     expect(screen.getByRole("heading")).toHaveTextContent("count: 1");
   });
 
-  test("`count` can be updated with updater.", async () => {
+  test("The `count` can be updated with updater.", async () => {
     // Arrange
     const { user } = renderWithUser(<LocationSyncCounterPage />);
     // Act
@@ -70,7 +70,7 @@ describe("using `useLocationState`.", () => {
     expect(screen.getByRole("heading")).toHaveTextContent("count: 1");
   });
 
-  test("`count` is reset at navigation.", async () => {
+  test("The `count` is reset at navigation.", async () => {
     // Arrange
     const { user } = renderWithUser(<LocationSyncCounterPage />);
     await user.click(await screen.findByRole("button", { name: "increment" }));
@@ -82,7 +82,7 @@ describe("using `useLocationState`.", () => {
     );
   });
 
-  test("If there is a value in sessionStorage, it will be restored as initial value.", async () => {
+  test("If there is a value in `sessionStorage`, it will be restored as the initial value.", async () => {
     // Arrange
     const key = mockNavigation.currentEntry?.key as string;
     sessionStorage.setItem(`${locationKeyPrefix}${key}`, `{"count":2}`);
@@ -95,7 +95,7 @@ describe("using `useLocationState`.", () => {
   });
 });
 
-describe("using `useLocationStateValue`.", () => {
+describe(useLocationStateValue, () => {
   function LocationSyncCounter() {
     const counter: LocationStateDefinition<number> = {
       name: "count",
@@ -114,7 +114,7 @@ describe("using `useLocationStateValue`.", () => {
     );
   }
 
-  test("If there is a value in sessionStorage, it will be restored as initial value.", async () => {
+  test("If there is a value in `sessionStorage`, it will be restored as the initial value.", async () => {
     // Arrange
     const key = mockNavigation.currentEntry?.key as string;
     sessionStorage.setItem(`${locationKeyPrefix}${key}`, `{"count":2}`);
@@ -125,11 +125,9 @@ describe("using `useLocationStateValue`.", () => {
       expect(screen.getByRole("heading")).toHaveTextContent("count: 2"),
     );
   });
-
-  test.todo(`When store's value is changed, component is re-rendered.`);
 });
 
-describe("using `useLocationSetState`.", () => {
+describe(useLocationSetState, () => {
   function LocationSyncCounter() {
     const counter: LocationStateDefinition<number> = {
       name: "counter",
@@ -160,18 +158,17 @@ describe("using `useLocationSetState`.", () => {
     );
   }
 
-  test("setCount does not re-render.", async () => {
+  test("`setCount` does not re-render.", async () => {
     // Arrange
     const { user } = renderWithUser(<LocationSyncCounterPage />);
     // Act
     await user.click(await screen.findByRole("button", { name: "increment" }));
     // Assert
     expect(screen.getByRole("heading")).toHaveTextContent("rendered: 1");
-    // todo: assert store's value updated.
   });
 });
 
-describe("using `useLocationGetState` with `storeName`.", () => {
+describe(useLocationGetState, () => {
   function LocationSyncOnceCounter() {
     const counter: LocationStateDefinition<number> = {
       name: "count",
