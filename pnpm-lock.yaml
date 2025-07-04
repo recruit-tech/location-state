@@ -81,11 +81,11 @@ importers:
   apps/example-next-conform:
     dependencies:
       '@conform-to/react':
-        specifier: 1.8.0
-        version: 1.8.0(react@19.1.0)
+        specifier: 1.8.1
+        version: 1.8.1(react@19.1.0)
       '@conform-to/zod':
-        specifier: 1.8.0
-        version: 1.8.0(zod@3.25.28)
+        specifier: 1.8.1
+        version: 1.8.1(zod@3.25.28)
       '@location-state/conform':
         specifier: workspace:*
         version: link:../../packages/location-state-conform
@@ -203,8 +203,8 @@ importers:
         version: 1.1.0(typescript@5.8.2)
     devDependencies:
       '@conform-to/react':
-        specifier: 1.8.0
-        version: 1.8.0(react@19.1.0)
+        specifier: 1.8.1
+        version: 1.8.1(react@19.1.0)
       '@location-state/core':
         specifier: workspace:*
         version: link:../location-state-core
@@ -519,16 +519,16 @@ packages:
   '@changesets/write@0.4.0':
     resolution: {integrity: sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q==}
 
-  '@conform-to/dom@1.8.0':
-    resolution: {integrity: sha512-twBp7kcY/MGRl6a3EBGpLzf0ZIFOFpRVw0DX8tyV6GJeQ02Qh8IlRPjO2lzM0olY1sFTw/2Q0K+DLAYqwHoiSg==}
+  '@conform-to/dom@1.8.1':
+    resolution: {integrity: sha512-Sg4Jz31ZyiqbFHAKOmG+sVHtukku2Xmxv9ObYzj/TrKMXF1R9qN3ShucAIZWtRaw9l9vZGiqpDnSyfevmiBxuQ==}
 
-  '@conform-to/react@1.8.0':
-    resolution: {integrity: sha512-SxHzGVwxIr5k305T9tnzoBhl3bznOx4sVHWxuIjCbUb4cBlcY4V2t+FxwEipIV4b96fFYQhC8lU3vhfVf5PkBQ==}
+  '@conform-to/react@1.8.1':
+    resolution: {integrity: sha512-+bm+j0MOeOxrhrjWeoLmpmt+m1djZmPM/qE+AH5+8RewuC6GyXEXPyWAyES9bw9mZJ/WqInVS6Ljrf4gQ0I0zA==}
     peerDependencies:
       react: '>=18'
 
-  '@conform-to/zod@1.8.0':
-    resolution: {integrity: sha512-3ntmKIt5i3Nx3NygUfIORKeOrWWdzYPV/Qp+7jPGjcAq9B04XCnvNs6w86oNhmsLzTDyVR5YEL8ZhlR5DjSS/g==}
+  '@conform-to/zod@1.8.1':
+    resolution: {integrity: sha512-OO3CvfA1STL68oTKTMEcXWR/pBwWfJDSRVvBiR34gLlkZBV01Kfvmea2kQarFXLCJSANvjUyG52OZe9GxvPUGw==}
     peerDependencies:
       zod: ^3.21.0
 
@@ -2924,16 +2924,16 @@ snapshots:
       human-id: 4.1.1
       prettier: 2.8.8
 
-  '@conform-to/dom@1.8.0': {}
+  '@conform-to/dom@1.8.1': {}
 
-  '@conform-to/react@1.8.0(react@19.1.0)':
+  '@conform-to/react@1.8.1(react@19.1.0)':
     dependencies:
-      '@conform-to/dom': 1.8.0
+      '@conform-to/dom': 1.8.1
       react: 19.1.0
 
-  '@conform-to/zod@1.8.0(zod@3.25.28)':
+  '@conform-to/zod@1.8.1(zod@3.25.28)':
     dependencies:
-      '@conform-to/dom': 1.8.0
+      '@conform-to/dom': 1.8.1
       zod: 3.25.28
 
   '@csstools/color-helpers@5.0.1': {}
