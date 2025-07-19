@@ -1,5 +1,25 @@
 # @location-state/core
 
+## 1.3.0
+
+### Minor Changes
+
+- 9e87052: Add constructor overloads to `StorageStore`.
+
+  The constructor now supports two formats:
+
+  - Recommended format:
+
+    - `new StorageStore()` - uses `sessionStorage` by default
+    - `new StorageStore({ storage?, stateSerializer? })` - options object pattern
+
+  - Legacy format (maintained for backward compatibility):
+    - `new StorageStore(storage, stateSerializer?)`
+
+  Existing code will continue to work without any changes.
+
+- 196698d: Fixed an issue where state was being discarded even when the user attempted to save it using `useEffect` on initial render.
+
 ## 1.2.2
 
 ### Patch Changes
