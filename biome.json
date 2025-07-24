@@ -1,39 +1,41 @@
 {
   "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "ignore": [
-      ".vscode/**",
-      "**/tsconfig.*.json",
-      "**/node_modules",
-      "**/.next",
-      "**/types/**",
-      "**/test-results/**",
-      "**/dist/**",
-      "backend",
-      "playwright-report",
-      "**/styled-system/**",
-      "**/.turbo/**",
-      "pnpm-lock.yaml"
+    "includes": [
+      "**",
+      "!**/.vscode/**",
+      "!**/tsconfig.*.json",
+      "!**/node_modules",
+      "!**/.next",
+      "!**/types/**",
+      "!**/test-results/**",
+      "!**/dist/**",
+      "!**/backend",
+      "!**/playwright-report",
+      "!**/styled-system/**",
+      "!**/.turbo/**",
+      "!**/pnpm-lock.yaml"
     ],
     "ignoreUnknown": true
   },
   "formatter": {
     "enabled": true,
     "formatWithErrors": false,
-    "ignore": [
-      ".vscode/**",
-      "**/tsconfig.*.json",
-      "**/node_modules",
-      "**/.next",
-      "**/package.json",
-      "**/types/**",
-      "**/test-results/**",
-      "**/dist/**",
-      "backend",
-      "playwright-report",
-      "**/styled-system/**",
-      "**/.turbo/**",
-      "pnpm-lock.yaml"
+    "includes": [
+      "**",
+      "!**/.vscode/**",
+      "!**/tsconfig.*.json",
+      "!**/node_modules",
+      "!**/.next",
+      "!**/package.json",
+      "!**/types/**",
+      "!**/test-results/**",
+      "!**/dist/**",
+      "!**/backend",
+      "!**/playwright-report",
+      "!**/styled-system/**",
+      "!**/.turbo/**",
+      "!**/pnpm-lock.yaml"
     ],
     "indentWidth": 2,
     "indentStyle": "space"

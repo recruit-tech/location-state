@@ -1,9 +1,9 @@
 "use client";
 
 import {
+  createDefaultStores,
   LocationStateProvider,
   URLStore,
-  createDefaultStores,
 } from "@location-state/core";
 import qs from "qs";
 

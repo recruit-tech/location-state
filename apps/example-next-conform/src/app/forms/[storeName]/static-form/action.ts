@@ -4,7 +4,7 @@ import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
 import { User } from "./schema";
 
-export async function saveUser(prevState: unknown, formData: FormData) {
+export async function saveUser(_prevState: unknown, formData: FormData) {
   const submission = parseWithZod(formData, {
     schema: User,
   });

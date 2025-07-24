@@ -68,7 +68,7 @@ function installUnsafeNavigation(): Navigation {
     type: string,
     listener: EventListener,
     options?: boolean | AddEventListenerOptions | undefined,
-  ) => void = (type, listener, options) => {
+  ) => void = (type, listener, _options) => {
     if (!listener) return;
     const listeners = listenersMap.get(type);
     if (!listeners) return;
@@ -78,7 +78,7 @@ function installUnsafeNavigation(): Navigation {
     }
   };
 
-  const notify = (type: string, event: Event) => {
+  const notify = (_type: string, event: Event) => {
     const listeners = listenersMap.get("currententrychange");
     listeners?.forEach((listener) => {
       listener(event);

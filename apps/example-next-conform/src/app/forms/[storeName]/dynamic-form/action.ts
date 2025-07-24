@@ -4,7 +4,7 @@ import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
 import { Team } from "./schema";
 
-export async function saveTeam(prevState: unknown, formData: FormData) {
+export async function saveTeam(_prevState: unknown, formData: FormData) {
   const submission = parseWithZod(formData, {
     schema: Team,
   });

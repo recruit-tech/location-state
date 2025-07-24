@@ -1,5 +1,5 @@
-import { getFormProps } from "@conform-to/react";
 import type { FormMetadata } from "@conform-to/react";
+import { getFormProps } from "@conform-to/react";
 import {
   type LocationStateDefinition,
   useLocationGetState,
@@ -54,7 +54,6 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
   const formId = `${formIdPrefix}-${formIdSuffix}`;
 
   const formRef = useRef<FormMetadata | null>(null);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!locationKey) return;
     if (!formRef.current) {
@@ -70,7 +69,7 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
         );
       });
     }
-  }, [locationKey, formId, getLocationState]);
+  }, [locationKey, getLocationState]);
 
   const getLocationFormProps = useCallback(
     (form, option?) => {
