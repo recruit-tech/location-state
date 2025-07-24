@@ -7,4 +7,4 @@ const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
 };
 
-module.exports = nextConfig;
+export default nextConfig;
