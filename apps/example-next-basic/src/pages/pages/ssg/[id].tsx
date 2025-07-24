@@ -1,7 +1,7 @@
-import { Counter } from "@/components/Counter";
-import { List } from "@/components/List";
 import type { GetServerSideProps, GetStaticPaths } from "next";
 import Link from "next/link";
+import { Counter } from "@/components/Counter";
+import { List } from "@/components/List";
 
 type Props = {
   id: number;

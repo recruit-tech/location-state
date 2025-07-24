@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import type { Syncer } from "../types";
 import { jsonSerializer } from "./serializer";
-import { URLStore, searchParamEncoder } from "./url-store";
+import { searchParamEncoder, URLStore } from "./url-store";
 
 beforeEach(() => {
   vi.useFakeTimers();

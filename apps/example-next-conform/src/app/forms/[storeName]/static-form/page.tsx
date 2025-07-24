@@ -2,7 +2,9 @@ import Form from "./form";
 
 export default async function Page({
   params,
-}: { params: Promise<{ storeName: string }> }) {
+}: {
+  params: Promise<{ storeName: string }>;
+}) {
   const { storeName } = await params;
 
   if (storeName !== "session" && storeName !== "url") {

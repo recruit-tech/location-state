@@ -1,7 +1,7 @@
-import { Counter } from "@/components/Counter";
-import { List } from "@/components/List";
 import { headers } from "next/headers";
 import Link from "next/link";
+import { Counter } from "@/components/Counter";
+import { List } from "@/components/List";
 
 export default async function Page() {
   const headersList = await headers();

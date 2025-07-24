@@ -1,9 +1,9 @@
 import {
-  type Mock,
   afterEach,
   beforeEach,
   describe,
   expect,
+  type Mock,
   test,
   vi,
 } from "vitest";
