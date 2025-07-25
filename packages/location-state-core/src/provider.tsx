@@ -37,13 +37,34 @@ export function LocationStateProvider({
       stores: typeof stores === "function" ? stores(syncer) : stores,
     };
   });
-  const syncer = contextValue.syncer;
 
+  return (
+    <>
+      <LocationEffect
+        stores={contextValue.stores}
+        syncer={contextValue.syncer}
+      />
+      <LocationStateContext.Provider value={contextValue}>
+        {children}
+      </LocationStateContext.Provider>
+    </>
+  );
+}
+
+// We split the component and adjust it so that LocationState's `useEffect` is executed
+// before `children`'s `useEffect`.
+function LocationEffect({
+  stores,
+  syncer,
+}: {
+  stores: Stores;
+  syncer: Syncer;
+}) {
   useEffect(() => {
     const abortController = new AbortController();
     const { signal } = abortController;
     const applyAllStore = (callback: (store: Store) => void) => {
-      Object.values(contextValue.stores).forEach(callback);
+      Object.values(stores).forEach(callback);
     };
 
     const key = syncer.key()!;
@@ -67,11 +88,7 @@ export function LocationStateProvider({
     );
 
     return () => abortController.abort();
-  }, [syncer, contextValue.stores]);
+  }, [syncer, stores]);
 
-  return (
-    <LocationStateContext.Provider value={contextValue}>
-      {children}
-    </LocationStateContext.Provider>
-  );
+  return null;
 }
