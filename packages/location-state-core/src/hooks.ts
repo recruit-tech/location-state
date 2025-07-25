@@ -141,7 +141,9 @@ export const useLocationKey = ({
       const abortController = new AbortController();
       const { signal } = abortController;
       syncer.sync({
-        listener,
+        // workaround: An error related to `useInsertionEffect` occurs in `next dev`,
+        // so it is avoided with `queueMicrotask`.
+        listener: () => queueMicrotask(listener),
         signal,
       });
       return () => abortController.abort();
