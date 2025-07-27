@@ -21,7 +21,7 @@
     "zod": "3.25.76"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "6.6.3",
+    "@testing-library/jest-dom": "6.6.4",
     "@types/node": "22.16.5",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
