@@ -36,7 +36,7 @@
     "@types/react": "19.1.8",
     "navigation-api-types": "0.6.1",
     "next": "15.4.4",
-    "react": "19.1.0"
+    "react": "19.1.1"
   },
   "peerDependencies": {
     "next": "^13.0.0 || ^14.0.0 || ^15.0.0",
