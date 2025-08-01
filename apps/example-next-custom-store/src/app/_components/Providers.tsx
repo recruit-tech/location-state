@@ -3,6 +3,7 @@
 import {
   createDefaultStores,
   LocationStateProvider,
+  StorageStore,
   URLStore,
 } from "@location-state/core";
 import qs from "qs";
@@ -16,6 +17,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
         url: new URLStore(syncer, {
           encode: encodeUrlState,
           decode: decodeUrlState,
+        }),
+        // add a session store with maxKeys limit of 3 (using new options format)
+        session: new StorageStore({
+          storage:
+            typeof window !== "undefined"
+              ? globalThis.sessionStorage
+              : undefined,
+          maxKeys: 3,
         }),
       })}
     >
