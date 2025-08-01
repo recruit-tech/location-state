@@ -487,9 +487,15 @@ Interface to serialize/deserialize state. It may be used for `Store`s customizat
 
 ```ts
 export declare class StorageStore implements Store {
-  constructor(); // Recommended format
-  constructor(options: { storage?: Storage; stateSerializer?: StateSerializer }); // Recommended format
-  constructor(storage: Storage | undefined, stateSerializer?: StateSerializer); // Legacy format (still supported)
+   // Recommended format
+  constructor();
+  constructor(options: { 
+    storage?: Storage;
+    stateSerializer?: StateSerializer;
+    maxKeys?: number;
+  });
+   // Legacy format (still supported)
+  constructor(storage: Storage | undefined, stateSerializer?: StateSerializer);
 }
 ```
 
@@ -500,6 +506,7 @@ A `Store` that stores state in `Storage`.
 - `options?`: Configuration object.
   - `storage?`: The `Storage` of the destination. Defaults to `globalThis.sessionStorage` on the client side, `undefined` on the server side.
   - `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
+  - `maxKeys?`: Maximum number of location keys to keep in storage. When the limit is exceeded, the oldest keys are removed using LRU (Least Recently Used) strategy.
 
 #### `new StorageStore(storage, stateSerializer)` (Legacy Format)
 
@@ -514,12 +521,17 @@ const sessionStore = new StorageStore();
 
 // Recommended format with custom storage
 const localStore = new StorageStore({ 
-  storage: typeof window !== "undefined" ? globalThis.localStorage : undefined 
+  storage: typeof window !== "undefined" ? globalThis.localStorage : undefined,
 });
 
 // Recommended format with custom serializer
 const customStore = new StorageStore({ 
-  stateSerializer: myCustomSerializer 
+  stateSerializer: myCustomSerializer,
+});
+
+// Recommended format with maxKeys
+const customStore = new StorageStore({ 
+  maxKeys: 10,
 });
 
 // Legacy format (still supported)
