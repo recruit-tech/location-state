@@ -506,7 +506,7 @@ A `Store` that stores state in `Storage`.
 - `options?`: Configuration object.
   - `storage?`: The `Storage` of the destination. Defaults to `globalThis.sessionStorage` on the client side, `undefined` on the server side.
   - `stateSerializer?`: Specifies how to serialize/deserialize. By default, `JSON.stringify` and `JSON.parse` are used.
-  - `maxKeys?`: Maximum number of location keys to keep in storage. When the limit is exceeded, the oldest keys are removed using LRU (Least Recently Used) strategy.
+  - `maxKeys?`: Maximum number of location keys to keep in storage. When the limit is exceeded, the oldest keys are removed using LRU (Least Recently Used) strategy. Defaults to unlimited if not specified.
 
 #### `new StorageStore(storage, stateSerializer)` (Legacy Format)
 

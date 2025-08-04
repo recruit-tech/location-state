@@ -9,5 +9,5 @@ Add `maxKeys` option to StorageStore constructor to limit stored location keys. 
 
 ```ts
 // Recommended format only support
-const store = new StorageStore({ maxSize: 10 });
+const store = new StorageStore({ maxKeys: 10 });
 ```
