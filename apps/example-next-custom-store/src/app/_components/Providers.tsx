@@ -20,10 +20,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
         }),
         // add a session store with maxKeys limit of 3 (using new options format)
         session: new StorageStore({
-          storage:
-            typeof window !== "undefined"
-              ? globalThis.sessionStorage
-              : undefined,
           maxKeys: 3,
         }),
       })}
