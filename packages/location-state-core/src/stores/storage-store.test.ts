@@ -448,4 +448,115 @@ describe(StorageStore, () => {
       });
     });
   });
+
+  describe("`storage` and `maxKeys` are provided", () => {
+    describe("removal of old keys and sorting", () => {
+      test("Oldest key is removed when exceeding limit", () => {
+        // Arrange
+        const store = new StorageStore({ storage, maxKeys: 2 });
+        store.load("key1");
+        store.set("foo", "value1");
+        store.save();
+        store.load("key2");
+        store.set("bar", "value2");
+        store.save();
+        store.load("key3");
+        store.set("baz", "value3");
+        // Act
+        store.load("key1");
+        // Assert
+        expect(store.get("foo")).toBeUndefined();
+        expect(store.get("bar")).toBeUndefined();
+        expect(store.get("baz")).toBeUndefined();
+        expect(storageMock.setItem).toHaveBeenCalledWith(
+          "__location_state:keys",
+          JSON.stringify(["key2", "key3"]),
+        );
+      });
+
+      test("Removes oldest key when exceeding limit during save", () => {
+        // Arrange
+        const store = new StorageStore({ storage, maxKeys: 2 });
+        store.load("key1");
+        store.save();
+        store.load("key2");
+        store.save();
+        store.load("key3");
+        // Act - Save should trigger cleanup
+        store.save();
+        // Assert
+        expect(storageMock.removeItem).toHaveBeenCalledWith(
+          "__location_state_key1",
+        );
+        expect(storageMock.setItem).toHaveBeenCalledWith(
+          "__location_state:keys",
+          JSON.stringify(["key2", "key3"]),
+        );
+      });
+
+      test("LRU order is maintained correctly", () => {
+        // Arrange
+        const store = new StorageStore({ storage, maxKeys: 2 });
+        store.load("keyA");
+        store.save();
+        store.load("keyB");
+        store.save();
+        store.load("keyA");
+        // Act
+        store.load("keyC"); // This should remove keyB
+        // Assert
+        expect(storageMock.removeItem).toHaveBeenCalledWith(
+          "__location_state_keyB",
+        );
+        expect(storageMock.setItem).toHaveBeenCalledWith(
+          "__location_state:keys",
+          JSON.stringify(["keyA", "keyC"]),
+        );
+      });
+    });
+
+    describe("Error handling", () => {
+      test("Works correctly when key list loading fails", () => {
+        // Arrange
+        const consoleSpy = vi
+          .spyOn(console, "error")
+          .mockImplementation(() => {});
+        storageMock.getItem.mockImplementationOnce((key) => {
+          if (key === "__location_state:keys") {
+            throw new Error("Storage error");
+          }
+          return null;
+        });
+        const store = new StorageStore({ storage, maxKeys: 2 });
+        // Act & Assert - Should not throw
+        expect(() => {
+          store.load("key1");
+        }).not.toThrow();
+        // Restore console
+        consoleSpy.mockRestore();
+      });
+
+      test("State is saved even when key list saving fails", () => {
+        // Arrange
+        const consoleSpy = vi
+          .spyOn(console, "error")
+          .mockImplementation(() => {});
+        storageMock.setItem.mockImplementation((key, _value) => {
+          if (key === "__location_state:keys") {
+            throw new Error("Storage error");
+          }
+          // Allow other setItem calls to succeed
+        });
+        const store = new StorageStore({ storage, maxKeys: 2 });
+        store.load("key1");
+        store.set("foo", "value");
+        // Act
+        store.save();
+        // Assert
+        expect(storageMock.setItem).toHaveBeenCalledTimes(2); // key and value saved.
+        // Restore console
+        consoleSpy.mockRestore();
+      });
+    });
+  });
 });
