@@ -450,7 +450,7 @@ describe(StorageStore, () => {
   });
 
   describe("`storage` and `maxKeys` are provided", () => {
-    describe(StorageStore.prototype.load, () => {
+    describe("removal of old keys and sorting", () => {
       test("Oldest key is removed when exceeding limit", () => {
         // Arrange
         const store = new StorageStore({ storage, maxKeys: 2 });
@@ -468,6 +468,26 @@ describe(StorageStore, () => {
         expect(store.get("foo")).toBeUndefined();
         expect(store.get("bar")).toBeUndefined();
         expect(store.get("baz")).toBeUndefined();
+        expect(storageMock.setItem).toHaveBeenCalledWith(
+          "__location_state_keys",
+          JSON.stringify(["key2", "key3"]),
+        );
+      });
+
+      test("Removes oldest key when exceeding limit during save", () => {
+        // Arrange
+        const store = new StorageStore({ storage, maxKeys: 2 });
+        store.load("key1");
+        store.save();
+        store.load("key2");
+        store.save();
+        store.load("key3");
+        // Act - Save should trigger cleanup
+        store.save();
+        // Assert
+        expect(storageMock.removeItem).toHaveBeenCalledWith(
+          "__location_state_key1",
+        );
         expect(storageMock.setItem).toHaveBeenCalledWith(
           "__location_state_keys",
           JSON.stringify(["key2", "key3"]),
@@ -493,7 +513,9 @@ describe(StorageStore, () => {
           JSON.stringify(["keyA", "keyC"]),
         );
       });
+    });
 
+    describe("Error handling", () => {
       test("Works correctly when key list loading fails", () => {
         // Arrange
         const consoleSpy = vi
@@ -512,28 +534,6 @@ describe(StorageStore, () => {
         }).not.toThrow();
         // Restore console
         consoleSpy.mockRestore();
-      });
-    });
-
-    describe(StorageStore.prototype.save, () => {
-      test("Removes oldest key when exceeding limit during save", () => {
-        // Arrange
-        const store = new StorageStore({ storage, maxKeys: 2 });
-        store.load("key1");
-        store.save();
-        store.load("key2");
-        store.save();
-        store.load("key3");
-        // Act - Save should trigger cleanup
-        store.save();
-        // Assert
-        expect(storageMock.removeItem).toHaveBeenCalledWith(
-          "__location_state_key1",
-        );
-        expect(storageMock.setItem).toHaveBeenCalledWith(
-          "__location_state_keys",
-          JSON.stringify(["key2", "key3"]),
-        );
       });
 
       test("State is saved even when key list saving fails", () => {
