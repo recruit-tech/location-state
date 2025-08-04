@@ -2,8 +2,8 @@ import { EventEmitter } from "./event-emitter";
 import { jsonSerializer } from "./serializer";
 import type { Listener, StateSerializer, Store } from "./types";
 
-export const locationKeyPrefix = "__location_state_";
-const storageKeysKey = "__location_state_keys";
+export const LOCATION_KEY_PREFIX = "__location_state_";
+const STORAGE_KEYS_KEY = "__keys_of_location_state";
 
 type StorageStoreOptions = {
   storage?: Storage;
@@ -114,7 +114,7 @@ export class StorageStore implements Store {
 
   private loadKeys() {
     try {
-      const storageValue = this.storage?.getItem(storageKeysKey) ?? null;
+      const storageValue = this.storage?.getItem(STORAGE_KEYS_KEY) ?? null;
       const keys = storageValue !== null ? JSON.parse(storageValue) : [];
       this.keys = new Set<string>(keys);
     } catch (e) {
@@ -141,7 +141,7 @@ export class StorageStore implements Store {
 
     // Save key list to Storage
     try {
-      this.storage?.setItem(storageKeysKey, JSON.stringify([...this.keys]));
+      this.storage?.setItem(STORAGE_KEYS_KEY, JSON.stringify([...this.keys]));
     } catch (e) {
       console.error(e);
     }
@@ -149,7 +149,7 @@ export class StorageStore implements Store {
 }
 
 function toStorageKey(key: string) {
-  return `${locationKeyPrefix}${key}`;
+  return `${LOCATION_KEY_PREFIX}${key}`;
 }
 
 function normalizeArgs(args: StorageStoreConstructorArgs): StorageStoreOptions {

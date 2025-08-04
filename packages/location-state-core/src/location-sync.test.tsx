@@ -10,7 +10,7 @@ import {
   useLocationStateValue,
 } from "./hooks";
 import { LocationStateProvider } from "./provider";
-import { locationKeyPrefix } from "./stores";
+import { LOCATION_KEY_PREFIX } from "./stores";
 
 const mockNavigation = createNavigationMock("/");
 // @ts-ignore
@@ -84,7 +84,7 @@ describe(useLocationState, () => {
   test("If there is a value in `sessionStorage`, it will be restored as the initial value.", async () => {
     // Arrange
     const key = mockNavigation.currentEntry?.key as string;
-    sessionStorage.setItem(`${locationKeyPrefix}${key}`, `{"count":2}`);
+    sessionStorage.setItem(`${LOCATION_KEY_PREFIX}${key}`, `{"count":2}`);
     // Act
     renderWithUser(<LocationSyncCounterPage />);
     // Assert
@@ -116,7 +116,7 @@ describe(useLocationStateValue, () => {
   test("If there is a value in `sessionStorage`, it will be restored as the initial value.", async () => {
     // Arrange
     const key = mockNavigation.currentEntry?.key as string;
-    sessionStorage.setItem(`${locationKeyPrefix}${key}`, `{"count":2}`);
+    sessionStorage.setItem(`${LOCATION_KEY_PREFIX}${key}`, `{"count":2}`);
     // Act
     renderWithUser(<LocationSyncCounterPage />);
     // Assert
@@ -198,7 +198,7 @@ describe(useLocationGetState, () => {
   test("If there is a value in sessionStorage, it is not re-rendered.", async () => {
     // Arrange
     const key = mockNavigation.currentEntry?.key as string;
-    sessionStorage.setItem(`${locationKeyPrefix}${key}`, `{"count":2}`);
+    sessionStorage.setItem(`${LOCATION_KEY_PREFIX}${key}`, `{"count":2}`);
     // Act
     renderWithUser(<LocationSyncCounterPage />);
     // Assert
@@ -210,7 +210,7 @@ describe(useLocationGetState, () => {
   test("Always get the latest values.", async () => {
     // Arrange
     const key = mockNavigation.currentEntry?.key as string;
-    sessionStorage.setItem(`${locationKeyPrefix}${key}`, `{"count":2}`);
+    sessionStorage.setItem(`${LOCATION_KEY_PREFIX}${key}`, `{"count":2}`);
     const { user } = renderWithUser(<LocationSyncCounterPage />);
     // Act
     await user.click(
