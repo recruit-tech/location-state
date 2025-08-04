@@ -469,7 +469,7 @@ describe(StorageStore, () => {
         expect(store.get("bar")).toBeUndefined();
         expect(store.get("baz")).toBeUndefined();
         expect(storageMock.setItem).toHaveBeenCalledWith(
-          "__keys_of_location_state",
+          "__location_state:keys",
           JSON.stringify(["key2", "key3"]),
         );
       });
@@ -489,7 +489,7 @@ describe(StorageStore, () => {
           "__location_state_key1",
         );
         expect(storageMock.setItem).toHaveBeenCalledWith(
-          "__keys_of_location_state",
+          "__location_state:keys",
           JSON.stringify(["key2", "key3"]),
         );
       });
@@ -509,7 +509,7 @@ describe(StorageStore, () => {
           "__location_state_keyB",
         );
         expect(storageMock.setItem).toHaveBeenCalledWith(
-          "__keys_of_location_state",
+          "__location_state:keys",
           JSON.stringify(["keyA", "keyC"]),
         );
       });
@@ -522,7 +522,7 @@ describe(StorageStore, () => {
           .spyOn(console, "error")
           .mockImplementation(() => {});
         storageMock.getItem.mockImplementationOnce((key) => {
-          if (key === "__keys_of_location_state") {
+          if (key === "__location_state:keys") {
             throw new Error("Storage error");
           }
           return null;
@@ -542,7 +542,7 @@ describe(StorageStore, () => {
           .spyOn(console, "error")
           .mockImplementation(() => {});
         storageMock.setItem.mockImplementation((key, _value) => {
-          if (key === "__keys_of_location_state") {
+          if (key === "__location_state:keys") {
             throw new Error("Storage error");
           }
           // Allow other setItem calls to succeed

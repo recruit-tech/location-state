@@ -3,7 +3,7 @@ import { jsonSerializer } from "./serializer";
 import type { Listener, StateSerializer, Store } from "./types";
 
 export const LOCATION_KEY_PREFIX = "__location_state_";
-const STORAGE_KEYS_KEY = "__keys_of_location_state";
+const STORAGE_KEYS_KEY = "__location_state:keys";
 
 type StorageStoreOptions = {
   storage?: Storage;
