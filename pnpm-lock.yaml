@@ -21,8 +21,8 @@ importers:
         specifier: 22.17.0
         version: 22.17.0
       '@vitejs/plugin-react':
-        specifier: 4.7.0
-        version: 4.7.0(vite@5.2.6(@types/node@22.17.0))
+        specifier: 5.0.0
+        version: 5.0.0(vite@5.2.6(@types/node@22.17.0))
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -382,11 +382,6 @@ packages:
     resolution: {integrity: sha512-muE8Tt8M22638HU31A3CgfSUciwz1fhATfoVai05aPXGor//CdWDCbnlY1yvBPo07njuVOCNGCSp/GTt12lIug==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/parser@7.27.5':
-    resolution: {integrity: sha512-OsQd175SxWkGlzbny8J3K8TnnDD0N3lrIUtB92xwyRpzaenGZhxDvxN/JgU00U3CDZNj9tPuDJ5H0WS4Nt3vKg==}
-    engines: {node: '>=6.0.0'}
-    hasBin: true
-
   '@babel/parser@7.28.0':
     resolution: {integrity: sha512-jVZGvOxOuNSsuQuLRTh13nU0AogFlw32w/MT+LV6D3sP5WdbW61E77RnkbaO2dUvmPAYrBDJXGn5gGS6tH4j8g==}
     engines: {node: '>=6.0.0'}
@@ -414,10 +409,6 @@ packages:
 
   '@babel/traverse@7.28.0':
     resolution: {integrity: sha512-mGe7UK5wWyh0bKRfupsUchrQGqvDbZDbKJw+kcRGSmdHVYrv+ltd0pnpDTVpiTqnaBru9iEvA8pz8W46v0Amwg==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/types@7.27.6':
-    resolution: {integrity: sha512-ETyHEk2VHHvl9b9jZP5IHPavHYk57EhanlRRuae9XCpb/j5bDCbPPMOBfCWhnl/7EDJz0jEMCi/RhccCE8r1+Q==}
     engines: {node: '>=6.9.0'}
 
   '@babel/types@7.28.1':
@@ -1092,8 +1083,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@rolldown/pluginutils@1.0.0-beta.27':
-    resolution: {integrity: sha512-+d0F4MKMCbeVUJwG96uQ4SgAznZNSq93I3V+9NHA4OpvqG8mRCpGdKmK8l/dl02h2CCDHwW2FqilnTyDcAnqjA==}
+  '@rolldown/pluginutils@1.0.0-beta.30':
+    resolution: {integrity: sha512-whXaSoNUFiyDAjkUF8OBpOm77Szdbk5lGNqFe6CbVbJFrhCCPinCbRA3NjawwlNHla1No7xvXXh+CpSxnPfUEw==}
 
   '@rollup/rollup-android-arm-eabi@4.34.8':
     resolution: {integrity: sha512-q217OSE8DTp8AFHuNHXo0Y86e1wtlfVrXiAlwkIvGRQv9zbc6mE3sjIVfwI8sYUyNxwOg0j/Vm1RKM04JcWLJw==}
@@ -1266,9 +1257,9 @@ packages:
   '@types/uuid@10.0.0':
     resolution: {integrity: sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==}
 
-  '@vitejs/plugin-react@4.7.0':
-    resolution: {integrity: sha512-gUu9hwfWvvEDBBmgtAowQCojwZmJ5mcLn3aufeCsitijs3+f2NsrPtlAWIR6OPiqljl96GVCUbLe0HyqIpVaoA==}
-    engines: {node: ^14.18.0 || >=16.0.0}
+  '@vitejs/plugin-react@5.0.0':
+    resolution: {integrity: sha512-Jx9JfsTa05bYkS9xo0hkofp2dCmp1blrKjw9JONs5BTHOvJCgLbaPSuZLGSVJW6u2qe0tc4eevY0+gSNNi0YCw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
 
@@ -2640,8 +2631,8 @@ snapshots:
 
   '@ampproject/remapping@2.2.1':
     dependencies:
-      '@jridgewell/gen-mapping': 0.3.5
-      '@jridgewell/trace-mapping': 0.3.25
+      '@jridgewell/gen-mapping': 0.3.12
+      '@jridgewell/trace-mapping': 0.3.29
 
   '@asamuzakjp/css-color@2.8.2':
     dependencies:
@@ -2726,10 +2717,6 @@ snapshots:
       '@babel/template': 7.27.2
       '@babel/types': 7.28.1
 
-  '@babel/parser@7.27.5':
-    dependencies:
-      '@babel/types': 7.27.6
-
   '@babel/parser@7.28.0':
     dependencies:
       '@babel/types': 7.28.1
@@ -2765,11 +2752,6 @@ snapshots:
       debug: 4.4.1
     transitivePeerDependencies:
       - supports-color
-
-  '@babel/types@7.27.6':
-    dependencies:
-      '@babel/helper-string-parser': 7.27.1
-      '@babel/helper-validator-identifier': 7.27.1
 
   '@babel/types@7.28.1':
     dependencies:
@@ -3317,7 +3299,7 @@ snapshots:
     dependencies:
       playwright: 1.54.2
 
-  '@rolldown/pluginutils@1.0.0-beta.27': {}
+  '@rolldown/pluginutils@1.0.0-beta.30': {}
 
   '@rollup/rollup-android-arm-eabi@4.34.8':
     optional: true
@@ -3419,24 +3401,24 @@ snapshots:
 
   '@types/babel__core@7.20.5':
     dependencies:
-      '@babel/parser': 7.27.5
-      '@babel/types': 7.27.6
+      '@babel/parser': 7.28.0
+      '@babel/types': 7.28.1
       '@types/babel__generator': 7.6.4
       '@types/babel__template': 7.4.1
       '@types/babel__traverse': 7.20.1
 
   '@types/babel__generator@7.6.4':
     dependencies:
-      '@babel/types': 7.27.6
+      '@babel/types': 7.28.1
 
   '@types/babel__template@7.4.1':
     dependencies:
-      '@babel/parser': 7.27.5
-      '@babel/types': 7.27.6
+      '@babel/parser': 7.28.0
+      '@babel/types': 7.28.1
 
   '@types/babel__traverse@7.20.1':
     dependencies:
-      '@babel/types': 7.27.6
+      '@babel/types': 7.28.1
 
   '@types/chai@5.2.2':
     dependencies:
@@ -3464,12 +3446,12 @@ snapshots:
 
   '@types/uuid@10.0.0': {}
 
-  '@vitejs/plugin-react@4.7.0(vite@5.2.6(@types/node@22.17.0))':
+  '@vitejs/plugin-react@5.0.0(vite@5.2.6(@types/node@22.17.0))':
     dependencies:
       '@babel/core': 7.28.0
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.0)
       '@babel/plugin-transform-react-jsx-source': 7.27.1(@babel/core@7.28.0)
-      '@rolldown/pluginutils': 1.0.0-beta.27
+      '@rolldown/pluginutils': 1.0.0-beta.30
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
       vite: 5.2.6(@types/node@22.17.0)
