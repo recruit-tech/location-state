@@ -18,6 +18,7 @@ type Updater<T> = (prev: T) => T;
 type ValueOrUpdater<T> = T | Updater<T>;
 type SetState<T> = (valueOrUpdater: ValueOrUpdater<T>) => void;
 type GetState<T> = () => T;
+type GetLocationKey = () => string | undefined;
 
 const useStore = (storeName: string) => {
   const { stores } = useContext(LocationStateContext);
@@ -166,4 +167,15 @@ export const useLocationKey = ({
     () => syncer.key() ?? clientDefault,
     () => serverDefault,
   );
+};
+
+export const useLocationGetKey = (): GetLocationKey => {
+  const { syncer } = useContext(LocationStateContext);
+  if (!syncer) {
+    throw new Error("syncer not found");
+  }
+
+  return useCallback(() => {
+    return syncer.key();
+  }, [syncer]);
 };

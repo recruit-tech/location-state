@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { beforeEach, describe, expect, test } from "vitest";
 import {
   type LocationStateDefinition,
+  useLocationGetKey,
   useLocationGetState,
   useLocationSetState,
   useLocationState,
@@ -218,5 +219,64 @@ describe(useLocationGetState, () => {
     );
     // Assert
     expect(screen.getByRole("heading")).toHaveTextContent("count: 2");
+  });
+});
+
+describe(useLocationGetKey, () => {
+  function LocationSyncKeyDisplay() {
+    const getLocationKey = useLocationGetKey();
+    const [key, setKey] = useState<string | undefined>();
+
+    return (
+      <div>
+        <h1>key: {key ?? "undefined"}</h1>
+        <button type="button" onClick={() => setKey(getLocationKey())}>
+          get key
+        </button>
+      </div>
+    );
+  }
+
+  function LocationSyncKeyPage() {
+    return (
+      <LocationStateProvider>
+        <LocationSyncKeyDisplay />
+      </LocationStateProvider>
+    );
+  }
+
+  test("Returns a function that gets the current location key", async () => {
+    // Arrange
+    const { user } = renderWithUser(<LocationSyncKeyPage />);
+    // Act
+    await user.click(await screen.findByRole("button", { name: "get key" }));
+    // Assert
+    expect(screen.getByRole("heading")).not.toHaveTextContent("key: undefined");
+  });
+
+  test("Does not cause re-renders when location key changes", async () => {
+    // Arrange
+    const { user } = renderWithUser(<LocationSyncKeyPage />);
+    await user.click(screen.getByRole("button", { name: "get key" }));
+    const initialKey = screen.getByRole("heading", { level: 1 }).textContent;
+    // Act
+    mockNavigation.navigate("/new-path");
+    // Assert
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      initialKey!,
+    );
+  });
+
+  test("Always gets the latest key when re-render", async () => {
+    // Arrange
+    const initialKey = mockNavigation.currentEntry?.key as string;
+    const { user } = renderWithUser(<LocationSyncKeyPage />);
+    mockNavigation.navigate("/new-path");
+    // Act
+    await user.click(screen.getByRole("button", { name: "get key" }));
+    // Assert
+    const displayedKey = screen.getByRole("heading", { level: 1 }).textContent;
+    expect(displayedKey).not.toContain("undefined");
+    expect(displayedKey).not.toBe(`key: ${initialKey}`); // Should be different from initial key
   });
 });
