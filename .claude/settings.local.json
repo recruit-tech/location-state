@@ -3,7 +3,9 @@
     "allow": [
       "mcp__playwright__playwright_navigate",
       "mcp__playwright__browser_navigate",
-      "mcp__playwright__browser_click"
+      "mcp__playwright__browser_click",
+      "Bash(pnpm typecheck:*)",
+      "Bash(pnpm test:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
