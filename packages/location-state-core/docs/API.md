@@ -8,6 +8,7 @@
   - [function `useLocationGetState`](#function-useLocationGetState)
   - [function `useLocationSetState`](#function-useLocationSetState)
   - [function `useLocationKey`](#function-useLocationKey)
+  - [function `useLocationGetKey`](#function-useLocationGetKey)
 - [Provider](#Provider)
   - [component `<LocationStateProvider>`](#component-LocationStateProvider)
   - [function `createDefaultStores`](#function-createDefaultStores)
@@ -291,6 +292,31 @@ const locationKey = useLocationKey({
   serverDefault: 'default-server-key',
   clientDefault: 'default-client-key' 
 });
+```
+
+### function `useLocationGetKey`
+
+```ts
+type GetLocationKey = () => string | undefined;
+
+declare const useLocationGetKey: () => GetLocationKey;
+```
+
+Allows getting of the key associated with the current history location from the `Syncer`. This hooks will **not re-render** the component if there is a change in the key.
+
+#### Returns
+
+Returns the callback function to get the key associated with the current history location. It can be used in the `useEffect` hook, event handler, etc.
+
+#### Example
+
+```ts
+const getLocationKey = useLocationGetKey();
+
+useEffect(() => {
+  const locationKey = getLocationKey();
+  // ...
+}, [getLocationKey]);
 ```
 
 ## Provider
