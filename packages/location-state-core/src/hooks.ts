@@ -18,6 +18,7 @@ type Updater<T> = (prev: T) => T;
 type ValueOrUpdater<T> = T | Updater<T>;
 type SetState<T> = (valueOrUpdater: ValueOrUpdater<T>) => void;
 type GetState<T> = () => T;
+type GetLocationKey = () => string | undefined;
 
 const useStore = (storeName: string) => {
   const { stores } = useContext(LocationStateContext);
@@ -128,7 +129,9 @@ export const useLocationKey = ({
   clientDefault,
 }:
   | {
+      /** @deprecated Arguments will be removed in the next major version. Use useLocationGetKey() instead for getting the current key. */
       serverDefault?: string;
+      /** @deprecated Arguments will be removed in the next major version. Use useLocationGetKey() instead for getting the current key. */
       clientDefault?: string;
     }
   | undefined = {}) => {
@@ -136,6 +139,14 @@ export const useLocationKey = ({
   if (!syncer) {
     throw new Error("syncer not found");
   }
+
+  // Deprecation warning for arguments
+  if (serverDefault !== undefined || clientDefault !== undefined) {
+    console.warn(
+      "`useLocationKey()` arguments are deprecated and will be removed in the future.",
+    );
+  }
+
   const subscribe = useCallback(
     (listener: () => void) => {
       const abortController = new AbortController();
@@ -156,4 +167,15 @@ export const useLocationKey = ({
     () => syncer.key() ?? clientDefault,
     () => serverDefault,
   );
+};
+
+export const useLocationGetKey = (): GetLocationKey => {
+  const { syncer } = useContext(LocationStateContext);
+  if (!syncer) {
+    throw new Error("syncer not found");
+  }
+
+  return useCallback(() => {
+    return syncer.key();
+  }, [syncer]);
 };
