@@ -21,13 +21,17 @@ export class EventEmitter {
   }
 
   emit(event: string) {
-    this.listeners.get(event)?.forEach((listener) => listener());
+    this.listeners.get(event)?.forEach((listener) => {
+      listener();
+    });
   }
 
   emitAll() {
-    this.listeners.forEach((listeners) =>
-      listeners.forEach((listener) => listener()),
-    );
+    this.listeners.forEach((listeners) => {
+      listeners.forEach((listener) => {
+        listener();
+      });
+    });
   }
 
   deferEmitAll() {

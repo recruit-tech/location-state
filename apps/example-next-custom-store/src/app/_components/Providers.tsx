@@ -55,7 +55,7 @@ function decodeUrlState(url: string): Record<string, unknown> {
         undefined: undefined,
       };
       if (value in keywords) {
-        // @ts-ignore
+        // @ts-expect-error
         return keywords[value];
       }
 
