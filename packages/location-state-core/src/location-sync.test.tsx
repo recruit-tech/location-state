@@ -13,7 +13,7 @@ import { LocationStateProvider } from "./provider";
 import { LOCATION_KEY_PREFIX } from "./stores";
 
 const mockNavigation = createNavigationMock("/");
-// @ts-ignore
+// @ts-expect-error
 globalThis.navigation = mockNavigation;
 
 beforeEach(() => {

@@ -64,9 +64,9 @@ export function useLocationForm<Schema extends Record<string, unknown>>({
     const values = getLocationState();
     if (values) {
       queueMicrotask(() => {
-        Object.entries(values).forEach(([name, value]) =>
-          formRef.current!.update({ name, value: value! }),
-        );
+        Object.entries(values).forEach(([name, value]) => {
+          formRef.current!.update({ name, value: value! });
+        });
       });
     }
   }, [locationKey, getLocationState]);

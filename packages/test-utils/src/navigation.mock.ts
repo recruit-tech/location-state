@@ -49,7 +49,9 @@ class PartialNavigation implements Partial<Navigation> {
     const event = new PartialNavigateEvent(type) as NavigateEvent;
     const listeners = this.listenersMap.get("currententrychange");
     if (listeners) {
-      listeners.forEach((listener) => listener(event));
+      listeners.forEach((listener) => {
+        listener(event);
+      });
     }
   }
 

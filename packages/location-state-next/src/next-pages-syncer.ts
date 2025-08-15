@@ -29,7 +29,9 @@ export class NextPagesSyncer implements Syncer {
 
   notify() {
     const currentKey = this.key()!;
-    this.listeners.forEach((listener) => listener(currentKey));
+    this.listeners.forEach((listener) => {
+      listener(currentKey);
+    });
   }
 
   updateURL(url: string): void {
