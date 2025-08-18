@@ -124,6 +124,8 @@ export const {
   useLocationSetState,
 } = getHooksWith<DefaultStoreName>();
 
+let hasWarnedAboutUseLocationKeyArgs = false;
+
 export const useLocationKey = ({
   serverDefault,
   clientDefault,
@@ -140,8 +142,12 @@ export const useLocationKey = ({
     throw new Error("syncer not found");
   }
 
-  // Deprecation warning for arguments
-  if (serverDefault !== undefined || clientDefault !== undefined) {
+  // Deprecation warning for arguments (only once per process)
+  if (
+    !hasWarnedAboutUseLocationKeyArgs &&
+    (serverDefault !== undefined || clientDefault !== undefined)
+  ) {
+    hasWarnedAboutUseLocationKeyArgs = true;
     console.warn(
       "`useLocationKey()` arguments are deprecated and will be removed in the future.",
     );
