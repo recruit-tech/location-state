@@ -143,15 +143,16 @@ export const useLocationKey = ({
   }
 
   // Deprecation warning for arguments (only once per process)
-  if (
-    process.env.NODE_ENV !== "production" &&
-    !hasWarnedAboutUseLocationKeyArgs &&
-    (serverDefault !== undefined || clientDefault !== undefined)
-  ) {
-    hasWarnedAboutUseLocationKeyArgs = true;
-    console.warn(
-      "`useLocationKey()` arguments are deprecated and will be removed in the future.",
-    );
+  if (process.env.NODE_ENV !== "production") {
+    if (
+      !hasWarnedAboutUseLocationKeyArgs &&
+      (serverDefault !== undefined || clientDefault !== undefined)
+    ) {
+      hasWarnedAboutUseLocationKeyArgs = true;
+      console.warn(
+        "`useLocationKey()` arguments are deprecated and will be removed in the future.",
+      );
+    }
   }
 
   const subscribe = useCallback(
