@@ -131,9 +131,9 @@ export const useLocationKey = ({
   clientDefault,
 }:
   | {
-      /** @deprecated Arguments will be removed in the next major version. Use useLocationGetKey() instead for getting the current key. */
+      /** @deprecated Arguments will be removed in the future. */
       serverDefault?: string;
-      /** @deprecated Arguments will be removed in the next major version. Use useLocationGetKey() instead for getting the current key. */
+      /** @deprecated Arguments will be removed in the future. */
       clientDefault?: string;
     }
   | undefined = {}) => {
