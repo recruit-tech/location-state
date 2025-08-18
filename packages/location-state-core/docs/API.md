@@ -259,9 +259,9 @@ const setCount = useLocationSetState({
 
 ```ts
 declare const useLocationKey: ({ serverDefault, clientDefault, }?: {
-  /** @deprecated Arguments will be removed in the next major version. Use useLocationGetKey() instead for getting the current key. */
+  /** @deprecated Arguments will be removed in the next major version. */
   serverDefault?: string | undefined;
-  /** @deprecated Arguments will be removed in the next major version. Use useLocationGetKey() instead for getting the current key. */
+  /** @deprecated Arguments will be removed in the next major version. */
   clientDefault?: string | undefined;
 } | undefined) => string | undefined;
 ```
