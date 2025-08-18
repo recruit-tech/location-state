@@ -144,6 +144,7 @@ export const useLocationKey = ({
 
   // Deprecation warning for arguments (only once per process)
   if (
+    process.env.NODE_ENV !== "production" &&
     !hasWarnedAboutUseLocationKeyArgs &&
     (serverDefault !== undefined || clientDefault !== undefined)
   ) {
