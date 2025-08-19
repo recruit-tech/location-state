@@ -2,14 +2,16 @@ import { z } from "zod";
 
 export const Team = z.object({
   leaderId: z.string({
-    required_error: "Leader is required",
+    error: (issue) =>
+      issue.input === undefined ? "Leader is required" : "Not a string",
   }),
   members: z.array(
     z.object({
       id: z.string().min(1),
       name: z
         .string({
-          required_error: "Name is required",
+          error: (issue) =>
+            issue.input === undefined ? "Name is required" : "Not a string",
         })
         .min(1)
         .max(100),
