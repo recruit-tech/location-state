@@ -68,7 +68,7 @@ export default function RootLayout({
 "use client";
 
 import { getInputProps, useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
+import { parseWithZod } from "@conform-to/zod"; // Or, if you use zod/v4 or zod/v4-mini, import `@conform-to/zod/v4`.
 import { useLocationForm } from "@location-state/conform";
 import { useFormState } from "react-dom";
 import { User } from "./schema"; // Your schema
@@ -110,7 +110,7 @@ export default function UserForm() {
 // action.ts
 "use server";
 
-import { parseWithZod } from "@conform-to/zod";
+import { parseWithZod } from "@conform-to/zod"; // Or, if you use zod/v4 or zod/v4-mini, import `@conform-to/zod/v4`.
 import { redirect } from "next/navigation";
 import { User } from "./schema";
 
@@ -134,7 +134,7 @@ export async function saveUser(prevState: unknown, formData: FormData) {
 "use client";
 
 import { getInputProps, useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
+import { parseWithZod } from "@conform-to/zod"; // Or, if you use zod/v4 or zod/v4-mini, import `@conform-to/zod/v4`.
 import { useLocationForm } from "@location-state/conform";
 import { useFormState } from "react-dom";
 import { saveUser } from "./action"; // Your action

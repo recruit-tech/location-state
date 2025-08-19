@@ -3,13 +3,15 @@ import { z } from "zod";
 export const User = z.object({
   firstName: z
     .string({
-      required_error: "`First name` is required",
+      error: (issue) =>
+        issue.input === undefined ? "First name is required" : "Not a string",
     })
     .min(1)
     .max(100),
   lastName: z
     .string({
-      required_error: "`Last name` is required",
+      error: (issue) =>
+        issue.input === undefined ? "Last name is required" : "Not a string",
     })
     .min(1)
     .max(100),
