@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Counter } from "@/components/Counter";
-import { List } from "@/components/List";
+import { Counter } from "@/components/counter";
+import { List } from "@/components/list";
 
 export default function Page() {
   return (

@@ -1,8 +1,8 @@
 import { setTimeout } from "node:timers/promises";
 import type { GetServerSideProps } from "next";
 import Link from "next/link";
-import { Counter } from "@/components/Counter";
-import { List } from "@/components/List";
+import { Counter } from "@/components/counter";
+import { List } from "@/components/list";
 
 type Props = {
   id: number;
