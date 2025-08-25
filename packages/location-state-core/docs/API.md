@@ -560,26 +560,6 @@ A `Store` that stores state in `Storage`.
 // Recommended format (uses sessionStorage by default)
 const sessionStore = new StorageStore();
 
-// Recommended format with custom storage
-const localStore = new StorageStore({ 
-  storage: typeof window !== "undefined" ? globalThis.localStorage : undefined,
-});
-
-// Recommended format with custom serializer
-const customStore = new StorageStore({ 
-  stateSerializer: myCustomSerializer,
-});
-
-// Recommended format with maxKeys
-const customStore = new StorageStore({ 
-  maxKeys: 10,
-});
-
-// Recommended format with custom storeName
-const namedStore = new StorageStore({ 
-  storeName: 'my-app',
-});
-
 // Recommended format with all options
 const fullConfigStore = new StorageStore({ 
   storage: typeof window !== "undefined" ? globalThis.localStorage : undefined,
