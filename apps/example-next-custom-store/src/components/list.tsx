@@ -1,9 +1,13 @@
 "use client";
 
-import { type DefaultStoreName, useLocationState } from "@location-state/core";
 import { useId } from "react";
+import { useLocationState } from "@/app/_components/custom-location-state";
 
-export function List({ storeName }: { storeName: DefaultStoreName }) {
+export function List({
+  storeName,
+}: {
+  storeName: "url" | "shortSession" | "longSession";
+}) {
   const [displayList, setDisplayList] = useLocationState({
     name: "display-list",
     defaultValue: false,

@@ -2,13 +2,13 @@ import { EventEmitter } from "./event-emitter";
 import { jsonSerializer } from "./serializer";
 import type { Listener, StateSerializer, Store } from "./types";
 
-export const LOCATION_KEY_PREFIX = "__location_state_";
-const STORAGE_KEYS_KEY = "__location_state:keys";
+export const LOCATION_KEY_PREFIX = "__location_state";
 
 type StorageStoreOptions = {
   storage?: Storage;
   stateSerializer?: StateSerializer;
   maxKeys?: number;
+  storeName?: string;
 };
 
 type StorageStoreConstructorArgs =
@@ -20,6 +20,7 @@ export class StorageStore implements Store {
   private readonly storage?: Storage; // Storage is undefined in SSR.
   private readonly stateSerializer: StateSerializer;
   private readonly maxKeys?: number;
+  private readonly storeName?: string;
   private state: Record<string, unknown> = {};
   private events = new EventEmitter();
   private currentKey: string | null = null;
@@ -36,6 +37,7 @@ export class StorageStore implements Store {
       (typeof window === "undefined" ? undefined : globalThis.sessionStorage);
     this.stateSerializer = options.stateSerializer ?? jsonSerializer;
     this.maxKeys = options?.maxKeys;
+    this.storeName = options?.storeName;
   }
 
   subscribe(name: string, listener: Listener) {
@@ -69,7 +71,9 @@ export class StorageStore implements Store {
     }
 
     try {
-      const value = this.storage?.getItem(toStorageKey(locationKey)) ?? null;
+      const value =
+        this.storage?.getItem(this.getStorageKeyForHistoryValue(locationKey)) ??
+        null;
       const state =
         value !== null ? this.stateSerializer.deserialize(value) : {};
       // Initial key is `null`, so we need to merge the state with the existing state.
@@ -99,7 +103,9 @@ export class StorageStore implements Store {
     }
 
     if (Object.keys(this.state).length === 0) {
-      this.storage?.removeItem(toStorageKey(this.currentKey));
+      this.storage?.removeItem(
+        this.getStorageKeyForHistoryValue(this.currentKey),
+      );
       return;
     }
     let value: string;
@@ -109,12 +115,16 @@ export class StorageStore implements Store {
       console.error(e);
       return;
     }
-    this.storage?.setItem(toStorageKey(this.currentKey), value);
+    this.storage?.setItem(
+      this.getStorageKeyForHistoryValue(this.currentKey),
+      value,
+    );
   }
 
   private loadKeys() {
     try {
-      const storageValue = this.storage?.getItem(STORAGE_KEYS_KEY) ?? null;
+      const storageValue =
+        this.storage?.getItem(this.getStorageKeyForHistoryKeys()) ?? null;
       const keys = storageValue !== null ? JSON.parse(storageValue) : [];
       this.keys = new Set<string>(keys);
     } catch (e) {
@@ -136,20 +146,33 @@ export class StorageStore implements Store {
         break;
       }
       this.keys.delete(oldestKey);
-      this.storage?.removeItem(toStorageKey(oldestKey));
+      this.storage?.removeItem(this.getStorageKeyForHistoryValue(oldestKey));
     }
 
     // Save key list to Storage
     try {
-      this.storage?.setItem(STORAGE_KEYS_KEY, JSON.stringify([...this.keys]));
+      this.storage?.setItem(
+        this.getStorageKeyForHistoryKeys(),
+        JSON.stringify([...this.keys]),
+      );
     } catch (e) {
       console.error(e);
     }
   }
-}
 
-function toStorageKey(key: string) {
-  return `${LOCATION_KEY_PREFIX}${key}`;
+  private getStorageKeyForHistoryValue(key: string) {
+    if (this.storeName) {
+      return `${LOCATION_KEY_PREFIX}:${this.storeName}:value:${key}`;
+    }
+    return `${LOCATION_KEY_PREFIX}:value:${key}`;
+  }
+
+  private getStorageKeyForHistoryKeys() {
+    if (this.storeName) {
+      return `${LOCATION_KEY_PREFIX}:${this.storeName}:keys`;
+    }
+    return `${LOCATION_KEY_PREFIX}:keys`;
+  }
 }
 
 function normalizeArgs(args: StorageStoreConstructorArgs): StorageStoreOptions {

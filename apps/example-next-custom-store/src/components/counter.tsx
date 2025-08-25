@@ -1,9 +1,9 @@
 "use client";
 
-import type { DefaultStoreName, Refine } from "@location-state/core";
-import { useLocationState } from "@location-state/core";
+import type { Refine } from "@location-state/core";
 import { useId } from "react";
 import { type ZodType, z } from "zod";
+import { useLocationState } from "@/app/_components/custom-location-state";
 
 const zodRefine =
   <T,>(schema: ZodType<T>): Refine<T> =>
@@ -12,7 +12,11 @@ const zodRefine =
     return result.success ? result.data : undefined;
   };
 
-export function Counter({ storeName }: { storeName: DefaultStoreName }) {
+export function Counter({
+  storeName,
+}: {
+  storeName: "url" | "shortSession" | "longSession";
+}) {
   const [counter, setCounter] = useLocationState({
     name: "counter",
     defaultValue: 0,

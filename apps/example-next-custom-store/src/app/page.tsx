@@ -15,9 +15,11 @@ export default function Page() {
         </li>
       </ul>
       <Counter storeName="url" />
-      <Counter storeName="session" />
+      <Counter storeName="shortSession" />
+      <Counter storeName="longSession" />
       <List storeName="url" />
-      <List storeName="session" />
+      <List storeName="shortSession" />
+      <List storeName="longSession" />
     </main>
   );
 }
