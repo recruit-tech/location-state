@@ -8,9 +8,11 @@ export default function Page() {
       <h1>Static page</h1>
       <Link href="/">/(top)</Link>
       <Counter storeName="url" />
-      <Counter storeName="session" />
+      <Counter storeName="shortSession" />
+      <Counter storeName="longSession" />
       <List storeName="url" />
-      <List storeName="session" />
+      <List storeName="shortSession" />
+      <List storeName="longSession" />
     </main>
   );
 }
