@@ -86,7 +86,7 @@ describe(useLocationState, () => {
     // Arrange
     const key = mockNavigation.currentEntry?.key as string;
     sessionStorage.setItem(
-      `${LOCATION_KEY_PREFIX}:value:${key}`,
+      `${LOCATION_KEY_PREFIX}::value:${key}`,
       `{"count":2}`,
     );
     // Act
@@ -121,7 +121,7 @@ describe(useLocationStateValue, () => {
     // Arrange
     const key = mockNavigation.currentEntry?.key as string;
     sessionStorage.setItem(
-      `${LOCATION_KEY_PREFIX}:value:${key}`,
+      `${LOCATION_KEY_PREFIX}::value:${key}`,
       `{"count":2}`,
     );
     // Act
@@ -202,11 +202,11 @@ describe(useLocationGetState, () => {
     );
   }
 
-  test("If there is a value in sessionStorage, it is not re-rendered.", async () => {
+  test("If there is a value in `sessionStorage`, it is not re-rendered.", async () => {
     // Arrange
     const key = mockNavigation.currentEntry?.key as string;
     sessionStorage.setItem(
-      `${LOCATION_KEY_PREFIX}:value:${key}`,
+      `${LOCATION_KEY_PREFIX}::value:${key}`,
       `{"count":2}`,
     );
     // Act
@@ -221,7 +221,7 @@ describe(useLocationGetState, () => {
     // Arrange
     const key = mockNavigation.currentEntry?.key as string;
     sessionStorage.setItem(
-      `${LOCATION_KEY_PREFIX}:value:${key}`,
+      `${LOCATION_KEY_PREFIX}::value:${key}`,
       `{"count":2}`,
     );
     const { user } = renderWithUser(<LocationSyncCounterPage />);

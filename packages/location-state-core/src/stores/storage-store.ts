@@ -20,7 +20,7 @@ export class StorageStore implements Store {
   private readonly storage?: Storage; // Storage is undefined in SSR.
   private readonly stateSerializer: StateSerializer;
   private readonly maxKeys?: number;
-  private readonly storeName?: string;
+  private readonly storeName: string;
   private state: Record<string, unknown> = {};
   private events = new EventEmitter();
   private currentKey: string | null = null;
@@ -37,7 +37,10 @@ export class StorageStore implements Store {
       (typeof window === "undefined" ? undefined : globalThis.sessionStorage);
     this.stateSerializer = options.stateSerializer ?? jsonSerializer;
     this.maxKeys = options?.maxKeys;
-    this.storeName = options?.storeName;
+    if ("storeName" in options && !options.storeName) {
+      throw new Error("`storeName` should not be empty.");
+    }
+    this.storeName = options.storeName ?? "";
   }
 
   subscribe(name: string, listener: Listener) {
@@ -161,17 +164,11 @@ export class StorageStore implements Store {
   }
 
   private getStorageKeyForHistoryValue(key: string) {
-    if (this.storeName) {
-      return `${LOCATION_KEY_PREFIX}:${this.storeName}:value:${key}`;
-    }
-    return `${LOCATION_KEY_PREFIX}:value:${key}`;
+    return `${LOCATION_KEY_PREFIX}:${this.storeName}:value:${key}`;
   }
 
   private getStorageKeyForHistoryKeys() {
-    if (this.storeName) {
-      return `${LOCATION_KEY_PREFIX}:${this.storeName}:keys`;
-    }
-    return `${LOCATION_KEY_PREFIX}:keys`;
+    return `${LOCATION_KEY_PREFIX}:${this.storeName}:keys`;
   }
 }
 
