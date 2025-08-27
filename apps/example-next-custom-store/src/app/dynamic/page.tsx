@@ -13,9 +13,11 @@ export default async function Page() {
       <Link href="/">/(top)</Link>
       <p>referer: {referer}</p>
       <Counter storeName="url" />
-      <Counter storeName="session" />
+      <Counter storeName="shortSession" />
+      <Counter storeName="longSession" />
       <List storeName="url" />
-      <List storeName="session" />
+      <List storeName="shortSession" />
+      <List storeName="longSession" />
     </main>
   );
 }

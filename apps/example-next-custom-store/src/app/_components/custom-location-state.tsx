@@ -2,11 +2,15 @@
 
 import {
   createDefaultStores,
+  getHooksWith,
   LocationStateProvider,
   StorageStore,
   URLStore,
 } from "@location-state/core";
 import qs from "qs";
+
+export const { useLocationState, useLocationStateValue, useLocationSetState } =
+  getHooksWith<"url" | "shortSession" | "longSession">();
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -18,9 +22,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
           encode: encodeUrlState,
           decode: decodeUrlState,
         }),
-        // add a session store with maxKeys limit of 3 (using new options format)
-        session: new StorageStore({
+        // add a session store with maxKeys limit (using new options format)
+        shortSession: new StorageStore({
           maxKeys: 3,
+          storeName: "shortSession",
+        }),
+        longSession: new StorageStore({
+          maxKeys: 1000,
+          storeName: "longSession",
         }),
       })}
     >
