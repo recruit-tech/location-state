@@ -1,5 +1,18 @@
 # @location-state/next
 
+## 1.3.0
+
+### Patch Changes
+
+- Updated dependencies [5c6edfe]
+- Updated dependencies [9e87052]
+- Updated dependencies [196698d]
+- Updated dependencies [12faec0]
+- Updated dependencies [bb35a14]
+- Updated dependencies [07e545e]
+- Updated dependencies [9e605ad]
+  - @location-state/core@1.3.0
+
 ## 1.2.2
 
 ### Patch Changes
