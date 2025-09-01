@@ -34,7 +34,7 @@
     "@vitejs/plugin-react": "5.0.2",
     "husky": "9.1.7",
     "jsdom": "26.1.0",
-    "lint-staged": "16.1.5",
+    "lint-staged": "16.1.6",
     "playwright": "1.55.0",
     "tsup": "8.5.0",
     "turbo": "2.5.6",
