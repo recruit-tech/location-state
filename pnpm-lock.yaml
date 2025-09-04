@@ -13,16 +13,16 @@ importers:
         version: 2.2.2
       '@changesets/cli':
         specifier: 2.29.6
-        version: 2.29.6(@types/node@22.18.0)
+        version: 2.29.6(@types/node@22.18.1)
       '@playwright/test':
         specifier: 1.55.0
         version: 1.55.0
       '@types/node':
-        specifier: 22.18.0
-        version: 22.18.0
+        specifier: 22.18.1
+        version: 22.18.1
       '@vitejs/plugin-react':
         specifier: 5.0.2
-        version: 5.0.2(vite@5.2.6(@types/node@22.18.0))
+        version: 5.0.2(vite@5.2.6(@types/node@22.18.1))
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -54,8 +54,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/location-state-next
       '@types/node':
-        specifier: 22.18.0
-        version: 22.18.0
+        specifier: 22.18.1
+        version: 22.18.1
       '@types/react':
         specifier: 19.1.12
         version: 19.1.12
@@ -109,8 +109,8 @@ importers:
         specifier: 6.8.0
         version: 6.8.0
       '@types/node':
-        specifier: 22.18.0
-        version: 22.18.0
+        specifier: 22.18.1
+        version: 22.18.1
       '@types/react':
         specifier: 19.1.12
         version: 19.1.12
@@ -130,8 +130,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/location-state-next
       '@types/node':
-        specifier: 22.18.0
-        version: 22.18.0
+        specifier: 22.18.1
+        version: 22.18.1
       '@types/react':
         specifier: 19.1.12
         version: 19.1.12
@@ -170,8 +170,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/location-state-next
       '@types/node':
-        specifier: 22.18.0
-        version: 22.18.0
+        specifier: 22.18.1
+        version: 22.18.1
       '@types/react':
         specifier: 19.1.12
         version: 19.1.12
@@ -225,7 +225,7 @@ importers:
         version: 19.1.1
       vitest:
         specifier: 3.2.4
-        version: 3.2.4(@types/node@22.18.0)(jsdom@26.1.0)
+        version: 3.2.4(@types/node@22.18.1)(jsdom@26.1.0)
 
   packages/location-state-core:
     devDependencies:
@@ -264,7 +264,7 @@ importers:
         version: 11.1.0
       vitest:
         specifier: 3.2.4
-        version: 3.2.4(@types/node@22.18.0)(jsdom@26.1.0)
+        version: 3.2.4(@types/node@22.18.1)(jsdom@26.1.0)
 
   packages/location-state-next:
     dependencies:
@@ -1249,8 +1249,8 @@ packages:
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
 
-  '@types/node@22.18.0':
-    resolution: {integrity: sha512-m5ObIqwsUp6BZzyiy4RdZpzWGub9bqLJMvZDD0QMXhxjqMHMENlj+SqF5QxoUwaQNFe+8kz8XM8ZQhqkQPTgMQ==}
+  '@types/node@22.18.1':
+    resolution: {integrity: sha512-rzSDyhn4cYznVG+PCzGe1lwuMYJrcBS1fc3JqSa2PvtABwWo+dZ1ij5OVok3tqfpEBCBoaR4d7upFJk73HRJDw==}
 
   '@types/qs@6.14.0':
     resolution: {integrity: sha512-eOunJqu0K1923aExK6y8p6fsihYEn/BYuQ4g0CxAAgFc4b/ZLN4CrsRZ55srTdqoiLzU2B2evC+apEIxprEzkQ==}
@@ -2807,7 +2807,7 @@ snapshots:
     dependencies:
       '@changesets/types': 6.1.0
 
-  '@changesets/cli@2.29.6(@types/node@22.18.0)':
+  '@changesets/cli@2.29.6(@types/node@22.18.1)':
     dependencies:
       '@changesets/apply-release-plan': 7.0.12
       '@changesets/assemble-release-plan': 6.0.9
@@ -2823,7 +2823,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@changesets/write': 0.4.0
-      '@inquirer/external-editor': 1.0.1(@types/node@22.18.0)
+      '@inquirer/external-editor': 1.0.1(@types/node@22.18.1)
       '@manypkg/get-packages': 1.1.3
       ansi-colors: 4.1.3
       ci-info: 3.8.0
@@ -3189,12 +3189,12 @@ snapshots:
   '@img/sharp-win32-x64@0.34.3':
     optional: true
 
-  '@inquirer/external-editor@1.0.1(@types/node@22.18.0)':
+  '@inquirer/external-editor@1.0.1(@types/node@22.18.1)':
     dependencies:
       chardet: 2.1.0
       iconv-lite: 0.6.3
     optionalDependencies:
-      '@types/node': 22.18.0
+      '@types/node': 22.18.1
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -3423,7 +3423,7 @@ snapshots:
 
   '@types/node@12.20.55': {}
 
-  '@types/node@22.18.0':
+  '@types/node@22.18.1':
     dependencies:
       undici-types: 6.21.0
 
@@ -3439,7 +3439,7 @@ snapshots:
 
   '@types/uuid@10.0.0': {}
 
-  '@vitejs/plugin-react@5.0.2(vite@5.2.6(@types/node@22.18.0))':
+  '@vitejs/plugin-react@5.0.2(vite@5.2.6(@types/node@22.18.1))':
     dependencies:
       '@babel/core': 7.28.3
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.3)
@@ -3447,7 +3447,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.34
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 5.2.6(@types/node@22.18.0)
+      vite: 5.2.6(@types/node@22.18.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -3459,13 +3459,13 @@ snapshots:
       chai: 5.2.0
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@3.2.4(vite@5.2.6(@types/node@22.18.0))':
+  '@vitest/mocker@3.2.4(vite@5.2.6(@types/node@22.18.1))':
     dependencies:
       '@vitest/spy': 3.2.4
       estree-walker: 3.0.3
       magic-string: 0.30.17
     optionalDependencies:
-      vite: 5.2.6(@types/node@22.18.0)
+      vite: 5.2.6(@types/node@22.18.1)
 
   '@vitest/pretty-format@3.2.4':
     dependencies:
@@ -4629,13 +4629,13 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.2
 
-  vite-node@3.2.4(@types/node@22.18.0):
+  vite-node@3.2.4(@types/node@22.18.1):
     dependencies:
       cac: 6.7.14
       debug: 4.4.1
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 5.2.6(@types/node@22.18.0)
+      vite: 5.2.6(@types/node@22.18.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4646,20 +4646,20 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.2.6(@types/node@22.18.0):
+  vite@5.2.6(@types/node@22.18.1):
     dependencies:
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.34.8
     optionalDependencies:
-      '@types/node': 22.18.0
+      '@types/node': 22.18.1
       fsevents: 2.3.3
 
-  vitest@3.2.4(@types/node@22.18.0)(jsdom@26.1.0):
+  vitest@3.2.4(@types/node@22.18.1)(jsdom@26.1.0):
     dependencies:
       '@types/chai': 5.2.2
       '@vitest/expect': 3.2.4
-      '@vitest/mocker': 3.2.4(vite@5.2.6(@types/node@22.18.0))
+      '@vitest/mocker': 3.2.4(vite@5.2.6(@types/node@22.18.1))
       '@vitest/pretty-format': 3.2.4
       '@vitest/runner': 3.2.4
       '@vitest/snapshot': 3.2.4
@@ -4677,11 +4677,11 @@ snapshots:
       tinyglobby: 0.2.14
       tinypool: 1.1.1
       tinyrainbow: 2.0.0
-      vite: 5.2.6(@types/node@22.18.0)
-      vite-node: 3.2.4(@types/node@22.18.0)
+      vite: 5.2.6(@types/node@22.18.1)
+      vite-node: 3.2.4(@types/node@22.18.1)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 22.18.0
+      '@types/node': 22.18.1
       jsdom: 26.1.0
     transitivePeerDependencies:
       - less
