@@ -8,6 +8,9 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  # Read: Trusted Publisher on GitHub & npm
+  # https://docs.npmjs.com/trusted-publishers#supported-cicd-providers
+  id-token: write  # Required for OIDC
 
 jobs:
   release:
@@ -27,16 +30,13 @@ jobs:
         name: Install pnpm
         with:
           run_install: false
+      # We need npm@v~11 beacuse we use Trusted Publisher.
+      - name: Install latest npm
+        run: npm install -g npm@latest
       - name: Install packages
         run: pnpm i --ignore-scripts
       - name: Release check
         run: pnpm run ci-check
-      - name: Setup npm auth
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" >> ~/.npmrc
-          npm whoami
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
