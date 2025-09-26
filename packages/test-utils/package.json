@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@repo/configs": "workspace:*",
-    "@types/uuid": "10.0.0",
+    "@types/uuid": "11.0.0",
     "navigation-api-types": "0.6.1"
   }
 }
