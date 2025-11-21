@@ -33,7 +33,7 @@
     "@types/node": "24.10.1",
     "@vitejs/plugin-react": "5.1.1",
     "husky": "9.1.7",
-    "jsdom": "27.1.0",
+    "jsdom": "27.2.0",
     "lint-staged": "16.2.6",
     "playwright": "1.55.1",
     "tsup": "8.5.1",
