@@ -10,7 +10,7 @@ jobs:
     timeout-minutes: 30
     name: Run playwright tests
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Launch Turbo Remote Cache Server
         uses: dtinth/setup-github-actions-caching-for-turbo@v1.3.0
       - name: Install and cache nodejs
