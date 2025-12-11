@@ -16,8 +16,8 @@
     "@location-state/core": "workspace:*",
     "@location-state/conform": "workspace:*",
     "next": "16.0.7",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
     "zod": "4.1.13"
   },
   "devDependencies": {
