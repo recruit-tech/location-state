@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "6.9.1",
-    "@types/node": "24.10.3",
+    "@types/node": "24.10.4",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "typescript": "5.9.3"
