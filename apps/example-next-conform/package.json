@@ -15,7 +15,7 @@
     "@conform-to/zod": "1.15.1",
     "@location-state/core": "workspace:*",
     "@location-state/conform": "workspace:*",
-    "next": "16.1.2",
+    "next": "16.1.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "zod": "4.3.5"
