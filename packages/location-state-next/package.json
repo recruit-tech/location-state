@@ -35,7 +35,7 @@
     "@repo/configs": "workspace:*",
     "@types/react": "19.2.9",
     "navigation-api-types": "0.6.1",
-    "next": "16.1.3",
+    "next": "16.1.5",
     "react": "19.2.3"
   },
   "peerDependencies": {
