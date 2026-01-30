@@ -75,8 +75,8 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
       zod:
-        specifier: 4.3.5
-        version: 4.3.5
+        specifier: 4.3.6
+        version: 4.3.6
 
   apps/example-next-conform:
     dependencies:
@@ -85,7 +85,7 @@ importers:
         version: 1.15.1(react@19.2.3)
       '@conform-to/zod':
         specifier: 1.15.1
-        version: 1.15.1(zod@4.3.5)
+        version: 1.15.1(zod@4.3.6)
       '@location-state/conform':
         specifier: workspace:*
         version: link:../../packages/location-state-conform
@@ -102,8 +102,8 @@ importers:
         specifier: 19.2.3
         version: 19.2.3(react@19.2.3)
       zod:
-        specifier: 4.3.5
-        version: 4.3.5
+        specifier: 4.3.6
+        version: 4.3.6
     devDependencies:
       '@testing-library/jest-dom':
         specifier: 6.9.1
@@ -154,8 +154,8 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
       zod:
-        specifier: 4.3.5
-        version: 4.3.5
+        specifier: 4.3.6
+        version: 4.3.6
     devDependencies:
       '@types/qs':
         specifier: 6.14.0
@@ -191,8 +191,8 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
       zod:
-        specifier: 4.3.5
-        version: 4.3.5
+        specifier: 4.3.6
+        version: 4.3.6
 
   packages/configs: {}
 
@@ -2598,8 +2598,8 @@ packages:
     engines: {node: '>= 14.6'}
     hasBin: true
 
-  zod@4.3.5:
-    resolution: {integrity: sha512-k7Nwx6vuWx1IJ9Bjuf4Zt1PEllcwe7cls3VNzm4CQ1/hgtFUK2bRNG3rvnpPUhFjmqJKAKtjV576KnUkHocg/g==}
+  zod@4.3.6:
+    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
 
 snapshots:
 
@@ -2927,10 +2927,10 @@ snapshots:
       '@conform-to/dom': 1.15.1
       react: 19.2.3
 
-  '@conform-to/zod@1.15.1(zod@4.3.5)':
+  '@conform-to/zod@1.15.1(zod@4.3.6)':
     dependencies:
       '@conform-to/dom': 1.15.1
-      zod: 4.3.5
+      zod: 4.3.6
 
   '@csstools/color-helpers@5.1.0': {}
 
@@ -4727,4 +4727,4 @@ snapshots:
 
   yaml@2.8.1: {}
 
-  zod@4.3.5: {}
+  zod@4.3.6: {}
