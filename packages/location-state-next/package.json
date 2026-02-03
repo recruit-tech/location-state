@@ -33,10 +33,10 @@
   "devDependencies": {
     "@location-state/core": "workspace:*",
     "@repo/configs": "workspace:*",
-    "@types/react": "19.2.9",
+    "@types/react": "19.2.10",
     "navigation-api-types": "0.6.1",
     "next": "16.1.5",
-    "react": "19.2.3"
+    "react": "19.2.4"
   },
   "peerDependencies": {
     "next": "^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0",
