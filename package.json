@@ -29,13 +29,13 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.7",
     "@changesets/cli": "2.29.8",
-    "@playwright/test": "1.55.1",
+    "@playwright/test": "1.58.2",
     "@types/node": "24.10.13",
     "@vitejs/plugin-react": "5.1.4",
     "husky": "9.1.7",
     "jsdom": "28.1.0",
     "lint-staged": "16.2.7",
-    "playwright": "1.55.1",
+    "playwright": "1.58.2",
     "tsup": "8.5.1",
     "turbo": "2.8.10",
     "typescript": "5.9.3"
