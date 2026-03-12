@@ -40,6 +40,9 @@ export class NavigationSyncer implements Syncer {
   }
 
   updateURL(url: string): void {
-    globalThis.history.replaceState(globalThis.history.state, "", url);
+    // Pass `null` instead of `globalThis.history.state` because Next.js
+    // treats `replaceState` with `__NA` in the state as its own internal navigation.
+    // ref: https://github.com/vercel/next.js/blob/41ed440b50dafe6bb1f76bd6774e7284288e0b16/packages/next/src/client/components/app-router.tsx#L363-L365
+    globalThis.history.replaceState(null, "", url);
   }
 }

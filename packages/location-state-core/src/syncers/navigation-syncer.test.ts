@@ -106,9 +106,7 @@ describe(NavigationSyncer, () => {
       // Act
       navigationSyncer.updateURL("/hoge");
       // Assert
-      expect(globalThis.history.state).toEqual({
-        foo: "bar",
-      });
+      expect(globalThis.history.state).toBeNull();
       expect(location.href).toBe("http://localhost:3000/hoge");
     });
   });
