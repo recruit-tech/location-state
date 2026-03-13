@@ -13,7 +13,7 @@ State management library for React that synchronizes with history location suppo
 ## Packages
 
 - [@location-state/core](./packages/location-state-core/README.md): Framework agnostic, but for Next.js App Router.
-- [@location-state/next](./packages/location-state-next/README.md): For Next.js Pages Router.
+- [@location-state/next](./packages/location-state-next/README.md): For Next.js Pages Router and App Router.
 - [@location-state/conform](./packages/location-state-conform/README.md): For conform.
 
 ## Quickstart for Next.js [App Router](https://nextjs.org/docs/app)
@@ -40,6 +40,22 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return <LocationStateProvider>{children}</LocationStateProvider>;
 }
 ```
+
+> **Tip:** If you encounter issues with Next.js treating `replaceState` calls as internal navigation, use `useNextAppSyncer` from `@location-state/next` instead:
+>
+> ```tsx
+> import { LocationStateProvider } from "@location-state/core";
+> import { useNextAppSyncer } from "@location-state/next";
+>
+> export function Providers({ children }: { children: React.ReactNode }) {
+>   const syncer = useNextAppSyncer();
+>   return (
+>     <LocationStateProvider syncer={syncer}>
+>       {children}
+>     </LocationStateProvider>
+>   );
+> }
+> ```
 
 ```tsx
 // src/app/layout.tsx
