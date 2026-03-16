@@ -42,16 +42,8 @@ export class NextAppSyncer implements Syncer {
   }
 
   updateURL(url: string): void {
-    const state = globalThis.history.state;
-    if (state !== null && state !== undefined) {
-      const { __NA, __N, ...rest } = state;
-      globalThis.history.replaceState(
-        Object.keys(rest).length > 0 ? rest : null,
-        "",
-        url,
-      );
-    } else {
-      globalThis.history.replaceState(null, "", url);
-    }
+    const { __NA, __N, ...rest } = globalThis.history.state ?? {};
+    const state = Object.keys(rest).length > 0 ? rest : null;
+    globalThis.history.replaceState(state, "", url);
   }
 }
