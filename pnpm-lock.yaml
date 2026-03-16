@@ -45,39 +45,6 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
 
-  apps/example-next-app-syncer:
-    dependencies:
-      '@location-state/core':
-        specifier: workspace:*
-        version: link:../../packages/location-state-core
-      '@location-state/next':
-        specifier: workspace:*
-        version: link:../../packages/location-state-next
-      '@types/node':
-        specifier: 24.11.0
-        version: 24.11.0
-      '@types/react':
-        specifier: 19.2.14
-        version: 19.2.14
-      '@types/react-dom':
-        specifier: 19.2.3
-        version: 19.2.3(@types/react@19.2.14)
-      next:
-        specifier: 16.1.6
-        version: 16.1.6(@babel/core@7.29.0)(@playwright/test@1.55.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      react:
-        specifier: 19.2.4
-        version: 19.2.4
-      react-dom:
-        specifier: 19.2.4
-        version: 19.2.4(react@19.2.4)
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
-      zod:
-        specifier: 4.3.6
-        version: 4.3.6
-
   apps/example-next-basic:
     dependencies:
       '@location-state/core':
@@ -1358,9 +1325,6 @@ packages:
 
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
-
-  '@types/node@24.11.0':
-    resolution: {integrity: sha512-fPxQqz4VTgPI/IQ+lj9r0h+fDR66bzoeMGHp8ASee+32OSGIkeASsoZuJixsQoVef1QJbeubcPBxKk22QVoWdw==}
 
   '@types/node@24.12.0':
     resolution: {integrity: sha512-GYDxsZi3ChgmckRT9HPU0WEhKLP08ev/Yfcq2AstjrDASOYCSXeyjDsHg4v5t4jOj7cyDX3vmprafKlWIG9MXQ==}
@@ -3519,10 +3483,6 @@ snapshots:
   '@types/estree@1.0.6': {}
 
   '@types/node@12.20.55': {}
-
-  '@types/node@24.11.0':
-    dependencies:
-      undici-types: 7.16.0
 
   '@types/node@24.12.0':
     dependencies:
