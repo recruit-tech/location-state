@@ -92,6 +92,9 @@ importers:
       '@location-state/core':
         specifier: workspace:*
         version: link:../../packages/location-state-core
+      '@location-state/next':
+        specifier: workspace:*
+        version: link:../../packages/location-state-next
       next:
         specifier: 16.1.7
         version: 16.1.7(@babel/core@7.29.0)(@playwright/test@1.55.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
