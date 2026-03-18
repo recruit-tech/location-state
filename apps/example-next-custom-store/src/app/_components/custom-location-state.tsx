@@ -7,14 +7,17 @@ import {
   StorageStore,
   URLStore,
 } from "@location-state/core";
+import { useNextAppSyncer } from "@location-state/next";
 import qs from "qs";
 
 export const { useLocationState, useLocationStateValue, useLocationSetState } =
   getHooksWith<"url" | "shortSession" | "longSession">();
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  const syncer = useNextAppSyncer();
   return (
     <LocationStateProvider
+      syncer={syncer}
       stores={(syncer) => ({
         ...createDefaultStores(syncer),
         // override the url store

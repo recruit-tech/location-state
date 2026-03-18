@@ -1,12 +1,12 @@
 "use client";
 
-import { LocationStateProvider, NavigationSyncer } from "@location-state/core";
+import { LocationStateProvider } from "@location-state/core";
 import { unsafeNavigation } from "@location-state/core/unsafe-navigation";
+import { useNextAppSyncer } from "@location-state/next";
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  const syncer = useNextAppSyncer({ navigation: unsafeNavigation });
   return (
-    <LocationStateProvider syncer={new NavigationSyncer(unsafeNavigation)}>
-      {children}
-    </LocationStateProvider>
+    <LocationStateProvider syncer={syncer}>{children}</LocationStateProvider>
   );
 }

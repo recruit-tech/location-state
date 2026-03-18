@@ -5,7 +5,7 @@
     "access": "public"
   },
   "repository": "https://github.com/recruit-tech/location-state",
-  "description": "State management library for React that synchronizes with history entries supporting Next.js Pages Router.",
+  "description": "State management library for React that synchronizes with history entries supporting Next.js Pages Router and App Router.",
   "files": [
     "dist",
     "types",
@@ -25,6 +25,7 @@
     "dev:dts": "tsc -p tsconfig.dts.json --watch",
     "build": "tsup src/index.ts",
     "dts": "tsc -p tsconfig.dts.json",
+    "test": "vitest",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -33,10 +34,16 @@
   "devDependencies": {
     "@location-state/core": "workspace:*",
     "@repo/configs": "workspace:*",
+    "@repo/test-utils": "workspace:*",
+    "@testing-library/jest-dom": "6.6.3",
+    "@testing-library/react": "16.3.2",
     "@types/react": "19.2.14",
+    "@vitejs/plugin-react": "5.1.4",
     "navigation-api-types": "0.6.1",
     "next": "16.1.7",
-    "react": "19.2.4"
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "vitest": "3.2.4"
   },
   "peerDependencies": {
     "next": "^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0",
