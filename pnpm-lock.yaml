@@ -27,8 +27,8 @@ importers:
         specifier: 9.1.7
         version: 9.1.7
       jsdom:
-        specifier: 29.0.0
-        version: 29.0.0
+        specifier: 29.0.1
+        version: 29.0.1
       lint-staged:
         specifier: 16.4.0
         version: 16.4.0
@@ -228,7 +228,7 @@ importers:
         version: 19.2.4
       vitest:
         specifier: 3.2.4
-        version: 3.2.4(@types/node@24.12.0)(jsdom@29.0.0)
+        version: 3.2.4(@types/node@24.12.0)(jsdom@29.0.1)
 
   packages/location-state-core:
     devDependencies:
@@ -267,7 +267,7 @@ importers:
         version: 13.0.0
       vitest:
         specifier: 3.2.4
-        version: 3.2.4(@types/node@24.12.0)(jsdom@29.0.0)
+        version: 3.2.4(@types/node@24.12.0)(jsdom@29.0.1)
 
   packages/location-state-next:
     dependencies:
@@ -307,7 +307,7 @@ importers:
         version: 19.2.4(react@19.2.4)
       vitest:
         specifier: 3.2.4
-        version: 3.2.4(@types/node@24.12.0)(jsdom@29.0.0)
+        version: 3.2.4(@types/node@24.12.0)(jsdom@29.0.1)
 
   packages/test-utils:
     dependencies:
@@ -1905,8 +1905,8 @@ packages:
     resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
     hasBin: true
 
-  jsdom@29.0.0:
-    resolution: {integrity: sha512-9FshNB6OepopZ08unmmGpsF7/qCjxGPbo3NbgfJAnPeHXnsODE9WWffXZtRFRFe0ntzaAOcSKNJFz8wiyvF1jQ==}
+  jsdom@29.0.1:
+    resolution: {integrity: sha512-z6JOK5gRO7aMybVq/y/MlIpKh8JIi68FBKMUtKkK2KH/wMSRlCxQ682d08LB9fYXplyY/UXG8P4XXTScmdjApg==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24.0.0}
     peerDependencies:
       canvas: ^3.0.0
@@ -2330,10 +2330,6 @@ packages:
   slice-ansi@7.1.0:
     resolution: {integrity: sha512-bSiSngZ/jWeX93BqeIAbImyTbEihizcwNjFoRUIY/T1wWQsfsm2Vw1agPKylXvQTU7iASGdHhyqRlqQzfz+Htg==}
     engines: {node: '>=18'}
-
-  source-map-js@1.2.0:
-    resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
-    engines: {node: '>=0.10.0'}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -4056,7 +4052,7 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
-  jsdom@29.0.0:
+  jsdom@29.0.1:
     dependencies:
       '@asamuzakjp/css-color': 5.0.1
       '@asamuzakjp/dom-selector': 7.0.4
@@ -4307,7 +4303,7 @@ snapshots:
     dependencies:
       nanoid: 3.3.7
       picocolors: 1.1.1
-      source-map-js: 1.2.0
+      source-map-js: 1.2.1
 
   prettier@2.8.8: {}
 
@@ -4485,8 +4481,6 @@ snapshots:
     dependencies:
       ansi-styles: 6.2.1
       is-fullwidth-code-point: 5.0.0
-
-  source-map-js@1.2.0: {}
 
   source-map-js@1.2.1: {}
 
@@ -4705,7 +4699,7 @@ snapshots:
       '@types/node': 24.12.0
       fsevents: 2.3.3
 
-  vitest@3.2.4(@types/node@24.12.0)(jsdom@29.0.0):
+  vitest@3.2.4(@types/node@24.12.0)(jsdom@29.0.1):
     dependencies:
       '@types/chai': 5.2.2
       '@vitest/expect': 3.2.4
@@ -4732,7 +4726,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 24.12.0
-      jsdom: 29.0.0
+      jsdom: 29.0.1
     transitivePeerDependencies:
       - less
       - lightningcss
