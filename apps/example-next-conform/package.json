@@ -16,7 +16,7 @@
     "@location-state/core": "workspace:*",
     "@location-state/conform": "workspace:*",
     "@location-state/next": "workspace:*",
-    "next": "16.2.0",
+    "next": "16.2.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "zod": "4.3.6"
