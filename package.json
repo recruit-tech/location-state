@@ -31,7 +31,7 @@
     "@changesets/cli": "2.30.0",
     "@playwright/test": "1.55.1",
     "@types/node": "24.12.0",
-    "@vitejs/plugin-react": "5.2.0",
+    "@vitejs/plugin-react": "6.0.1",
     "husky": "9.1.7",
     "jsdom": "29.0.1",
     "lint-staged": "16.4.0",
