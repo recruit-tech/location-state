@@ -448,7 +448,7 @@ export declare class NavigationSyncer implements Syncer {
 `Syncer` implementation that uses the [Navigation API](https://github.com/WICG/navigation-api) to synchronize with history location.
 
 > [!CAUTION]
-> On iOS 26 / Safari 26, a [WebKit bug](https://bugs.webkit.org/show_bug.cgi?id=310321) causes `navigation.currentEntry.key` to change unexpectedly when `history.replaceState()` is called, which may result in state loss. See [`useNextPagesSyncer`](/packages/location-state-next/docs/API.md#function-useNextPagesSyncer) for workarounds.
+> On iOS 26 / Safari 26, the [WebKit bug](https://bugs.webkit.org/show_bug.cgi?id=310321) causes `navigation.currentEntry.key` to change unexpectedly when `history.replaceState()` is called, which may result in state loss. See [`useNextPagesSyncer`](/packages/location-state-next/docs/API.md#function-useNextPagesSyncer) for workarounds.
 
 #### `new NavigationSyncer(navigation)`
 
