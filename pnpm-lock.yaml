@@ -27,8 +27,8 @@ importers:
         specifier: 9.1.7
         version: 9.1.7
       jsdom:
-        specifier: 29.1.0
-        version: 29.1.0
+        specifier: 29.1.1
+        version: 29.1.1
       lint-staged:
         specifier: 16.4.0
         version: 16.4.0
@@ -228,7 +228,7 @@ importers:
         version: 19.2.5
       vitest:
         specifier: 3.2.4
-        version: 3.2.4(@types/node@24.12.2)(jsdom@29.1.0)
+        version: 3.2.4(@types/node@24.12.2)(jsdom@29.1.1)
 
   packages/location-state-core:
     devDependencies:
@@ -267,7 +267,7 @@ importers:
         version: 14.0.0
       vitest:
         specifier: 3.2.4
-        version: 3.2.4(@types/node@24.12.2)(jsdom@29.1.0)
+        version: 3.2.4(@types/node@24.12.2)(jsdom@29.1.1)
 
   packages/location-state-next:
     dependencies:
@@ -307,7 +307,7 @@ importers:
         version: 19.2.5(react@19.2.5)
       vitest:
         specifier: 3.2.4
-        version: 3.2.4(@types/node@24.12.2)(jsdom@29.1.0)
+        version: 3.2.4(@types/node@24.12.2)(jsdom@29.1.1)
 
   packages/test-utils:
     dependencies:
@@ -1910,8 +1910,8 @@ packages:
     resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
     hasBin: true
 
-  jsdom@29.1.0:
-    resolution: {integrity: sha512-YNUc7fB9QuvSSQWfrH0xF+TyABkxUwx8sswgIDaCrw4Hol8BghdZDkITtZheRJeMtzWlnTfsM3bBBusRvpO1wg==}
+  jsdom@29.1.1:
+    resolution: {integrity: sha512-ECi4Fi2f7BdJtUKTflYRTiaMxIB0O6zfR1fX0GXpUrf6flp8QIYn1UT20YQqdSOfk2dfkCwS8LAFoJDEppNK5Q==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24.0.0}
     peerDependencies:
       canvas: ^3.0.0
@@ -4055,7 +4055,7 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
-  jsdom@29.1.0:
+  jsdom@29.1.1:
     dependencies:
       '@asamuzakjp/css-color': 5.1.11
       '@asamuzakjp/dom-selector': 7.1.1
@@ -4699,7 +4699,7 @@ snapshots:
       '@types/node': 24.12.2
       fsevents: 2.3.3
 
-  vitest@3.2.4(@types/node@24.12.2)(jsdom@29.1.0):
+  vitest@3.2.4(@types/node@24.12.2)(jsdom@29.1.1):
     dependencies:
       '@types/chai': 5.2.2
       '@vitest/expect': 3.2.4
@@ -4726,7 +4726,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 24.12.2
-      jsdom: 29.1.0
+      jsdom: 29.1.1
     transitivePeerDependencies:
       - less
       - lightningcss
