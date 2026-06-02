@@ -29,7 +29,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "valibot": "1.4.0"
+    "valibot": "1.4.1"
   },
   "devDependencies": {
     "@conform-to/react": "1.19.3",
