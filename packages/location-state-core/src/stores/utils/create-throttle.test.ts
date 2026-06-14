@@ -95,23 +95,21 @@ describe("10ms interval.", () => {
       callUntil: 5000,
       executedTimes: [0, 50, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
     },
-  ])(
-    "The throttle function called until $callUntil ms, it will be executed $executedTimes .",
-    ({ callUntil, executedTimes }) => {
-      // Arrange
-      const throttle = createThrottle();
-      const recordExecutedTime = recordTimeMock();
-      // Act
-      intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
-        callUntil,
-        intervalDelay: 10,
-      });
-      // Assert
-      expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(
-        executedTimes,
-      );
-    },
-  );
+  ])("The throttle function called until $callUntil ms, it will be executed $executedTimes .", ({
+    callUntil,
+    executedTimes,
+  }) => {
+    // Arrange
+    const throttle = createThrottle();
+    const recordExecutedTime = recordTimeMock();
+    // Act
+    intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
+      callUntil,
+      intervalDelay: 10,
+    });
+    // Assert
+    expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(executedTimes);
+  });
 
   test.each<{
     callUntil: number;
@@ -129,22 +127,22 @@ describe("10ms interval.", () => {
       callUntil: 350,
       terminatedAt: 1850,
     },
-  ])(
-    "The throttle function called until $callUntil, the throttle will terminate in $terminatedAt ms.",
-    ({ callUntil, terminatedAt }) => {
-      // Arrange
-      const throttle = createThrottle();
-      const recordExecutedTime = recordTimeMock();
-      const now = Date.now();
-      // Act
-      intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
-        callUntil,
-        intervalDelay: 10,
-      });
-      // Assert
-      expect(Date.now() - now).toBe(terminatedAt);
-    },
-  );
+  ])("The throttle function called until $callUntil, the throttle will terminate in $terminatedAt ms.", ({
+    callUntil,
+    terminatedAt,
+  }) => {
+    // Arrange
+    const throttle = createThrottle();
+    const recordExecutedTime = recordTimeMock();
+    const now = Date.now();
+    // Act
+    intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
+      callUntil,
+      intervalDelay: 10,
+    });
+    // Assert
+    expect(Date.now() - now).toBe(terminatedAt);
+  });
 });
 
 describe("50ms interval.", () => {
@@ -173,23 +171,21 @@ describe("50ms interval.", () => {
       callUntil: 5000,
       executedTimes: [0, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
     },
-  ])(
-    "The throttle function called until $callUntil ms, it will be executed $executedTimes .",
-    ({ callUntil, executedTimes }) => {
-      // Arrange
-      const throttle = createThrottle();
-      const recordExecutedTime = recordTimeMock();
-      // Act
-      intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
-        callUntil,
-        intervalDelay: 50,
-      });
-      // Assert
-      expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(
-        executedTimes,
-      );
-    },
-  );
+  ])("The throttle function called until $callUntil ms, it will be executed $executedTimes .", ({
+    callUntil,
+    executedTimes,
+  }) => {
+    // Arrange
+    const throttle = createThrottle();
+    const recordExecutedTime = recordTimeMock();
+    // Act
+    intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
+      callUntil,
+      intervalDelay: 50,
+    });
+    // Assert
+    expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(executedTimes);
+  });
 
   describe("After called 5 times with 10ms interval.", () => {
     test.each<IntervalTestParameter>([
@@ -205,27 +201,27 @@ describe("50ms interval.", () => {
         callUntil: 350,
         executedTimes: [0, 150, 350, 850],
       },
-    ])(
-      "The throttle function called until $callUntil ms, it will be executed $executedTimes .",
-      ({ callUntil, executedTimes }) => {
-        // Arrange
-        const throttle = createThrottle();
-        intervalCallAndRunAllTimers(() => throttle(() => false), {
-          callUntil: 50,
-          intervalDelay: 10,
-        });
-        const recordExecutedTime = recordTimeMock();
-        // Act
-        intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
-          callUntil,
-          intervalDelay: 50,
-        });
-        // Assert
-        expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(
-          executedTimes,
-        );
-      },
-    );
+    ])("The throttle function called until $callUntil ms, it will be executed $executedTimes .", ({
+      callUntil,
+      executedTimes,
+    }) => {
+      // Arrange
+      const throttle = createThrottle();
+      intervalCallAndRunAllTimers(() => throttle(() => false), {
+        callUntil: 50,
+        intervalDelay: 10,
+      });
+      const recordExecutedTime = recordTimeMock();
+      // Act
+      intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
+        callUntil,
+        intervalDelay: 50,
+      });
+      // Assert
+      expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(
+        executedTimes,
+      );
+    });
   });
 });
 
@@ -243,23 +239,21 @@ describe("100ms interval.", () => {
       callUntil: 5000,
       executedTimes: [0, 150, 350, 850, 1850, 2850, 3850, 4850, 5850],
     },
-  ])(
-    "Throttle function called until $callUntil ms, it will be executed $executedTimes .",
-    ({ callUntil, executedTimes }) => {
-      // Arrange
-      const throttle = createThrottle();
-      const recordExecutedTime = recordTimeMock();
-      // Act
-      intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
-        callUntil,
-        intervalDelay: 100,
-      });
-      // Assert
-      expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(
-        executedTimes,
-      );
-    },
-  );
+  ])("Throttle function called until $callUntil ms, it will be executed $executedTimes .", ({
+    callUntil,
+    executedTimes,
+  }) => {
+    // Arrange
+    const throttle = createThrottle();
+    const recordExecutedTime = recordTimeMock();
+    // Act
+    intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
+      callUntil,
+      intervalDelay: 100,
+    });
+    // Assert
+    expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(executedTimes);
+  });
 });
 
 describe("1000ms interval.", () => {
@@ -274,21 +268,19 @@ describe("1000ms interval.", () => {
         0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000,
       ],
     },
-  ])(
-    "Throttle function called until $callUntil ms, it will be executed $executedTimes .",
-    ({ callUntil, executedTimes }) => {
-      // Arrange
-      const throttle = createThrottle();
-      const recordExecutedTime = recordTimeMock();
-      // Act
-      intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
-        callUntil,
-        intervalDelay: 1000,
-      });
-      // Assert
-      expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(
-        executedTimes,
-      );
-    },
-  );
+  ])("Throttle function called until $callUntil ms, it will be executed $executedTimes .", ({
+    callUntil,
+    executedTimes,
+  }) => {
+    // Arrange
+    const throttle = createThrottle();
+    const recordExecutedTime = recordTimeMock();
+    // Act
+    intervalCallAndRunAllTimers(() => throttle(recordExecutedTime), {
+      callUntil,
+      intervalDelay: 1000,
+    });
+    // Assert
+    expect(mapExecutedIntervalTimes(recordExecutedTime)).toEqual(executedTimes);
+  });
 });

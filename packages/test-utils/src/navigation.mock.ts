@@ -38,7 +38,7 @@ class PartialNavigation implements Partial<Navigation> {
   }
 
   reload() {
-    this.setEntryWithUrl(this.currentEntry?.url!);
+    this.setEntryWithUrl(this.currentEntry?.url ?? undefined);
     this.dispatchEntryChangeEvent("reload");
     return {
       // not implemented
