@@ -3,6 +3,7 @@
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "src/**/*.test.ts", "src/**/*.test.tsx"],
   "compilerOptions": {
-    "declarationDir": "types"
+    "declarationDir": "types",
+    "rootDir": "./src"
   }
 }

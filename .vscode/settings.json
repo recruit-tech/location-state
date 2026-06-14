@@ -13,4 +13,5 @@
   "cSpell.words": [
     "Syncer"
   ],
+  "typescript.tsdk": "node_modules/typescript/lib",
 }
