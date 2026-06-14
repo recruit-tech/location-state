@@ -81,11 +81,11 @@ importers:
   apps/example-next-conform:
     dependencies:
       '@conform-to/react':
-        specifier: 1.19.3
-        version: 1.19.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: 1.19.4
+        version: 1.19.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@conform-to/zod':
-        specifier: 1.19.3
-        version: 1.19.3(zod@4.4.3)
+        specifier: 1.19.4
+        version: 1.19.4(zod@4.4.3)
       '@location-state/conform':
         specifier: workspace:*
         version: link:../../packages/location-state-conform
@@ -206,8 +206,8 @@ importers:
         version: 1.4.1(typescript@6.0.3)
     devDependencies:
       '@conform-to/react':
-        specifier: 1.19.3
-        version: 1.19.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: 1.19.4
+        version: 1.19.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@location-state/core':
         specifier: workspace:*
         version: link:../location-state-core
@@ -560,17 +560,17 @@ packages:
   '@changesets/write@0.4.0':
     resolution: {integrity: sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q==}
 
-  '@conform-to/dom@1.19.3':
-    resolution: {integrity: sha512-ugNx4nMiSSEkIepo5rKxUW1I1Iab3ZFuRjNYw2b2zb7BSQJfDq4DwbywaAd55qS/8PVGp1n5G2O6orDHWPWWqA==}
+  '@conform-to/dom@1.19.4':
+    resolution: {integrity: sha512-P/mBdVRl946iE74TXmF5YLY9+1IDrQzxKdj9A7qv7Cd4l/O02EvJskg3X7cHwhmFFIXXgNzSmf/y4B597SS4gg==}
 
-  '@conform-to/react@1.19.3':
-    resolution: {integrity: sha512-qIqvGzoVHQarRSH7r73yBQ3fLYdafhNQcItZt1dT7GK/VMB0A5eJ8fgylcY1zb5CEeZrvACC9zpmcLMqOD2nkA==}
+  '@conform-to/react@1.19.4':
+    resolution: {integrity: sha512-Xyw4hbD9467q8PTWW+Nvmf523y814w70eeABRJzVvfnpghGOAWAGt1lpOboAs6sqaKG/eouqifibz/r+PDFZLg==}
     peerDependencies:
       react: '>=18'
       react-dom: '>=18'
 
-  '@conform-to/zod@1.19.3':
-    resolution: {integrity: sha512-tlHywfz6W6bYnhmi8ajM1+ZLYjywLJVXteU4wvjc6QM0JT1g61cf4BaQqdDhKaAKl7DzqbZxi/riyMtz9HxyCQ==}
+  '@conform-to/zod@1.19.4':
+    resolution: {integrity: sha512-g80QtotXLcXWCF86Xou/VpI6i+NBOQxYgLS9YCQYrgV27yilZFJYpgWWBsA8YwodmJVBIYm9RawJba7WnUoddA==}
     peerDependencies:
       zod: ^3.21.0 || ^4.0.0
 
@@ -2977,17 +2977,17 @@ snapshots:
       human-id: 4.1.1
       prettier: 2.8.8
 
-  '@conform-to/dom@1.19.3': {}
+  '@conform-to/dom@1.19.4': {}
 
-  '@conform-to/react@1.19.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@conform-to/react@1.19.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
-      '@conform-to/dom': 1.19.3
+      '@conform-to/dom': 1.19.4
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
 
-  '@conform-to/zod@1.19.3(zod@4.4.3)':
+  '@conform-to/zod@1.19.4(zod@4.4.3)':
     dependencies:
-      '@conform-to/dom': 1.19.3
+      '@conform-to/dom': 1.19.4
       zod: 4.4.3
 
   '@csstools/color-helpers@6.0.2': {}
