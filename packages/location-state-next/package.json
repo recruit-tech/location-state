@@ -40,7 +40,7 @@
     "@types/react": "19.2.17",
     "@vitejs/plugin-react": "5.2.0",
     "navigation-api-types": "0.6.1",
-    "next": "16.2.7",
+    "next": "16.2.9",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "vitest": "3.2.6"
