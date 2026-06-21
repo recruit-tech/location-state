@@ -25,7 +25,7 @@
     "dev:dts": "tsc -p tsconfig.dts.json --watch",
     "build": "tsup src/index.ts",
     "dts": "tsc -p tsconfig.dts.json",
-    "test": "vitest",
+    "test": "vitest run",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -43,7 +43,7 @@
     "next": "16.2.9",
     "react": "19.2.7",
     "react-dom": "19.2.7",
-    "vitest": "3.2.6"
+    "vitest": "4.1.8"
   },
   "peerDependencies": {
     "next": "^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0",
