@@ -1,7 +1,7 @@
 {
   "extends": "@repo/configs/tsconfig.json",
   "compilerOptions": {
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals", "node"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "./vitest.setup.ts"],
   "exclude": ["node_modules"]
