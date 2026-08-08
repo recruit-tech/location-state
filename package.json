@@ -27,7 +27,7 @@
     "*.{js,jsx,ts,tsx,css,json,cjs,mjs}": "biome check --write"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.3",
+    "@biomejs/biome": "2.5.6",
     "@changesets/cli": "2.31.1",
     "@playwright/test": "1.62.1",
     "@types/node": "24.13.3",
