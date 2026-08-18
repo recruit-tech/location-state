@@ -39,7 +39,7 @@ jobs:
         run: pnpm run ci-check
       - name: Create Release Pull Request or Publish to npm
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v2.0.0
         with:
           publish: pnpm changeset publish
         env:
