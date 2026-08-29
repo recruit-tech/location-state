@@ -1,5 +1,17 @@
 # @location-state/next
 
+## 1.4.0
+
+### Minor Changes
+
+- 2ae25d4: Add `NextAppSyncer` and `useNextAppSyncer()` for Next.js App Router.
+  This syncer strips `__NA` and `__N` from `history.state` before calling
+  `replaceState()` to prevent Next.js from treating it as internal navigation.
+
+### Patch Changes
+
+- @location-state/core@1.4.0
+
 ## 1.3.0
 
 ### Patch Changes
