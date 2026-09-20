@@ -233,8 +233,8 @@ importers:
         specifier: 6.0.3
         version: 6.0.3
       zod:
-        specifier: 4.5.4
-        version: 4.5.4
+        specifier: 4.6.4
+        version: 4.6.4
 
   apps/example-next-conform:
     dependencies:
@@ -243,7 +243,7 @@ importers:
         version: 1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@conform-to/zod':
         specifier: 1.21.1
-        version: 1.21.1(zod@4.5.4)
+        version: 1.21.1(zod@4.6.4)
       '@location-state/conform':
         specifier: workspace:*
         version: link:../../packages/location-state-conform
@@ -263,8 +263,8 @@ importers:
         specifier: 19.3.0
         version: 19.3.0(react@19.3.0)
       zod:
-        specifier: 4.5.4
-        version: 4.5.4
+        specifier: 4.6.4
+        version: 4.6.4
     devDependencies:
       '@testing-library/jest-dom':
         specifier: 7.0.1
@@ -315,8 +315,8 @@ importers:
         specifier: 6.0.3
         version: 6.0.3
       zod:
-        specifier: 4.5.4
-        version: 4.5.4
+        specifier: 4.6.4
+        version: 4.6.4
     devDependencies:
       '@types/qs':
         specifier: 6.15.1
@@ -352,8 +352,8 @@ importers:
         specifier: 6.0.3
         version: 6.0.3
       zod:
-        specifier: 4.5.4
-        version: 4.5.4
+        specifier: 4.6.4
+        version: 4.6.4
 
   packages/configs: {}
 
@@ -2477,8 +2477,8 @@ packages:
     engines: {node: '>= 14.6'}
     hasBin: true
 
-  zod@4.5.4:
-    resolution: {integrity: sha512-sC95tT5iHHH9gtpj6A81kh+NEaRAUFN+qlUPDUbRfOMvNf5QCBqsb3WgvnpVtK5Y+4UfA6KqufotuTvMGiTlsA==}
+  zod@4.6.4:
+    resolution: {integrity: sha512-AXSD6hvGdvRjajG/l1cC+d6IrhH+sjmPKtYeQdJIK8MFJl3LyClzS+o/YsVC+zQZPupAaeH5skwwm8YqYH7BqA==}
 
 snapshots:
 
@@ -2674,10 +2674,10 @@ snapshots:
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
 
-  '@conform-to/zod@1.21.1(zod@4.5.4)':
+  '@conform-to/zod@1.21.1(zod@4.6.4)':
     dependencies:
       '@conform-to/dom': 1.21.1
-      zod: 4.5.4
+      zod: 4.6.4
 
   '@csstools/color-helpers@6.1.0': {}
 
@@ -4168,4 +4168,4 @@ snapshots:
 
   yaml@2.9.0: {}
 
-  zod@4.5.4: {}
+  zod@4.6.4: {}
