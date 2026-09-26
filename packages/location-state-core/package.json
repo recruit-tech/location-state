@@ -45,7 +45,7 @@
     "navigation-api-types": "0.6.1",
     "react": "19.3.0",
     "uuid": "14.0.2",
-    "vitest": "4.1.11"
+    "vitest": "5.0.1"
   },
   "peerDependencies": {
     "react": "^18.2.0 || ^19.0.0"
