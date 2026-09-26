@@ -39,7 +39,7 @@
     "@repo/utils": "workspace:*",
     "@types/react": "19.3.0",
     "react": "19.3.0",
-    "vitest": "4.1.11"
+    "vitest": "5.0.1"
   },
   "peerDependencies": {
     "@conform-to/react": "^1.0.0",
