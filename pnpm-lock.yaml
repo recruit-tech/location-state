@@ -421,8 +421,8 @@ importers:
         specifier: 19.3.0
         version: 19.3.0
       uuid:
-        specifier: 14.0.2
-        version: 14.0.2
+        specifier: 14.0.3
+        version: 14.0.3
       vitest:
         specifier: 4.1.11
         version: 4.1.11(@types/node@24.19.2)(jsdom@30.1.2)(vite@8.0.16(@types/node@24.19.2)(esbuild@0.27.0)(yaml@2.9.0))
@@ -476,8 +476,8 @@ importers:
         specifier: 14.6.7
         version: 14.6.7(@testing-library/dom@10.0.0)
       uuid:
-        specifier: 14.0.2
-        version: 14.0.2
+        specifier: 14.0.3
+        version: 14.0.3
     devDependencies:
       '@repo/configs':
         specifier: workspace:*
@@ -2329,8 +2329,8 @@ packages:
     resolution: {integrity: sha512-u4UB2/IrKdU6lFxumHmmo1a3fCQO5tzQllRorfoRS63txhrB7xTpSn1PftwC4qEHkOaqP95fCWW4lJzwErwzhQ==}
     engines: {node: '>=22.19.0'}
 
-  uuid@14.0.2:
-    resolution: {integrity: sha512-xZe/16rV4aa+HGSOCiY2YeLT1OybRLrrkL/Rqaq7p7GMVXjFh+6wN4oMYgjFmnSnhY8t6Xpdl2l9qmnHYuMHwQ==}
+  uuid@14.0.3:
+    resolution: {integrity: sha512-Sc5u1VVln93y1Xnz4R+CunOZc7R9LUcTmhj7Rc7Eg3HVcf7rVn2FOoa812fe0W8p3jD7xeoGSYbfqCGGH2B6xw==}
     hasBin: true
 
   valibot@1.5.0:
@@ -3183,7 +3183,7 @@ snapshots:
 
   '@types/uuid@11.0.0':
     dependencies:
-      uuid: 14.0.2
+      uuid: 14.0.3
 
   '@vitejs/plugin-react@6.1.2(vite@8.0.16(@types/node@24.19.2)(esbuild@0.27.0)(yaml@2.9.0))':
     dependencies:
@@ -4049,7 +4049,7 @@ snapshots:
 
   undici@8.11.2: {}
 
-  uuid@14.0.2: {}
+  uuid@14.0.3: {}
 
   valibot@1.5.0(typescript@6.0.3):
     optionalDependencies:
