@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@testing-library/react": "16.3.3",
-    "@testing-library/user-event": "14.6.7",
+    "@testing-library/user-event": "14.6.8",
     "uuid": "14.0.3"
   },
   "devDependencies": {
